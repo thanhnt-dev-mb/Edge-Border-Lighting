@@ -1,0 +1,36 @@
+<resources>
+    <string name="app_name" translatable="false">App-Name Prod</string>
+
+    <string name="title_nav_home" translatable="false">Home</string>
+
+    <string name="txt_all">All</string>
+    <string name="txt_share_friend">Share with friends</string>
+    <string name="txt_share_msg">Check out %s Application, it\'s awesome!</string>
+    <string name="txt_started">Get Started</string>
+    <string name="txt_submit">Submit</string>
+    <string name="txt_premium_title_suffix" translatable="false"> PRO</string>
+    <string name="txt_save_percent" translatable="false">80% OFF</string>
+    <string name="txt_continue">Continue</string>
+    <string name="txt_try_free_trial">after trial ends.</string>
+    <string name="txt_start_free_trial">Free 3-days trial</string>
+    <string name="txt_try_free_trial_desc">You can cancel subscription anytime - via the Google Play app</string>
+    <string name="txt_premium_title">Premium Features</string>
+    <string name="txt_premium_offer_1">100% Ads-free experience</string>
+    <string name="txt_premium_offer_2">VIP Feedback</string>
+    <string name="txt_premium_monthly_package">Monthly</string>
+    <string name="txt_premium_yearly_package">Yearly</string>
+    <string name="txt_save">Save</string>
+    <string name="txt_month">Month</string>
+    <string name="txt_year">Year</string>
+    <string name="txt_yearly_premium">Pro Yearly</string>
+    <string name="txt_already_yearly_premium">Already Pro Yearly</string>
+    <string name="txt_monthly_premium">Pro Monthly</string>
+    <string name="txt_already_monthly_premium">Already Pro Monthly</string>
+    <string name="txt_timeout_billing_load">Content cannot be loaded. Check your connection</string>
+    <string name="txt_upgrade_premium">Upgrade Premium</string>
+    <string name="txt_then">Then</string>
+    <string name="title_today">Today</string>
+    <string name="txt_yesterday">Yesterday</string>
+    <string name="txt_select_all">Select all</string>
+    <string name="txt_grant">Grant</string>
+</resources>

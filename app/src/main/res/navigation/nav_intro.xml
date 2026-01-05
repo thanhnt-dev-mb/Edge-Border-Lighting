@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_intro"
+    app:startDestination="@id/introPagerFragment">
+
+  <fragment
+      android:id="@+id/introPagerFragment"
+      android:name="com.merryblue.baseapplication.ui.onboard.intro.IntroPagerFragment"
+      android:label="IntroPagerFragment"
+      tools:layout="@layout/fragment_intro_pager"/>
+
+</navigation>

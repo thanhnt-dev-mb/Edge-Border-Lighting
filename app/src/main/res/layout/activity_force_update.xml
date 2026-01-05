@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:app="http://schemas.android.com/apk/res-auto">
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center_vertical"
+        android:background="@color/white"
+        android:paddingHorizontal="32dp"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center|top"
+            android:layout_marginTop="-64dp"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:layout_width="64dp"
+                android:layout_height="64dp"
+                android:src="@drawable/app_logo"
+                />
+
+            <TextView
+                android:id="@+id/forceUpdateTitle"
+                android:layout_width="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_height="wrap_content"
+                android:textColor="@color/black"
+                android:textSize="16sp"
+                app:fontFamily="@font/roboto_medium"
+                android:text="Facebook video download Need an Update" />
+        </LinearLayout>
+
+        <TextView
+            style="@style/styleDrawerHeaderProDesc"
+            android:id="@+id/forceUpdateDesc"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:textAlignment="center"
+            android:textColor="#4B5563"
+            android:textSize="@dimen/text_size14"
+            android:text="To use this app, download the latest version" />
+
+        <TextView
+            android:id="@+id/forceUpdateInstallBtn"
+            android:layout_width="match_parent"
+            android:layout_height="44dp"
+            android:layout_marginTop="22dp"
+            android:gravity="center"
+            android:textColor="@color/white"
+            android:text="Update Now"
+            android:background="@drawable/ripple_round_100"
+            />
+    </LinearLayout>
+</layout>

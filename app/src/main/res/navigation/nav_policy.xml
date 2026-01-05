@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_policy"
+    app:startDestination="@id/policyFragment">
+
+    <fragment
+        android:id="@+id/policyFragment"
+        android:name="com.merryblue.baseapplication.ui.policy.PolicyFragment"
+        tools:layout="@layout/fragment_policy_layout"
+        android:label="PolicyFragment" />
+
+</navigation>

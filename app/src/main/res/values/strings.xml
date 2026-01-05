@@ -1,0 +1,20 @@
+<resources>
+    <string name="txt_intro1_title">Intro 1 Title</string>
+    <string name="txt_intro1_subtitle">Intro 1 Subtitle</string>
+    <string name="txt_intro2_title">Intro 2 Title</string>
+    <string name="txt_intro2_subtitle">Intro 2 Subtitle</string>
+    <string name="txt_intro3_title">Intro 3 Title</string>
+    <string name="txt_intro3_subtitle">Intro 3 Subtitle</string>
+
+    <string name="txt_upgrade_to">Upgrade to </string>
+    <string name="txt_premium">Premium</string>
+    <string name="txt_offer_1">Unlock all pro features</string>
+    <string name="txt_offer_2">Recording &amp; Sharing</string>
+    <string name="txt_offer_3">Remove all ads</string>
+    <string name="clear_cue">Clear</string>
+    <string name="reject_record_permission">Please grant Record permission to use the function.</string>
+    <string name="txt_discount">Discount %d%%</string>
+    <string name="txt_try_free">Try it Free</string>
+    <string name="txt_subscribe">Subscribe</string>
+    <string name="txt_delete_notice">Are you sure to move (%d) file to the trash?</string>
+</resources>

@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "508363196665",
+    "project_id": "applock-v2-4c779",
+    "storage_bucket": "applock-v2-4c779.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:508363196665:android:062944fb8da73e4088fa28",
+        "android_client_info": {
+          "package_name": "com.merryblue.baseapp.baseapp"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCaOJtESO2f2JbgqIUNt92ME7mQkKe3mCg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

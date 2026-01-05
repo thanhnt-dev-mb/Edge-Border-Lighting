@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+        <import type="android.view.View" />
+
+        <variable
+            name="viewModel"
+            type="com.merryblue.baseapplication.ui.onboard.language.LanguageViewModel"
+            />
+    </data>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:clipToPadding="false"
+        android:background="#F3F4F6"
+        android:orientation="vertical">
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/languageRv"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:layout_marginTop="12dp"
+            android:elevation="4dp"
+            tools:listitem="@layout/item_language"
+            android:background="@color/white"
+            />
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/layout_card"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="8dp"
+            android:clipChildren="false"
+            android:clipToPadding="false"
+            android:elevation="4dp"
+            android:gravity="bottom"
+            app:cardCornerRadius="10dp"
+            app:cardElevation="5dp"
+            app:cardPreventCornerOverlap="false"
+            >
+            <FrameLayout
+                android:id="@+id/adsContainer"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/white"
+                />
+        </androidx.cardview.widget.CardView>
+    </LinearLayout>
+
+</layout>

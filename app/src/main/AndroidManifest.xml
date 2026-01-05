@@ -1,0 +1,188 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    package="com.merryblue.baseapplication">
+
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
+    <uses-permission android:name="com.android.alarm.permission.SET_ALARM" />
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+    <uses-permission android:name="com.google.android.gms.permission.AD_ID" />
+    <uses-permission android:name="android.permission.RECORD_AUDIO" />
+    <uses-permission
+        android:name="android.permission.READ_EXTERNAL_STORAGE"
+        android:maxSdkVersion="32" />
+    <uses-permission
+        android:name="android.permission.WRITE_EXTERNAL_STORAGE"
+        android:maxSdkVersion="29" />
+<!--    <uses-permission android:name="android.permission.READ_MEDIA_IMAGES" />-->
+<!--    <uses-permission android:name="android.permission.READ_MEDIA_VIDEO" />-->
+<!--    <uses-permission android:name="android.permission.READ_MEDIA_VISUAL_USER_SELECTED" />-->
+    <!-- Required only if your app needs to access images or photos
+     that other apps created. -->
+    <uses-permission android:name="android.permission.READ_MEDIA_IMAGES" />
+
+    <!-- Required only if your app needs to access videos
+         that other apps created. -->
+    <uses-permission android:name="android.permission.READ_MEDIA_VIDEO" />
+
+
+    <!-- Required only if your app needs to access audio files
+         that other apps created. -->
+    <uses-permission android:name="android.permission.READ_MEDIA_AUDIO" />
+
+    <queries>
+        <package android:name="com.facebook.katana" />
+        <package android:name="com.android.chrome" />
+        <package android:name="com.google.android.webview" />
+        <package android:name="com.android.webview" />
+        <package android:name="com.android.vending" />
+        <package android:name="com.google.android.gm" />
+    </queries>
+
+    <application
+        android:name=".Application"
+        android:allowBackup="true"
+        android:hardwareAccelerated="true"
+        android:icon="@drawable/app_logo"
+        android:label="@string/app_name"
+        android:largeHeap="true"
+        android:networkSecurityConfig="@xml/network_security_config"
+        android:requestLegacyExternalStorage="true"
+        android:roundIcon="@drawable/app_logo"
+        android:supportsRtl="true"
+        android:theme="@style/AppTheme"
+        tools:ignore="DiscouragedApi,LockedOrientationActivity"
+        tools:overrideLibrary="org.app.core"
+        tools:replace="android:allowBackup">
+
+        <activity
+            android:name=".ui.appupdate.ForceUpdateActivity"
+            android:exported="false"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.setting.SettingActivity"
+            android:exported="false"
+            android:hardwareAccelerated="true"
+            android:label="@string/setting"
+            android:parentActivityName=".ui.home.HomeActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.App.Setting" />
+
+        <activity
+            android:name=".ui.splash.SplashActivity"
+            android:exported="true"
+            android:hardwareAccelerated="true"
+            android:launchMode="singleTask"
+            android:theme="@style/Theme.App.Starting">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.DEFAULT"/>
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+
+        <activity
+            android:name=".ui.onboard.intro.IntroActivity"
+            android:hardwareAccelerated="true"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme" />
+        <activity
+            android:name=".ui.home.HomeActivity"
+            android:exported="true"
+            android:hardwareAccelerated="true"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme" />
+        <activity
+            android:name=".ui.onboard.language.LanguageActivity"
+            android:hardwareAccelerated="true"
+            android:label="@string/select_language"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.policy.PolicyActivity"
+            android:exported="true"
+            android:label="@string/privacy"
+            android:parentActivityName=".ui.home.HomeActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.iap.PurchaseActivity"
+            android:exported="false"
+            android:hardwareAccelerated="true"
+            android:parentActivityName=".ui.home.HomeActivity"
+            android:screenOrientation="portrait" />
+
+        <service
+            android:name=".service.FCMService"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="com.google.firebase.MESSAGING_EVENT" />
+            </intent-filter>
+        </service>
+
+        <meta-data
+            android:name="com.google.android.play.billingclient.version"
+            android:value="7.1.1" />
+        <meta-data
+            android:name="com.google.firebase.messaging.default_notification_channel_id"
+            android:value="MB_AppLock_Notification" />
+        <meta-data
+            android:name="com.google.firebase.messaging.default_notification_icon"
+            android:resource="@drawable/ic_notification" />
+        <meta-data
+            android:name="com.google.firebase.messaging.default_notification_color"
+            android:resource="@color/colorPrimary" />
+        <meta-data
+            android:name="com.google.android.gms.ads.AD_MANAGER_APP"
+            android:value="true" />
+        <meta-data
+            android:name="com.google.android.gms.ads.flag.OPTIMIZE_INITIALIZATION"
+            android:value="true" />
+        <meta-data
+            android:name="com.google.android.gms.ads.flag.OPTIMIZE_AD_LOADING"
+            android:value="true" /> <!-- Sample AdMob app ID: ca-app-pub-3940256099942544~3347511713 -->
+        <meta-data
+            android:name="com.google.android.gms.ads.APPLICATION_ID"
+            android:value="${admobAppId}" />
+        <receiver
+            android:name=".service.AlarmReceiver"
+            android:exported="false" />
+        <receiver
+            android:name=".service.BootReceiver"
+            android:enabled="true"
+            android:exported="true">
+            <intent-filter android:priority="1000">
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
+                <action android:name="android.intent.action.ACTION_BOOT_COMPLETED" />
+                <action android:name="android.intent.action.QUICKBOOT_POWERON" />
+            </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.PACKAGE_REPLACED " />
+            </intent-filter>
+        </receiver>
+
+        <provider
+            android:name="androidx.startup.InitializationProvider"
+            android:authorities="${applicationId}.androidx-startup"
+            android:exported="false"
+            tools:node="merge">
+            <meta-data
+                android:name="androidx.work.WorkManagerInitializer"
+                android:value="androidx.startup"
+                tools:node="remove" />
+        </provider>
+        <provider
+            android:name="androidx.core.content.FileProvider"
+            android:authorities="${applicationId}.fileprovider"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/provider_paths"
+                tools:replace="android:resource" />
+        </provider>
+    </application>
+</manifest>

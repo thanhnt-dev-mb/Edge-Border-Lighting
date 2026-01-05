@@ -1,0 +1,8 @@
+
+<resources>
+    <attr name="colorAddedColor" format="color" />
+    <attr name="colorOnAddedColor" format="color" />
+    <attr name="colorAddedColorContainer" format="color" />
+    <attr name="colorOnAddedColorContainer" format="color" />
+    <attr name="harmonizeAddedColor" format="boolean" />
+</resources>

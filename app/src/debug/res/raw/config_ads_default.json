@@ -1,0 +1,218 @@
+{
+  "active_version": 1,
+  "status": true,
+  "open_ads": [
+    {
+      "status": true,
+      "version": 1,
+      "id": "ca-app-pub-3940256099942544/9257395921",
+      "event": "ClickSwitchApp",
+      "description": "SwitchApp"
+    }
+  ],
+  "splash": [
+    {
+      "status": true,
+      "version": 1,
+      "always_preload": false,
+      "id": "ca-app-pub-3940256099942544/1033173712",
+      "event": "ClickStartApp",
+      "description": "StartApp"
+    }
+  ],
+  "banners": [
+    {
+      "status": false,
+      "version": 1,
+      "id": "ca-app-pub-3940256099942544/6300978111",
+      "event": "ClickListApp",
+      "tag": "LaunchingAppListFragment_Banner",
+      "size": "small",
+      "description": "Launching list app Banner"
+    },
+    {
+      "status": false,
+      "version": 1,
+      "id": "ca-app-pub-3940256099942544/6300978111",
+      "event": "ClickPatternSetup",
+      "tag": "LaunchingPatternSetupFragment_Banner",
+      "size": "small",
+      "description": "Launching password setup Banner"
+    },
+    {
+      "status": false,
+      "version": 1,
+      "id": "ca-app-pub-3940256099942544/6300978111",
+      "event": "ClickHomeBanner",
+      "tag": "HomeFragment_Banner",
+      "size": "small",
+      "description": "Home Banner"
+    },
+    {
+      "status": false,
+      "version": 1,
+      "id": "ca-app-pub-3940256099942544/6300978111",
+      "tag": "LockScreenActivity_Banner",
+      "event": "ClickLockScreen",
+      "size": "small",
+      "description": "Lockscreen Banner"
+    }
+  ],
+  "MRECs": [
+    {
+      "status": false,
+      "id": "",
+      "event": "",
+      "description": ""
+    }
+  ],
+  "interstitials": [
+    {
+      "status": false,
+      "version": 1,
+      "always_preload": false,
+      "tag": "Guide",
+      "id": "ca-app-pub-3940256099942544/1033173712",
+      "event": "ClickGuide",
+      "description": "Guide"
+    },
+    {
+      "status": false,
+      "version": 1,
+      "always_preload": false,
+      "tag": "Unlock",
+      "id": "ca-app-pub-3940256099942544/1033173712",
+      "event": "ClickUnlock",
+      "description": "Unlock application"
+    },
+    {
+      "status": false,
+      "version": 1,
+      "always_preload": false,
+      "tag": "AppListActivity_BackAction",
+      "id": "ca-app-pub-3940256099942544/1033173712",
+      "event": "ClickAppListBack",
+      "description": "AppList Back action"
+    },
+    {
+      "status": false,
+      "version": 1,
+      "always_preload": false,
+      "tag": "AccessFunction",
+      "id": "ca-app-pub-3940256099942544/1033173712",
+      "event": "ClickAccessFunction",
+      "description": "Access function fullscreen ads"
+    },
+    {
+      "status": false,
+      "version": 1,
+      "always_preload": false,
+      "tag": "VaultActivity_BackAction",
+      "id": "ca-app-pub-3940256099942544/1033173712",
+      "event": "ClickVaultBack",
+      "description": "Vault Back action"
+    }
+  ],
+  "natives": [
+    {
+      "status": true,
+      "always_preload": false,
+      "version": 1,
+      "place_preload": "SplashActivity",
+      "tag": "LanguageActivity_Native",
+      "id": "ca-app-pub-3940256099942544/2247696110",
+      "event": "ClickLanguage",
+      "style": 1,
+      "preload": 3,
+      "description": "Language Native"
+    },
+    {
+      "status": false,
+      "always_preload": false,
+      "version": 1,
+      "tag": "IntroFragment_Native",
+      "id": "ca-app-pub-3940256099942544/2247696110",
+      "event": "ClickIntroNative",
+      "style": 8,
+      "preload": 0,
+      "description": "Intro Native"
+    },
+    {
+      "status": false,
+      "always_preload": false,
+      "version": 1,
+      "tag": "NativeFullscreenFragment_Native_DISABLE",
+      "id": "ca-app-pub-3940256099942544/2247696110",
+      "event": "ClickNativeFull",
+      "style": 68,
+      "preload": 0,
+      "description": "Intro Native Fullscreen"
+    }
+  ],
+  "rewards": [
+    {
+      "status": true,
+      "always_preload": true,
+      "id": "",
+      "event": "",
+      "description": ""
+    }
+  ],
+  "backup_id": [
+    {
+      "id": "ca-app-pub-3940256099942544/2247696110",
+      "network": "admob",
+      "order": 1,
+      "type": "native"
+    },
+    {
+      "id": "ca-app-pub-3940256099942544/2247696110",
+      "network": "admob",
+      "order": 2,
+      "type": "native"
+    },
+    {
+      "id": "ca-app-pub-3940256099942544/2247696110",
+      "network": "admob",
+      "order": 3,
+      "type": "native"
+    },
+    {
+      "id": "ca-app-pub-3940256099942544/6300978111",
+      "network": "admob",
+      "order": 1,
+      "type": "banner"
+    },
+    {
+      "id": "ca-app-pub-3940256099942544/6300978111",
+      "network": "admob",
+      "order": 2,
+      "type": "banner"
+    },
+    {
+      "id": "ca-app-pub-3940256099942544/6300978111",
+      "network": "admob",
+      "order": 3,
+      "type": "banner"
+    },
+    {
+      "id": "ca-app-pub-3940256099942544/1033173712",
+      "network": "admob",
+      "order": 1,
+      "type": "interstitial"
+    },
+    {
+      "id": "ca-app-pub-3940256099942544/1033173712",
+      "network": "admob",
+      "order": 2,
+      "type": "interstitial"
+    },
+    {
+      "id": "ca-app-pub-3940256099942544/1033173712",
+      "network": "admob",
+      "order": 3,
+      "type": "interstitial"
+    }
+  ],
+  "description": "Updated 08May2025 Update ads concept as new Home design"
+}

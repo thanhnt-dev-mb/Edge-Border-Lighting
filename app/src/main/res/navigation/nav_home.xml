@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_home"
+    app:startDestination="@id/navHome">
+
+    <fragment
+        android:id="@+id/navHome"
+        android:name="com.merryblue.baseapplication.ui.home.HomeFragment"
+        android:label="@string/app_name"
+        tools:layout="@layout/fragment_home"
+        >
+
+    </fragment>
+
+    <fragment
+        android:id="@+id/navPrivacy"
+        android:name="com.merryblue.baseapplication.ui.policy.PolicyFragment"
+        android:label="@string/privacy"
+        tools:layout="@layout/fragment_policy_layout" />
+
+</navigation>

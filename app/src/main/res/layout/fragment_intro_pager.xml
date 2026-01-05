@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+        <import type="android.view.View" />
+
+        <variable
+            name="viewModel"
+            type="com.merryblue.baseapplication.ui.onboard.intro.IntroViewModel"
+            />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/white"
+        android:orientation="vertical">
+
+        <androidx.viewpager2.widget.ViewPager2
+            android:id="@+id/introPager"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:saveEnabled="false"
+            android:layout_marginBottom="12dp"
+            android:elevation="0dp"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</layout>

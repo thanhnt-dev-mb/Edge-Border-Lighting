@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_setting"
+    app:startDestination="@id/settingFragment">
+
+    <fragment
+        android:id="@+id/settingFragment"
+        android:name="com.merryblue.baseapplication.ui.setting.SettingFragment"
+        android:label="@string/setting"
+        tools:layout="@layout/fragment_setting">
+        <action
+            android:id="@+id/actionSettingToLanguage"
+            app:destination="@id/languageFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/languageFragment"
+        android:name="com.merryblue.baseapplication.ui.onboard.language.LanguageFragment"
+        tools:layout="@layout/fragment_language"
+        android:label="@string/language" />
+</navigation>
