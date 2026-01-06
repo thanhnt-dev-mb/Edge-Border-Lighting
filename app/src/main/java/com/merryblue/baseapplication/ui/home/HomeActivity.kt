@@ -9,10 +9,12 @@ import android.os.Looper
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.viewModels
+import androidx.core.content.ContextCompat
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.WindowInsetsControllerCompat
+import androidx.core.view.updateLayoutParams
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.merryblue.baseapplication.BuildConfig
 import com.merryblue.baseapplication.R
@@ -49,8 +51,26 @@ class HomeActivity : BaseActivity<ActivityHomeBinding>() {
     }
 
     override fun setUpViews() {
-        enableEdgeToEdge(binding.main, false)
+        setupSystemBars()
         super.setUpViews()
+    }
+
+    private fun setupSystemBars() {
+        WindowCompat.setDecorFitsSystemWindows(window, false)
+        ViewCompat.setOnApplyWindowInsetsListener(binding.statusBarBg) { v, insets ->
+            val topInset = insets.getInsets(WindowInsetsCompat.Type.statusBars()).top
+            v.updateLayoutParams { height = topInset }
+            insets
+        }
+        ViewCompat.setOnApplyWindowInsetsListener(binding.navigationBarBg) { v, insets ->
+            val bottomInset = insets.getInsets(WindowInsetsCompat.Type.navigationBars()).bottom
+            v.updateLayoutParams { height = bottomInset }
+            insets
+        }
+        WindowInsetsControllerCompat(window, window.decorView).apply {
+            isAppearanceLightStatusBars = false
+            isAppearanceLightNavigationBars = false
+        }
     }
 
     override fun onResume() {

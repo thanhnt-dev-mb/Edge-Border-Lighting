@@ -17,4 +17,10 @@
     <string name="txt_try_free">Try it Free</string>
     <string name="txt_subscribe">Subscribe</string>
     <string name="txt_delete_notice">Are you sure to move (%d) file to the trash?</string>
+    <string name="txt_edge_lighting">Edge Lighting</string>
+    <string name="txt_enable_edge_light">Enable EDGE Light</string>
+    <string name="txt_preset">Preset</string>
+    <string name="txt_view_all">View all</string>
+    <string name="txt_theme">Theme</string>
+    <string name="txt_create_your_own_theme">Create your own theme</string>
 </resources>

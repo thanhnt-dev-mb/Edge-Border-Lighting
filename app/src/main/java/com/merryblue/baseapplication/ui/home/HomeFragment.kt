@@ -45,7 +45,6 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
 
     
     override fun setUpViews() {
-
     }
     
     override fun setupObservers() {

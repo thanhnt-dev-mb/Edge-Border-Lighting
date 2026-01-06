@@ -5,4 +5,49 @@
     <attr name="colorAddedColorContainer" format="color" />
     <attr name="colorOnAddedColorContainer" format="color" />
     <attr name="harmonizeAddedColor" format="boolean" />
+
+    <declare-styleable name="EdgeLightingView">
+        <attr name="edgeCornerRadius" format="dimension"/>
+        <attr name="edgeStrokeWidth" format="dimension"/>
+        <attr name="edgeDuration" format="integer"/>
+        <attr name="edgeStartAngle" format="float"/>
+        <attr name="edgeColors" format="reference"/>
+
+        <attr name="edgeBackgroundColor" format="color"/>
+        <attr name="edgeBackgroundImage" format="reference"/>
+
+        <attr name="edgeDirection">
+            <enum name="clockwise" value="0"/>
+            <enum name="antiClockwise" value="1"/>
+            <enum name="topRightToBottomLeft" value="2"/>
+            <enum name="bottomLeftToTopRight" value="3"/>
+            <enum name="topToBottom" value="4"/>
+            <enum name="bottomToTop" value="5"/>
+        </attr>
+
+        <attr name="edgeNotchType">
+            <enum name="noNotch" value="0"/>
+            <enum name="displayNotch" value="1"/>
+            <enum name="displayHole" value="2"/>
+            <enum name="displayInfinity" value="3"/>
+        </attr>
+
+        <attr name="edgeImageScaleType">
+            <enum name="fitXY" value="0"/>
+            <enum name="centerCrop" value="1"/>
+        </attr>
+
+        <attr name="edgeAnimationEnabled" format="boolean" />
+        <attr name="edgeInfinityCurveDepth" format="dimension" />
+        <attr name="edgeHoleRadius" format="dimension"/>
+        <attr name="edgeHoleOffsetX" format="dimension"/>
+        <attr name="edgeHoleOffsetY" format="dimension"/>
+    </declare-styleable>
+
+    <declare-styleable name="GradientBorderImageView">
+        <attr name="gbColors" format="reference" />
+        <attr name="gbCornerRadius" format="dimension" />
+        <attr name="gbStrokeWidth" format="dimension" />
+    </declare-styleable>
+
 </resources>

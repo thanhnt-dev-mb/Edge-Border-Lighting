@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <integer-array name="edge_colors_0">
+        <item>@color/color_edge_teal_00FFF0</item>
+        <item>@color/color_edge_blue_4552FF</item>
+        <item>@color/color_edge_pink_CC00FF</item>
+    </integer-array>
+
+    <integer-array name="edge_colors_1">
+        <item>@color/color_edge_red</item>
+        <item>@color/color_edge_yellow_FFF500</item>
+        <item>@color/color_edge_green_00FF1A</item>
+        <item>@color/color_edge_blue_0094FF</item>
+    </integer-array>
+
+    <integer-array name="edge_colors_2">
+        <item>@color/color_edge_blue_00F0FF</item>
+        <item>@color/color_edge_blue_00A3FF</item>
+        <item>@color/color_edge_purple_AD00FF</item>
+    </integer-array>
+
+    <integer-array name="edge_colors_3">
+        <item>@color/color_edge_blue_0066FF</item>
+        <item>@color/color_edge_black_17192B</item>
+        <item>@color/color_edge_blue_0066FF</item>
+    </integer-array>
+
+    <integer-array name="edge_colors_4">
+        <item>@color/color_edge_pink_FF00F5</item>
+        <item>@color/color_edge_blue_00D0FF</item>
+        <item>@color/color_edge_green_00FF1E</item>
+        <item>@color/color_edge_yellow_EEFF00</item>
+    </integer-array>
+
+</resources>
