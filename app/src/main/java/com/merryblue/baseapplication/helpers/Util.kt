@@ -25,6 +25,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.webkit.CookieManager
 import android.widget.TextView
+import androidx.annotation.ArrayRes
 import androidx.annotation.ColorInt
 import androidx.annotation.ColorRes
 import androidx.annotation.IdRes
@@ -419,3 +420,5 @@ fun Context.openPolicy() {
         e.printStackTrace()
     }
 }
+
+val Float.dpToPx: Float get() = this * Resources.getSystem().displayMetrics.density

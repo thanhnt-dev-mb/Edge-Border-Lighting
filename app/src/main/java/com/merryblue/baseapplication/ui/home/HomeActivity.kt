@@ -46,31 +46,8 @@ class HomeActivity : BaseActivity<ActivityHomeBinding>() {
 
     override fun onPostCreate(savedInstanceState: Bundle?) {
         super.onPostCreate(savedInstanceState)
-
+        enableEdgeToEdge(binding.main, true)
         requestPostNotificationPermissionIfNeed()
-    }
-
-    override fun setUpViews() {
-        setupSystemBars()
-        super.setUpViews()
-    }
-
-    private fun setupSystemBars() {
-        WindowCompat.setDecorFitsSystemWindows(window, false)
-        ViewCompat.setOnApplyWindowInsetsListener(binding.statusBarBg) { v, insets ->
-            val topInset = insets.getInsets(WindowInsetsCompat.Type.statusBars()).top
-            v.updateLayoutParams { height = topInset }
-            insets
-        }
-        ViewCompat.setOnApplyWindowInsetsListener(binding.navigationBarBg) { v, insets ->
-            val bottomInset = insets.getInsets(WindowInsetsCompat.Type.navigationBars()).bottom
-            v.updateLayoutParams { height = bottomInset }
-            insets
-        }
-        WindowInsetsControllerCompat(window, window.decorView).apply {
-            isAppearanceLightStatusBars = false
-            isAppearanceLightNavigationBars = false
-        }
     }
 
     override fun onResume() {

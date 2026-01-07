@@ -170,13 +170,14 @@
     <color name="colorBgSurface">#0F0F30</color>
     <color name="colorViolet05">#B247AE</color>
     <color name="colorGray02">#E5E7EB</color>
+    <color name="colorGray04">#9CA3AF</color>
     <color name="colorGray05">#6B7280</color>
     <color name="color_teal_00E3FF">#00E3FF</color>
 
-    <color name="color_edge_pink_purple">#8B3A62</color>
-    <color name="color_edge_lime_green">#7CFC00</color>
-    <color name="color_edge_royal_blue">#4169E1</color>
-    <color name="color_edge_indian_red">#CD5C5C</color>
+    <color name="color_edge_pink_purple">#860458</color>
+    <color name="color_edge_lime_green">#93EB22</color>
+    <color name="color_edge_royal_blue">#6030D4</color>
+    <color name="color_edge_indian_red">#CD6B86</color>
 
     <color name="color_edge_dark_olive">#556B2F</color>
     <color name="color_edge_blue_violet">#8A2BE2</color>
@@ -247,5 +248,7 @@
     <color name="color_edge_teal_00FFF0">#00FFF0</color>
     <color name="color_edge_blue_4552FF">#4552FF</color>
     <color name="color_edge_pink_CC00FF">#CC00FF</color>
+    <color name="colorViolet05Alpha20">#33B247AE</color>
+    <color name="color_border">#5D5D84</color>
 
 </resources>

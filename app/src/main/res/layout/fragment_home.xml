@@ -21,11 +21,11 @@
             android:layout_height="match_parent"
             app:edgeBackgroundColor="@color/colorBgSurface"
             app:edgeColors="@array/edge_colors_0"
-            app:edgeCornerRadius="10dp"
-            app:edgeDuration="1500"
-            app:edgeDirection="antiClockwise"
+            app:edgeCornerRadius="20dp"
+            app:edgeDirection="clockwise"
+            app:edgeDuration="2500"
             app:edgeInfinityCurveDepth="10dp"
-            app:edgeNotchType="displayInfinity"
+            app:edgeNotchType="displayHole"
             app:edgeStrokeWidth="6dp" />
 
         <androidx.core.widget.NestedScrollView
@@ -266,6 +266,43 @@
                     app:layout_constraintHorizontal_weight="1"
                     app:layout_constraintStart_toEndOf="@+id/ivTheme1"
                     app:layout_constraintTop_toTopOf="@+id/gbPresetCustom" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/tvTitleSettingEdge"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="10dp"
+                    android:layout_marginTop="32dp"
+                    android:fontFamily="@font/roboto_bold"
+                    android:text="@string/txt_setting_edge_lighting"
+                    android:textColor="@color/white"
+                    android:textSize="20sp"
+                    app:layout_constraintTop_toBottomOf="@+id/gbPresetCustom" />
+
+                <com.google.android.material.tabs.TabLayout
+                    android:id="@+id/tabSettingEdge"
+                    android:layout_width="match_parent"
+                    android:layout_height="32dp"
+                    android:layout_marginHorizontal="10dp"
+                    android:layout_marginTop="16dp"
+                    android:background="@android:color/transparent"
+                    app:layout_constraintTop_toBottomOf="@+id/tvTitleSettingEdge"
+                    app:tabGravity="fill"
+                    app:tabIndicatorColor="@color/colorViolet05"
+                    app:tabIndicatorFullWidth="true"
+                    app:tabIndicatorGravity="bottom"
+                    app:tabIndicatorHeight="3dp"
+                    app:tabMode="fixed"
+                    app:tabRippleColor="@android:color/transparent"
+                    app:tabSelectedTextColor="@color/colorViolet05"
+                    app:tabTextAppearance="@style/TabTextAppearance"
+                    app:tabTextColor="@color/colorGray04" />
+
+                <androidx.viewpager2.widget.ViewPager2
+                    android:id="@+id/vpSettingEdge"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintTop_toBottomOf="@+id/tabSettingEdge" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 

@@ -6,20 +6,8 @@
         android:id="@+id/main"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:background="@color/colorBgSurface"
         android:fitsSystemWindows="true">
-
-        <View
-            android:id="@+id/statusBarBg"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:background="@color/colorBgSurface" />
-
-        <View
-            android:id="@+id/navigationBarBg"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_gravity="bottom"
-            android:background="@color/colorBgSurface" />
 
         <androidx.fragment.app.FragmentContainerView
             android:id="@+id/navHostContainerHome"
