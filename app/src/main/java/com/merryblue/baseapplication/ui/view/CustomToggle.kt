@@ -8,6 +8,7 @@ import android.widget.Checkable
 import android.widget.FrameLayout
 import androidx.interpolator.view.animation.FastOutSlowInInterpolator
 import com.merryblue.baseapplication.R
+import com.merryblue.baseapplication.helpers.dpToPx
 
 class CustomToggle @JvmOverloads constructor(context: Context, attrs: AttributeSet? = null) : FrameLayout(context, attrs), Checkable {
 
@@ -53,8 +54,8 @@ class CustomToggle @JvmOverloads constructor(context: Context, attrs: AttributeS
         thumb.isSelected = checked
         track.isSelected = checked
 
-        val travel = width - thumb.width - dp(7f)
-        val targetX = if (checked) travel.toFloat() else 0f
+        val travel = width - thumb.width - 7f.dpToPx
+        val targetX = if (checked) travel else 0f
 
         if (animate) {
             thumbAnimator?.cancel()
@@ -73,5 +74,4 @@ class CustomToggle @JvmOverloads constructor(context: Context, attrs: AttributeS
         listener = l
     }
 
-    private fun dp(v: Float): Int = (v * resources.displayMetrics.density).toInt()
 }

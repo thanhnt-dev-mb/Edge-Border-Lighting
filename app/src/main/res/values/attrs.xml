@@ -57,4 +57,18 @@
         <attr name="gbStrokeWidth" format="dimension" />
     </declare-styleable>
 
+    <declare-styleable name="CustomSeekBar">
+        <attr name="csb_progress" format="float" />
+        <attr name="csb_enabledTouch" format="boolean" />
+        <attr name="csb_paddingHorizontal" format="dimension" />
+        <attr name="csb_trackThicknessInactive" format="dimension" />
+        <attr name="csb_trackThicknessActive" format="dimension" />
+        <attr name="csb_progressColor" format="color" />
+        <attr name="csb_trackColor" format="color" />
+        <attr name="csb_thumbColor" format="color" />
+        <attr name="csb_thumbRadius" format="dimension" />
+        <attr name="csb_thumbShadowColor" format="color" />
+        <attr name="csb_thumbShadowDy" format="dimension" />
+    </declare-styleable>
+
 </resources>

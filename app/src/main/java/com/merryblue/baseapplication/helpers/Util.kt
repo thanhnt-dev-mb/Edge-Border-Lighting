@@ -422,3 +422,15 @@ fun Context.openPolicy() {
 }
 
 val Float.dpToPx: Float get() = this * Resources.getSystem().displayMetrics.density
+
+fun Context.loadColorsFromArray(@ArrayRes arrayId: Int): IntArray {
+    val ta = resources.obtainTypedArray(arrayId)
+    return try {
+        IntArray(ta.length()) { i ->
+            val colorResId = ta.getResourceId(i, 0)
+            if (colorResId != 0) ContextCompat.getColor(this, colorResId) else 0
+        }
+    } finally {
+        ta.recycle()
+    }
+}

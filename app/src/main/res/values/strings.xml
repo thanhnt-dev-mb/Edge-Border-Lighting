@@ -27,9 +27,13 @@
     <string name="txt_color">Color</string>
     <string name="txt_effect">Effect</string>
     <string name="txt_direction">Direction</string>
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="txt_four_colors">4-Colors</string>
     <string name="txt_three_colors">3-Colors</string>
     <string name="txt_two_colors">2-Colors</string>
+    <string name="txt_border_shape">Border Shape</string>
+    <string name="txt_animation_speed">Animation Speed</string>
+    <string name="txt_border_size">Border Size</string>
+    <string name="txt_bottom_radius">Bottom Radius</string>
+    <string name="txt_top_radius">Top Radius</string>
+    <string name="txt_border_setting">Border Setting</string>
 </resources>

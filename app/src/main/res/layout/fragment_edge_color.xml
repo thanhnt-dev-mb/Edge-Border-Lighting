@@ -26,6 +26,7 @@
                 android:paddingVertical="6dp">
 
                 <androidx.appcompat.widget.AppCompatImageView
+                    android:id="@+id/ivCheckFour"
                     android:layout_width="12dp"
                     android:layout_height="12dp"
                     android:src="@drawable/ic_check_selected" />
@@ -52,6 +53,7 @@
                 android:paddingVertical="6dp">
 
                 <androidx.appcompat.widget.AppCompatImageView
+                    android:id="@+id/ivCheckThree"
                     android:layout_width="12dp"
                     android:layout_height="12dp"
                     android:src="@drawable/ic_check_unselected" />
@@ -77,6 +79,7 @@
                 android:paddingVertical="6dp">
 
                 <androidx.appcompat.widget.AppCompatImageView
+                    android:id="@+id/ivCheckTwo"
                     android:layout_width="12dp"
                     android:layout_height="12dp"
                     android:src="@drawable/ic_check_unselected" />

@@ -8,7 +8,6 @@
     android:background="@drawable/bg_item_tab_color_selector">
 
     <FrameLayout
-        android:id="@+id/root"
         android:layout_width="0dp"
         android:layout_height="0dp"
         app:layout_constraintBottom_toBottomOf="parent"

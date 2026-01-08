@@ -5,7 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.merryblue.baseapplication.coredata.model.EdgeColorItem
+import com.merryblue.baseapplication.coredata.model.edge.EdgeColorItem
 import com.merryblue.baseapplication.databinding.ItemEdgeColorBinding
 
 class EdgeColorAdapter(

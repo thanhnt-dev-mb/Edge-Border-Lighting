@@ -1,4 +1,4 @@
-package com.merryblue.baseapplication.coredata.model
+package com.merryblue.baseapplication.coredata.model.edge
 
 data class EdgeColorItem(
     val colors: IntArray,

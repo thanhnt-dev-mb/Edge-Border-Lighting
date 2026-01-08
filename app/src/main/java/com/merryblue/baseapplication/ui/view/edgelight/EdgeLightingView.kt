@@ -11,6 +11,9 @@ import androidx.annotation.DrawableRes
 import androidx.core.content.res.use
 import androidx.core.graphics.PathParser
 import com.merryblue.baseapplication.R
+import com.merryblue.baseapplication.coredata.model.edge.EdgePreset
+import com.merryblue.baseapplication.coredata.model.edge.EdgeSelection
+import com.merryblue.baseapplication.coredata.model.edge.EdgeStyle
 import com.merryblue.baseapplication.helpers.dpToPx
 import org.xmlpull.v1.XmlPullParser
 import kotlin.math.atan2
@@ -215,7 +218,7 @@ class EdgeLightingView @JvmOverloads constructor(
             if (bgColor != Color.TRANSPARENT) setBackgroundColorInside(bgColor)
 
             val bgImageRes = it.getResourceId(R.styleable.EdgeLightingView_edgeBackgroundImage, 0)
-            if (bgImageRes != 0) setBackgroundImage(BitmapFactory.decodeResource(resources, bgImageRes))
+            if (bgImageRes != 0) setBackgroundImage(bgImageRes)
         }
     }
 
@@ -599,21 +602,92 @@ class EdgeLightingView @JvmOverloads constructor(
         return RectF(minX, minY, maxX, maxY)
     }
 
-    fun setBackgroundColorInside(color: Int) {
-        backgroundInside = EdgeBackground.Color(color)
-        invalidate()
+    private fun setEdgePatternVectorInternal(
+        @DrawableRes vectorResId: Int,
+        iconSizePx: Float,
+        advancePx: Float,
+        rotate: Boolean,
+        phaseMultiplier: Float,
+        evenSpacing: Boolean
+    ) {
+        val v = loadVectorAsPath(context, vectorResId)
+        val scaled = v.path.centerAndScaleTo(iconSizePx, v.viewportW, v.viewportH)
+
+        patternEnabled = true
+        patternVectorResId = vectorResId
+        patternSizePx = iconSizePx
+        patternPath = scaled
+        patternAdvance = advancePx
+        patternRotate = rotate
+        patternPhaseMultiplier = phaseMultiplier
+        patternEvenSpacing = evenSpacing
+
+        resetGeometryCaches()
     }
 
-    fun setBackgroundImage(bitmap: Bitmap) {
+    private fun setBackgroundColorInsideInternal(color: Int) {
+        backgroundInside = EdgeBackground.Color(color)
+    }
+
+    private fun setBackgroundImageInternal(@DrawableRes resId: Int) {
+        val bitmap = BitmapFactory.decodeResource(resources, resId)
         backgroundInside = EdgeBackground.Image(bitmap)
         cachedBitmap = null
         cachedBitmapShader = null
+    }
+
+    private fun setPatternEnabledInternal(enabled: Boolean) {
+        patternEnabled = enabled
+        resetGeometryCaches()
+    }
+
+    private fun setColorsInternal(c: IntArray) {
+        colors = c
+        cachedShader = null
+    }
+
+    private fun applyEdgeStyleInternal(edge: EdgeStyle) {
+        when (edge) {
+            is EdgeStyle.LinearColor -> {
+                if (patternEnabled) setPatternEnabledInternal(false)
+                setColorsInternal(edge.colors)
+            }
+
+            is EdgeStyle.Pattern -> {
+                setEdgePatternVectorInternal(
+                    vectorResId = edge.vectorResId,
+                    iconSizePx = edge.iconSizePx,
+                    advancePx = edge.advancePx,
+                    rotate = edge.rotate,
+                    phaseMultiplier = edge.phaseMultiplier,
+                    evenSpacing = edge.evenSpacing
+                )
+            }
+
+            EdgeStyle.None -> {
+                if (patternEnabled) setPatternEnabledInternal(false)
+            }
+        }
+    }
+
+    private fun resetAnimationState() {
+        progress = 0f
+        lastProgress = 0f
+        patternPhase = 0f
+    }
+
+    fun setBackgroundColorInside(color: Int) {
+        setBackgroundColorInsideInternal(color)
+        invalidate()
+    }
+
+    fun setBackgroundImage(resId: Int) {
+        setBackgroundImageInternal(resId)
         invalidate()
     }
 
     fun setColors(vararg c: Int) {
-        colors = c
-        cachedShader = null
+        setColorsInternal(c)
         invalidate()
     }
 
@@ -666,8 +740,22 @@ class EdgeLightingView @JvmOverloads constructor(
     }
 
     fun setPatternEnabled(enabled: Boolean) {
-        patternEnabled = enabled
-        resetGeometryCaches()
+        setPatternEnabledInternal(enabled)
+        invalidate()
+    }
+
+    fun applyPreset(preset: EdgePreset, resetState: Boolean = true) {
+        when (preset) {
+            is EdgePreset.BackgroundColor -> {
+                setBackgroundColorInsideInternal(preset.color)
+                applyEdgeStyleInternal(preset.edge)
+            }
+            is EdgePreset.BackgroundImageRes -> {
+                setBackgroundImageInternal(preset.resId)
+                applyEdgeStyleInternal(preset.edge)
+            }
+        }
+        if (resetState) resetAnimationState()
         invalidate()
     }
 }

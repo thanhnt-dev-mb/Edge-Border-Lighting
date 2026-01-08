@@ -32,4 +32,110 @@
         <item>@color/color_edge_yellow_EEFF00</item>
     </integer-array>
 
+    <integer-array name="edge_4_1_1">               // num - row - column
+        <item>@color/color_edge_pink_purple</item>
+        <item>@color/color_edge_lime_green</item>
+        <item>@color/color_edge_royal_blue</item>
+        <item>@color/color_edge_indian_red</item>
+    </integer-array>
+
+    <integer-array name="edge_4_1_2">
+        <item>@color/color_edge_dark_olive</item>
+        <item>@color/color_edge_blue_violet</item>
+        <item>@color/color_edge_deep_pink</item>
+        <item>@color/color_edge_dark_cyan</item>
+    </integer-array>
+
+    <integer-array name="edge_4_1_3">
+        <item>@color/color_edge_red</item>
+        <item>@color/color_edge_blue</item>
+        <item>@color/color_edge_magenta</item>
+        <item>@color/color_edge_dark_turquoise</item>
+    </integer-array>
+
+    <integer-array name="edge_4_1_4">
+        <item>@color/color_edge_orange_red</item>
+        <item>@color/color_edge_orange</item>
+        <item>@color/color_edge_light_sea_green</item>
+        <item>@color/color_edge_pale_turquoise</item>
+    </integer-array>
+
+    <integer-array name="edge_4_2_1">
+        <item>@color/color_edge_hot_pink</item>
+        <item>@color/color_edge_dark_green</item>
+        <item>@color/color_edge_hot_pink</item>
+        <item>@color/color_edge_dark_green</item>
+    </integer-array>
+
+    <integer-array name="edge_4_2_2">
+        <item>@color/color_edge_saddle_brown</item>
+        <item>@color/color_edge_goldenrod</item>
+        <item>@color/color_edge_lavender_gray</item>
+        <item>@color/color_edge_light_pink</item>
+    </integer-array>
+
+    <integer-array name="edge_4_2_3">
+        <item>@color/color_edge_teal</item>
+        <item>@color/color_edge_white_smoke</item>
+        <item>@color/color_edge_teal</item>
+        <item>@color/color_edge_peach_puff</item>
+    </integer-array>
+
+    <integer-array name="edge_4_2_4">
+        <item>@color/color_edge_light_blue</item>
+        <item>@color/color_edge_gold</item>
+        <item>@color/color_edge_light_steel_blue</item>
+        <item>@color/color_edge_thistle</item>
+    </integer-array>
+
+    <integer-array name="edge_4_3_1">
+        <item>@color/color_edge_lime</item>
+        <item>@color/color_edge_lime_green_bright</item>
+        <item>@color/color_edge_lime</item>
+        <item>@color/color_edge_lime_green_bright</item>
+    </integer-array>
+
+    <integer-array name="edge_4_3_2">
+        <item>@color/color_edge_salmon</item>
+        <item>@color/color_edge_dark_orange</item>
+        <item>@color/color_edge_cadet_blue</item>
+        <item>@color/color_edge_crimson</item>
+    </integer-array>
+
+    <integer-array name="edge_4_3_3">
+        <item>@color/color_edge_yellow_gold</item>
+        <item>@color/color_edge_sky_blue</item>
+        <item>@color/color_edge_orange_gold</item>
+        <item>@color/color_edge_peach</item>
+    </integer-array>
+
+    <integer-array name="edge_4_3_4">
+        <item>@color/color_edge_yellow</item>
+        <item>@color/color_edge_dark_orchid</item>
+        <item>@color/color_edge_navy</item>
+        <item>@color/color_edge_dark_blue</item>
+    </integer-array>
+
+    <integer-array name="edge_3_1_1">
+        <item>@color/color_edge_green_pastel</item>
+        <item>@color/color_edge_blue_periwinkle</item>
+        <item>@color/color_edge_teal_soft</item>
+    </integer-array>
+
+    <integer-array name="edge_3_1_2">
+        <item>@color/color_edge_green_sage</item>
+        <item>@color/color_edge_orange_terracotta</item>
+        <item>@color/color_edge_pink_magenta</item>
+    </integer-array>
+
+    <integer-array name="edge_2_1_1">
+        <item>@color/color_edge_green_olive</item>
+        <item>@color/color_edge_orange_burnt</item>
+    </integer-array>
+
+    <integer-array name="edge_2_1_2">
+        <item>@color/color_edge_red_wine</item>
+        <item>@color/color_edge_red_brick</item>
+    </integer-array>
+
 </resources>

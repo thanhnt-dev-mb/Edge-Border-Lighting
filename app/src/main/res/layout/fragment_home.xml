@@ -17,6 +17,7 @@
 
         <com.merryblue.baseapplication.ui.view.edgelight.EdgeLightingView
             android:id="@+id/edgeView"
+            android:visibility="invisible"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             app:edgeBackgroundColor="@color/colorBgSurface"
@@ -287,6 +288,7 @@
                     android:layout_marginTop="16dp"
                     android:background="@android:color/transparent"
                     app:layout_constraintTop_toBottomOf="@+id/tvTitleSettingEdge"
+                    app:tabBackground="@android:color/transparent"
                     app:tabGravity="fill"
                     app:tabIndicatorColor="@color/colorViolet05"
                     app:tabIndicatorFullWidth="true"
@@ -303,6 +305,12 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     app:layout_constraintTop_toBottomOf="@+id/tabSettingEdge" />
+
+                <Space
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/vpSettingEdge" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
