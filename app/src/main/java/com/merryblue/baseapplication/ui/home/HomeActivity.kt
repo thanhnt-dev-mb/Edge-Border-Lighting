@@ -9,10 +9,12 @@ import android.os.Looper
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.viewModels
+import androidx.core.content.ContextCompat
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.WindowInsetsControllerCompat
+import androidx.core.view.updateLayoutParams
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.merryblue.baseapplication.BuildConfig
 import com.merryblue.baseapplication.R
@@ -44,13 +46,8 @@ class HomeActivity : BaseActivity<ActivityHomeBinding>() {
 
     override fun onPostCreate(savedInstanceState: Bundle?) {
         super.onPostCreate(savedInstanceState)
-
+        enableEdgeToEdge(binding.main, true)
         requestPostNotificationPermissionIfNeed()
-    }
-
-    override fun setUpViews() {
-        enableEdgeToEdge(binding.main, false)
-        super.setUpViews()
     }
 
     override fun onResume() {

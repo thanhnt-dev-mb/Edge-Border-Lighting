@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout>
+
+    <androidx.appcompat.widget.LinearLayoutCompat xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fillViewport="true"
+        android:orientation="vertical"
+        tools:context=".ui.home.effect.EdgeEffectFragment">
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="10dp"
+            android:layout_marginTop="24dp"
+            android:fontFamily="@font/roboto_medium"
+            android:text="@string/txt_border_shape"
+            android:textColor="@color/colorWhite"
+            android:textSize="16sp" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rcvEdgeEffect"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:clipToPadding="false"
+            android:paddingHorizontal="2dp"
+            android:paddingVertical="14dp"
+            app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+            app:spanCount="5"
+            tools:itemCount="20"
+            tools:listitem="@layout/item_edge_effect" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="10dp"
+            android:layout_marginTop="4dp"
+            android:fontFamily="@font/roboto_medium"
+            android:text="@string/txt_border_setting"
+            android:textColor="@color/white"
+            android:textSize="16sp" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="10dp"
+            android:layout_marginTop="20dp"
+            android:fontFamily="@font/roboto_medium"
+            android:text="@string/txt_animation_speed"
+            android:textColor="@color/white"
+            android:textSize="14sp" />
+
+        <com.merryblue.baseapplication.ui.view.CustomSeekBar
+            android:id="@+id/seekBarSpeed"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            app:csb_enabledTouch="true"
+            app:csb_paddingHorizontal="12dp"
+            app:csb_progress="0.35"
+            app:csb_progressColor="@color/colorViolet05"
+            app:csb_thumbColor="@color/colorWhite"
+            app:csb_thumbRadius="10dp"
+            app:csb_thumbShadowColor="@color/color_thumb_shadow"
+            app:csb_thumbShadowDy="2dp"
+            app:csb_trackColor="@color/color_border"
+            app:csb_trackThicknessActive="6dp"
+            app:csb_trackThicknessInactive="4dp" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="10dp"
+            android:layout_marginTop="20dp"
+            android:fontFamily="@font/roboto_medium"
+            android:text="@string/txt_border_size"
+            android:textColor="@color/white"
+            android:textSize="14sp" />
+
+        <com.merryblue.baseapplication.ui.view.CustomSeekBar
+            android:id="@+id/seekBarSize"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            app:csb_enabledTouch="true"
+            app:csb_paddingHorizontal="12dp"
+            app:csb_progress="0.35"
+            app:csb_progressColor="@color/colorViolet05"
+            app:csb_thumbColor="@color/colorWhite"
+            app:csb_thumbRadius="10dp"
+            app:csb_thumbShadowColor="@color/color_thumb_shadow"
+            app:csb_thumbShadowDy="2dp"
+            app:csb_trackColor="@color/color_border"
+            app:csb_trackThicknessActive="6dp"
+            app:csb_trackThicknessInactive="4dp" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="10dp"
+            android:layout_marginTop="20dp"
+            android:fontFamily="@font/roboto_medium"
+            android:text="@string/txt_bottom_radius"
+            android:textColor="@color/white"
+            android:textSize="14sp" />
+
+        <com.merryblue.baseapplication.ui.view.CustomSeekBar
+            android:id="@+id/seekBarBottomRadius"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            app:csb_enabledTouch="true"
+            app:csb_paddingHorizontal="12dp"
+            app:csb_progress="0.35"
+            app:csb_progressColor="@color/colorViolet05"
+            app:csb_thumbColor="@color/colorWhite"
+            app:csb_thumbRadius="10dp"
+            app:csb_thumbShadowColor="@color/color_thumb_shadow"
+            app:csb_thumbShadowDy="2dp"
+            app:csb_trackColor="@color/color_border"
+            app:csb_trackThicknessActive="6dp"
+            app:csb_trackThicknessInactive="4dp" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="10dp"
+            android:layout_marginTop="20dp"
+            android:fontFamily="@font/roboto_medium"
+            android:text="@string/txt_top_radius"
+            android:textColor="@color/white"
+            android:textSize="14sp" />
+
+        <com.merryblue.baseapplication.ui.view.CustomSeekBar
+            android:id="@+id/seekBarTopRadius"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            app:csb_enabledTouch="true"
+            app:csb_paddingHorizontal="12dp"
+            app:csb_progress="0.35"
+            app:csb_progressColor="@color/colorViolet05"
+            app:csb_thumbColor="@color/colorWhite"
+            app:csb_thumbRadius="10dp"
+            app:csb_thumbShadowColor="@color/color_thumb_shadow"
+            app:csb_thumbShadowDy="2dp"
+            app:csb_trackColor="@color/color_border"
+            app:csb_trackThicknessActive="6dp"
+            app:csb_trackThicknessInactive="4dp" />
+
+    </androidx.appcompat.widget.LinearLayoutCompat>
+
+</layout>
