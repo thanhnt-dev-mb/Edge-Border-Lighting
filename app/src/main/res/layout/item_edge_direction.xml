@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.appcompat.widget.LinearLayoutCompat xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/bg_item_direction_selector"
+    android:gravity="center"
+    android:layout_marginBottom="8dp"
+    android:paddingHorizontal="12dp"
+    android:paddingVertical="16dp">
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/ivItemDirection"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:src="@drawable/ic_clockwise" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/tvItemDirection"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="4dp"
+        android:layout_weight="1"
+        android:fontFamily="@font/roboto_regular"
+        android:text="@string/txt_clockwise_default"
+        android:textColor="@color/white"
+        android:textSize="16sp" />
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/ivCheckFour"
+        android:layout_width="16dp"
+        android:layout_height="16dp"
+        android:src="@drawable/ic_check_selected" />
+
+</androidx.appcompat.widget.LinearLayoutCompat>
