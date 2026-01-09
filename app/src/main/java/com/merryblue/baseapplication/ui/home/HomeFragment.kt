@@ -8,8 +8,11 @@ import androidx.lifecycle.repeatOnLifecycle
 import androidx.viewpager2.widget.ViewPager2
 import com.google.android.material.tabs.TabLayoutMediator
 import com.merryblue.baseapplication.R
+import com.merryblue.baseapplication.coredata.model.edge.Advanced
+import com.merryblue.baseapplication.coredata.model.edge.EdgeAdvanced
 import com.merryblue.baseapplication.coredata.model.edge.EdgePreset
 import com.merryblue.baseapplication.coredata.model.edge.EdgeSelection
+import com.merryblue.baseapplication.coredata.model.edge.EdgeSettings
 import com.merryblue.baseapplication.coredata.model.edge.EdgeStyle
 import com.merryblue.baseapplication.databinding.FragmentHomeBinding
 import com.merryblue.baseapplication.helpers.dpToPx
@@ -87,7 +90,23 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
 
                             }
                         }
+                    }
+                }
 
+                launch {
+                    viewModel.edgeSettingsEvents.drop(1).collect { edgeSettings ->
+                        when (edgeSettings) {
+                            is EdgeSettings.EdgeSpeed -> binding.edgeView.setSpeedMs(edgeSettings.progress)
+                            is EdgeSettings.EdgeSize -> binding.edgeView.setSizePx(edgeSettings.progress)
+                            is EdgeSettings.EdgeBottomRadius -> binding.edgeView.setBottomRadiusPx(edgeSettings.progress)
+                            is EdgeSettings.EdgeTopRadius -> binding.edgeView.setTopRadiusPx(edgeSettings.progress)
+                        }
+                    }
+                }
+
+                launch {
+                    viewModel.edgeAdvancedEvents.drop(1).collect { adv ->
+                        binding.edgeView.setAdvanced(adv)
                     }
                 }
             }

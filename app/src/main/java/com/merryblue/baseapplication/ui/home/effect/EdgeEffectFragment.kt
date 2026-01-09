@@ -10,10 +10,15 @@ import androidx.recyclerview.widget.GridLayoutManager
 import com.merryblue.baseapplication.R
 import com.merryblue.baseapplication.coredata.model.edge.EdgePreset
 import com.merryblue.baseapplication.coredata.model.edge.EdgeSelection
+import com.merryblue.baseapplication.coredata.model.edge.EdgeSettings
 import com.merryblue.baseapplication.coredata.model.edge.EdgeStyle
 import com.merryblue.baseapplication.databinding.FragmentEdgeEffectBinding
 import com.merryblue.baseapplication.helpers.dpToPx
+import com.merryblue.baseapplication.helpers.mapFloatToRange
+import com.merryblue.baseapplication.helpers.mapFloatToRangeLong
 import com.merryblue.baseapplication.ui.home.HomeViewModel
+import com.merryblue.baseapplication.ui.view.CustomSeekBar
+import com.merryblue.baseapplication.ui.view.CustomSeekBar.OnProgressChangeListener
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 import org.app.core.base.BaseFragment
@@ -70,6 +75,42 @@ class EdgeEffectFragment : BaseFragment<FragmentEdgeEffectBinding>() {
                     }
                 }
             }
+        }
+
+        binding.apply {
+            seekBarSpeed.setOnProgressChangeListener(object : OnProgressChangeListener {
+                override fun onProgressChanged(seekBar: CustomSeekBar, progress: Float, fromUser: Boolean) {
+                    if (!fromUser) return
+                    val durationMs = (1f - progress).mapFloatToRangeLong(min = 500L, max = 8000L)
+                    homeViewModel.emitEdgeSettings(EdgeSettings.EdgeSpeed(durationMs))
+                }
+            })
+
+            seekBarSize.setOnProgressChangeListener(object : OnProgressChangeListener {
+                override fun onProgressChanged(seekBar: CustomSeekBar, progress: Float, fromUser: Boolean) {
+                    if (!fromUser) return
+                    val minPx = 2f.dpToPx
+                    val maxPx = 20f.dpToPx
+                    val strokePx = progress.mapFloatToRange(minPx, maxPx)
+                    homeViewModel.emitEdgeSettings(EdgeSettings.EdgeSize(strokePx))
+                }
+            })
+
+            seekBarBottomRadius.setOnProgressChangeListener(object : OnProgressChangeListener {
+                override fun onProgressChanged(seekBar: CustomSeekBar, progress: Float, fromUser: Boolean, ) {
+                    if (!fromUser) return
+                    val radiusPx = progress.mapFloatToRange(0f.dpToPx, 60f.dpToPx)
+                    homeViewModel.emitEdgeSettings(EdgeSettings.EdgeBottomRadius(radiusPx))
+                }
+            })
+
+            seekBarTopRadius.setOnProgressChangeListener(object : OnProgressChangeListener {
+                override fun onProgressChanged(seekBar: CustomSeekBar, progress: Float, fromUser: Boolean, ) {
+                    if (!fromUser) return
+                    val radiusPx = progress.mapFloatToRange(0f.dpToPx, 60f.dpToPx)
+                    homeViewModel.emitEdgeSettings(EdgeSettings.EdgeTopRadius(radiusPx))
+                }
+            })
         }
     }
 }

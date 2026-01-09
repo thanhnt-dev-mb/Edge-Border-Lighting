@@ -11,6 +11,6 @@
         android:name="com.merryblue.baseapplication.ui.home.effect.EdgeEffectFragment"/>
 
     <fragment android:id="@+id/edgeDirectionFragment"
-        android:name="com.merryblue.baseapplication.ui.home.direction.EdgeDirectionFragment"/>
+        android:name="com.merryblue.baseapplication.ui.home.advanced.EdgeAdvancedFragment"/>
 
 </navigation>

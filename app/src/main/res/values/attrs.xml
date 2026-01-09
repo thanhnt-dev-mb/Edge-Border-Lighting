@@ -6,7 +6,8 @@
     <attr name="harmonizeAddedColor" format="boolean" />
 
     <declare-styleable name="EdgeLightingView">
-        <attr name="edgeCornerRadius" format="dimension" />
+        <attr name="edgeTopCornerRadius" format="dimension" />
+        <attr name="edgeBottomCornerRadius" format="dimension" />
         <attr name="edgeStrokeWidth" format="dimension" />
         <attr name="edgeDuration" format="integer" />
         <attr name="edgeStartAngle" format="float" />
