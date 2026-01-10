@@ -50,6 +50,14 @@
         <attr name="edgePatternAdvance" format="dimension" />
         <attr name="edgePatternRotate" format="boolean" />
         <attr name="edgePatternPhaseMultiplier" format="float" />
+
+        <attr name="edgeNotchWidthPx" format="dimension" />
+        <attr name="edgeNotchWidthFraction" format="float" />
+        <attr name="edgeNotchHeight" format="dimension" />
+        <attr name="edgeNotchTopRadius" format="dimension" />
+        <attr name="edgeNotchBottomRadius" format="dimension" />
+        <attr name="edgeNotchBottomFullness" format="float" />
+
     </declare-styleable>
 
     <declare-styleable name="GradientBorderImageView">
