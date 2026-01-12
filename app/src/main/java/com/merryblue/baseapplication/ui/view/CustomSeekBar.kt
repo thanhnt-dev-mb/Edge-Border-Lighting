@@ -4,13 +4,18 @@ import android.content.Context
 import android.graphics.Canvas
 import android.graphics.Color
 import android.graphics.Paint
+import android.graphics.Rect
 import android.util.AttributeSet
 import android.view.MotionEvent
 import android.view.View
 import androidx.core.content.res.use
+import androidx.core.view.ViewCompat
 import com.merryblue.baseapplication.R
 import com.merryblue.baseapplication.helpers.dpToPx
+import kotlin.math.abs
 import kotlin.math.max
+import kotlin.math.min
+import kotlin.math.roundToInt
 
 class CustomSeekBar @JvmOverloads constructor(
     context: Context,
@@ -20,16 +25,21 @@ class CustomSeekBar @JvmOverloads constructor(
 
     private var progress = 0.65f
     private var enabledTouch = true
+
     private var paddingHorizontalPx = 24f.dpToPx
     private var inactiveThicknessPx = 4f.dpToPx
     private var activeThicknessPx = 7f.dpToPx
+
     private var thumbRadiusPx = 9f.dpToPx
     private var thumbShadowDyPx = 2f.dpToPx
+
     private var progressColor = Color.parseColor("#EF7979")
     private var trackColor = Color.parseColor("#FFCCCC")
     private var thumbColor = Color.parseColor("#EF7979")
     private var thumbShadowColor = Color.parseColor("#40000000")
+
     private var listener: OnProgressChangeListener? = null
+
     private val progressPaint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
         style = Paint.Style.STROKE
         strokeCap = Paint.Cap.ROUND
@@ -52,6 +62,17 @@ class CustomSeekBar @JvmOverloads constructor(
         isDither = true
     }
 
+    private var centerY = 0f
+    private var startX = 0f
+    private var endX = 0f
+    private var denom = 1f
+    private var progressX = 0f
+
+    private val dirtyRect = Rect()
+    private val maxThicknessPx: Float get() = max(inactiveThicknessPx, activeThicknessPx)
+
+    private val EPS = 1e-4f
+
     init {
         parseAttrs(attrs)
         syncPaints()
@@ -62,9 +83,18 @@ class CustomSeekBar @JvmOverloads constructor(
         context.obtainStyledAttributes(attrs, R.styleable.CustomSeekBar).use { a ->
             progress = a.getFloat(R.styleable.CustomSeekBar_csb_progress, progress).coerceIn(0f, 1f)
             enabledTouch = a.getBoolean(R.styleable.CustomSeekBar_csb_enabledTouch, enabledTouch)
-            paddingHorizontalPx = a.getDimension(R.styleable.CustomSeekBar_csb_paddingHorizontal, paddingHorizontalPx)
-            inactiveThicknessPx = a.getDimension(R.styleable.CustomSeekBar_csb_trackThicknessInactive, inactiveThicknessPx)
-            activeThicknessPx = a.getDimension(R.styleable.CustomSeekBar_csb_trackThicknessActive, activeThicknessPx)
+            paddingHorizontalPx = a.getDimension(
+                R.styleable.CustomSeekBar_csb_paddingHorizontal,
+                paddingHorizontalPx
+            )
+            inactiveThicknessPx = a.getDimension(
+                R.styleable.CustomSeekBar_csb_trackThicknessInactive,
+                inactiveThicknessPx
+            )
+            activeThicknessPx = a.getDimension(
+                R.styleable.CustomSeekBar_csb_trackThicknessActive,
+                activeThicknessPx
+            )
             progressColor = a.getColor(R.styleable.CustomSeekBar_csb_progressColor, progressColor)
             trackColor = a.getColor(R.styleable.CustomSeekBar_csb_trackColor, trackColor)
             thumbColor = a.getColor(R.styleable.CustomSeekBar_csb_thumbColor, thumbColor)
@@ -85,17 +115,37 @@ class CustomSeekBar @JvmOverloads constructor(
         thumbShadowPaint.color = thumbShadowColor
     }
 
+    override fun onSizeChanged(w: Int, h: Int, oldw: Int, oldh: Int) {
+        super.onSizeChanged(w, h, oldw, oldh)
+        recomputeGeometry()
+    }
+
+    private fun recomputeGeometry() {
+        centerY = height / 2f
+        startX = paddingHorizontalPx
+        endX = width - paddingHorizontalPx
+        denom = max(1f, endX - startX)
+        progressX = startX + denom * progress
+        // update dirty rect bounds (for partial invalidation)
+        updateDirtyRect()
+    }
+
+    private fun updateProgressX() {
+        progressX = startX + denom * progress
+        updateDirtyRect()
+    }
+
+    private fun updateDirtyRect() {
+        val extraY = max(thumbRadiusPx + abs(thumbShadowDyPx), maxThicknessPx / 2f) + 2f
+        val left = (min(startX, endX) - 2f).roundToInt()
+        val right = (max(startX, endX) + 2f).roundToInt()
+        val top = (centerY - extraY).roundToInt()
+        val bottom = (centerY + extraY).roundToInt()
+        dirtyRect.set(left, top, right, bottom)
+    }
+
     override fun onDraw(canvas: Canvas) {
-        super.onDraw(canvas)
-
-        val centerY = height / 2f
-        val startX = paddingHorizontalPx
-        val endX = width - paddingHorizontalPx
-        val usableW = max(1f, endX - startX)
-
         canvas.drawLine(startX, centerY, endX, centerY, trackPaint)
-
-        val progressX = startX + usableW * progress
         canvas.drawLine(startX, centerY, progressX, centerY, progressPaint)
 
         canvas.drawCircle(progressX, centerY + thumbShadowDyPx, thumbRadiusPx, thumbShadowPaint)
@@ -129,20 +179,21 @@ class CustomSeekBar @JvmOverloads constructor(
     }
 
     private fun updateProgressFromX(x: Float, fromUser: Boolean) {
-        val startX = paddingHorizontalPx
-        val endX = width - paddingHorizontalPx
-        val denom = max(1f, endX - startX)
-
-        val newValue = ((x - startX) / denom).coerceIn(0f, 1f)
+        val clampedX = x.coerceIn(startX, endX)
+        val newValue = ((clampedX - startX) / denom).coerceIn(0f, 1f)
         setProgressInternal(newValue, fromUser)
     }
 
     private fun setProgressInternal(value: Float, fromUser: Boolean) {
         val v = value.coerceIn(0f, 1f)
-        if (v == progress) return
+        if (abs(v - progress) < EPS) return
+
         progress = v
+        updateProgressX()
+
         listener?.onProgressChanged(this, progress, fromUser)
-        invalidate()
+
+        ViewCompat.postInvalidateOnAnimation(this, dirtyRect.left, dirtyRect.top, dirtyRect.right, dirtyRect.bottom)
     }
 
     fun setProgress(value: Float) = setProgressInternal(value, fromUser = false)
@@ -158,11 +209,13 @@ class CustomSeekBar @JvmOverloads constructor(
 
     fun paddingHorizontalPx(px: Float) = apply {
         paddingHorizontalPx = px
+        recomputeGeometry()
         invalidate()
     }
 
     fun paddingHorizontalDp(dp: Float) = apply {
         paddingHorizontalPx = dp.dpToPx
+        recomputeGeometry()
         invalidate()
     }
 
@@ -170,6 +223,7 @@ class CustomSeekBar @JvmOverloads constructor(
         inactiveThicknessPx = inactivePx
         activeThicknessPx = activePx
         syncPaints()
+        updateDirtyRect()
         invalidate()
     }
 
@@ -192,11 +246,13 @@ class CustomSeekBar @JvmOverloads constructor(
 
     fun thumbRadiusPx(px: Float) = apply {
         thumbRadiusPx = px
+        updateDirtyRect()
         invalidate()
     }
 
     fun thumbRadiusDp(dp: Float) = apply {
         thumbRadiusPx = dp.dpToPx
+        updateDirtyRect()
         invalidate()
     }
 
@@ -204,6 +260,7 @@ class CustomSeekBar @JvmOverloads constructor(
         thumbShadowColor = color
         thumbShadowDyPx = dyPx
         syncPaints()
+        updateDirtyRect()
         invalidate()
     }
 

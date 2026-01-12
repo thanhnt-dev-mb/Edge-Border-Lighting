@@ -6,7 +6,8 @@
     <attr name="harmonizeAddedColor" format="boolean" />
 
     <declare-styleable name="EdgeLightingView">
-        <attr name="edgeCornerRadius" format="dimension" />
+        <attr name="edgeTopCornerRadius" format="dimension" />
+        <attr name="edgeBottomCornerRadius" format="dimension" />
         <attr name="edgeStrokeWidth" format="dimension" />
         <attr name="edgeDuration" format="integer" />
         <attr name="edgeStartAngle" format="float" />
@@ -49,6 +50,14 @@
         <attr name="edgePatternAdvance" format="dimension" />
         <attr name="edgePatternRotate" format="boolean" />
         <attr name="edgePatternPhaseMultiplier" format="float" />
+
+        <attr name="edgeNotchWidthPx" format="dimension" />
+        <attr name="edgeNotchWidthFraction" format="float" />
+        <attr name="edgeNotchHeight" format="dimension" />
+        <attr name="edgeNotchTopRadius" format="dimension" />
+        <attr name="edgeNotchBottomRadius" format="dimension" />
+        <attr name="edgeNotchBottomFullness" format="float" />
+
     </declare-styleable>
 
     <declare-styleable name="GradientBorderImageView">

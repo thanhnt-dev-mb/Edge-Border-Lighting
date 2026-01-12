@@ -22,7 +22,7 @@
     <string name="txt_preset">Preset</string>
     <string name="txt_view_all">View all</string>
     <string name="txt_theme">Theme</string>
-    <string name="txt_create_your_own_theme">Create your own theme</string>
+    <string name="txt_create_your_own_theme">Create your\nown theme</string>
     <string name="txt_setting_edge_lighting">Setting Edge Lighting</string>
     <string name="txt_color">Color</string>
     <string name="txt_effect">Effect</string>
@@ -36,4 +36,17 @@
     <string name="txt_bottom_radius">Bottom Radius</string>
     <string name="txt_top_radius">Top Radius</string>
     <string name="txt_border_setting">Border Setting</string>
+    <string name="txt_edge_light_direction">Edge Light Direction</string>
+    <string name="txt_notch_type">Notch Type</string>
+    <string name="txt_clockwise_default">Clockwise (Default)</string>
+    <string name="txt_anti_clockwise_default">Anti - Clockwise (Default)</string>
+    <string name="txt_top_right_to_bottom_left">Top right to bottom left</string>
+    <string name="txt_bottom_left_to_top_right">Bottom left to top right</string>
+    <string name="txt_top_to_bottom_down">Top to bottom (Down)</string>
+    <string name="txt_bottom_to_top_up">Bottom to top (Up)</string>
+    <string name="txt_default">Default</string>
+    <string name="txt_display_notch">Display Notch</string>
+    <string name="txt_display_hole">Display Hole</string>
+    <string name="txt_display_infinity">Display Infinity</string>
+
 </resources>
