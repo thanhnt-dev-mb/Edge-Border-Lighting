@@ -14,8 +14,27 @@
             android:name="androidx.navigation.fragment.NavHostFragment"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            app:defaultNavHost="true"
-            app:navGraph="@navigation/nav_home" />
+            app:defaultNavHost="true" />
+
+        <com.merryblue.baseapplication.ui.view.EdgeBottomNavView
+            android:id="@+id/bottomNav"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toBottomOf="parent" />
+
+        <com.merryblue.baseapplication.ui.view.edgelight.EdgeLightingView
+            android:id="@+id/edgeView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:visibility="invisible"
+            app:edgeBottomCornerRadius="20dp"
+            app:edgeColors="@array/edge_colors_0"
+            app:edgeDirection="clockwise"
+            app:edgeDuration="2500"
+            app:edgeInfinityCurveDepth="10dp"
+            app:edgeNotchType="displayHole"
+            app:edgeStrokeWidth="6dp"
+            app:edgeTopCornerRadius="20dp" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

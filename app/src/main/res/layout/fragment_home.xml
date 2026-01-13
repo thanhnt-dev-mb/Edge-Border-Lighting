@@ -305,27 +305,13 @@
                 <Space
                     android:id="@+id/spaceBottom"
                     android:layout_width="match_parent"
-                    android:layout_height="40dp"
+                    android:layout_height="106dp"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/vpSettingEdge" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
         </androidx.core.widget.NestedScrollView>
-
-        <com.merryblue.baseapplication.ui.view.edgelight.EdgeLightingView
-            android:id="@+id/edgeView"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:visibility="invisible"
-            app:edgeBottomCornerRadius="20dp"
-            app:edgeColors="@array/edge_colors_0"
-            app:edgeDirection="clockwise"
-            app:edgeDuration="2500"
-            app:edgeInfinityCurveDepth="10dp"
-            app:edgeNotchType="displayHole"
-            app:edgeStrokeWidth="6dp"
-            app:edgeTopCornerRadius="20dp" />
     </FrameLayout>
 
 </layout>

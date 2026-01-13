@@ -42,6 +42,9 @@ class HomeViewModel @Inject constructor(
     private var _edgeInfinityTypeEvents = MutableSharedFlow<InfinityShape>(replay = 0, extraBufferCapacity = 1)
     val edgeInfinityTypeEvents = _edgeInfinityTypeEvents.asSharedFlow()
 
+    private var _edgeVisibilityEvents = MutableSharedFlow<Boolean>(replay = 0, extraBufferCapacity = 1)
+    val edgeVisibilityEvents = _edgeVisibilityEvents.asSharedFlow()
+
     val connectionState = appRepository.networkState
     private val _uiState = MutableStateFlow(HomeUiState())
     val uiState: StateFlow<HomeUiState> = _uiState
@@ -90,5 +93,9 @@ class HomeViewModel @Inject constructor(
 
     fun emitInfinityType(event: InfinityShape) {
         _edgeInfinityTypeEvents.tryEmit(event)
+    }
+
+    fun emitVisibilityEdgeView(isShow: Boolean) {
+        _edgeVisibilityEvents.tryEmit(isShow)
     }
 }

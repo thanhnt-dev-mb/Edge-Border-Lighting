@@ -14,7 +14,7 @@ class EdgeEffectViewModel @Inject constructor(): ViewModel() {
     val state = _state.asStateFlow()
 
     private val listIconRes = buildList {
-        add(EdgeEffectItem(R.drawable.ic_none, true))
+        add(EdgeEffectItem(R.drawable.ic_none, false))
         add(EdgeEffectItem(R.drawable.ic_love, false))
         add(EdgeEffectItem(R.drawable.ic_circle, false))
         add(EdgeEffectItem(R.drawable.ic_star, false))

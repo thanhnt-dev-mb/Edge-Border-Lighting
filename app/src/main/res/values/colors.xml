@@ -266,5 +266,6 @@
     <color name="colorViolet05Alpha20">#33B247AE</color>
     <color name="color_border">#5D5D84</color>
     <color name="color_thumb_shadow">#40000000</color>
+    <color name="color_bottom_nav">#19193F</color>
 
 </resources>
