@@ -21,41 +21,29 @@ import kotlin.math.max
 import kotlin.math.min
 import kotlin.math.roundToInt
 
-enum class EdgeHoleShape { CIRCLE, ROUND }
-enum class InfinityShape { U, V }
-data class OffsetRange(val min: Float, val max: Float)
-
-class EdgeLightingView @JvmOverloads constructor(
-    context: Context,
-    attrs: AttributeSet? = null
-) : View(context, attrs) {
+class EdgeLightingView @JvmOverloads constructor(context: Context, attrs: AttributeSet? = null) : View(context, attrs) {
 
     private var direction = Advanced.DIRECTION_CLOCKWISE
     private var notchType = Advanced.NOTCH_DEFAULT
     private var imageScaleType = EdgeImageScaleType.CENTER_CROP
-
     private var strokeWidth = 6f.dpToPx
     private var topRadius = 24f.dpToPx
     private var bottomRadius = 24f.dpToPx
     private var duration = 2500L
-
     private var holeShape: EdgeHoleShape = EdgeHoleShape.CIRCLE
-
     private var holeRadius = 14f.dpToPx
-
     private var holeWidthPx = 64f.dpToPx
     private var holeHeightPx = 28f.dpToPx
     private var holeCornerRadiusPx = 14f.dpToPx
-
     private var holeOffsetX = 0f
     private var holeOffsetY = 40f.dpToPx
-
     private var infinityShape: InfinityShape = InfinityShape.U
-    private var infinityWidthPx: Float = 0f
+    private var infinitySideCurvature: Float = -1f
+    private var infinityTipRadiusPx: Float = 0f
+    private var infinityWidthPx: Float = -1f
     private var infinityHeightPx: Float = 20f.dpToPx
-    private var infinityRadiusTopPx: Float = 0f
-    private var infinityRadiusBottomPx: Float = 0f
-
+    private var infinityRadiusTopPx: Float = -1f
+    private var infinityRadiusBottomPx: Float = -1f
     private var notchBottomCapsuleBias: Float = 0f
     private var notchWidthPx: Float = 0f
     private var notchWidthFraction: Float = 0.35677505f
@@ -63,12 +51,9 @@ class EdgeLightingView @JvmOverloads constructor(
     private var notchTopRadiusPx: Float = 39.304764f.dpToPx
     private var notchBottomRadiusPx: Float = 29.377974f.dpToPx
     private var notchBottomFullness: Float = 0f
-
     private var backgroundInside: EdgeBackground? = null
-
     private var animationEnabled = true
     private var progress = 0f
-
     private var patternEnabled = false
     private var patternPath: Path? = null
     private var patternVectorResId: Int = 0
@@ -80,40 +65,32 @@ class EdgeLightingView @JvmOverloads constructor(
     private var patternAdvance = 26f.dpToPx
     private var patternGapPx = (patternAdvance - patternSizePx).coerceAtLeast(0f)
     private var patternInsetExtraPx = 0f
-
     private var lastProgress = 0f
     private var isViewAttached = false
-
     private var cachedBgPath: Path? = null
     private var cachedOuterEdgePath: Path? = null
     private var cachedPatternEdgePath: Path? = null
     private var cachedHoleEdgePath: Path? = null
     private var cachedPatternHoleEdgePath: Path? = null
-
     private var cachedWidth = 0
     private var cachedHeight = 0
-
     private var cachedTotalLength = 0f
     private var contourStarts = FloatArray(0)
     private var contourLens = FloatArray(0)
     private var contourCount = 0
-
     private val pm = PathMeasure()
     private val pos = FloatArray(2)
     private val tan = FloatArray(2)
-
     private var cachedShader: Shader? = null
     private var cachedShaderColors: IntArray? = null
     private var cachedShaderW = 0
     private var cachedShaderH = 0
     private val animationMatrix = Matrix()
-
     private var cachedBitmapShader: BitmapShader? = null
     private var cachedBitmap: Bitmap? = null
     private var cachedBgW = 0
     private var cachedBgH = 0
     private val bgMatrix = Matrix()
-
     private var colors = intArrayOf(Color.CYAN, Color.MAGENTA, Color.YELLOW, Color.CYAN)
 
     private val edgePaint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
@@ -277,6 +254,11 @@ class EdgeLightingView @JvmOverloads constructor(
                 notchBottomFullness
             ).coerceIn(0f, 1f)
 
+            // Optional infinity attrs if you have them in styleable (keep safe defaults if missing)
+            // infinityWidthPx = it.getDimension(R.styleable.EdgeLightingView_edgeInfinityWidth, infinityWidthPx)
+            // infinityHeightPx = it.getDimension(R.styleable.EdgeLightingView_edgeInfinityHeight, infinityHeightPx)
+            // infinityRadiusTopPx = it.getDimension(R.styleable.EdgeLightingView_edgeInfinityRadiusTop, infinityRadiusTopPx)
+
             val colorsRes = it.getResourceId(R.styleable.EdgeLightingView_edgeColors, 0)
             if (colorsRes != 0) colors = resources.getIntArray(colorsRes)
 
@@ -367,7 +349,14 @@ class EdgeLightingView @JvmOverloads constructor(
         val tr = topRadius.coerceAtLeast(0f)
         val br = bottomRadius.coerceAtLeast(0f)
 
-        fun addRoundRectTopBottom(left: Float, top: Float, right: Float, bottom: Float, topR: Float, bottomR: Float) {
+        fun addRoundRectTopBottom(
+            left: Float,
+            top: Float,
+            right: Float,
+            bottom: Float,
+            topR: Float,
+            bottomR: Float
+        ) {
             val radii = floatArrayOf(
                 topR, topR,       // TL
                 topR, topR,       // TR
@@ -410,41 +399,37 @@ class EdgeLightingView @JvmOverloads constructor(
             }
 
             Advanced.NOTCH_DISPLAY_INFINITY -> {
-                val left = pad
-                val top = pad
-                val right = r
-                val bottom = b
 
                 val topMid = width / 2f
-                val topR = tr.coerceAtMost((right - left) / 2f)
-                val botR = br.coerceAtMost((bottom - top) / 2f)
+                val topR = tr.coerceAtMost((r - pad) / 2f)
+                val botR = br.coerceAtMost((b - pad) / 2f)
 
                 path.reset()
 
-                path.moveTo(left + botR, bottom)
-                path.quadTo(left, bottom, left, bottom - botR)
-                path.lineTo(left, top + topR)
-                path.quadTo(left, top, left + topR, top)
+                path.moveTo(pad + botR, b)
+                path.quadTo(pad, b, pad, b - botR)
+                path.lineTo(pad, pad + topR)
+                path.quadTo(pad, pad, pad + topR, pad)
 
-                val (infW, infH, rTop) = resolveInfinityParams(
+                val (infW, infH, rTop, _) = resolveInfinityParams(
                     inset = pad,
                     outerTopRadius = topR,
                     outerBottomRadius = botR
                 )
 
                 val halfW = infW / 2f
-                val startX = (topMid - halfW).coerceAtLeast(left + topR)
-                val endX = (topMid + halfW).coerceAtMost(right - topR)
+                val startX = (topMid - halfW).coerceAtLeast(pad + topR)
+                val endX = (topMid + halfW).coerceAtMost(r - topR)
 
-                path.lineTo(startX, top)
+                path.lineTo(startX, pad)
 
                 when (infinityShape) {
                     InfinityShape.U -> buildInfinityUPath(
                         out = path,
                         startX = startX,
                         endX = endX,
-                        topY = top,
-                        bottomY = top + infH,
+                        topY = pad,
+                        bottomY = pad + infH,
                         radiusTop = rTop
                     )
 
@@ -452,19 +437,20 @@ class EdgeLightingView @JvmOverloads constructor(
                         out = path,
                         startX = startX,
                         endX = endX,
-                        topY = top,
-                        bottomY = top + infH,
+                        topY = pad,
+                        bottomY = pad + infH,
                         radiusTop = rTop,
+                        tipRadius = infinityTipRadiusPx,
                     )
                 }
 
-                path.lineTo(right - topR, top)
-                path.quadTo(right, top, right, top + topR)
+                path.lineTo(r - topR, pad)
+                path.quadTo(r, pad, r, pad + topR)
 
-                path.lineTo(right, bottom - botR)
-                path.quadTo(right, bottom, right - botR, bottom)
+                path.lineTo(r, b - botR)
+                path.quadTo(r, b, r - botR, b)
 
-                path.lineTo(left + botR, bottom)
+                path.lineTo(pad + botR, b)
                 path.close()
             }
 
@@ -564,44 +550,41 @@ class EdgeLightingView @JvmOverloads constructor(
         val iconHalf = patternSizePx / 2f
         val inset = iconHalf + patternInsetExtraPx
 
-        val left = inset
-        val top = inset
         val right = width - inset
         val bottom = height - inset
-
         val topMid = width / 2f
 
-        val usableW = (right - left).coerceAtLeast(1f)
+        val usableW = (right - inset).coerceAtLeast(1f)
         val topR = (topRadius - iconHalf).coerceAtLeast(0f).coerceAtMost(usableW / 2f)
-        val botR = (bottomRadius - iconHalf).coerceAtLeast(0f).coerceAtMost((bottom - top) / 2f)
+        val botR = (bottomRadius - iconHalf).coerceAtLeast(0f).coerceAtMost((bottom - inset) / 2f)
 
-        val (infW, infH, rTop, rBot) = resolveInfinityParams(
+        val (infW, infH, rTop) = resolveInfinityParams(
             inset = inset,
             outerTopRadius = topR,
             outerBottomRadius = botR
         )
 
         val halfW = infW / 2f
-        val startX = (topMid - halfW).coerceAtLeast(left + topR)
+        val startX = (topMid - halfW).coerceAtLeast(inset + topR)
         val endX = (topMid + halfW).coerceAtMost(right - topR)
 
-        path.moveTo(left + botR, bottom)
-        path.quadTo(left, bottom, left, bottom - botR)
-        path.lineTo(left, top + topR)
-        path.quadTo(left, top, left + topR, top)
+        path.moveTo(inset + botR, bottom)
+        path.quadTo(inset, bottom, inset, bottom - botR)
+        path.lineTo(inset, inset + topR)
+        path.quadTo(inset, inset, inset + topR, inset)
 
-        path.lineTo(startX, top)
+        path.lineTo(startX, inset)
 
         when (infinityShape) {
-            InfinityShape.U -> buildInfinityUPath(path, startX, endX, top, top + infH, rTop)
-            InfinityShape.V -> buildInfinityVPath(path, startX, endX, top, top + infH, rTop)
+            InfinityShape.U -> buildInfinityUPath(path, startX, endX, inset, inset + infH, rTop)
+            InfinityShape.V -> buildInfinityVPath(path, startX, endX, inset, inset + infH, rTop, tipRadius = infinityTipRadiusPx,)
         }
 
-        path.lineTo(right - topR, top)
-        path.quadTo(right, top, right, top + topR)
+        path.lineTo(right - topR, inset)
+        path.quadTo(right, inset, right, inset + topR)
         path.lineTo(right, bottom - botR)
         path.quadTo(right, bottom, right - botR, bottom)
-        path.lineTo(left + botR, bottom)
+        path.lineTo(inset + botR, bottom)
         path.close()
 
         return path
@@ -1047,14 +1030,6 @@ class EdgeLightingView @JvmOverloads constructor(
         }
     }
 
-    private data class HoleCenterBounds(
-        val inset: Float,
-        val minCx: Float,
-        val maxCx: Float,
-        val minCy: Float,
-        val maxCy: Float
-    )
-
     private fun computeHoleCenterBounds(): HoleCenterBounds? {
         if (width <= 0 || height <= 0) return null
         if (notchType != Advanced.NOTCH_DISPLAY_HOLE) return null
@@ -1133,18 +1108,23 @@ class EdgeLightingView @JvmOverloads constructor(
 
         val maxAvailableW = (w - 2f * inset - 2f * outerTopRadius).coerceAtLeast(10f)
         val autoW = (w * 0.42f).coerceIn(60f.dpToPx, maxAvailableW)
-        val infW = (if (infinityWidthPx > 0f) infinityWidthPx else autoW).coerceIn(10f, maxAvailableW)
+        val infW = (if (infinityWidthPx >= 0f) infinityWidthPx else autoW)
+            .coerceIn(10f, maxAvailableW)
 
         val maxH = (h - inset - outerBottomRadius - inset - 1f).coerceAtLeast(0f)
-        val infH = infinityHeightPx.coerceAtLeast(0f).coerceAtMost(maxH)
+        val autoH = 20f.dpToPx.coerceAtMost(maxH)
+        val infH = (if (infinityHeightPx >= 0f) infinityHeightPx else autoH)
+            .coerceIn(0f, maxH)
 
         val halfW = infW / 2f
 
         val autoTopR = outerTopRadius.coerceAtLeast(0f)
-        val rTop = (if (infinityRadiusTopPx > 0f) infinityRadiusTopPx else autoTopR)
-            .coerceIn(0f, min(halfW, infH))
+        val rTopRaw = if (infinityRadiusTopPx >= 0f) infinityRadiusTopPx else autoTopR
+        val rTop = rTopRaw.coerceIn(0f, min(halfW, infH))
 
-        val rBot = 0f
+        val autoBotR = 0f
+        val rBotRaw = if (infinityRadiusBottomPx >= 0f) infinityRadiusBottomPx else autoBotR
+        val rBot = rBotRaw.coerceIn(0f, min(halfW, infH))
 
         return floatArrayOf(infW, infH, rTop, rBot)
     }
@@ -1181,25 +1161,21 @@ class EdgeLightingView @JvmOverloads constructor(
         val leftJoinX = startX + rTop
         val rightJoinX = endX - rTop
 
-        val c1x = leftJoinX
         val c1y = topY + 0.85f * h
         val c2x = cx - 0.25f * w
-        val c2y = bottomY
 
         out.cubicTo(
-            c1x, c1y,
-            c2x, c2y,
+            leftJoinX, c1y,
+            c2x, bottomY,
             cx, bottomY
         )
 
         val c3x = cx + 0.25f * w
-        val c3y = bottomY
-        val c4x = rightJoinX
         val c4y = topY + 0.85f * h
 
         out.cubicTo(
-            c3x, c3y,
-            c4x, c4y,
+            c3x, bottomY,
+            rightJoinX, c4y,
             rightJoinX, topY + rTop
         )
 
@@ -1214,7 +1190,6 @@ class EdgeLightingView @JvmOverloads constructor(
         }
     }
 
-
     private fun buildInfinityVPath(
         out: Path,
         startX: Float,
@@ -1222,6 +1197,7 @@ class EdgeLightingView @JvmOverloads constructor(
         topY: Float,
         bottomY: Float,
         radiusTop: Float,
+        tipRadius: Float = 2f.dpToPx,
     ) {
         val w = (endX - startX).coerceAtLeast(0f)
         val h = (bottomY - topY).coerceAtLeast(0f)
@@ -1234,34 +1210,56 @@ class EdgeLightingView @JvmOverloads constructor(
         val k = 0.5522848f
 
         val rTop = radiusTop.coerceIn(0f, minOf(w / 2f, h))
+        val mouthY = topY + rTop
 
         val mouthLx = startX + rTop
         val mouthRx = endX - rTop
-        val mouthY = topY + rTop
 
-        val tipX = cx
-        val tipY = bottomY
+        val usableH = (bottomY - mouthY).coerceAtLeast(0f)
+
+        val c = resolveSideCurvature(rTop)
+
+        val maxInX = (w / 2f - rTop).coerceAtLeast(0f)
+        val inX = maxInX * (0.15f + 0.65f * c)
+
+        val c1y = mouthY + usableH * (0.45f + 0.20f * c)
+        val c2y = bottomY - usableH * (0.15f + 0.10f * c)
+
+        val maxTipByH = h * 0.45f
+        val maxTipByW = (mouthRx - mouthLx) * 0.45f
+        val tipR = tipRadius.coerceIn(0f, minOf(maxTipByH, maxTipByW))
 
         if (rTop > 0.5f) {
-            out.cubicTo(
-                startX + k * rTop, topY,
-                startX + rTop, topY + (1f - k) * rTop,
-                mouthLx, mouthY
-            )
+            out.cubicTo(startX + k * rTop, topY, startX + rTop, topY + (1f - k) * rTop, mouthLx, mouthY)
         } else {
-            out.lineTo(startX, topY + 0.25f * h)
+            out.lineTo(startX, topY)
             out.lineTo(mouthLx, mouthY)
         }
 
-        out.lineTo(tipX, tipY)
-        out.lineTo(mouthRx, mouthY)
+        if (tipR <= 0.5f) {
+            out.cubicTo(mouthLx, c1y, cx - inX, c2y, cx, bottomY)
+            out.cubicTo(cx + inX, c2y, mouthRx, c1y, mouthRx, mouthY)
+        } else {
+            val lx = cx - mouthLx
+            val ly = bottomY - mouthY
+            val leftLen = kotlin.math.sqrt(lx * lx + ly * ly).coerceAtLeast(1f)
+
+            val rx = cx - mouthRx
+            val ry = bottomY - mouthY
+            val rightLen = kotlin.math.sqrt(rx * rx + ry * ry).coerceAtLeast(1f)
+
+            val leftNearX  = cx - (lx / leftLen) * tipR
+            val leftNearY  = bottomY - (ly / leftLen) * tipR
+            val rightNearX = cx - (rx / rightLen) * tipR
+            val rightNearY = bottomY - (ry / rightLen) * tipR
+
+            out.cubicTo(mouthLx, c1y, cx - inX, c2y, leftNearX, leftNearY)
+            out.quadTo(cx, bottomY, rightNearX, rightNearY)
+            out.cubicTo(cx + inX, c2y, mouthRx, c1y, mouthRx, mouthY)
+        }
 
         if (rTop > 0.5f) {
-            out.cubicTo(
-                endX - rTop, topY + k * rTop,
-                endX - k * rTop, topY,
-                endX, topY
-            )
+            out.cubicTo(endX - rTop, topY + k * rTop, endX - k * rTop, topY, endX, topY)
         } else {
             out.lineTo(endX, topY)
         }
@@ -1700,10 +1698,24 @@ class EdgeLightingView @JvmOverloads constructor(
         invalidate()
     }
 
+    fun setInfinityWidthAuto() {
+        if (infinityWidthPx < 0f) return
+        infinityWidthPx = -1f
+        resetGeometryCaches()
+        invalidate()
+    }
+
     fun setInfinityHeightPx(px: Float) {
         val v = px.coerceAtLeast(0f)
         if (infinityHeightPx == v) return
         infinityHeightPx = v
+        resetGeometryCaches()
+        invalidate()
+    }
+
+    fun setInfinityHeightAuto() {
+        if (infinityHeightPx < 0f) return
+        infinityHeightPx = -1f
         resetGeometryCaches()
         invalidate()
     }
@@ -1716,12 +1728,42 @@ class EdgeLightingView @JvmOverloads constructor(
         invalidate()
     }
 
+    fun setInfinityRadiusTopAuto() {
+        if (infinityRadiusTopPx < 0f) return
+        infinityRadiusTopPx = -1f
+        resetGeometryCaches()
+        invalidate()
+    }
+
+    fun setInfinityTipRadiusPx(px: Float) {
+        val v = px.coerceAtLeast(0f)
+        if (infinityTipRadiusPx == v) return
+        infinityTipRadiusPx = v
+        resetGeometryCaches()
+        invalidate()
+    }
+
+    fun getInfinityTipRadiusPx(): Float = infinityTipRadiusPx
+
     fun setInfinityRadiusBottomPx(px: Float) {
         val v = px.coerceAtLeast(0f)
         if (infinityRadiusBottomPx == v) return
         infinityRadiusBottomPx = v
         resetGeometryCaches()
         invalidate()
+    }
+
+    fun setInfinityRadiusBottomAuto() {
+        if (infinityRadiusBottomPx < 0f) return
+        infinityRadiusBottomPx = -1f
+        resetGeometryCaches()
+        invalidate()
+    }
+
+    private fun resolveSideCurvature(rTop: Float): Float {
+        if (infinitySideCurvature >= 0f) return infinitySideCurvature
+        val t = (rTop / (rTop + 30f.dpToPx)).coerceIn(0f, 1f)
+        return t
     }
 
     fun getInfinityWidthPx(): Float = infinityWidthPx

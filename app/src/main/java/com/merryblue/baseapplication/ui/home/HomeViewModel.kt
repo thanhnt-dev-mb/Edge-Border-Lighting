@@ -3,14 +3,9 @@ package com.merryblue.baseapplication.ui.home
 import android.app.Application
 import com.merryblue.baseapplication.coredata.AppRepository
 import com.merryblue.baseapplication.coredata.model.edge.Advanced
-import com.merryblue.baseapplication.coredata.model.edge.DisplayHole
-import com.merryblue.baseapplication.coredata.model.edge.DisplayInfinity
-import com.merryblue.baseapplication.coredata.model.edge.DisplayNotch
 import com.merryblue.baseapplication.coredata.model.edge.DisplayNotchType
 import com.merryblue.baseapplication.coredata.model.edge.EdgeSelection
 import com.merryblue.baseapplication.coredata.model.edge.EdgeSettings
-import com.merryblue.baseapplication.coredata.model.edge.HoleType
-import com.merryblue.baseapplication.coredata.model.edge.InfinityType
 import com.merryblue.baseapplication.ui.iap.BillingRepository
 import com.merryblue.baseapplication.ui.view.edgelight.EdgeHoleShape
 import com.merryblue.baseapplication.ui.view.edgelight.InfinityShape
