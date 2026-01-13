@@ -52,5 +52,5 @@ enum class DisplayHole {
 enum class DisplayInfinity {
     INFINITY_WIDTH,
     INFINITY_HEIGHT,
-    INFINITY_TOP
+    INFINITY_TOP,
 }

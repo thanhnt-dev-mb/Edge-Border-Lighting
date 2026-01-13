@@ -65,5 +65,11 @@
     <string name="txt_infinity_width">Infinity Width</string>
     <string name="txt_infinity_height">Infinity Height</string>
     <string name="txt_infinity_radius_top">Infinity Radius Top</string>
+    <string name="txt_infinity_radius_tip">Infinity Radius Tip</string>
+    <string name="txt_edge">Edge</string>
+    <string name="txt_wallpaper">Wallpaper</string>
+    <string name="txt_setting">Setting</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 
 </resources>

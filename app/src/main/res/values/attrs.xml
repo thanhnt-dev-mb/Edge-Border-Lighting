@@ -80,4 +80,16 @@
         <attr name="csb_thumbShadowDy" format="dimension" />
     </declare-styleable>
 
+    <declare-styleable name="EdgeBottomNavView">
+        <attr name="defaultTab" format="integer" />
+        <attr name="tabColorSelected" format="color" />
+        <attr name="tabColorUnselected" format="color" />
+        <attr name="edgeIconSelected" format="reference" />
+        <attr name="edgeIconUnselected" format="reference" />
+        <attr name="wallpaperIconSelected" format="reference" />
+        <attr name="wallpaperIconUnselected" format="reference" />
+        <attr name="settingIconSelected" format="reference" />
+        <attr name="settingIconUnselected" format="reference" />
+    </declare-styleable>
+
 </resources>

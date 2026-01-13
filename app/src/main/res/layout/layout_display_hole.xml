@@ -125,12 +125,14 @@
         android:fontFamily="@font/roboto_medium"
         android:text="@string/txt_hole_width"
         android:textColor="@color/white"
-        android:textSize="14sp" />
+        android:textSize="14sp"
+        android:visibility="gone" />
 
     <com.merryblue.baseapplication.ui.view.CustomSeekBar
         android:id="@+id/seekBarHoleRoundWidth"
         android:layout_width="match_parent"
         android:layout_height="48dp"
+        android:visibility="gone"
         app:csb_enabledTouch="true"
         app:csb_paddingHorizontal="12dp"
         app:csb_progress="0.35"
@@ -152,12 +154,14 @@
         android:fontFamily="@font/roboto_medium"
         android:text="@string/txt_hole_height"
         android:textColor="@color/white"
-        android:textSize="14sp" />
+        android:textSize="14sp"
+        android:visibility="gone" />
 
     <com.merryblue.baseapplication.ui.view.CustomSeekBar
         android:id="@+id/seekBarHoleRoundHeight"
         android:layout_width="match_parent"
         android:layout_height="48dp"
+        android:visibility="gone"
         app:csb_enabledTouch="true"
         app:csb_paddingHorizontal="12dp"
         app:csb_progress="0.35"
@@ -197,10 +201,10 @@
         app:csb_trackThicknessInactive="4dp" />
 
     <com.merryblue.baseapplication.ui.view.CustomSeekBar
-        android:visibility="gone"
         android:id="@+id/seekBarHoleCorner"
         android:layout_width="match_parent"
         android:layout_height="48dp"
+        android:visibility="gone"
         app:csb_enabledTouch="true"
         app:csb_paddingHorizontal="12dp"
         app:csb_progress="0.35"

@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.appcompat.widget.LinearLayoutCompat xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="76dp"
+    android:background="@color/color_bottom_nav"
+    android:orientation="horizontal">
+
+    <androidx.appcompat.widget.LinearLayoutCompat
+        android:id="@+id/btnEdge"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:gravity="center_horizontal"
+        android:orientation="vertical">
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/ivEdge"
+            android:layout_width="28dp"
+            android:layout_height="28dp"
+            android:layout_marginTop="4dp"
+            android:src="@drawable/ic_edge_unselected" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tvEdge"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/roboto_medium"
+            android:gravity="center"
+            android:text="@string/txt_edge"
+            android:textColor="@color/colorGray04"
+            android:textSize="12sp" />
+
+    </androidx.appcompat.widget.LinearLayoutCompat>
+
+    <androidx.appcompat.widget.LinearLayoutCompat
+        android:id="@+id/btnWallpaper"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:gravity="center_horizontal"
+        android:orientation="vertical">
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/ivWallpaper"
+            android:layout_width="28dp"
+            android:layout_height="28dp"
+            android:layout_marginTop="4dp"
+            android:src="@drawable/ic_wallpaper_selected" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tvWallpaper"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/roboto_medium"
+            android:gravity="center"
+            android:text="@string/txt_wallpaper"
+            android:textColor="@color/colorViolet05"
+            android:textSize="12sp" />
+
+    </androidx.appcompat.widget.LinearLayoutCompat>
+
+    <androidx.appcompat.widget.LinearLayoutCompat
+        android:id="@+id/btnSetting"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:gravity="center_horizontal"
+        android:orientation="vertical">
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/ivSetting"
+            android:layout_width="28dp"
+            android:layout_height="28dp"
+            android:layout_marginTop="4dp"
+            android:src="@drawable/ic_setting_unselected" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tvSetting"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/roboto_medium"
+            android:gravity="center"
+            android:text="@string/txt_setting"
+            android:textColor="@color/colorGray04"
+            android:textSize="12sp" />
+
+    </androidx.appcompat.widget.LinearLayoutCompat>
+
+</androidx.appcompat.widget.LinearLayoutCompat>
