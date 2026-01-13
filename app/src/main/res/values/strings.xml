@@ -48,5 +48,22 @@
     <string name="txt_display_notch">Display Notch</string>
     <string name="txt_display_hole">Display Hole</string>
     <string name="txt_display_infinity">Display Infinity</string>
+    <string name="txt_advanced">Advanced</string>
+    <string name="txt_notch_width">Notch Width</string>
+    <string name="txt_notch_height">Notch Height</string>
+    <string name="txt_notch_top_radius">Notch Top Radius</string>
+    <string name="txt_notch_bottom_radius">Notch Bottom Radius</string>
+    <string name="txt_circle">Circle</string>
+    <string name="txt_round">Round</string>
+    <string name="txt_horizontal_hole_position">Horizontal hole position</string>
+    <string name="txt_vertical_hole_position">Vertical hole position</string>
+    <string name="txt_hole_radius">Hole radius</string>
+    <string name="txt_hole_width">Hole width</string>
+    <string name="txt_hole_height">Hole height</string>
+    <string name="txt_infinity_u">Infinity U</string>
+    <string name="txt_infinity_v">Infinity V</string>
+    <string name="txt_infinity_width">Infinity Width</string>
+    <string name="txt_infinity_height">Infinity Height</string>
+    <string name="txt_infinity_radius_top">Infinity Radius Top</string>
 
 </resources>

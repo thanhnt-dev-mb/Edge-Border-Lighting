@@ -1690,9 +1690,6 @@ class EdgeLightingView @JvmOverloads constructor(
         invalidate()
     }
 
-    fun setInfinityShapeU(reset: Boolean = false) = setInfinityShape(InfinityShape.U, reset)
-    fun setInfinityShapeV(reset: Boolean = false) = setInfinityShape(InfinityShape.V, reset)
-
     fun getInfinityShape(): InfinityShape = infinityShape
 
     fun setInfinityWidthPx(px: Float) {

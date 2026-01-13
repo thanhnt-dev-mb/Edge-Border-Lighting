@@ -31,3 +31,26 @@ enum class Advanced {
     NOTCH_DISPLAY_HOLE,
     NOTCH_DISPLAY_INFINITY
 }
+
+enum class DisplayNotch {
+    NOTCH_WIDTH,
+    NOTCH_HEIGHT,
+    NOTCH_TOP_RADIUS,
+    NOTCH_BOTTOM_RADIUS,
+    NOTCH_BOTTOM_FULLNESS
+}
+
+enum class DisplayHole {
+    HOLE_HORIZONTAL,
+    HOLE_VERTICAL,
+    HOLE_RADIUS,
+    HOLE_WIDTH,
+    HOLE_HEIGHT,
+    HOLE_CORNER
+}
+
+enum class DisplayInfinity {
+    INFINITY_WIDTH,
+    INFINITY_HEIGHT,
+    INFINITY_TOP
+}

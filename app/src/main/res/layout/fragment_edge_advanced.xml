@@ -5,6 +5,7 @@
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:id="@+id/lnAdvanced"
         android:background="@color/colorBgSurface"
         android:orientation="vertical"
         tools:context=".ui.home.advanced.EdgeAdvancedFragment">
@@ -50,6 +51,27 @@
             app:spanCount="4"
             tools:itemCount="4"
             tools:listitem="@layout/item_edge_notch_type" />
+
+        <include
+            android:id="@+id/layoutDisplayNotch"
+            layout="@layout/layout_display_notch"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:visibility="gone" />
+
+        <include
+            android:id="@+id/layoutDisplayHole"
+            layout="@layout/layout_display_hole"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:visibility="gone" />
+
+        <include
+            android:id="@+id/layoutDisplayInfinity"
+            layout="@layout/layout_display_infinity"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:visibility="gone" />
 
     </androidx.appcompat.widget.LinearLayoutCompat>
 </layout>
