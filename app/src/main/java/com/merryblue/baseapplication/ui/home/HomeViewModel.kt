@@ -6,6 +6,8 @@ import com.merryblue.baseapplication.coredata.model.edge.Advanced
 import com.merryblue.baseapplication.coredata.model.edge.DisplayNotchType
 import com.merryblue.baseapplication.coredata.model.edge.EdgeSelection
 import com.merryblue.baseapplication.coredata.model.edge.EdgeSettings
+import com.merryblue.baseapplication.domain.model.Topic
+import com.merryblue.baseapplication.domain.repository.EdgeDataRepository
 import com.merryblue.baseapplication.ui.iap.BillingRepository
 import com.merryblue.baseapplication.ui.view.edgelight.EdgeHoleShape
 import com.merryblue.baseapplication.ui.view.edgelight.InfinityShape
@@ -14,6 +16,7 @@ import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asSharedFlow
+import kotlinx.coroutines.flow.asStateFlow
 import org.app.core.base.BaseViewModel
 import javax.inject.Inject
 
@@ -21,8 +24,15 @@ import javax.inject.Inject
 class HomeViewModel @Inject constructor(
     application: Application,
     private val appRepository: AppRepository,
-    private val billingRepository: BillingRepository
+    private val billingRepository: BillingRepository,
+    private val edgeDataRepository: EdgeDataRepository
 ) : BaseViewModel(application) {
+
+    private val _presetState = MutableStateFlow<Topic?>(null)
+    val presetState: StateFlow<Topic?> = _presetState.asStateFlow()
+
+    private val _themeState = MutableStateFlow<Topic?>(null)
+    val themeState: StateFlow<Topic?> = _themeState.asStateFlow()
 
     private val _edgeColorEvents = MutableSharedFlow<EdgeSelection>(replay = 0, extraBufferCapacity = 1)
     val edgeColorEvents = _edgeColorEvents.asSharedFlow()
@@ -97,5 +107,13 @@ class HomeViewModel @Inject constructor(
 
     fun emitVisibilityEdgeView(isShow: Boolean) {
         _edgeVisibilityEvents.tryEmit(isShow)
+    }
+
+    fun loadPreset(topicKey: String) {
+        _presetState.value = edgeDataRepository.getDataTopic(topicKey)
+    }
+
+    fun loadThemes(topicKey: String) {
+        _themeState.value = edgeDataRepository.getDataTopic(topicKey)
     }
 }

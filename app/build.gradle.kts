@@ -53,6 +53,7 @@ android {
     buildTypes {
         debug {
             manifestPlaceholders["admobAppId"] = "ca-app-pub-3940256099942544~3347511713"
+            buildConfigField("String", "BASE_URL", "\"assets://data\"")
         }
 
         release {
@@ -63,6 +64,7 @@ android {
                 "proguard-rules.pro"
             )
             manifestPlaceholders["admobAppId"] = "ca-app-pub-6445739239297382~1968340520"
+            buildConfigField("String", "BASE_URL", "\"assets://data\"")
         }
     }
 
@@ -114,6 +116,9 @@ dependencies {
     implementation(libs.play.services.ads)
     implementation(libs.vungle)
     implementation(libs.pangle)
+    implementation(libs.material)
+    implementation(libs.androidx.activity)
+    implementation(libs.androidx.constraintlayout)
 
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
