@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <data>
 
@@ -9,7 +10,8 @@
 
     <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:background="@color/colorBgSurface">
 
         <androidx.core.widget.NestedScrollView
             android:id="@+id/nestedScrollHome"
@@ -112,68 +114,18 @@
                         android:src="@drawable/ic_next" />
                 </androidx.appcompat.widget.LinearLayoutCompat>
 
-                <FrameLayout
-                    android:id="@+id/gbPreset1"
-                    android:layout_width="0dp"
-                    android:layout_height="163dp"
-                    android:layout_marginStart="10dp"
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/rcvHomePreset"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
                     android:layout_marginTop="16dp"
-                    android:background="@drawable/bg_linear_1"
-                    app:layout_constraintEnd_toStartOf="@+id/gbPreset2"
-                    app:layout_constraintHorizontal_weight="1"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/tvPresetHome">
-
-                    <com.google.android.material.imageview.ShapeableImageView
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:layout_margin="3dp"
-                        android:scaleType="centerCrop"
-                        android:src="@drawable/img_preset_1"
-                        app:shapeAppearanceOverlay="@style/Corner10" />
-                </FrameLayout>
-
-                <FrameLayout
-                    android:id="@+id/gbPreset2"
-                    android:layout_width="0dp"
-                    android:layout_height="0dp"
-                    android:layout_marginHorizontal="10dp"
-                    android:background="@drawable/bg_linear_2"
-                    app:layout_constraintBottom_toBottomOf="@+id/gbPreset1"
-                    app:layout_constraintEnd_toStartOf="@id/gbPreset3"
-                    app:layout_constraintHorizontal_weight="1"
-                    app:layout_constraintStart_toEndOf="@+id/gbPreset1"
-                    app:layout_constraintTop_toTopOf="@+id/gbPreset1">
-
-                    <com.google.android.material.imageview.ShapeableImageView
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:layout_margin="3dp"
-                        android:scaleType="centerCrop"
-                        android:src="@drawable/img_preset_2"
-                        app:shapeAppearanceOverlay="@style/Corner10" />
-                </FrameLayout>
-
-                <FrameLayout
-                    android:id="@+id/gbPreset3"
-                    android:layout_width="0dp"
-                    android:layout_height="0dp"
-                    android:layout_marginEnd="10dp"
-                    android:background="@drawable/bg_linear_3"
-                    app:layout_constraintBottom_toBottomOf="@+id/gbPreset1"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintHorizontal_weight="1"
-                    app:layout_constraintStart_toEndOf="@+id/gbPreset2"
-                    app:layout_constraintTop_toTopOf="@+id/gbPreset1">
-
-                    <com.google.android.material.imageview.ShapeableImageView
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:layout_margin="3dp"
-                        android:scaleType="centerCrop"
-                        android:src="@drawable/img_preset_3"
-                        app:shapeAppearanceOverlay="@style/Corner10" />
-                </FrameLayout>
+                    android:clipToPadding="false"
+                    android:paddingStart="10dp"
+                    app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+                    app:layout_constraintTop_toBottomOf="@+id/tvPresetHome"
+                    app:spanCount="3"
+                    tools:itemCount="3"
+                    tools:listitem="@layout/item_home_preset" />
 
                 <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/tvThemeHome"
@@ -185,7 +137,7 @@
                     android:textColor="@color/white"
                     android:textSize="20sp"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/gbPreset1" />
+                    app:layout_constraintTop_toBottomOf="@+id/rcvHomePreset" />
 
                 <androidx.appcompat.widget.LinearLayoutCompat
                     android:layout_width="wrap_content"
@@ -212,57 +164,18 @@
                         android:src="@drawable/ic_next" />
                 </androidx.appcompat.widget.LinearLayoutCompat>
 
-                <FrameLayout
-                    android:id="@+id/gbPresetCustom"
-                    android:layout_width="0dp"
-                    android:layout_height="163dp"
-                    android:layout_marginStart="10dp"
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/rcvHomeThemes"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
                     android:layout_marginTop="16dp"
-                    android:background="@drawable/bg_linear_4"
-                    app:layout_constraintEnd_toStartOf="@+id/ivTheme1"
-                    app:layout_constraintHorizontal_weight="1"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/tvThemeHome" />
-
-                <androidx.appcompat.widget.AppCompatTextView
-                    android:layout_width="0dp"
-                    android:layout_height="0dp"
-                    android:layout_margin="10dp"
-                    android:gravity="center"
-                    android:padding="3dp"
-                    android:text="@string/txt_create_your_own_theme"
-                    android:textColor="@color/white"
-                    android:textSize="12sp"
-                    app:layout_constraintBottom_toBottomOf="@+id/gbPresetCustom"
-                    app:layout_constraintEnd_toEndOf="@+id/gbPresetCustom"
-                    app:layout_constraintStart_toStartOf="@+id/gbPresetCustom"
-                    app:layout_constraintTop_toTopOf="@+id/gbPresetCustom" />
-
-                <androidx.appcompat.widget.AppCompatImageView
-                    android:id="@+id/ivTheme1"
-                    android:layout_width="0dp"
-                    android:layout_height="0dp"
-                    android:layout_marginHorizontal="10dp"
-                    android:scaleType="fitXY"
-                    android:src="@drawable/img_theme_1"
-                    app:layout_constraintBottom_toBottomOf="@+id/gbPresetCustom"
-                    app:layout_constraintEnd_toStartOf="@+id/ivTheme2"
-                    app:layout_constraintHorizontal_weight="1"
-                    app:layout_constraintStart_toEndOf="@+id/gbPresetCustom"
-                    app:layout_constraintTop_toTopOf="@+id/gbPresetCustom" />
-
-                <androidx.appcompat.widget.AppCompatImageView
-                    android:id="@+id/ivTheme2"
-                    android:layout_width="0dp"
-                    android:layout_height="0dp"
-                    android:layout_marginEnd="10dp"
-                    android:scaleType="fitXY"
-                    android:src="@drawable/img_theme_2"
-                    app:layout_constraintBottom_toBottomOf="@+id/gbPresetCustom"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintHorizontal_weight="1"
-                    app:layout_constraintStart_toEndOf="@+id/ivTheme1"
-                    app:layout_constraintTop_toTopOf="@+id/gbPresetCustom" />
+                    android:clipToPadding="false"
+                    android:paddingStart="10dp"
+                    app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+                    app:layout_constraintTop_toBottomOf="@+id/tvThemeHome"
+                    app:spanCount="3"
+                    tools:itemCount="3"
+                    tools:listitem="@layout/item_home_theme_custom" />
 
                 <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/tvTitleSettingEdge"
@@ -274,7 +187,7 @@
                     android:text="@string/txt_setting_edge_lighting"
                     android:textColor="@color/white"
                     android:textSize="20sp"
-                    app:layout_constraintTop_toBottomOf="@+id/gbPresetCustom" />
+                    app:layout_constraintTop_toBottomOf="@+id/rcvHomeThemes" />
 
                 <com.google.android.material.tabs.TabLayout
                     android:id="@+id/tabSettingEdge"

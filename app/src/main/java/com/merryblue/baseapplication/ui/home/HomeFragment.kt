@@ -4,26 +4,72 @@ import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
+import androidx.recyclerview.widget.GridLayoutManager
 import androidx.viewpager2.widget.ViewPager2
 import com.google.android.material.tabs.TabLayoutMediator
 import com.merryblue.baseapplication.R
 import com.merryblue.baseapplication.databinding.FragmentHomeBinding
+import com.merryblue.baseapplication.domain.model.Item
+import com.merryblue.baseapplication.domain.model.ThemeUi
 import com.merryblue.baseapplication.helpers.updateHeightForCurrentPage
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import org.app.core.base.BaseFragment
+import timber.log.Timber
 
 @AndroidEntryPoint
 class HomeFragment : BaseFragment<FragmentHomeBinding>() {
     private val viewModel: HomeViewModel by activityViewModels()
     private lateinit var mediator: TabLayoutMediator
+    private lateinit var presetAdapter: HomePresetAdapter
+
+    private lateinit var homeThemeAdapter: HomeThemeAdapter
+
+    private val presetOnClick: (Item) -> Unit = {
+        // todo: do something
+    }
+
+    private val customOnClick: () -> Unit = {
+
+    }
 
     override fun getLayoutId() = R.layout.fragment_home
 
     override fun setUpViews() {
+        viewModel.loadPreset("edge/most")
+        viewModel.loadThemes("ripple/magical_borders")
+
         initTabLayout()
+        initRecyclerView()
         registerOnClick()
+    }
+
+    private fun initRecyclerView() {
+
+        val presetManager = GridLayoutManager(requireContext(), 3)
+        val themeManager = GridLayoutManager(requireContext(), 3)
+
+        presetAdapter = HomePresetAdapter(presetOnClick)
+        homeThemeAdapter = HomeThemeAdapter(customOnClick, presetOnClick)
+
+        binding.apply {
+            rcvHomePreset.apply {
+                adapter = presetAdapter
+                layoutManager = presetManager
+                setHasFixedSize(true)
+                itemAnimator = null
+                isNestedScrollingEnabled = false
+            }
+
+            rcvHomeThemes.apply {
+                adapter = homeThemeAdapter
+                layoutManager = themeManager
+                setHasFixedSize(true)
+                itemAnimator = null
+                isNestedScrollingEnabled = false
+            }
+        }
     }
 
     private fun registerOnClick() = with (binding) {
@@ -58,6 +104,23 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
             viewLifecycleOwner.lifecycleScope.launch {
                 viewLifecycleOwner.lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED) {
                     launch { viewModel.connectionState.collectLatest { onNetworkStateChanged(it) } }
+
+                    launch {
+                        viewModel.presetState.collectLatest { preset ->
+                            presetAdapter.submitList(preset?.items?.take(3).orEmpty())
+                        }
+                    }
+
+                    launch {
+                        viewModel.themeState.collectLatest { theme ->
+                            homeThemeAdapter.submitList(
+                                buildList {
+                                    add(ThemeUi.Custom("0"))
+                                    addAll(theme?.items?.take(2).orEmpty())
+                                }
+                            )
+                        }
+                    }
                 }
             }
         }

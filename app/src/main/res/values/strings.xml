@@ -22,7 +22,7 @@
     <string name="txt_preset">Preset</string>
     <string name="txt_view_all">View all</string>
     <string name="txt_theme">Theme</string>
-    <string name="txt_create_your_own_theme">Create your\nown theme</string>
+    <string name="txt_create_your_own_theme">Create your own theme</string>
     <string name="txt_setting_edge_lighting">Setting Edge Lighting</string>
     <string name="txt_color">Color</string>
     <string name="txt_effect">Effect</string>
@@ -71,5 +71,6 @@
     <string name="txt_setting">Setting</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="txt_themes">Themes</string>
 
 </resources>

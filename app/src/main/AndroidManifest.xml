@@ -17,21 +17,23 @@
         android:maxSdkVersion="32" />
     <uses-permission
         android:name="android.permission.WRITE_EXTERNAL_STORAGE"
-        android:maxSdkVersion="29" />
-<!--    <uses-permission android:name="android.permission.READ_MEDIA_IMAGES" />-->
-<!--    <uses-permission android:name="android.permission.READ_MEDIA_VIDEO" />-->
-<!--    <uses-permission android:name="android.permission.READ_MEDIA_VISUAL_USER_SELECTED" />-->
-    <!-- Required only if your app needs to access images or photos
-     that other apps created. -->
+        android:maxSdkVersion="29" /> <!-- <uses-permission android:name="android.permission.READ_MEDIA_IMAGES" /> -->
+    <!-- <uses-permission android:name="android.permission.READ_MEDIA_VIDEO" /> -->
+    <!-- <uses-permission android:name="android.permission.READ_MEDIA_VISUAL_USER_SELECTED" /> -->
+    <!--
+ Required only if your app needs to access images or photos
+     that other apps created.
+    -->
     <uses-permission android:name="android.permission.READ_MEDIA_IMAGES" />
-
-    <!-- Required only if your app needs to access videos
-         that other apps created. -->
+    <!--
+ Required only if your app needs to access videos
+         that other apps created.
+    -->
     <uses-permission android:name="android.permission.READ_MEDIA_VIDEO" />
-
-
-    <!-- Required only if your app needs to access audio files
-         that other apps created. -->
+    <!--
+ Required only if your app needs to access audio files
+         that other apps created.
+    -->
     <uses-permission android:name="android.permission.READ_MEDIA_AUDIO" />
 
     <queries>
@@ -58,7 +60,9 @@
         tools:ignore="DiscouragedApi,LockedOrientationActivity"
         tools:overrideLibrary="org.app.core"
         tools:replace="android:allowBackup">
-
+        <activity
+            android:name=".ui.theme.ThemesActivity"
+            android:exported="false" />
         <activity
             android:name=".ui.appupdate.ForceUpdateActivity"
             android:exported="false"
@@ -71,7 +75,6 @@
             android:parentActivityName=".ui.home.HomeActivity"
             android:screenOrientation="portrait"
             android:theme="@style/Theme.App.Setting" />
-
         <activity
             android:name=".ui.splash.SplashActivity"
             android:exported="true"
@@ -80,11 +83,11 @@
             android:theme="@style/Theme.App.Starting">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-                <category android:name="android.intent.category.DEFAULT"/>
+
+                <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
         <activity
             android:name=".ui.onboard.intro.IntroActivity"
             android:hardwareAccelerated="true"
@@ -147,6 +150,7 @@
         <meta-data
             android:name="com.google.android.gms.ads.APPLICATION_ID"
             android:value="${admobAppId}" />
+
         <receiver
             android:name=".service.AlarmReceiver"
             android:exported="false" />
@@ -185,4 +189,5 @@
                 tools:replace="android:resource" />
         </provider>
     </application>
+
 </manifest>
