@@ -6,6 +6,7 @@ import com.merryblue.baseapplication.BuildConfig
 import com.merryblue.baseapplication.data.dto.EdgeDataDto
 import com.merryblue.baseapplication.data.dto.toDomain
 import com.merryblue.baseapplication.domain.model.EdgeData
+import com.merryblue.baseapplication.domain.model.Item
 import com.merryblue.baseapplication.domain.model.Topic
 import com.merryblue.baseapplication.domain.repository.EdgeDataRepository
 import dagger.hilt.android.qualifiers.ApplicationContext
@@ -38,7 +39,17 @@ class EdgeDataRepositoryImpl @Inject constructor(
         }
     }
 
+    override suspend fun getItems(topicKey: String, page: Int): List<Item> {
+        val source = edgeData?.topics?.find { it.topicKey == topicKey }?.items.orEmpty()
+        val pageSize = 15
+        val from = (page - 1) * pageSize
+        val to = minOf(from + pageSize, source.size)
+        val pageItems = if (from < to) source.subList(from, to) else emptyList()
+        return pageItems
+    }
+
     override fun getDataTopic(topicKey: String): Topic? {
+
         return edgeData?.topics?.find { it.topicKey == topicKey }
     }
 

@@ -69,8 +69,15 @@
     <string name="txt_edge">Edge</string>
     <string name="txt_wallpaper">Wallpaper</string>
     <string name="txt_setting">Setting</string>
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="txt_themes">Themes</string>
+    <string name="txt_magical_borders">Magical Borders</string>
+    <string name="txt_static">Static</string>
+    <string name="txt_most_downloaded">Most Downloaded</string>
+    <string name="txt_daily_rewards">Daily Rewards</string>
+    <string name="txt_trending_today">Trending Today</string>
+    <string name="txt_nature">Nature</string>
+    <string name="txt_abstract">Abstract</string>
+    <string name="txt_top_pics">Top Pics</string>
+    <string name="txt_ripple">Ripple</string>
 
 </resources>

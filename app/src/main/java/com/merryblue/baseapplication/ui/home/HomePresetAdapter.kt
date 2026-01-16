@@ -8,6 +8,7 @@ import com.merryblue.baseapplication.R
 import com.merryblue.baseapplication.databinding.ItemHomePresetBinding
 import com.merryblue.baseapplication.domain.model.Item
 import com.merryblue.baseapplication.domain.model.getThumbUrl
+import timber.log.Timber
 
 class HomePresetAdapter(
     private val presetOnClick: (Item) -> Unit

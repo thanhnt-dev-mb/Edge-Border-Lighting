@@ -1,5 +1,6 @@
 package com.merryblue.baseapplication.ui.home
 
+import android.content.Intent
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
@@ -11,7 +12,13 @@ import com.merryblue.baseapplication.R
 import com.merryblue.baseapplication.databinding.FragmentHomeBinding
 import com.merryblue.baseapplication.domain.model.Item
 import com.merryblue.baseapplication.domain.model.ThemeUi
+import com.merryblue.baseapplication.helpers.EDGE_MOST
+import com.merryblue.baseapplication.helpers.KEY_RECEIVE_DATA
+import com.merryblue.baseapplication.helpers.RIPPLE_MAGICAL_BORDERS
+import com.merryblue.baseapplication.helpers.TYPE_PRESET
+import com.merryblue.baseapplication.helpers.TYPE_THEME
 import com.merryblue.baseapplication.helpers.updateHeightForCurrentPage
+import com.merryblue.baseapplication.ui.theme.ThemesActivity
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
@@ -37,8 +44,8 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
     override fun getLayoutId() = R.layout.fragment_home
 
     override fun setUpViews() {
-        viewModel.loadPreset("edge/most")
-        viewModel.loadThemes("ripple/magical_borders")
+        viewModel.loadPreset(EDGE_MOST)
+        viewModel.loadThemes(RIPPLE_MAGICAL_BORDERS)
 
         initTabLayout()
         initRecyclerView()
@@ -75,6 +82,18 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
     private fun registerOnClick() = with (binding) {
         edgeToggle.setOnCheckedChangeListener {
             viewModel.emitVisibilityEdgeView(it)
+        }
+
+        btnViewAllTheme.setOnClickListener {
+            val intent = Intent(requireContext(), ThemesActivity::class.java)
+            intent.putExtra(KEY_RECEIVE_DATA, TYPE_THEME)
+            startActivity(intent)
+        }
+
+        btnViewAllPreset.setOnClickListener {
+            val intent = Intent(requireContext(), ThemesActivity::class.java)
+            intent.putExtra(KEY_RECEIVE_DATA, TYPE_PRESET)
+            startActivity(intent)
         }
     }
 
@@ -115,7 +134,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
                         viewModel.themeState.collectLatest { theme ->
                             homeThemeAdapter.submitList(
                                 buildList {
-                                    add(ThemeUi.Custom("0"))
+                                    add(ThemeUi.Custom())
                                     addAll(theme?.items?.take(2).orEmpty())
                                 }
                             )

@@ -1,19 +1,52 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout>
 
-    <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    <androidx.appcompat.widget.LinearLayoutCompat xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
         xmlns:tools="http://schemas.android.com/tools"
+        android:id="@+id/main"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/colorBgSurface"
-        tools:context=".ui.wallpaper.WallpaperFragment">
+        android:orientation="vertical"
+        tools:context=".ui.theme.ThemesActivity">
 
-        <TextView
-            android:gravity="center"
-            android:textColor="@color/white"
+        <androidx.appcompat.widget.AppCompatTextView
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:text="WallpaperFragment" />
+            android:layout_height="?actionBarSize"
+            android:ellipsize="end"
+            android:fontFamily="@font/roboto_bold"
+            android:gravity="center"
+            android:maxLines="1"
+            android:text="@string/txt_wallpaper"
+            android:textColor="@color/white"
+            android:textSize="20sp" />
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+        <com.google.android.material.tabs.TabLayout
+            android:id="@+id/tabWallpaper"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:background="@color/colorBgSurface"
+            app:tabGravity="fill"
+            app:tabIndicatorColor="@color/color_teal_00E3FF"
+            app:tabIndicatorFullWidth="true"
+            app:tabIndicatorGravity="bottom"
+            app:tabIndicatorHeight="3dp"
+            app:tabMode="scrollable"
+            app:tabRippleColor="@android:color/transparent"
+            app:tabSelectedTextColor="@color/white"
+            app:tabTextAppearance="@style/CustomTabTextAppearance"
+            app:tabTextColor="@color/white" />
+
+        <androidx.viewpager2.widget.ViewPager2
+            android:id="@+id/vpWallpaper"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="76dp"/>
+
+    </androidx.appcompat.widget.LinearLayoutCompat>
 </layout>
