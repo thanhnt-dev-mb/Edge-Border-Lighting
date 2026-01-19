@@ -27,7 +27,8 @@ class ThemeChildAdapter(
         fun bindView(item: Item) {
             binding.apply {
                 Glide.with(root.context).load(item.getThumbUrl())
-                    .error(R.drawable.disptrending1)
+                    .placeholder(R.drawable.placeholder_image)
+                    .error(R.drawable.placeholder_image)
                     .into(ivHomePreset)
 
                 itemView.setOnClickListener {

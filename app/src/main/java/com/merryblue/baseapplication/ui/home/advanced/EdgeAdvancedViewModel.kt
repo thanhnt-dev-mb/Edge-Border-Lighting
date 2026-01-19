@@ -1,17 +1,27 @@
 package com.merryblue.baseapplication.ui.home.advanced
 
+import android.content.Context
+import android.content.Intent
 import androidx.lifecycle.ViewModel
 import com.merryblue.baseapplication.R
+import com.merryblue.baseapplication.coredata.AppRepository
 import com.merryblue.baseapplication.coredata.model.edge.Advanced
 import com.merryblue.baseapplication.coredata.model.edge.EdgeAdvanced
+import com.merryblue.baseapplication.domain.model.EdgeLightingState
+import com.merryblue.baseapplication.helpers.ACTION_EDGE_STATE_CHANGED
 import dagger.hilt.android.lifecycle.HiltViewModel
+import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
+import timber.log.Timber
 import javax.inject.Inject
 
 @HiltViewModel
-class EdgeAdvancedViewModel @Inject constructor(): ViewModel() {
+class EdgeAdvancedViewModel @Inject constructor(
+    private val appRepository: AppRepository,
+    @ApplicationContext private val appContext: Context
+): ViewModel() {
     private var _directionStateFlow = MutableStateFlow(EdgeAdvancedState())
     val directionStateFlow = _directionStateFlow.asStateFlow()
 
@@ -34,6 +44,18 @@ class EdgeAdvancedViewModel @Inject constructor(): ViewModel() {
         add(EdgeAdvanced.EdgeNotchType(Advanced.NOTCH_DISPLAY_INFINITY, R.string.txt_display_infinity, R.drawable.ic_notch_type_display_infinity, false))
     }
 
+    private fun findDirectionIndex(type: Advanced): Int {
+        val items = listDirection
+        val idx = items.indexOfFirst { it.type == type }
+        return if (idx >= 0) idx else 0
+    }
+
+    private fun findNotchTypeIndex(type: Advanced): Int {
+        val items = listNotchType
+        val idx = items.indexOfFirst { it.type == type }
+        return if (idx >= 0) idx else 0
+    }
+
     fun selectDirection(index: Int) {
         val safeIndex = index.coerceIn(0, listDirection.size - 1).coerceAtLeast(0)
         val items = listDirection.mapIndexed { pos, item ->
@@ -49,4 +71,22 @@ class EdgeAdvancedViewModel @Inject constructor(): ViewModel() {
         }
         _notchTypeStateFlow.update { it.copy(notchTypeSelectedIndex = index, listNotchType = items) }
     }
+
+    fun loadInitialFromSaved() {
+        val s = appRepository.edgeState
+        val directionIndex = findDirectionIndex(s.direction)
+        val notchTypeIndex = findNotchTypeIndex(s.notchType)
+        selectDirection(directionIndex)
+        selectNotchType(notchTypeIndex)
+    }
+
+    fun updateEdgeState(block: (EdgeLightingState) -> EdgeLightingState) {
+        appRepository.edgeState = block.invoke(appRepository.edgeState)
+        val i = Intent(ACTION_EDGE_STATE_CHANGED).apply {
+            setPackage(appContext.packageName)
+        }
+        appContext.sendBroadcast(i)
+    }
+
+    fun getEdgeState() = appRepository.edgeState
 }

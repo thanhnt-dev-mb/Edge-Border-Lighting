@@ -46,7 +46,6 @@ class HomeThemeAdapter(
     override fun getItemCount(): Int = listTheme.size
 
     inner class ThemeCustomViewHolder(private val binding: ItemHomeThemeCustomBinding) : RecyclerView.ViewHolder(binding.root) {
-
         fun bind() {
             binding.root.setOnClickListener {
                 customOnClick.invoke()
@@ -55,12 +54,11 @@ class HomeThemeAdapter(
     }
 
     inner class ThemeNormalViewHolder(private val binding: ItemHomePresetBinding) : RecyclerView.ViewHolder(binding.root) {
-
         fun bind(item: Item) = with(binding) {
-
             Glide.with(root.context)
                 .load(item.getThumbUrl())
-                .error(R.drawable.disptrending1)
+                .placeholder(R.drawable.placeholder_image)
+                .error(R.drawable.placeholder_image)
                 .into(ivHomePreset)
 
             root.setOnClickListener {

@@ -1,5 +1,6 @@
 package com.merryblue.baseapplication.helpers
 
+const val ACTION_EDGE_STATE_CHANGED = "ACTION_EDGE_STATE_CHANGED"
 const val KEY_RECEIVE_DATA = "data_theme"
 
 // screen
@@ -14,7 +15,7 @@ const val EDGE_FIM = "edge/fim"
 const val RIPPLE_MAGICAL_BORDERS = "ripple/magical_borders"
 const val RIPPLE_PREMIUM = "ripple/premium"
 const val RIPPLE_NATURE_SPAZ = "ripple/nature/spaz"
-const val RIPPLE_NATURE_INDS = "ripple/nature/Inds"
+const val RIPPLE_NATURE_INDS = "ripple/nature/lnds"
 const val RIPPLE_NATURE_D = "ripple/nature/b"
 const val RIPPLE_NATURE_LIVE = "ripple/nature/live"
 const val RIPPLE_ABSTRACT_CQ = "ripple/abstract/cq"

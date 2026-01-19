@@ -1,15 +1,24 @@
 package com.merryblue.baseapplication.ui.home.effect
 
+import android.content.Context
+import android.content.Intent
 import androidx.lifecycle.ViewModel
 import com.merryblue.baseapplication.R
+import com.merryblue.baseapplication.coredata.AppRepository
 import com.merryblue.baseapplication.coredata.model.edge.EdgeEffectItem
+import com.merryblue.baseapplication.domain.model.EdgeLightingState
+import com.merryblue.baseapplication.helpers.ACTION_EDGE_STATE_CHANGED
 import dagger.hilt.android.lifecycle.HiltViewModel
+import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import javax.inject.Inject
 
 @HiltViewModel
-class EdgeEffectViewModel @Inject constructor(): ViewModel() {
+class EdgeEffectViewModel @Inject constructor(
+    private val appRepository: AppRepository,
+    @ApplicationContext private val appContext: Context
+): ViewModel() {
     private var _state = MutableStateFlow(EdgeEffectState())
     val state = _state.asStateFlow()
 
@@ -36,7 +45,13 @@ class EdgeEffectViewModel @Inject constructor(): ViewModel() {
         add(EdgeEffectItem(R.drawable.ic_emoji_bomb, false))
     }
 
-    fun loadEffect(index: Int) {
+    private fun findEffectIndexByResId(resId: Int): Int {
+        if (resId == 0) return 0
+        val idx = listIconRes.indexOfFirst { it.resId == resId }
+        return if (idx >= 0) idx else 0
+    }
+
+    fun loadEffect(index: Int = 0) {
         val safeIndex = index.coerceIn(0, listIconRes.size - 1).coerceAtLeast(0)
         val items = listIconRes.mapIndexed { pos, item ->
             item.copy(isSelected = pos == safeIndex)
@@ -46,4 +61,20 @@ class EdgeEffectViewModel @Inject constructor(): ViewModel() {
             listEffect = items
         )
     }
+
+    fun loadInitialFromSaved() {
+        val savedResId = appRepository.edgeState.vectorResId
+        val idx = findEffectIndexByResId(savedResId)
+        loadEffect(idx)
+    }
+
+    fun updateEdgeState(block: (EdgeLightingState) -> EdgeLightingState) {
+        appRepository.edgeState = block.invoke(appRepository.edgeState)
+        val i = Intent(ACTION_EDGE_STATE_CHANGED).apply {
+            setPackage(appContext.packageName)
+        }
+        appContext.sendBroadcast(i)
+    }
+
+    fun getEdgeState(): EdgeLightingState = appRepository.edgeState
 }

@@ -1,6 +1,9 @@
 package com.merryblue.baseapplication.ui.home
 
 import android.content.Intent
+import android.net.Uri
+import android.provider.Settings
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
@@ -18,6 +21,7 @@ import com.merryblue.baseapplication.helpers.RIPPLE_MAGICAL_BORDERS
 import com.merryblue.baseapplication.helpers.TYPE_PRESET
 import com.merryblue.baseapplication.helpers.TYPE_THEME
 import com.merryblue.baseapplication.helpers.updateHeightForCurrentPage
+import com.merryblue.baseapplication.service.EdgeLightingOverlayService
 import com.merryblue.baseapplication.ui.theme.ThemesActivity
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
@@ -40,6 +44,14 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
     private val customOnClick: () -> Unit = {
 
     }
+
+    private val overlayPermissionLauncher = registerForActivityResult(androidx.activity.result.contract.ActivityResultContracts.StartActivityForResult()) {
+            if (Settings.canDrawOverlays(requireContext())) {
+                startEdgeOverlay()
+            } else {
+                binding.edgeToggle.isChecked = false
+            }
+        }
 
     override fun getLayoutId() = R.layout.fragment_home
 
@@ -82,6 +94,11 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
     private fun registerOnClick() = with (binding) {
         edgeToggle.setOnCheckedChangeListener {
             viewModel.emitVisibilityEdgeView(it)
+            if (it) {
+                startEdgeOverlay()
+            } else {
+                stopEdgeOverlay()
+            }
         }
 
         btnViewAllTheme.setOnClickListener {
@@ -143,6 +160,19 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
                 }
             }
         }
+    }
+
+    private fun startEdgeOverlay() {
+        if (!Settings.canDrawOverlays(requireContext())) {
+            val i = Intent(Settings.ACTION_MANAGE_OVERLAY_PERMISSION, Uri.parse("package:${requireContext().packageName}"))
+            overlayPermissionLauncher.launch(i)
+            return
+        }
+        ContextCompat.startForegroundService(requireContext(), Intent(requireContext(), EdgeLightingOverlayService::class.java))
+    }
+
+    private fun stopEdgeOverlay() {
+        requireContext().stopService(Intent(requireContext(), EdgeLightingOverlayService::class.java))
     }
 
     fun onChildContentExpanded() = binding.apply {

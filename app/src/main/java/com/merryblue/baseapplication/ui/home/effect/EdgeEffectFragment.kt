@@ -16,12 +16,14 @@ import com.merryblue.baseapplication.databinding.FragmentEdgeEffectBinding
 import com.merryblue.baseapplication.helpers.dpToPx
 import com.merryblue.baseapplication.helpers.mapFloatToRange
 import com.merryblue.baseapplication.helpers.mapFloatToRangeLong
+import com.merryblue.baseapplication.helpers.mapValueToProgress
 import com.merryblue.baseapplication.ui.home.HomeViewModel
 import com.merryblue.baseapplication.ui.view.CustomSeekBar
 import com.merryblue.baseapplication.ui.view.CustomSeekBar.OnProgressChangeListener
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 import org.app.core.base.BaseFragment
+import timber.log.Timber
 
 @AndroidEntryPoint
 class EdgeEffectFragment : BaseFragment<FragmentEdgeEffectBinding>() {
@@ -42,8 +44,21 @@ class EdgeEffectFragment : BaseFragment<FragmentEdgeEffectBinding>() {
             setHasFixedSize(true)
             itemAnimator = null
         }
+        viewModel.loadInitialFromSaved()
+        loadInitial()
+    }
 
-        viewModel.loadEffect(0)
+    private fun loadInitial() = binding.apply {
+        val edgeState = viewModel.getEdgeState()
+        val minSizePx = 2f.dpToPx
+        val maxSizePx = 20f.dpToPx
+        val minRadiusPx = 0f.dpToPx
+        val maxRadiusPx = 60f.dpToPx
+
+        seekBarSize.progress(edgeState.iconSizePx.mapValueToProgress(min = minSizePx, max = maxSizePx))
+        seekBarSpeed.progress(1f - edgeState.speedMs.mapValueToProgress(min = 500L, max = 8000L))
+        seekBarBottomRadius.progress(edgeState.bottomRadius.mapValueToProgress(min = minRadiusPx, max = maxRadiusPx))
+        seekBarTopRadius.progress(edgeState.topRadius.mapValueToProgress(min = minRadiusPx, max = maxRadiusPx))
     }
 
     override fun initObserver() {
@@ -54,8 +69,12 @@ class EdgeEffectFragment : BaseFragment<FragmentEdgeEffectBinding>() {
                         val index = effectState.selectedIndex
                         val items = effectState.listEffect
                         effectAdapter.submitList(items)
+
                         if (index in items.indices) {
                             val selected = items[index]
+
+                            val edgeState = viewModel.getEdgeState()
+
                             homeViewModel.emitEdgeColor(
                                 EdgeSelection.EdgeEffect(
                                     selectedIndex = index,
@@ -63,14 +82,16 @@ class EdgeEffectFragment : BaseFragment<FragmentEdgeEffectBinding>() {
                                         color = R.color.colorBgSurface,
                                         edge = EdgeStyle.Pattern(
                                             vectorResId = selected.resId,
-                                            iconSizePx = 8f.dpToPx,
-                                            advancePx = 18f.dpToPx,
-                                            rotate = true,
-                                            phaseMultiplier = 0.1f
+                                            iconSizePx = edgeState.iconSizePx,
+                                            advancePx = edgeState.advancePx,
+                                            rotate = edgeState.rotate,
+                                            phaseMultiplier = edgeState.phaseMultiplier
                                         )
                                     )
                                 )
                             )
+
+                            viewModel.updateEdgeState { it.copy(vectorResId = selected.resId) }
                         }
                     }
                 }
@@ -83,6 +104,7 @@ class EdgeEffectFragment : BaseFragment<FragmentEdgeEffectBinding>() {
                     if (!fromUser) return
                     val durationMs = (1f - progress).mapFloatToRangeLong(min = 500L, max = 8000L)
                     homeViewModel.emitEdgeSettings(EdgeSettings.EdgeSpeed(durationMs))
+                    viewModel.updateEdgeState { it.copy(speedMs = durationMs) }
                 }
             })
 
@@ -91,16 +113,18 @@ class EdgeEffectFragment : BaseFragment<FragmentEdgeEffectBinding>() {
                     if (!fromUser) return
                     val minPx = 2f.dpToPx
                     val maxPx = 20f.dpToPx
-                    val strokePx = progress.mapFloatToRange(minPx, maxPx)
-                    homeViewModel.emitEdgeSettings(EdgeSettings.EdgeSize(strokePx))
+                    val sizePx = progress.mapFloatToRange(minPx, maxPx)
+                    homeViewModel.emitEdgeSettings(EdgeSettings.EdgeSize(sizePx))
+                    viewModel.updateEdgeState { it.copy(iconSizePx = sizePx) }
                 }
             })
 
             seekBarBottomRadius.setOnProgressChangeListener(object : OnProgressChangeListener {
-                override fun onProgressChanged(seekBar: CustomSeekBar, progress: Float, fromUser: Boolean, ) {
+                override fun onProgressChanged(seekBar: CustomSeekBar, progress: Float, fromUser: Boolean) {
                     if (!fromUser) return
                     val radiusPx = progress.mapFloatToRange(0f.dpToPx, 60f.dpToPx)
                     homeViewModel.emitEdgeSettings(EdgeSettings.EdgeBottomRadius(radiusPx))
+                    viewModel.updateEdgeState { it.copy(bottomRadius = radiusPx) }
                 }
             })
 
@@ -109,6 +133,7 @@ class EdgeEffectFragment : BaseFragment<FragmentEdgeEffectBinding>() {
                     if (!fromUser) return
                     val radiusPx = progress.mapFloatToRange(0f.dpToPx, 60f.dpToPx)
                     homeViewModel.emitEdgeSettings(EdgeSettings.EdgeTopRadius(radiusPx))
+                    viewModel.updateEdgeState { it.copy(topRadius = radiusPx) }
                 }
             })
         }
