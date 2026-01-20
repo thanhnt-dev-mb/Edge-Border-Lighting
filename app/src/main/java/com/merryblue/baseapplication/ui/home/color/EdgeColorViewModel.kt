@@ -2,9 +2,13 @@ package com.merryblue.baseapplication.ui.home.color
 
 import android.app.Application
 import android.content.Context
+import android.content.Intent
 import androidx.lifecycle.ViewModel
 import com.merryblue.baseapplication.R
+import com.merryblue.baseapplication.coredata.AppRepository
 import com.merryblue.baseapplication.coredata.model.edge.EdgeColorItem
+import com.merryblue.baseapplication.domain.model.EdgeLightingState
+import com.merryblue.baseapplication.helpers.ACTION_EDGE_STATE_CHANGED
 import com.merryblue.baseapplication.helpers.loadColorsFromArray
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -16,6 +20,7 @@ import javax.inject.Inject
 @HiltViewModel
 class EdgeColorViewModel @Inject constructor(
     val app: Application,
+    private val appRepository: AppRepository,
 ) : BaseViewModel(app) {
 
     private val tabItemsCache = mutableMapOf<EdgeTab, List<EdgeColorItem>>()
@@ -103,8 +108,40 @@ class EdgeColorViewModel @Inject constructor(
         )
     }
 
-    fun loadInitial(tab: EdgeTab = EdgeTab.TAB_4, defaultIndex: Int = 0) {
-        setTab(tab, defaultIndex)
+    private fun detectTabFromColors(colors: IntArray): EdgeTab {
+        return when (colors.size) {
+            2 -> EdgeTab.TAB_2
+            3 -> EdgeTab.TAB_3
+            else -> EdgeTab.TAB_4
+        }
+    }
+
+    private fun findIndexByColors(items: List<EdgeColorItem>, target: IntArray): Int {
+        val idx = items.indexOfFirst { it.colors.contentEquals(target) }
+        return if (idx >= 0) idx else 0
+    }
+
+    fun loadInitial(defaultTab: EdgeTab = EdgeTab.TAB_4, defaultIndex: Int = 0) {
+        val saved = appRepository.edgeState
+
+        // If pattern style is active, color screen is not applicable -> fallback to default
+        val isPattern = saved.edgeStyleType == 1 && saved.patternEnabled
+        if (isPattern) {
+            setTab(defaultTab, defaultIndex)
+            return
+        }
+
+        val savedColors = saved.colors
+        val tab = detectTabFromColors(savedColors)
+
+        // Load raw items first to resolve the selected index
+        val itemsRaw = tabItemsCache.getOrPut(tab) {
+            val arrayIds = tabArrays[tab].orEmpty()
+            arrayIds.map { EdgeColorItem(app.applicationContext.loadColorsFromArray(it)) }
+        }
+
+        val idx = if (itemsRaw.isEmpty()) 0 else findIndexByColors(itemsRaw, savedColors)
+        setTab(tab, idx)
     }
 
     fun dispatch(intent: EdgeColorIntent) {
@@ -112,5 +149,14 @@ class EdgeColorViewModel @Inject constructor(
             is EdgeColorIntent.SelectTab -> setTab(intent.tab, defaultIndex = 0)
             is EdgeColorIntent.SelectColor -> selectColor(intent.index)
         }
+    }
+
+    fun updateEdgeState(block: (EdgeLightingState) -> EdgeLightingState) {
+        appRepository.edgeState = block.invoke(appRepository.edgeState)
+        val ctx = app.applicationContext
+        val i = Intent(ACTION_EDGE_STATE_CHANGED).apply {
+            setPackage(ctx.packageName)
+        }
+        ctx.sendBroadcast(i)
     }
 }

@@ -14,6 +14,7 @@ import androidx.core.database.getStringOrNull
 import com.google.gson.Gson
 import com.merryblue.baseapplication.coredata.local.AppPreferences
 import com.merryblue.baseapplication.coredata.model.LanguageModel
+import com.merryblue.baseapplication.domain.model.EdgeLightingState
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -78,6 +79,10 @@ class AppRepository @Inject constructor(
         set(value) {
             appPreferences.isFirstTutorial = value
         }
+
+    var edgeState: EdgeLightingState
+        get() = appPreferences.edgeState
+        set(value) { appPreferences.edgeState = value }
 
     private var _isInternetConnected = true
     private val _networkState = MutableStateFlow(false)

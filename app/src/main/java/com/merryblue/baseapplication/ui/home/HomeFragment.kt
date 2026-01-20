@@ -1,5 +1,9 @@
 package com.merryblue.baseapplication.ui.home
 
+import android.content.Intent
+import android.net.Uri
+import android.provider.Settings
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
@@ -11,7 +15,14 @@ import com.merryblue.baseapplication.R
 import com.merryblue.baseapplication.databinding.FragmentHomeBinding
 import com.merryblue.baseapplication.domain.model.Item
 import com.merryblue.baseapplication.domain.model.ThemeUi
+import com.merryblue.baseapplication.helpers.EDGE_MOST
+import com.merryblue.baseapplication.helpers.KEY_RECEIVE_DATA
+import com.merryblue.baseapplication.helpers.RIPPLE_MAGICAL_BORDERS
+import com.merryblue.baseapplication.helpers.TYPE_PRESET
+import com.merryblue.baseapplication.helpers.TYPE_THEME
 import com.merryblue.baseapplication.helpers.updateHeightForCurrentPage
+import com.merryblue.baseapplication.service.EdgeLightingOverlayService
+import com.merryblue.baseapplication.ui.theme.ThemesActivity
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
@@ -34,11 +45,19 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
 
     }
 
+    private val overlayPermissionLauncher = registerForActivityResult(androidx.activity.result.contract.ActivityResultContracts.StartActivityForResult()) {
+            if (Settings.canDrawOverlays(requireContext())) {
+                startEdgeOverlay()
+            } else {
+                binding.edgeToggle.isChecked = false
+            }
+        }
+
     override fun getLayoutId() = R.layout.fragment_home
 
     override fun setUpViews() {
-        viewModel.loadPreset("edge/most")
-        viewModel.loadThemes("ripple/magical_borders")
+        viewModel.loadPreset(EDGE_MOST)
+        viewModel.loadThemes(RIPPLE_MAGICAL_BORDERS)
 
         initTabLayout()
         initRecyclerView()
@@ -75,6 +94,23 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
     private fun registerOnClick() = with (binding) {
         edgeToggle.setOnCheckedChangeListener {
             viewModel.emitVisibilityEdgeView(it)
+            if (it) {
+                startEdgeOverlay()
+            } else {
+                stopEdgeOverlay()
+            }
+        }
+
+        btnViewAllTheme.setOnClickListener {
+            val intent = Intent(requireContext(), ThemesActivity::class.java)
+            intent.putExtra(KEY_RECEIVE_DATA, TYPE_THEME)
+            startActivity(intent)
+        }
+
+        btnViewAllPreset.setOnClickListener {
+            val intent = Intent(requireContext(), ThemesActivity::class.java)
+            intent.putExtra(KEY_RECEIVE_DATA, TYPE_PRESET)
+            startActivity(intent)
         }
     }
 
@@ -115,7 +151,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
                         viewModel.themeState.collectLatest { theme ->
                             homeThemeAdapter.submitList(
                                 buildList {
-                                    add(ThemeUi.Custom("0"))
+                                    add(ThemeUi.Custom())
                                     addAll(theme?.items?.take(2).orEmpty())
                                 }
                             )
@@ -124,6 +160,19 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
                 }
             }
         }
+    }
+
+    private fun startEdgeOverlay() {
+        if (!Settings.canDrawOverlays(requireContext())) {
+            val i = Intent(Settings.ACTION_MANAGE_OVERLAY_PERMISSION, Uri.parse("package:${requireContext().packageName}"))
+            overlayPermissionLauncher.launch(i)
+            return
+        }
+        ContextCompat.startForegroundService(requireContext(), Intent(requireContext(), EdgeLightingOverlayService::class.java))
+    }
+
+    private fun stopEdgeOverlay() {
+        requireContext().stopService(Intent(requireContext(), EdgeLightingOverlayService::class.java))
     }
 
     fun onChildContentExpanded() = binding.apply {

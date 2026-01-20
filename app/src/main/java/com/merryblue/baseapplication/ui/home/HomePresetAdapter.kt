@@ -8,6 +8,7 @@ import com.merryblue.baseapplication.R
 import com.merryblue.baseapplication.databinding.ItemHomePresetBinding
 import com.merryblue.baseapplication.domain.model.Item
 import com.merryblue.baseapplication.domain.model.getThumbUrl
+import timber.log.Timber
 
 class HomePresetAdapter(
     private val presetOnClick: (Item) -> Unit
@@ -37,7 +38,8 @@ class HomePresetAdapter(
         fun bindViews(item: Item) {
             binding.apply {
                 Glide.with(root.context).load(item.getThumbUrl())
-                    .error(R.drawable.disptrending1)
+                    .placeholder(R.drawable.placeholder_image)
+                    .error(R.drawable.placeholder_image)
                     .into(ivHomePreset)
 
                 itemView.setOnClickListener {

@@ -10,7 +10,6 @@ import com.merryblue.baseapplication.databinding.ItemHomeThemeCustomBinding
 import com.merryblue.baseapplication.domain.model.Item
 import com.merryblue.baseapplication.domain.model.ThemeUi
 import com.merryblue.baseapplication.domain.model.getThumbUrl
-import timber.log.Timber
 
 class HomeThemeAdapter(
     private val customOnClick: () -> Unit,
@@ -47,7 +46,6 @@ class HomeThemeAdapter(
     override fun getItemCount(): Int = listTheme.size
 
     inner class ThemeCustomViewHolder(private val binding: ItemHomeThemeCustomBinding) : RecyclerView.ViewHolder(binding.root) {
-
         fun bind() {
             binding.root.setOnClickListener {
                 customOnClick.invoke()
@@ -56,15 +54,11 @@ class HomeThemeAdapter(
     }
 
     inner class ThemeNormalViewHolder(private val binding: ItemHomePresetBinding) : RecyclerView.ViewHolder(binding.root) {
-
         fun bind(item: Item) = with(binding) {
-
-            Timber.tag("Log_Image").d("thumb: ${item.getThumbUrl()}")
-
             Glide.with(root.context)
                 .load(item.getThumbUrl())
-                .error(R.drawable.disptrending1)
-                .centerCrop()
+                .placeholder(R.drawable.placeholder_image)
+                .error(R.drawable.placeholder_image)
                 .into(ivHomePreset)
 
             root.setOnClickListener {

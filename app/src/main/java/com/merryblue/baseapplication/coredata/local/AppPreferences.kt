@@ -4,6 +4,7 @@ import android.content.Context
 import android.content.SharedPreferences
 import com.google.gson.GsonBuilder
 import com.merryblue.baseapplication.coredata.model.LanguageModel
+import com.merryblue.baseapplication.domain.model.EdgeLightingState
 import javax.inject.Inject
 
 class AppPreferences @Inject constructor(context: Context) {
@@ -26,6 +27,8 @@ class AppPreferences @Inject constructor(context: Context) {
         private const val KEY_APP_OPEN_COUNT = "key_app_open_count"
         private const val KEY_APP_SELECTED_ALIAS = "key_app_selected_alias"
         private const val KEY_IS_FIRST_TUTORIAL = "key_is_first_tutorial"
+
+        private const val KEY_EDGE_STATE = "edge_state_json"
     }
     
     private val appPreferences: SharedPreferences = context.getSharedPreferences(
@@ -87,6 +90,13 @@ class AppPreferences @Inject constructor(context: Context) {
     var isFirstTutorial: Boolean
         get() = appPreferences.getBoolean(KEY_IS_FIRST_TUTORIAL, false)
         set(value) = appPreferences.edit { it.putBoolean(KEY_IS_FIRST_TUTORIAL, value) }
+
+    var edgeState: EdgeLightingState
+        get() {
+            val json = appPreferences.getString(KEY_EDGE_STATE, null) ?: return EdgeLightingState()
+            return runCatching { gson.fromJson(json, EdgeLightingState::class.java) }.getOrElse { EdgeLightingState() }
+        }
+        set(value) = appPreferences.edit { it.putString(KEY_EDGE_STATE, gson.toJson(value)) }
 
     fun clearPreferences() {
         sessionPreferences.edit {

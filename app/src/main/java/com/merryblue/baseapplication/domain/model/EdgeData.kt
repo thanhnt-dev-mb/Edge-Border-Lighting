@@ -4,7 +4,7 @@ import com.merryblue.baseapplication.BuildConfig
 
 sealed class ThemeUi {
     data class Custom(
-        val id: String
+        val id: String = "id"
     ) : ThemeUi()
 }
 
@@ -31,7 +31,7 @@ data class Item(
 ): ThemeUi()
 
 fun Item.getThumbUrl(): String {
-    return "file:///android_asset/${thumbPath ?: path}"
+    return "${BuildConfig.BASE_URL}/${thumbPath ?: path}"
 }
 
 fun Item.getFullImageUrl(): String {
