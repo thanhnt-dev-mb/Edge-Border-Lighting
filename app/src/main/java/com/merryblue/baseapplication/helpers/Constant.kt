@@ -22,3 +22,10 @@ const val RIPPLE_ABSTRACT_CQ = "ripple/abstract/cq"
 const val RIPPLE_ABSTRACT_ABSCT = "ripple/abstract/absct"
 const val RIPPLE_TOP_PICS = "ripple/top_pics"
 const val RIPPLE_RIPPLE = "ripple/ripple"
+
+object BackgroundType {
+    const val BACKGROUND_COLOR = 0
+    const val BACKGROUND_RES = 1
+    const val BACKGROUND_URL = 2
+    const val BACKGROUND_URI = 3
+}

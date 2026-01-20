@@ -9,7 +9,6 @@ import com.bumptech.glide.Glide
 import com.merryblue.baseapplication.R
 import com.merryblue.baseapplication.databinding.ItemHomePresetBinding
 import com.merryblue.baseapplication.domain.model.Item
-import com.merryblue.baseapplication.domain.model.getThumbUrl
 
 class ThemeChildAdapter(
     private val onClick: (Item) -> Unit
@@ -26,7 +25,7 @@ class ThemeChildAdapter(
     inner class ThemeChildViewHolder(val binding: ItemHomePresetBinding): RecyclerView.ViewHolder(binding.root) {
         fun bindView(item: Item) {
             binding.apply {
-                Glide.with(root.context).load(item.getThumbUrl())
+                Glide.with(root.context).load(item.thumbUrl)
                     .placeholder(R.drawable.placeholder_image)
                     .error(R.drawable.placeholder_image)
                     .into(ivHomePreset)

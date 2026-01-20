@@ -1,7 +1,10 @@
-package com.merryblue.baseapplication.domain.model
+package com.merryblue.baseapplication.ui.home
 
+import android.graphics.Color
+import android.net.Uri
 import com.merryblue.baseapplication.R
 import com.merryblue.baseapplication.coredata.model.edge.Advanced
+import com.merryblue.baseapplication.helpers.BackgroundType.BACKGROUND_COLOR
 import com.merryblue.baseapplication.helpers.dpToPx
 import com.merryblue.baseapplication.ui.view.edgelight.EdgeHoleShape
 import com.merryblue.baseapplication.ui.view.edgelight.InfinityShape
@@ -10,10 +13,10 @@ data class EdgeLightingState(
 
     // color
     val colors: IntArray = intArrayOf(
-        android.graphics.Color.CYAN,
-        android.graphics.Color.MAGENTA,
-        android.graphics.Color.YELLOW,
-        android.graphics.Color.CYAN
+        Color.CYAN,
+        Color.MAGENTA,
+        Color.YELLOW,
+        Color.CYAN
     ),
 
     // effect
@@ -55,4 +58,12 @@ data class EdgeLightingState(
 
     val edgeStyleType: Int = 0,       // 0 linear, 1 pattern, 2 none
     val patternEnabled: Boolean = false,
+
+    val backgroundType: Int = BACKGROUND_COLOR,      // 0 color, 1 resId, 2 url, 3 uri
+    val backgroundColor: Int = Color.TRANSPARENT,
+    val backgroundImageResId: Int = 0,
+    val backgroundImageUrl: String? = null,
+    val backgroundImageUri: Uri? = null,
+
+    val isEnableEdgeLighting: Boolean = false
 )

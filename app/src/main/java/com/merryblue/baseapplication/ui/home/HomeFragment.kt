@@ -15,6 +15,7 @@ import com.merryblue.baseapplication.R
 import com.merryblue.baseapplication.databinding.FragmentHomeBinding
 import com.merryblue.baseapplication.domain.model.Item
 import com.merryblue.baseapplication.domain.model.ThemeUi
+import com.merryblue.baseapplication.helpers.BackgroundType.BACKGROUND_URL
 import com.merryblue.baseapplication.helpers.EDGE_MOST
 import com.merryblue.baseapplication.helpers.KEY_RECEIVE_DATA
 import com.merryblue.baseapplication.helpers.RIPPLE_MAGICAL_BORDERS
@@ -23,22 +24,22 @@ import com.merryblue.baseapplication.helpers.TYPE_THEME
 import com.merryblue.baseapplication.helpers.updateHeightForCurrentPage
 import com.merryblue.baseapplication.service.EdgeLightingOverlayService
 import com.merryblue.baseapplication.ui.theme.ThemesActivity
+import com.merryblue.baseapplication.ui.wallpaper.EdgeWallpaperSettingsActivity
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import org.app.core.base.BaseFragment
-import timber.log.Timber
 
 @AndroidEntryPoint
 class HomeFragment : BaseFragment<FragmentHomeBinding>() {
     private val viewModel: HomeViewModel by activityViewModels()
     private lateinit var mediator: TabLayoutMediator
     private lateinit var presetAdapter: HomePresetAdapter
-
     private lateinit var homeThemeAdapter: HomeThemeAdapter
 
-    private val presetOnClick: (Item) -> Unit = {
-        // todo: do something
+    private val presetOnClick: (Item) -> Unit = { item ->
+        viewModel.applyEdgeState { it.copy(backgroundType = BACKGROUND_URL, backgroundImageUrl = item.pathUrl) }
+        startActivity(Intent(requireContext(), EdgeWallpaperSettingsActivity::class.java))
     }
 
     private val customOnClick: () -> Unit = {
@@ -46,12 +47,12 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
     }
 
     private val overlayPermissionLauncher = registerForActivityResult(androidx.activity.result.contract.ActivityResultContracts.StartActivityForResult()) {
-            if (Settings.canDrawOverlays(requireContext())) {
-                startEdgeOverlay()
-            } else {
-                binding.edgeToggle.isChecked = false
-            }
+        if (Settings.canDrawOverlays(requireContext())) {
+            startEdgeOverlay()
+        } else {
+            binding.edgeToggle.isChecked = false
         }
+    }
 
     override fun getLayoutId() = R.layout.fragment_home
 
@@ -92,14 +93,14 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
     }
 
     private fun registerOnClick() = with (binding) {
-        edgeToggle.setOnCheckedChangeListener {
-            viewModel.emitVisibilityEdgeView(it)
-            if (it) {
-                startEdgeOverlay()
-            } else {
-                stopEdgeOverlay()
-            }
+
+        edgeToggle.setOnCheckedChangeListener { isSelected ->
+//            viewModel.emitVisibilityEdgeView(isSelected)
+            viewModel.updateEdgeState { it.copy(isEnableEdgeLighting = isSelected) }
+            if (isSelected) startEdgeOverlay() else stopEdgeOverlay()
         }
+
+        edgeToggle.setCheckedSilently(viewModel.getEdgeState().isEnableEdgeLighting)
 
         btnViewAllTheme.setOnClickListener {
             val intent = Intent(requireContext(), ThemesActivity::class.java)

@@ -91,7 +91,7 @@ class EdgeEffectFragment : BaseFragment<FragmentEdgeEffectBinding>() {
                                 )
                             )
 
-                            viewModel.updateEdgeState { it.copy(vectorResId = selected.resId) }
+                            viewModel.updateEdgeState { it.copy(edgeStyleType = 1, vectorResId = selected.resId) }
                         }
                     }
                 }

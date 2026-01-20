@@ -28,12 +28,8 @@ data class Item(
     val premium: Boolean,
     val thumbPath: String? = null,
     val colors: List<String>? = null
-): ThemeUi()
-
-fun Item.getThumbUrl(): String {
-    return "${BuildConfig.BASE_URL}/${thumbPath ?: path}"
+): ThemeUi() {
+    val thumbUrl: String = "${BuildConfig.BASE_URL}/${thumbPath ?: path}"
+    val pathUrl: String = "${BuildConfig.BASE_URL}/$path"
 }
 
-fun Item.getFullImageUrl(): String {
-    return "${BuildConfig.BASE_URL}/$path"
-}

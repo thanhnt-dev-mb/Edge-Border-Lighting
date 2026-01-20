@@ -9,7 +9,6 @@ import com.merryblue.baseapplication.databinding.ItemHomePresetBinding
 import com.merryblue.baseapplication.databinding.ItemHomeThemeCustomBinding
 import com.merryblue.baseapplication.domain.model.Item
 import com.merryblue.baseapplication.domain.model.ThemeUi
-import com.merryblue.baseapplication.domain.model.getThumbUrl
 
 class HomeThemeAdapter(
     private val customOnClick: () -> Unit,
@@ -56,7 +55,7 @@ class HomeThemeAdapter(
     inner class ThemeNormalViewHolder(private val binding: ItemHomePresetBinding) : RecyclerView.ViewHolder(binding.root) {
         fun bind(item: Item) = with(binding) {
             Glide.with(root.context)
-                .load(item.getThumbUrl())
+                .load(item.thumbUrl)
                 .placeholder(R.drawable.placeholder_image)
                 .error(R.drawable.placeholder_image)
                 .into(ivHomePreset)

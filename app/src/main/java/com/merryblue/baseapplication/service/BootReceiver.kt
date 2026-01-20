@@ -15,9 +15,6 @@ class BootReceiver : BroadcastReceiver() {
                 val alarmService = AlarmService(context ?: return)
                 alarmService.setRepetitiveAlarmAt(8, 0)
                 alarmService.setupWorker(8, 0)
-
-                if (!Settings.canDrawOverlays(context)) return
-                ContextCompat.startForegroundService(context, Intent(context, EdgeLightingOverlayService::class.java))
             } catch (_: Exception) {}
         }
     }

@@ -4,7 +4,7 @@ import android.content.Context
 import android.content.SharedPreferences
 import com.google.gson.GsonBuilder
 import com.merryblue.baseapplication.coredata.model.LanguageModel
-import com.merryblue.baseapplication.domain.model.EdgeLightingState
+import com.merryblue.baseapplication.ui.home.EdgeLightingState
 import javax.inject.Inject
 
 class AppPreferences @Inject constructor(context: Context) {

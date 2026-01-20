@@ -6,7 +6,7 @@ import androidx.lifecycle.ViewModel
 import com.merryblue.baseapplication.R
 import com.merryblue.baseapplication.coredata.AppRepository
 import com.merryblue.baseapplication.coredata.model.edge.EdgeEffectItem
-import com.merryblue.baseapplication.domain.model.EdgeLightingState
+import com.merryblue.baseapplication.ui.home.EdgeLightingState
 import com.merryblue.baseapplication.helpers.ACTION_EDGE_STATE_CHANGED
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dagger.hilt.android.qualifiers.ApplicationContext

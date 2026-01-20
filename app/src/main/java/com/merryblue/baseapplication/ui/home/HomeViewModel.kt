@@ -1,6 +1,7 @@
 package com.merryblue.baseapplication.ui.home
 
 import android.app.Application
+import android.content.Intent
 import com.merryblue.baseapplication.coredata.AppRepository
 import com.merryblue.baseapplication.coredata.model.edge.Advanced
 import com.merryblue.baseapplication.coredata.model.edge.DisplayNotchType
@@ -8,6 +9,7 @@ import com.merryblue.baseapplication.coredata.model.edge.EdgeSelection
 import com.merryblue.baseapplication.coredata.model.edge.EdgeSettings
 import com.merryblue.baseapplication.domain.model.Topic
 import com.merryblue.baseapplication.domain.repository.EdgeDataRepository
+import com.merryblue.baseapplication.helpers.ACTION_EDGE_STATE_CHANGED
 import com.merryblue.baseapplication.ui.iap.BillingRepository
 import com.merryblue.baseapplication.ui.view.edgelight.EdgeHoleShape
 import com.merryblue.baseapplication.ui.view.edgelight.InfinityShape
@@ -22,7 +24,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class HomeViewModel @Inject constructor(
-    application: Application,
+    private val application: Application,
     private val appRepository: AppRepository,
     private val billingRepository: BillingRepository,
     private val edgeDataRepository: EdgeDataRepository
@@ -116,4 +118,19 @@ class HomeViewModel @Inject constructor(
     fun loadThemes(topicKey: String) {
         _themeState.value = edgeDataRepository.getDataTopic(topicKey)
     }
+
+    fun updateEdgeState(block: (EdgeLightingState) -> EdgeLightingState) {
+        appRepository.edgeState = block.invoke(appRepository.edgeState)
+        val ctx = application.applicationContext
+        val i = Intent(ACTION_EDGE_STATE_CHANGED).apply {
+            setPackage(ctx.packageName)
+        }
+        ctx.sendBroadcast(i)
+    }
+
+    fun applyEdgeState(block: (EdgeLightingState) -> EdgeLightingState) {
+        appRepository.edgeState = block.invoke(appRepository.edgeState)
+    }
+
+    fun getEdgeState() = appRepository.edgeState
 }

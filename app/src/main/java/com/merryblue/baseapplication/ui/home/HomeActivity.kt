@@ -79,74 +79,74 @@ class HomeActivity : BaseActivity<ActivityHomeBinding>() {
 
     override fun setUpObserver() {
         binding.apply {
-            lifecycleScope.launch {
-
-                launch { viewModel.edgeVisibilityEvents.collect { edgeView.visibility = if (it) View.VISIBLE else View.INVISIBLE } }
-
-                launch {
-                    viewModel.edgeColorEvents.collect { edgeSelection ->
-                        when (edgeSelection) {
-                            is EdgeSelection.EdgeColor -> edgeView.applyPreset(edgeSelection.preset)
-                            is EdgeSelection.EdgeEffect -> if (edgeSelection.selectedIndex == 0) edgeView.setPatternEnabled(false) else edgeView.applyPreset(edgeSelection.preset)
-                            is EdgeSelection.EdgeAdvanced -> {
-                                // todo: do something
-                            }
-                        }
-                    }
-                }
-
-                launch {
-                    viewModel.edgeSettingsEvents.collect { edgeSettings ->
-                        when (edgeSettings) {
-                            is EdgeSettings.EdgeSpeed -> edgeView.setSpeedMs(edgeSettings.progress)
-                            is EdgeSettings.EdgeSize -> edgeView.setSizePx(edgeSettings.progress)
-                            is EdgeSettings.EdgeBottomRadius -> edgeView.setBottomRadiusPx(edgeSettings.progress)
-                            is EdgeSettings.EdgeTopRadius -> edgeView.setTopRadiusPx(edgeSettings.progress)
-                        }
-                    }
-                }
-
-                launch { viewModel.edgeAdvancedEvents.collect { edgeView.setAdvanced(it) } }
-                launch { viewModel.edgeHoleTypeEvents.collect { edgeView.setHoleShape(it) } }
-                launch { viewModel.edgeInfinityTypeEvents.collect { edgeView.setInfinityShape(it, false) } }
-
-                launch {
-                    viewModel.edgeDisplayNotchTypeEvents.collect { displayNotchType ->
-                        val progress = displayNotchType.progress
-
-                        when (displayNotchType) {
-                            is DisplayNotchType.TypeDisplayNotch -> {
-                                when (displayNotchType.type) {
-                                    DisplayNotch.NOTCH_WIDTH -> edgeView.setNotchWidthFraction(progress)
-                                    DisplayNotch.NOTCH_HEIGHT -> edgeView.setNotchHeightPx(progress)
-                                    DisplayNotch.NOTCH_TOP_RADIUS -> edgeView.setNotchTopRadiusPx(progress)
-                                    DisplayNotch.NOTCH_BOTTOM_RADIUS -> edgeView.setNotchBottomRadiusPx(progress)
-                                    DisplayNotch.NOTCH_BOTTOM_FULLNESS -> edgeView.setNotchBottomFullness(progress)
-                                }
-                            }
-
-                            is DisplayNotchType.TypeDisplayHole -> {
-                                when (displayNotchType.type) {
-                                    DisplayHole.HOLE_HORIZONTAL -> edgeView.setHoleOffsetXProgress(progress)
-                                    DisplayHole.HOLE_VERTICAL -> edgeView.setHoleOffsetYProgress(progress)
-                                    DisplayHole.HOLE_RADIUS -> edgeView.setHoleCircleRadiusPx(progress)
-                                    DisplayHole.HOLE_WIDTH -> edgeView.setHoleRoundWidthPx(progress)
-                                    DisplayHole.HOLE_HEIGHT -> edgeView.setHoleRoundHeightPx(progress)
-                                    DisplayHole.HOLE_CORNER -> edgeView.setHoleRoundCornerRadiusPx(progress)
-                                }
-                            }
-
-                            is DisplayNotchType.TypeDisplayInfinity -> {
-                                when (displayNotchType.type) {
-                                    DisplayInfinity.INFINITY_TOP -> edgeView.setInfinityRadiusTopPx(progress)
-                                    DisplayInfinity.INFINITY_WIDTH -> edgeView.setInfinityWidthPx(progress)
-                                    DisplayInfinity.INFINITY_HEIGHT -> edgeView.setInfinityHeightPx(progress)
-                                }
-                            }
-                        }
-                    }
-                }
-            }
+//            lifecycleScope.launch {
+//
+////                launch { viewModel.edgeVisibilityEvents.collect { edgeView.visibility = if (it) View.VISIBLE else View.INVISIBLE } }
+//
+//                launch {
+//                    viewModel.edgeColorEvents.collect { edgeSelection ->
+//                        when (edgeSelection) {
+//                            is EdgeSelection.EdgeColor -> edgeView.applyPreset(edgeSelection.preset)
+//                            is EdgeSelection.EdgeEffect -> if (edgeSelection.selectedIndex == 0) edgeView.setPatternEnabled(false) else edgeView.applyPreset(edgeSelection.preset)
+//                            is EdgeSelection.EdgeAdvanced -> {
+//                                // todo: do something
+//                            }
+//                        }
+//                    }
+//                }
+//
+//                launch {
+//                    viewModel.edgeSettingsEvents.collect { edgeSettings ->
+//                        when (edgeSettings) {
+//                            is EdgeSettings.EdgeSpeed -> edgeView.setSpeedMs(edgeSettings.progress)
+//                            is EdgeSettings.EdgeSize -> edgeView.setSizePx(edgeSettings.progress)
+//                            is EdgeSettings.EdgeBottomRadius -> edgeView.setBottomRadiusPx(edgeSettings.progress)
+//                            is EdgeSettings.EdgeTopRadius -> edgeView.setTopRadiusPx(edgeSettings.progress)
+//                        }
+//                    }
+//                }
+//
+//                launch { viewModel.edgeAdvancedEvents.collect { edgeView.setAdvanced(it) } }
+//                launch { viewModel.edgeHoleTypeEvents.collect { edgeView.setHoleShape(it) } }
+//                launch { viewModel.edgeInfinityTypeEvents.collect { edgeView.setInfinityShape(it, false) } }
+//
+//                launch {
+//                    viewModel.edgeDisplayNotchTypeEvents.collect { displayNotchType ->
+//                        val progress = displayNotchType.progress
+//
+//                        when (displayNotchType) {
+//                            is DisplayNotchType.TypeDisplayNotch -> {
+//                                when (displayNotchType.type) {
+//                                    DisplayNotch.NOTCH_WIDTH -> edgeView.setNotchWidthFraction(progress)
+//                                    DisplayNotch.NOTCH_HEIGHT -> edgeView.setNotchHeightPx(progress)
+//                                    DisplayNotch.NOTCH_TOP_RADIUS -> edgeView.setNotchTopRadiusPx(progress)
+//                                    DisplayNotch.NOTCH_BOTTOM_RADIUS -> edgeView.setNotchBottomRadiusPx(progress)
+//                                    DisplayNotch.NOTCH_BOTTOM_FULLNESS -> edgeView.setNotchBottomFullness(progress)
+//                                }
+//                            }
+//
+//                            is DisplayNotchType.TypeDisplayHole -> {
+//                                when (displayNotchType.type) {
+//                                    DisplayHole.HOLE_HORIZONTAL -> edgeView.setHoleOffsetXProgress(progress)
+//                                    DisplayHole.HOLE_VERTICAL -> edgeView.setHoleOffsetYProgress(progress)
+//                                    DisplayHole.HOLE_RADIUS -> edgeView.setHoleCircleRadiusPx(progress)
+//                                    DisplayHole.HOLE_WIDTH -> edgeView.setHoleRoundWidthPx(progress)
+//                                    DisplayHole.HOLE_HEIGHT -> edgeView.setHoleRoundHeightPx(progress)
+//                                    DisplayHole.HOLE_CORNER -> edgeView.setHoleRoundCornerRadiusPx(progress)
+//                                }
+//                            }
+//
+//                            is DisplayNotchType.TypeDisplayInfinity -> {
+//                                when (displayNotchType.type) {
+//                                    DisplayInfinity.INFINITY_TOP -> edgeView.setInfinityRadiusTopPx(progress)
+//                                    DisplayInfinity.INFINITY_WIDTH -> edgeView.setInfinityWidthPx(progress)
+//                                    DisplayInfinity.INFINITY_HEIGHT -> edgeView.setInfinityHeightPx(progress)
+//                                }
+//                            }
+//                        }
+//                    }
+//                }
+//            }
         }
     }
 
