@@ -136,7 +136,6 @@
         <service
             android:name=".service.EdgeLightingWallpaperService"
             android:exported="true"
-            android:process=":edge_wallpaper"
             android:permission="android.permission.BIND_WALLPAPER">
             <intent-filter>
                 <action android:name="android.service.wallpaper.WallpaperService" />

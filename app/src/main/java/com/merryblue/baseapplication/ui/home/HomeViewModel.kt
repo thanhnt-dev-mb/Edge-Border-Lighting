@@ -12,6 +12,7 @@ import com.merryblue.baseapplication.domain.repository.EdgeDataRepository
 import com.merryblue.baseapplication.helpers.ACTION_EDGE_STATE_CHANGED
 import com.merryblue.baseapplication.ui.iap.BillingRepository
 import com.merryblue.baseapplication.ui.view.edgelight.EdgeHoleShape
+import com.merryblue.baseapplication.ui.view.edgelight.EdgeLightingState
 import com.merryblue.baseapplication.ui.view.edgelight.InfinityShape
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableSharedFlow

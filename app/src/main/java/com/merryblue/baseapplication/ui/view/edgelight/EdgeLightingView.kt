@@ -14,6 +14,7 @@ import androidx.annotation.MainThread
 import androidx.core.content.res.use
 import androidx.core.graphics.PathParser
 import com.bumptech.glide.Glide
+import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.bumptech.glide.request.target.CustomTarget
 import com.bumptech.glide.request.transition.Transition
 import com.merryblue.baseapplication.R
@@ -22,7 +23,7 @@ import com.merryblue.baseapplication.coredata.model.edge.EdgePreset
 import com.merryblue.baseapplication.coredata.model.edge.EdgeStyle
 import com.merryblue.baseapplication.helpers.BackgroundType
 import com.merryblue.baseapplication.helpers.dpToPx
-import com.merryblue.baseapplication.ui.home.EdgeLightingState
+import com.merryblue.baseapplication.ui.view.edgelight.EdgeLightingState
 import org.xmlpull.v1.XmlPullParser
 import kotlin.math.atan2
 import kotlin.math.max
@@ -166,8 +167,14 @@ class EdgeLightingView @JvmOverloads constructor(context: Context, attrs: Attrib
         if (animationEnabled) animator.start()
 
         pendingBgUri?.let { uri ->
-            if (backgroundInside !is EdgeBackground.Image && width > 0 && height > 0) {
+            if (width > 0 && height > 0) {
                 loadBackgroundFromUriInternal(uri)
+            }
+        }
+
+        bgUrl?.let { url ->
+            if (width > 0 && height > 0 && backgroundInside == null) {
+                setBackgroundImageUrl(url)
             }
         }
     }
@@ -176,9 +183,6 @@ class EdgeLightingView @JvmOverloads constructor(context: Context, attrs: Attrib
         super.onDetachedFromWindow()
         isViewAttached = false
         animator.cancel()
-
-        bgUrlTarget?.let { Glide.with(this).clear(it) }
-        bgUrlTarget = null
     }
 
     override fun onSizeChanged(w: Int, h: Int, oldw: Int, oldh: Int) {
@@ -785,14 +789,23 @@ class EdgeLightingView @JvmOverloads constructor(context: Context, attrs: Attrib
                 canvas.drawPath(path, bgPaint)
             }
             is EdgeBackground.Image -> {
-                val needRecreate = (cachedBitmap != bg.bitmap) || (cachedBgW != width) || (cachedBgH != height)
+                val needRecreate = (cachedBitmap != bg.bitmap) ||
+                        (cachedBgW != width) ||
+                        (cachedBgH != height) ||
+                        (cachedBitmapShader == null)
+
                 if (needRecreate) {
+
                     cachedBitmap = bg.bitmap
                     cachedBgW = width
                     cachedBgH = height
                     cachedBitmapShader = BitmapShader(bg.bitmap, Shader.TileMode.CLAMP, Shader.TileMode.CLAMP)
-                    updateBgMatrix(width.toFloat(), height.toFloat())
-                    cachedBitmapShader?.setLocalMatrix(bgMatrix)
+
+                    if (width > 0 && height > 0) {
+                        updateBgMatrix(width.toFloat(), height.toFloat())
+                        cachedBitmapShader?.setLocalMatrix(bgMatrix)
+                    }
+
                     bgPaint.shader = cachedBitmapShader
                 } else {
                     bgPaint.shader = cachedBitmapShader
@@ -1323,7 +1336,13 @@ class EdgeLightingView @JvmOverloads constructor(context: Context, attrs: Attrib
         pendingBgUri = null
         bgUrl = null
 
-        bgUrlTarget?.let { Glide.with(this).clear(it) }
+        bgUrlTarget?.let {
+            try {
+                Glide.with(context.applicationContext).clear(it)
+            } catch (e: Exception) {
+                e.printStackTrace()
+            }
+        }
         bgUrlTarget = null
 
         if (resId == 0) {
@@ -1358,10 +1377,14 @@ class EdgeLightingView @JvmOverloads constructor(context: Context, attrs: Attrib
 
         bgUrlTarget = target
 
-        Glide.with(this)
+        val targetWidth = if (width > 0) width else 1080
+        val targetHeight = if (height > 0) height else 1920
+
+        Glide.with(context.applicationContext)
             .asBitmap()
             .load(resId)
-            .override(width.coerceAtLeast(1), height.coerceAtLeast(1))
+            .override(targetWidth, targetHeight)
+            .diskCacheStrategy(DiskCacheStrategy.ALL)
             .into(target)
     }
 
@@ -1468,9 +1491,16 @@ class EdgeLightingView @JvmOverloads constructor(context: Context, attrs: Attrib
     @MainThread
     fun setBackgroundImageUrl(url: String?) {
         bgUrl = url
+        pendingBgUri = null
 
         // clear previous
-        bgUrlTarget?.let { Glide.with(this).clear(it) }
+        bgUrlTarget?.let {
+            try {
+                Glide.with(context.applicationContext).clear(it)
+            } catch (e: Exception) {
+                e.printStackTrace()
+            }
+        }
         bgUrlTarget = null
 
         if (url.isNullOrBlank()) {
@@ -1483,6 +1513,8 @@ class EdgeLightingView @JvmOverloads constructor(context: Context, attrs: Attrib
 
         val target = object : CustomTarget<Bitmap>() {
             override fun onResourceReady(resource: Bitmap, transition: Transition<in Bitmap>?) {
+                if (bgUrl != url) return
+
                 backgroundInside = EdgeBackground.Image(resource)
                 cachedBitmap = null
                 cachedBitmapShader = null
@@ -1500,6 +1532,7 @@ class EdgeLightingView @JvmOverloads constructor(context: Context, attrs: Attrib
             override fun onLoadCleared(placeholder: Drawable?) {}
 
             override fun onLoadFailed(errorDrawable: Drawable?) {
+                if (bgUrl != url) return
                 backgroundInside = EdgeBackground.Color(Color.TRANSPARENT)
                 invalidateSmart()
             }
@@ -1507,9 +1540,11 @@ class EdgeLightingView @JvmOverloads constructor(context: Context, attrs: Attrib
 
         bgUrlTarget = target
 
-        Glide.with(this)
+        Glide.with(context.applicationContext)
             .asBitmap()
             .load(url)
+            .skipMemoryCache(false)
+            .diskCacheStrategy(DiskCacheStrategy.ALL)
             .into(target)
     }
 
@@ -1517,7 +1552,13 @@ class EdgeLightingView @JvmOverloads constructor(context: Context, attrs: Attrib
     fun setBackgroundImageUri(uri: Uri?) {
         pendingBgUri = uri
 
-        bgUrlTarget?.let { Glide.with(this).clear(it) }
+        bgUrlTarget?.let {
+            try {
+                Glide.with(context.applicationContext).clear(it)
+            } catch (e: Exception) {
+                e.printStackTrace()
+            }
+        }
         bgUrlTarget = null
         bgUrl = null
 
@@ -1545,8 +1586,6 @@ class EdgeLightingView @JvmOverloads constructor(context: Context, attrs: Attrib
     }
 
     private fun loadBackgroundFromUriInternal(uri: Uri) {
-        bgUrlTarget?.let { Glide.with(this).clear(it) }
-        bgUrlTarget = null
 
         val target = object : CustomTarget<Bitmap>() {
             override fun onResourceReady(resource: Bitmap, transition: Transition<in Bitmap>?) {
@@ -1574,7 +1613,7 @@ class EdgeLightingView @JvmOverloads constructor(context: Context, attrs: Attrib
 
         bgUrlTarget = target
 
-        Glide.with(this)
+        Glide.with(context.applicationContext)
             .asBitmap()
             .load(uri)
             .override(width.coerceAtLeast(1), height.coerceAtLeast(1))
@@ -2039,15 +2078,13 @@ class EdgeLightingView @JvmOverloads constructor(context: Context, attrs: Attrib
         }
 
         // background
-//        when (s.backgroundType) {
-//            BackgroundType.BACKGROUND_COLOR -> setBackgroundColorInside(s.backgroundColor)
-//
-//            BackgroundType.BACKGROUND_RES -> setBackgroundImageResId(s.backgroundImageResId)
-//
-//            BackgroundType.BACKGROUND_URL -> setBackgroundImageUrl(s.backgroundImageUrl)
-//
-//            BackgroundType.BACKGROUND_URI -> post { setBackgroundImageUri(s.backgroundImageUri) }
-//        }
+        when (s.backgroundType) {
+            BackgroundType.BACKGROUND_COLOR -> setBackgroundColorInside(s.backgroundColor)
+            BackgroundType.BACKGROUND_RES -> setBackgroundImageResId(s.backgroundImageResId)
+            BackgroundType.BACKGROUND_URL -> setBackgroundImageUrl(s.backgroundImageUrl)
+            BackgroundType.BACKGROUND_URI -> setBackgroundImageUri(s.backgroundImageUri)
+            else -> Unit
+        }
     }
 
     fun startAnimationForWallpaper() {

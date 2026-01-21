@@ -4,7 +4,6 @@ import android.app.WallpaperManager
 import android.content.ComponentName
 import android.content.Intent
 import android.os.Bundle
-import android.widget.Toast
 import com.merryblue.baseapplication.R
 import com.merryblue.baseapplication.coredata.local.AppPreferences
 import com.merryblue.baseapplication.databinding.ActivityEdgeWallpaperSettingsBinding
@@ -32,18 +31,19 @@ class EdgeWallpaperSettingsActivity : BaseActivity<ActivityEdgeWallpaperSettings
     }
 
     private fun onClickSetLiveWallpaperOrApply() {
-        if (isMyLiveWallpaperActive()) {
-            Toast.makeText(this, "applied", Toast.LENGTH_SHORT).show()
-            sendBroadcast(Intent(ACTION_EDGE_WALLPAPER_STATE_CHANGED))
-        } else {
+        if (!isMyLiveWallpaperActive()) {
             openSystemLiveWallpaperPicker()
+            return
         }
+        sendBroadcast(Intent(ACTION_EDGE_WALLPAPER_STATE_CHANGED))
+        finish()
     }
 
+
     private fun isMyLiveWallpaperActive(): Boolean {
-        val wm = WallpaperManager.getInstance(this)
-        val info = wm.wallpaperInfo ?: return false
-        return info.component == ComponentName(this, EdgeLightingWallpaperService::class.java)
+        val last = prefs.edgeWallpaperLastSeenElapsed
+        val now = android.os.SystemClock.elapsedRealtime()
+        return last > 0L && (now - last) <= 6000L
     }
 
     private fun openSystemLiveWallpaperPicker() {
@@ -54,6 +54,7 @@ class EdgeWallpaperSettingsActivity : BaseActivity<ActivityEdgeWallpaperSettings
             )
         }
         startActivity(intent)
+        finish()
     }
 
     companion object {

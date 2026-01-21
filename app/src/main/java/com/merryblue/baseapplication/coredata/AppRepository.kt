@@ -14,7 +14,7 @@ import androidx.core.database.getStringOrNull
 import com.google.gson.Gson
 import com.merryblue.baseapplication.coredata.local.AppPreferences
 import com.merryblue.baseapplication.coredata.model.LanguageModel
-import com.merryblue.baseapplication.ui.home.EdgeLightingState
+import com.merryblue.baseapplication.ui.view.edgelight.EdgeLightingState
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow

@@ -4,7 +4,7 @@ import android.view.View
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager2.widget.ViewPager2
 import com.merryblue.baseapplication.R
-import com.merryblue.baseapplication.ui.home.EdgeLightingState
+import com.merryblue.baseapplication.ui.view.edgelight.EdgeLightingState
 import com.merryblue.baseapplication.ui.view.edgelight.EdgeLightingView
 import kotlin.math.max
 

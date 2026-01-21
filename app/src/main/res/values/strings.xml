@@ -81,5 +81,6 @@
     <string name="txt_ripple">Ripple</string>
     <string name="device_unsupported_wallpaper">Device unsupported Wallpaper</string>
     <string name="txt_set_as_wallpaper">Set as Wallpaper</string>
+    <string name="txt_live_wallpaper_applied">Live wallpaper applied</string>
 
 </resources>
