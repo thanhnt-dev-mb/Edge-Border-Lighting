@@ -1,15 +1,14 @@
 package com.merryblue.baseapplication.ui.home.color
 
 import android.app.Application
-import android.content.Context
 import android.content.Intent
-import androidx.lifecycle.ViewModel
 import com.merryblue.baseapplication.R
 import com.merryblue.baseapplication.coredata.AppRepository
 import com.merryblue.baseapplication.coredata.model.edge.EdgeColorItem
-import com.merryblue.baseapplication.domain.model.EdgeLightingState
-import com.merryblue.baseapplication.helpers.ACTION_EDGE_STATE_CHANGED
+import com.merryblue.baseapplication.helpers.EdgeStyle.EDGE_PATTERN
+import com.merryblue.baseapplication.helpers.ServiceState.ACTION_EDGE_OVERLAY_CHANGED
 import com.merryblue.baseapplication.helpers.loadColorsFromArray
+import com.merryblue.baseapplication.ui.view.edgelight.EdgeLightingState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -125,7 +124,7 @@ class EdgeColorViewModel @Inject constructor(
         val saved = appRepository.edgeState
 
         // If pattern style is active, color screen is not applicable -> fallback to default
-        val isPattern = saved.edgeStyleType == 1 && saved.patternEnabled
+        val isPattern = saved.edgeStyleType == EDGE_PATTERN && saved.patternEnabled
         if (isPattern) {
             setTab(defaultTab, defaultIndex)
             return
@@ -154,7 +153,7 @@ class EdgeColorViewModel @Inject constructor(
     fun updateEdgeState(block: (EdgeLightingState) -> EdgeLightingState) {
         appRepository.edgeState = block.invoke(appRepository.edgeState)
         val ctx = app.applicationContext
-        val i = Intent(ACTION_EDGE_STATE_CHANGED).apply {
+        val i = Intent(ACTION_EDGE_OVERLAY_CHANGED).apply {
             setPackage(ctx.packageName)
         }
         ctx.sendBroadcast(i)

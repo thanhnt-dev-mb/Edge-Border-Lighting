@@ -4,7 +4,7 @@ import android.content.Context
 import android.content.SharedPreferences
 import com.google.gson.GsonBuilder
 import com.merryblue.baseapplication.coredata.model.LanguageModel
-import com.merryblue.baseapplication.domain.model.EdgeLightingState
+import com.merryblue.baseapplication.ui.view.edgelight.EdgeLightingState
 import javax.inject.Inject
 
 class AppPreferences @Inject constructor(context: Context) {
@@ -29,6 +29,14 @@ class AppPreferences @Inject constructor(context: Context) {
         private const val KEY_IS_FIRST_TUTORIAL = "key_is_first_tutorial"
 
         private const val KEY_EDGE_STATE = "edge_state_json"
+        private const val KEY_CACHE_EDGE_STATE = "KEY_CACHE_EDGE_STATE"
+
+        private const val KEY_VIDEO_URL = "video_url"
+        private const val KEY_EFFECT = "key_effect"
+        private const val KEY_RIPPLE_IMAGE_URL = "ripple_image_url"
+        private const val KEY_HEARTBEAT = "heartbeat_elapsed"
+
+        private const val KEY_EDGE_LAST_SEEN_ELAPSED = "edge_wallpaper_last_seen_elapsed"
     }
     
     private val appPreferences: SharedPreferences = context.getSharedPreferences(
@@ -97,6 +105,27 @@ class AppPreferences @Inject constructor(context: Context) {
             return runCatching { gson.fromJson(json, EdgeLightingState::class.java) }.getOrElse { EdgeLightingState() }
         }
         set(value) = appPreferences.edit { it.putString(KEY_EDGE_STATE, gson.toJson(value)) }
+
+    var cacheEdgeState: EdgeLightingState
+        get() {
+            val json = appPreferences.getString(KEY_CACHE_EDGE_STATE, null) ?: return EdgeLightingState()
+            return runCatching { gson.fromJson(json, EdgeLightingState::class.java) }.getOrElse { EdgeLightingState() }
+        }
+        set(value) = appPreferences.edit { it.putString(KEY_CACHE_EDGE_STATE, gson.toJson(value)) }
+
+    var edgeWallpaperLastSeenElapsed: Long
+        get() = appPreferences.getLong(KEY_EDGE_LAST_SEEN_ELAPSED, 0L)
+        set(value) = appPreferences.edit().putLong(KEY_EDGE_LAST_SEEN_ELAPSED, value).apply()
+
+    var videoUrl: String
+        get() = appPreferences.getString(KEY_VIDEO_URL, "") ?: ""
+        set(value) = appPreferences.edit().putString(KEY_VIDEO_URL, value).apply()
+
+    fun clearCacheEdgeState() {
+        appPreferences.edit { it.remove(KEY_CACHE_EDGE_STATE) }
+    }
+
+    fun hasCacheEdgeState(): Boolean = appPreferences.contains(KEY_CACHE_EDGE_STATE)
 
     fun clearPreferences() {
         sessionPreferences.edit {

@@ -13,6 +13,7 @@ import com.merryblue.baseapplication.coredata.model.edge.EdgeSelection
 import com.merryblue.baseapplication.coredata.model.edge.EdgeSettings
 import com.merryblue.baseapplication.coredata.model.edge.EdgeStyle
 import com.merryblue.baseapplication.databinding.FragmentEdgeEffectBinding
+import com.merryblue.baseapplication.helpers.EdgeStyle.EDGE_PATTERN
 import com.merryblue.baseapplication.helpers.dpToPx
 import com.merryblue.baseapplication.helpers.mapFloatToRange
 import com.merryblue.baseapplication.helpers.mapFloatToRangeLong
@@ -91,7 +92,7 @@ class EdgeEffectFragment : BaseFragment<FragmentEdgeEffectBinding>() {
                                 )
                             )
 
-                            viewModel.updateEdgeState { it.copy(vectorResId = selected.resId) }
+                            viewModel.updateEdgeState { it.copy(edgeStyleType = EDGE_PATTERN, vectorResId = selected.resId) }
                         }
                     }
                 }

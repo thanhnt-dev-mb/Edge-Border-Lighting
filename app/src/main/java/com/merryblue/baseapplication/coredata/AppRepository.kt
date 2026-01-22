@@ -14,7 +14,7 @@ import androidx.core.database.getStringOrNull
 import com.google.gson.Gson
 import com.merryblue.baseapplication.coredata.local.AppPreferences
 import com.merryblue.baseapplication.coredata.model.LanguageModel
-import com.merryblue.baseapplication.domain.model.EdgeLightingState
+import com.merryblue.baseapplication.ui.view.edgelight.EdgeLightingState
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -83,6 +83,10 @@ class AppRepository @Inject constructor(
     var edgeState: EdgeLightingState
         get() = appPreferences.edgeState
         set(value) { appPreferences.edgeState = value }
+
+    var cacheEdgeState: EdgeLightingState
+        get() = appPreferences.cacheEdgeState
+        set(value) { appPreferences.cacheEdgeState = value }
 
     private var _isInternetConnected = true
     private val _networkState = MutableStateFlow(false)
@@ -287,6 +291,12 @@ class AppRepository @Inject constructor(
             return ""
         }
     }
+
+    fun clearCacheEdgeState() {
+        appPreferences.clearCacheEdgeState()
+    }
+
+    fun hasCacheEdgeState() = appPreferences.hasCacheEdgeState()
 
     companion object {
         fun isSdkHigherThan28(): Boolean {

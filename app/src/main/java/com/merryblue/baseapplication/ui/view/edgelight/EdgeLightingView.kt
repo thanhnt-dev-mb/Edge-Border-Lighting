@@ -1,27 +1,46 @@
 package com.merryblue.baseapplication.ui.view.edgelight
 
 import android.animation.ValueAnimator
+import android.annotation.SuppressLint
 import android.content.Context
-import android.graphics.*
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
+import android.graphics.BitmapShader
+import android.graphics.Canvas
+import android.graphics.Color
+import android.graphics.LinearGradient
+import android.graphics.Matrix
+import android.graphics.Paint
+import android.graphics.Path
+import android.graphics.PathMeasure
+import android.graphics.RectF
+import android.graphics.Shader
+import android.graphics.SweepGradient
 import android.util.AttributeSet
 import android.util.Xml
 import android.view.View
 import android.view.animation.LinearInterpolator
 import androidx.annotation.DrawableRes
+import androidx.annotation.MainThread
 import androidx.core.content.res.use
 import androidx.core.graphics.PathParser
 import com.merryblue.baseapplication.R
 import com.merryblue.baseapplication.coredata.model.edge.Advanced
 import com.merryblue.baseapplication.coredata.model.edge.EdgePreset
 import com.merryblue.baseapplication.coredata.model.edge.EdgeStyle
+import com.merryblue.baseapplication.helpers.BackgroundType
 import com.merryblue.baseapplication.helpers.dpToPx
 import org.xmlpull.v1.XmlPullParser
 import kotlin.math.atan2
 import kotlin.math.max
 import kotlin.math.min
 import kotlin.math.roundToInt
+import androidx.core.graphics.withTranslation
 
 class EdgeLightingView @JvmOverloads constructor(context: Context, attrs: AttributeSet? = null) : View(context, attrs) {
+
+    private var batchDepth = 0
+    private var pendingInvalidateSmart = false
 
     private var direction = Advanced.DIRECTION_CLOCKWISE
     private var notchType = Advanced.NOTCH_DEFAULT
@@ -68,7 +87,6 @@ class EdgeLightingView @JvmOverloads constructor(context: Context, attrs: Attrib
     private var lastProgress = 0f
     private var isViewAttached = false
     private var cachedBgPath: Path? = null
-    private var cachedOuterEdgePath: Path? = null
     private var cachedPatternEdgePath: Path? = null
     private var cachedHoleEdgePath: Path? = null
     private var cachedPatternHoleEdgePath: Path? = null
@@ -125,7 +143,7 @@ class EdgeLightingView @JvmOverloads constructor(context: Context, attrs: Attrib
             }
 
             progress = p
-            invalidate()
+            invalidateSmart()
         }
     }
 
@@ -173,9 +191,31 @@ class EdgeLightingView @JvmOverloads constructor(context: Context, attrs: Attrib
         }
     }
 
+    private fun batch(block: () -> Unit) {
+        batchDepth++
+        try {
+            block()
+        } finally {
+            batchDepth--
+            if (batchDepth == 0) {
+                if (pendingInvalidateSmart) {
+                    pendingInvalidateSmart = false
+                    postInvalidateOnAnimation()
+                }
+            }
+        }
+    }
+
+    private fun invalidateSmart() {
+        if (batchDepth > 0) {
+            pendingInvalidateSmart = true
+        } else {
+            postInvalidateOnAnimation()
+        }
+    }
+
     private fun resetGeometryCaches() {
         cachedBgPath = null
-        cachedOuterEdgePath = null
         cachedPatternEdgePath = null
         cachedHoleEdgePath = null
         cachedPatternHoleEdgePath = null
@@ -266,7 +306,7 @@ class EdgeLightingView @JvmOverloads constructor(context: Context, attrs: Attrib
             if (bgColor != Color.TRANSPARENT) setBackgroundColorInside(bgColor)
 
             val bgImageRes = it.getResourceId(R.styleable.EdgeLightingView_edgeBackgroundImage, 0)
-            if (bgImageRes != 0) setBackgroundImage(bgImageRes)
+            if (bgImageRes != 0) setBackgroundImageResId(bgImageRes)
         }
 
         notchWidthFraction = notchWidthFraction.coerceIn(0.05f, 0.95f)
@@ -285,7 +325,6 @@ class EdgeLightingView @JvmOverloads constructor(context: Context, attrs: Attrib
         }
 
         cachedBgPath = buildBackgroundPath()
-        cachedOuterEdgePath = buildOuterEdgePath()
         cachedPatternEdgePath = buildPatternEdgePath()
 
         cachedHoleEdgePath = if (notchType == Advanced.NOTCH_DISPLAY_HOLE) buildHoleEdgePath() else null
@@ -355,7 +394,7 @@ class EdgeLightingView @JvmOverloads constructor(context: Context, attrs: Attrib
             right: Float,
             bottom: Float,
             topR: Float,
-            bottomR: Float
+            bottomR: Float,
         ) {
             val radii = floatArrayOf(
                 topR, topR,       // TL
@@ -411,11 +450,10 @@ class EdgeLightingView @JvmOverloads constructor(context: Context, attrs: Attrib
                 path.lineTo(pad, pad + topR)
                 path.quadTo(pad, pad, pad + topR, pad)
 
-                val (infW, infH, rTop, _) = resolveInfinityParams(
-                    inset = pad,
-                    outerTopRadius = topR,
-                    outerBottomRadius = botR
-                )
+                val p = resolveInfinityParams(inset = pad, outerTopRadius = topR, outerBottomRadius = botR)
+                val infW = p.w
+                val infH = p.h
+                val rTop = p.rTop
 
                 val halfW = infW / 2f
                 val startX = (topMid - halfW).coerceAtLeast(pad + topR)
@@ -458,18 +496,6 @@ class EdgeLightingView @JvmOverloads constructor(context: Context, attrs: Attrib
         }
 
         return path
-    }
-
-    private fun buildOuterEdgePath(): Path {
-        val pad = strokeWidth / 2f
-        val tr = topRadius.coerceAtLeast(0f)
-        val br = bottomRadius.coerceAtLeast(0f)
-
-        val radii = floatArrayOf(tr, tr, tr, tr, br, br, br, br)
-
-        return Path().apply {
-            addRoundRect(RectF(pad, pad, width - pad, height - pad), radii, Path.Direction.CW)
-        }
     }
 
     private fun buildHoleEdgePath(): Path {
@@ -558,11 +584,10 @@ class EdgeLightingView @JvmOverloads constructor(context: Context, attrs: Attrib
         val topR = (topRadius - iconHalf).coerceAtLeast(0f).coerceAtMost(usableW / 2f)
         val botR = (bottomRadius - iconHalf).coerceAtLeast(0f).coerceAtMost((bottom - inset) / 2f)
 
-        val (infW, infH, rTop) = resolveInfinityParams(
-            inset = inset,
-            outerTopRadius = topR,
-            outerBottomRadius = botR
-        )
+        val p = resolveInfinityParams(inset = inset, outerTopRadius = topR, outerBottomRadius = botR)
+        val infW = p.w
+        val infH = p.h
+        val rTop = p.rTop
 
         val halfW = infW / 2f
         val startX = (topMid - halfW).coerceAtLeast(inset + topR)
@@ -577,7 +602,15 @@ class EdgeLightingView @JvmOverloads constructor(context: Context, attrs: Attrib
 
         when (infinityShape) {
             InfinityShape.U -> buildInfinityUPath(path, startX, endX, inset, inset + infH, rTop)
-            InfinityShape.V -> buildInfinityVPath(path, startX, endX, inset, inset + infH, rTop, tipRadius = infinityTipRadiusPx,)
+            InfinityShape.V -> buildInfinityVPath(
+                path,
+                startX,
+                endX,
+                inset,
+                inset + infH,
+                rTop,
+                tipRadius = infinityTipRadiusPx
+            )
         }
 
         path.lineTo(right - topR, inset)
@@ -618,7 +651,7 @@ class EdgeLightingView @JvmOverloads constructor(context: Context, attrs: Attrib
         notchHeight: Float,
         notchTopRadius: Float,
         notchBottomRadius: Float,
-        notchBottomFullness: Float
+        notchBottomFullness: Float,
     ) {
         val usableW = (right - left).coerceAtLeast(1f)
         val cx = (left + right) / 2f
@@ -736,14 +769,23 @@ class EdgeLightingView @JvmOverloads constructor(context: Context, attrs: Attrib
                 canvas.drawPath(path, bgPaint)
             }
             is EdgeBackground.Image -> {
-                val needRecreate = (cachedBitmap != bg.bitmap) || (cachedBgW != width) || (cachedBgH != height)
+                val needRecreate = (cachedBitmap != bg.bitmap) ||
+                        (cachedBgW != width) ||
+                        (cachedBgH != height) ||
+                        (cachedBitmapShader == null)
+
                 if (needRecreate) {
+
                     cachedBitmap = bg.bitmap
                     cachedBgW = width
                     cachedBgH = height
                     cachedBitmapShader = BitmapShader(bg.bitmap, Shader.TileMode.CLAMP, Shader.TileMode.CLAMP)
-                    updateBgMatrix(width.toFloat(), height.toFloat())
-                    cachedBitmapShader?.setLocalMatrix(bgMatrix)
+
+                    if (width > 0 && height > 0) {
+                        updateBgMatrix(width.toFloat(), height.toFloat())
+                        cachedBitmapShader?.setLocalMatrix(bgMatrix)
+                    }
+
                     bgPaint.shader = cachedBitmapShader
                 } else {
                     bgPaint.shader = cachedBitmapShader
@@ -821,14 +863,13 @@ class EdgeLightingView @JvmOverloads constructor(context: Context, attrs: Attrib
         while (c < idx && pm.nextContour()) c++
 
         if (pm.getPosTan(local, pos, tan)) {
-            canvas.save()
-            canvas.translate(pos[0], pos[1])
-            if (patternRotate) {
-                val angle = atan2(tan[1], tan[0]) * 180f / Math.PI.toFloat()
-                canvas.rotate(angle)
+            canvas.withTranslation(pos[0], pos[1]) {
+                if (patternRotate) {
+                    val angle = atan2(tan[1], tan[0]) * 180f / Math.PI.toFloat()
+                    rotate(angle)
+                }
+                drawPath(icon, edgePaint)
             }
-            canvas.drawPath(icon, edgePaint)
-            canvas.restore()
         }
     }
 
@@ -836,7 +877,7 @@ class EdgeLightingView @JvmOverloads constructor(context: Context, attrs: Attrib
         return when (direction) {
             Advanced.DIRECTION_ANTI_CLOCKWISE,
             Advanced.DIRECTION_UP,
-            Advanced.DIRECTION_TOP_RIGHT_BOTTOM_LEFT -> -phase
+            Advanced.DIRECTION_TOP_RIGHT_BOTTOM_LEFT, -> -phase
             else -> phase
         }
     }
@@ -900,6 +941,7 @@ class EdgeLightingView @JvmOverloads constructor(context: Context, attrs: Attrib
         patternPath = v.path.centerAndScaleTo(iconSizePx, v.viewportW, v.viewportH)
     }
 
+    @SuppressLint("ResourceType")
     private fun loadVectorAsPath(context: Context, @DrawableRes resId: Int): VectorPathResult {
         val parser = context.resources.getXml(resId)
         val attrs = Xml.asAttributeSet(parser)
@@ -1101,32 +1143,27 @@ class EdgeLightingView @JvmOverloads constructor(context: Context, attrs: Attrib
     private fun resolveInfinityParams(
         inset: Float,
         outerTopRadius: Float,
-        outerBottomRadius: Float
-    ): FloatArray {
+        outerBottomRadius: Float,
+    ): InfinityParams {
         val w = width.toFloat().coerceAtLeast(1f)
         val h = height.toFloat().coerceAtLeast(1f)
 
         val maxAvailableW = (w - 2f * inset - 2f * outerTopRadius).coerceAtLeast(10f)
         val autoW = (w * 0.42f).coerceIn(60f.dpToPx, maxAvailableW)
-        val infW = (if (infinityWidthPx >= 0f) infinityWidthPx else autoW)
-            .coerceIn(10f, maxAvailableW)
+        val infW = (if (infinityWidthPx >= 0f) infinityWidthPx else autoW).coerceIn(10f, maxAvailableW)
 
         val maxH = (h - inset - outerBottomRadius - inset - 1f).coerceAtLeast(0f)
         val autoH = 20f.dpToPx.coerceAtMost(maxH)
-        val infH = (if (infinityHeightPx >= 0f) infinityHeightPx else autoH)
-            .coerceIn(0f, maxH)
+        val infH = (if (infinityHeightPx >= 0f) infinityHeightPx else autoH).coerceIn(0f, maxH)
 
         val halfW = infW / 2f
-
-        val autoTopR = outerTopRadius.coerceAtLeast(0f)
-        val rTopRaw = if (infinityRadiusTopPx >= 0f) infinityRadiusTopPx else autoTopR
+        val rTopRaw = if (infinityRadiusTopPx >= 0f) infinityRadiusTopPx else outerTopRadius.coerceAtLeast(0f)
         val rTop = rTopRaw.coerceIn(0f, min(halfW, infH))
 
-        val autoBotR = 0f
-        val rBotRaw = if (infinityRadiusBottomPx >= 0f) infinityRadiusBottomPx else autoBotR
+        val rBotRaw = if (infinityRadiusBottomPx >= 0f) infinityRadiusBottomPx else 0f
         val rBot = rBotRaw.coerceIn(0f, min(halfW, infH))
 
-        return floatArrayOf(infW, infH, rTop, rBot)
+        return InfinityParams(infW, infH, rTop, rBot)
     }
 
     private fun buildInfinityUPath(
@@ -1135,7 +1172,7 @@ class EdgeLightingView @JvmOverloads constructor(context: Context, attrs: Attrib
         endX: Float,
         topY: Float,
         bottomY: Float,
-        radiusTop: Float
+        radiusTop: Float,
     ) {
         val w = (endX - startX).coerceAtLeast(0f)
         val h = (bottomY - topY).coerceAtLeast(0f)
@@ -1269,13 +1306,6 @@ class EdgeLightingView @JvmOverloads constructor(context: Context, attrs: Attrib
         backgroundInside = EdgeBackground.Color(color)
     }
 
-    private fun setBackgroundImageInternal(@DrawableRes resId: Int) {
-        val bitmap = BitmapFactory.decodeResource(resources, resId)
-        backgroundInside = EdgeBackground.Image(bitmap)
-        cachedBitmap = null
-        cachedBitmapShader = null
-    }
-
     private fun setPatternEnabledInternal(enabled: Boolean) {
         patternEnabled = enabled
         resetGeometryCaches()
@@ -1316,7 +1346,7 @@ class EdgeLightingView @JvmOverloads constructor(context: Context, attrs: Attrib
         rotate: Boolean,
         phaseMultiplier: Float,
         evenSpacing: Boolean,
-        gapPx: Float
+        gapPx: Float,
     ) {
         val v = loadVectorAsPath(context, vectorResId)
         val scaled = v.path.centerAndScaleTo(iconSizePx, v.viewportW, v.viewportH)
@@ -1347,7 +1377,7 @@ class EdgeLightingView @JvmOverloads constructor(context: Context, attrs: Attrib
         strokeWidth = v
         edgePaint.strokeWidth = v
         resetGeometryCaches()
-        invalidate()
+        invalidateSmart()
     }
 
     private fun setPatternIconSizeOnlyPx(iconSizePx: Float) {
@@ -1363,22 +1393,43 @@ class EdgeLightingView @JvmOverloads constructor(context: Context, attrs: Attrib
         }
 
         resetGeometryCaches()
-        invalidate()
+        invalidateSmart()
     }
 
     fun setBackgroundColorInside(color: Int) {
         setBackgroundColorInsideInternal(color)
-        invalidate()
+        invalidateSmart()
     }
 
-    fun setBackgroundImage(@DrawableRes resId: Int) {
-        setBackgroundImageInternal(resId)
-        invalidate()
+    fun setBackgroundImageResId(@DrawableRes resId: Int) {
+        val bmp = BitmapFactory.decodeResource(resources, resId)
+        setBackgroundBitmap(bmp)
+    }
+
+    @MainThread
+    fun setBackgroundBitmap(bitmap: Bitmap) {
+        clearBackgroundBitmap()
+        backgroundInside = EdgeBackground.Image(bitmap)
+        cachedBitmap = null
+        cachedBitmapShader = null
+        cachedBgW = 0
+        cachedBgH = 0
+        invalidateSmart()
+    }
+
+    @MainThread
+    fun clearBackgroundBitmap() {
+        backgroundInside = EdgeBackground.Color(Color.TRANSPARENT)
+        cachedBitmap = null
+        cachedBitmapShader = null
+        cachedBgW = 0
+        cachedBgH = 0
+        invalidateSmart()
     }
 
     fun setColors(vararg c: Int) {
         setColorsInternal(c)
-        invalidate()
+        invalidateSmart()
     }
 
     fun setSpeedMs(ms: Long) {
@@ -1398,7 +1449,7 @@ class EdgeLightingView @JvmOverloads constructor(context: Context, attrs: Attrib
         } else {
             animator.cancel()
             resetAnimationState()
-            invalidate()
+            invalidateSmart()
         }
     }
 
@@ -1408,7 +1459,7 @@ class EdgeLightingView @JvmOverloads constructor(context: Context, attrs: Attrib
         gapPx: Float = (26f.dpToPx - 14f.dpToPx),
         rotate: Boolean = true,
         phaseMultiplier: Float = 1f,
-        evenSpacing: Boolean = true
+        evenSpacing: Boolean = true,
     ) {
         setEdgePatternVectorInternal(
             vectorResId = vectorResId,
@@ -1418,12 +1469,12 @@ class EdgeLightingView @JvmOverloads constructor(context: Context, attrs: Attrib
             evenSpacing = evenSpacing,
             gapPx = gapPx
         )
-        invalidate()
+        invalidateSmart()
     }
 
     fun setPatternEnabled(enabled: Boolean) {
         setPatternEnabledInternal(enabled)
-        invalidate()
+        invalidateSmart()
     }
 
     fun applyPreset(preset: EdgePreset, resetState: Boolean = true) {
@@ -1435,13 +1486,16 @@ class EdgeLightingView @JvmOverloads constructor(context: Context, attrs: Attrib
                 applyEdgeStyleInternal(preset.edge)
             }
             is EdgePreset.BackgroundImageRes -> {
-                if (hasBgBefore) setBackgroundImageInternal(preset.resId)
+                if (hasBgBefore) {
+                    val bmp = BitmapFactory.decodeResource(resources, preset.resId)
+                    setBackgroundBitmap(bmp)
+                }
                 applyEdgeStyleInternal(preset.edge)
             }
         }
 
         if (resetState) resetAnimationState()
-        invalidate()
+        invalidateSmart()
     }
 
     fun setSizePx(px: Float) {
@@ -1459,7 +1513,7 @@ class EdgeLightingView @JvmOverloads constructor(context: Context, attrs: Attrib
         patternGapPx = v
         patternAdvance = patternSizePx + patternGapPx
         resetGeometryCaches()
-        invalidate()
+        invalidateSmart()
     }
 
     fun setTopRadiusPx(px: Float) {
@@ -1467,7 +1521,7 @@ class EdgeLightingView @JvmOverloads constructor(context: Context, attrs: Attrib
         if (topRadius == v) return
         topRadius = v
         resetGeometryCaches()
-        invalidate()
+        invalidateSmart()
     }
 
     fun setBottomRadiusPx(px: Float) {
@@ -1475,7 +1529,7 @@ class EdgeLightingView @JvmOverloads constructor(context: Context, attrs: Attrib
         if (bottomRadius == v) return
         bottomRadius = v
         resetGeometryCaches()
-        invalidate()
+        invalidateSmart()
     }
 
     fun getSpeedMs(): Long = duration
@@ -1493,12 +1547,14 @@ class EdgeLightingView @JvmOverloads constructor(context: Context, attrs: Attrib
             Advanced.DIRECTION_TOP_RIGHT_BOTTOM_LEFT,
             Advanced.DIRECTION_BOTTOM_LEFT_TOP_RIGHT,
             Advanced.DIRECTION_DOWN,
-            Advanced.DIRECTION_UP -> setDirection(value, resetState)
+            Advanced.DIRECTION_UP,
+                -> setDirection(value, resetState)
 
             Advanced.NOTCH_DEFAULT,
             Advanced.NOTCH_DISPLAY_NOTCH,
             Advanced.NOTCH_DISPLAY_HOLE,
-            Advanced.NOTCH_DISPLAY_INFINITY -> setNotchType(value, resetState)
+            Advanced.NOTCH_DISPLAY_INFINITY,
+                -> setNotchType(value, resetState)
         }
     }
 
@@ -1519,7 +1575,7 @@ class EdgeLightingView @JvmOverloads constructor(context: Context, attrs: Attrib
         cachedShader = null
 
         if (resetState) resetAnimationState()
-        invalidate()
+        invalidateSmart()
     }
 
     fun getDirection(): Advanced = direction
@@ -1537,7 +1593,7 @@ class EdgeLightingView @JvmOverloads constructor(context: Context, attrs: Attrib
         notchType = value
         resetGeometryCaches()
         if (resetState) resetAnimationState()
-        invalidate()
+        invalidateSmart()
     }
 
     fun getNotchType(): Advanced = notchType
@@ -1547,7 +1603,7 @@ class EdgeLightingView @JvmOverloads constructor(context: Context, attrs: Attrib
         if (notchWidthPx == v) return
         notchWidthPx = v
         resetGeometryCaches()
-        invalidate()
+        invalidateSmart()
     }
 
     fun setNotchWidthFraction(fraction: Float) {
@@ -1555,7 +1611,7 @@ class EdgeLightingView @JvmOverloads constructor(context: Context, attrs: Attrib
         if (notchWidthFraction == v) return
         notchWidthFraction = v
         resetGeometryCaches()
-        invalidate()
+        invalidateSmart()
     }
 
     fun getNotchWidthPx(): Float = notchWidthPx
@@ -1566,7 +1622,7 @@ class EdgeLightingView @JvmOverloads constructor(context: Context, attrs: Attrib
         if (notchHeightPx == v) return
         notchHeightPx = v
         resetGeometryCaches()
-        invalidate()
+        invalidateSmart()
     }
 
     fun getNotchHeightPx(): Float = notchHeightPx
@@ -1576,7 +1632,7 @@ class EdgeLightingView @JvmOverloads constructor(context: Context, attrs: Attrib
         if (notchTopRadiusPx == v) return
         notchTopRadiusPx = v
         resetGeometryCaches()
-        invalidate()
+        invalidateSmart()
     }
 
     fun getNotchTopRadiusPx(): Float = notchTopRadiusPx
@@ -1586,7 +1642,7 @@ class EdgeLightingView @JvmOverloads constructor(context: Context, attrs: Attrib
         if (notchBottomRadiusPx == v) return
         notchBottomRadiusPx = v
         resetGeometryCaches()
-        invalidate()
+        invalidateSmart()
     }
 
     fun getNotchBottomRadiusPx(): Float = notchBottomRadiusPx
@@ -1596,7 +1652,7 @@ class EdgeLightingView @JvmOverloads constructor(context: Context, attrs: Attrib
         if (notchBottomFullness == v) return
         notchBottomFullness = v
         resetGeometryCaches()
-        invalidate()
+        invalidateSmart()
     }
 
     fun getNotchBottomFullness(): Float = notchBottomFullness
@@ -1606,7 +1662,7 @@ class EdgeLightingView @JvmOverloads constructor(context: Context, attrs: Attrib
         if (notchBottomCapsuleBias == v) return
         notchBottomCapsuleBias = v
         resetGeometryCaches()
-        invalidate()
+        invalidateSmart()
     }
 
     fun setHoleShape(shape: EdgeHoleShape) {
@@ -1614,7 +1670,7 @@ class EdgeLightingView @JvmOverloads constructor(context: Context, attrs: Attrib
         holeShape = shape
         if (notchType == Advanced.NOTCH_DISPLAY_HOLE) clampHoleOffsetsForCurrentConfig()
         resetGeometryCaches()
-        invalidate()
+        invalidateSmart()
     }
 
     fun getHoleShape(): EdgeHoleShape = holeShape
@@ -1624,7 +1680,7 @@ class EdgeLightingView @JvmOverloads constructor(context: Context, attrs: Attrib
         holeOffsetX = px
         if (notchType == Advanced.NOTCH_DISPLAY_HOLE) clampHoleOffsetsForCurrentConfig()
         resetGeometryCaches()
-        invalidate()
+        invalidateSmart()
     }
 
     fun setHoleOffsetY(px: Float) {
@@ -1632,7 +1688,7 @@ class EdgeLightingView @JvmOverloads constructor(context: Context, attrs: Attrib
         holeOffsetY = px
         if (notchType == Advanced.NOTCH_DISPLAY_HOLE) clampHoleOffsetsForCurrentConfig()
         resetGeometryCaches()
-        invalidate()
+        invalidateSmart()
     }
 
     fun getHoleOffsetX(): Float = holeOffsetX
@@ -1644,7 +1700,7 @@ class EdgeLightingView @JvmOverloads constructor(context: Context, attrs: Attrib
         holeRadius = v
         if (notchType == Advanced.NOTCH_DISPLAY_HOLE) clampHoleOffsetsForCurrentConfig()
         resetGeometryCaches()
-        invalidate()
+        invalidateSmart()
     }
 
     fun getHoleCircleRadiusPx(): Float = holeRadius
@@ -1655,7 +1711,7 @@ class EdgeLightingView @JvmOverloads constructor(context: Context, attrs: Attrib
         holeWidthPx = v
         if (notchType == Advanced.NOTCH_DISPLAY_HOLE) clampHoleOffsetsForCurrentConfig()
         resetGeometryCaches()
-        invalidate()
+        invalidateSmart()
     }
 
     fun setHoleRoundHeightPx(px: Float) {
@@ -1664,7 +1720,7 @@ class EdgeLightingView @JvmOverloads constructor(context: Context, attrs: Attrib
         holeHeightPx = v
         if (notchType == Advanced.NOTCH_DISPLAY_HOLE) clampHoleOffsetsForCurrentConfig()
         resetGeometryCaches()
-        invalidate()
+        invalidateSmart()
     }
 
     fun setHoleRoundCornerRadiusPx(px: Float) {
@@ -1673,7 +1729,7 @@ class EdgeLightingView @JvmOverloads constructor(context: Context, attrs: Attrib
         holeCornerRadiusPx = v
         if (notchType == Advanced.NOTCH_DISPLAY_HOLE) clampHoleOffsetsForCurrentConfig()
         resetGeometryCaches()
-        invalidate()
+        invalidateSmart()
     }
 
     fun getHoleRoundWidthPx(): Float = holeWidthPx
@@ -1685,7 +1741,7 @@ class EdgeLightingView @JvmOverloads constructor(context: Context, attrs: Attrib
         infinityShape = shape
         resetGeometryCaches()
         if (reset) resetAnimationState()
-        invalidate()
+        invalidateSmart()
     }
 
     fun getInfinityShape(): InfinityShape = infinityShape
@@ -1695,14 +1751,14 @@ class EdgeLightingView @JvmOverloads constructor(context: Context, attrs: Attrib
         if (infinityWidthPx == v) return
         infinityWidthPx = v
         resetGeometryCaches()
-        invalidate()
+        invalidateSmart()
     }
 
     fun setInfinityWidthAuto() {
         if (infinityWidthPx < 0f) return
         infinityWidthPx = -1f
         resetGeometryCaches()
-        invalidate()
+        invalidateSmart()
     }
 
     fun setInfinityHeightPx(px: Float) {
@@ -1710,14 +1766,14 @@ class EdgeLightingView @JvmOverloads constructor(context: Context, attrs: Attrib
         if (infinityHeightPx == v) return
         infinityHeightPx = v
         resetGeometryCaches()
-        invalidate()
+        invalidateSmart()
     }
 
     fun setInfinityHeightAuto() {
         if (infinityHeightPx < 0f) return
         infinityHeightPx = -1f
         resetGeometryCaches()
-        invalidate()
+        invalidateSmart()
     }
 
     fun setInfinityRadiusTopPx(px: Float) {
@@ -1725,14 +1781,14 @@ class EdgeLightingView @JvmOverloads constructor(context: Context, attrs: Attrib
         if (infinityRadiusTopPx == v) return
         infinityRadiusTopPx = v
         resetGeometryCaches()
-        invalidate()
+        invalidateSmart()
     }
 
     fun setInfinityRadiusTopAuto() {
         if (infinityRadiusTopPx < 0f) return
         infinityRadiusTopPx = -1f
         resetGeometryCaches()
-        invalidate()
+        invalidateSmart()
     }
 
     fun setInfinityTipRadiusPx(px: Float) {
@@ -1740,7 +1796,7 @@ class EdgeLightingView @JvmOverloads constructor(context: Context, attrs: Attrib
         if (infinityTipRadiusPx == v) return
         infinityTipRadiusPx = v
         resetGeometryCaches()
-        invalidate()
+        invalidateSmart()
     }
 
     fun getInfinityTipRadiusPx(): Float = infinityTipRadiusPx
@@ -1750,14 +1806,14 @@ class EdgeLightingView @JvmOverloads constructor(context: Context, attrs: Attrib
         if (infinityRadiusBottomPx == v) return
         infinityRadiusBottomPx = v
         resetGeometryCaches()
-        invalidate()
+        invalidateSmart()
     }
 
     fun setInfinityRadiusBottomAuto() {
         if (infinityRadiusBottomPx < 0f) return
         infinityRadiusBottomPx = -1f
         resetGeometryCaches()
-        invalidate()
+        invalidateSmart()
     }
 
     private fun resolveSideCurvature(rTop: Float): Float {
@@ -1770,4 +1826,80 @@ class EdgeLightingView @JvmOverloads constructor(context: Context, attrs: Attrib
     fun getInfinityHeightPx(): Float = infinityHeightPx
     fun getInfinityRadiusTopPx(): Float = infinityRadiusTopPx
     fun getInfinityRadiusBottomPx(): Float = infinityRadiusBottomPx
+
+    fun applyEdgeState(s: EdgeLightingState) = batch {
+
+        // speed
+        setSpeedMs(s.speedMs)
+
+        // size
+        setSizePx(s.iconSizePx)
+
+        // radius
+        setTopRadiusPx(s.topRadius)
+        setBottomRadiusPx(s.bottomRadius)
+
+        // advanced
+        setDirection(s.direction, resetState = false)
+        setNotchType(s.notchType, resetState = false)
+
+        // notch params
+        setNotchWidthFraction(s.notchWidthFraction)
+        setNotchHeightPx(s.notchHeightPx)
+        setNotchTopRadiusPx(s.notchTopRadiusPx)
+        setNotchBottomRadiusPx(s.notchBottomRadiusPx)
+        setNotchBottomFullness(s.notchBottomFullness)
+
+        // hole params
+        setHoleShape(s.holeShape)
+        setHoleOffsetX(s.holeOffsetX)
+        setHoleOffsetY(s.holeOffsetY)
+        setHoleCircleRadiusPx(s.holeRadius)
+        setHoleRoundWidthPx(s.holeWidthPx)
+        setHoleRoundHeightPx(s.holeHeightPx)
+        setHoleRoundCornerRadiusPx(s.holeCornerRadiusPx)
+
+        // infinity params
+        setInfinityShape(s.infinityShape, reset = false)
+        if (s.infinityWidthPx >= 0f) setInfinityWidthPx(s.infinityWidthPx) else setInfinityWidthAuto()
+        if (s.infinityHeightPx >= 0f) setInfinityHeightPx(s.infinityHeightPx) else setInfinityHeightAuto()
+        if (s.infinityRadiusTopPx >= 0f) setInfinityRadiusTopPx(s.infinityRadiusTopPx) else setInfinityRadiusTopAuto()
+
+        // style
+        when (s.edgeStyleType) {
+            0 -> { // linear
+                setPatternEnabled(false)
+                setColors(*s.colors)
+                setLinearStrokeWidthPx(s.iconSizePx)
+            }
+
+            1 -> {
+                if (s.vectorResId == R.drawable.ic_none || s.vectorResId == 0) {
+                    setPatternEnabled(false)
+                } else {
+                    setEdgePatternVector(
+                        vectorResId = s.vectorResId,
+                        iconSizePx = s.iconSizePx,
+                        gapPx = (s.advancePx - s.iconSizePx).coerceAtLeast(0f),
+                        rotate = s.rotate,
+                        phaseMultiplier = s.phaseMultiplier,
+                        evenSpacing = true
+                    )
+                }
+                setColors(*s.colors)
+            }
+
+            else -> setPatternEnabled(false)
+        }
+    }
+
+    fun startAnimationForWallpaper() {
+        if (!animationEnabled) animationEnabled = true
+        resetAnimationState()
+        animator.start()
+    }
+
+    fun stopAnimationForWallpaper() {
+        animator.cancel()
+    }
 }

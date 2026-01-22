@@ -7,14 +7,13 @@
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE_SPECIAL_USE" />
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
-
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
     <uses-permission android:name="android.permission.WAKE_LOCK" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
     <uses-permission android:name="com.android.alarm.permission.SET_ALARM" />
-    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
     <uses-permission android:name="com.google.android.gms.permission.AD_ID" />
     <uses-permission android:name="android.permission.RECORD_AUDIO" />
     <uses-permission
@@ -65,6 +64,10 @@
         tools:ignore="DiscouragedApi,LockedOrientationActivity"
         tools:overrideLibrary="org.app.core"
         tools:replace="android:allowBackup">
+        <activity
+            android:name=".ui.wallpaper.EdgeWallpaperSettingsActivity"
+            android:exported="false"
+            android:launchMode="singleTask" />
         <activity
             android:name=".ui.theme.ThemesActivity"
             android:exported="false" />
@@ -130,11 +133,22 @@
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />
             </intent-filter>
         </service>
+        <service
+            android:name=".service.EdgeLightingWallpaperService"
+            android:exported="true"
+            android:permission="android.permission.BIND_WALLPAPER">
+            <intent-filter>
+                <action android:name="android.service.wallpaper.WallpaperService" />
+            </intent-filter>
 
+            <meta-data
+                android:name="android.service.wallpaper"
+                android:resource="@xml/edge_lighting_wallpaper" />
+        </service>
         <service
             android:name=".service.EdgeLightingOverlayService"
-            android:foregroundServiceType="specialUse"
-            android:exported="false" />
+            android:exported="false"
+            android:foregroundServiceType="specialUse" />
 
         <meta-data
             android:name="com.google.android.play.billingclient.version"

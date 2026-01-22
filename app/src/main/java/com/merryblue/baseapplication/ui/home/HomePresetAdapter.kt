@@ -7,7 +7,6 @@ import com.bumptech.glide.Glide
 import com.merryblue.baseapplication.R
 import com.merryblue.baseapplication.databinding.ItemHomePresetBinding
 import com.merryblue.baseapplication.domain.model.Item
-import com.merryblue.baseapplication.domain.model.getThumbUrl
 import timber.log.Timber
 
 class HomePresetAdapter(
@@ -37,7 +36,7 @@ class HomePresetAdapter(
     inner class PresetViewHolder(val binding: ItemHomePresetBinding): RecyclerView.ViewHolder(binding.root) {
         fun bindViews(item: Item) {
             binding.apply {
-                Glide.with(root.context).load(item.getThumbUrl())
+                Glide.with(root.context).load(item.thumbUrl)
                     .placeholder(R.drawable.placeholder_image)
                     .error(R.drawable.placeholder_image)
                     .into(ivHomePreset)
