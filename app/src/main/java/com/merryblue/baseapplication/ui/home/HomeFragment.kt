@@ -1,9 +1,9 @@
 package com.merryblue.baseapplication.ui.home
 
 import android.content.Intent
-import android.net.Uri
 import android.provider.Settings
 import androidx.core.content.ContextCompat
+import androidx.core.net.toUri
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
@@ -15,12 +15,14 @@ import com.merryblue.baseapplication.R
 import com.merryblue.baseapplication.databinding.FragmentHomeBinding
 import com.merryblue.baseapplication.domain.model.Item
 import com.merryblue.baseapplication.domain.model.ThemeUi
-import com.merryblue.baseapplication.helpers.BackgroundType.BACKGROUND_URL
+import com.merryblue.baseapplication.helpers.BitmapMemoryCache
 import com.merryblue.baseapplication.helpers.EDGE_MOST
 import com.merryblue.baseapplication.helpers.KEY_RECEIVE_DATA
+import com.merryblue.baseapplication.helpers.PreviewType.KEY_EDGE
 import com.merryblue.baseapplication.helpers.RIPPLE_MAGICAL_BORDERS
 import com.merryblue.baseapplication.helpers.TYPE_PRESET
 import com.merryblue.baseapplication.helpers.TYPE_THEME
+import com.merryblue.baseapplication.helpers.getFullScreenTargetSize
 import com.merryblue.baseapplication.helpers.updateHeightForCurrentPage
 import com.merryblue.baseapplication.service.EdgeLightingOverlayService
 import com.merryblue.baseapplication.ui.theme.ThemesActivity
@@ -36,10 +38,8 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
     private lateinit var mediator: TabLayoutMediator
     private lateinit var presetAdapter: HomePresetAdapter
     private lateinit var homeThemeAdapter: HomeThemeAdapter
-
     private val presetOnClick: (Item) -> Unit = { item ->
-        viewModel.applyEdgeState { it.copy(backgroundType = BACKGROUND_URL, backgroundImageUrl = item.pathUrl) }
-        startActivity(Intent(requireContext(), EdgeWallpaperSettingsActivity::class.java))
+        actionClickImage(item)
     }
 
     private val customOnClick: () -> Unit = {
@@ -56,6 +56,11 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
 
     override fun getLayoutId() = R.layout.fragment_home
 
+    override fun onResume() {
+        super.onResume()
+        viewModel.restartOverlay()
+    }
+
     override fun setUpViews() {
         viewModel.loadPreset(EDGE_MOST)
         viewModel.loadThemes(RIPPLE_MAGICAL_BORDERS)
@@ -63,6 +68,55 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
         initTabLayout()
         initRecyclerView()
         registerOnClick()
+    }
+
+    override fun setupObservers() {
+        binding.apply {
+            viewLifecycleOwner.lifecycleScope.launch {
+                viewLifecycleOwner.lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                    launch { viewModel.connectionState.collectLatest { onNetworkStateChanged(it) } }
+
+                    launch {
+                        viewModel.presetState.collectLatest { preset ->
+                            presetAdapter.submitList(preset?.items?.take(3).orEmpty())
+                        }
+                    }
+
+                    launch {
+                        viewModel.themeState.collectLatest { theme ->
+                            homeThemeAdapter.submitList(
+                                buildList {
+                                    add(ThemeUi.Custom())
+                                    addAll(theme?.items?.take(2).orEmpty())
+                                }
+                            )
+                        }
+                    }
+
+                    launch {
+                        viewModel.bgBitmap.collectLatest { bmp ->
+                            bmp?.let {
+                                binding.edgeToggle.isChecked = false
+                                viewModel.updateEdgeState { state -> state.copy(isEnableEdgeLighting = false) }
+                                BitmapMemoryCache.put(KEY_EDGE, it)
+                                val intent = Intent(requireContext(), EdgeWallpaperSettingsActivity::class.java)
+                                startActivity(intent)
+                            }
+                        }
+                    }
+
+                    launch {
+                        viewModel.restartOverlay.collectLatest { isRestart ->
+                            if (isRestart) {
+                                binding.edgeToggle.isChecked = true
+                                viewModel.updateEdgeState { it.copy(isEnableEdgeLighting = true) }
+                                startEdgeOverlay()
+                            }
+                        }
+                    }
+                }
+            }
+        }
     }
 
     private fun initRecyclerView() {
@@ -136,36 +190,9 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
         })
     }
 
-    override fun setupObservers() {
-        binding.apply {
-            viewLifecycleOwner.lifecycleScope.launch {
-                viewLifecycleOwner.lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED) {
-                    launch { viewModel.connectionState.collectLatest { onNetworkStateChanged(it) } }
-
-                    launch {
-                        viewModel.presetState.collectLatest { preset ->
-                            presetAdapter.submitList(preset?.items?.take(3).orEmpty())
-                        }
-                    }
-
-                    launch {
-                        viewModel.themeState.collectLatest { theme ->
-                            homeThemeAdapter.submitList(
-                                buildList {
-                                    add(ThemeUi.Custom())
-                                    addAll(theme?.items?.take(2).orEmpty())
-                                }
-                            )
-                        }
-                    }
-                }
-            }
-        }
-    }
-
     private fun startEdgeOverlay() {
         if (!Settings.canDrawOverlays(requireContext())) {
-            val i = Intent(Settings.ACTION_MANAGE_OVERLAY_PERMISSION, Uri.parse("package:${requireContext().packageName}"))
+            val i = Intent(Settings.ACTION_MANAGE_OVERLAY_PERMISSION, "package:${requireContext().packageName}".toUri())
             overlayPermissionLauncher.launch(i)
             return
         }
@@ -174,6 +201,10 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
 
     private fun stopEdgeOverlay() {
         requireContext().stopService(Intent(requireContext(), EdgeLightingOverlayService::class.java))
+    }
+
+    private fun actionClickImage(item: Item) {
+        viewModel.onClickBackgroundUrl(item, requireContext().getFullScreenTargetSize())
     }
 
     fun onChildContentExpanded() = binding.apply {

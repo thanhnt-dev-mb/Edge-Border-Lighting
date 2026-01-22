@@ -112,7 +112,7 @@ class EdgeColorFragment: BaseFragment<FragmentEdgeColorBinding>() {
                                     )
                                 )
 
-                                viewModel.updateEdgeState { it.copy(edgeStyleType = 0, colors = selected.colors) }
+                                viewModel.updateEdgeState { it.copy(colors = selected.colors) }
                             }
                         }
                 }

@@ -66,8 +66,8 @@
         tools:replace="android:allowBackup">
         <activity
             android:name=".ui.wallpaper.EdgeWallpaperSettingsActivity"
-            android:launchMode="singleTask"
-            android:exported="false" />
+            android:exported="false"
+            android:launchMode="singleTask" />
         <activity
             android:name=".ui.theme.ThemesActivity"
             android:exported="false" />

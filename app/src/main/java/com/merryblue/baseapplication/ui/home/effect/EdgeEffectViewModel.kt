@@ -7,7 +7,7 @@ import com.merryblue.baseapplication.R
 import com.merryblue.baseapplication.coredata.AppRepository
 import com.merryblue.baseapplication.coredata.model.edge.EdgeEffectItem
 import com.merryblue.baseapplication.ui.view.edgelight.EdgeLightingState
-import com.merryblue.baseapplication.helpers.ACTION_EDGE_STATE_CHANGED
+import com.merryblue.baseapplication.helpers.ServiceState.ACTION_EDGE_OVERLAY_CHANGED
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -70,7 +70,7 @@ class EdgeEffectViewModel @Inject constructor(
 
     fun updateEdgeState(block: (EdgeLightingState) -> EdgeLightingState) {
         appRepository.edgeState = block.invoke(appRepository.edgeState)
-        val i = Intent(ACTION_EDGE_STATE_CHANGED).apply {
+        val i = Intent(ACTION_EDGE_OVERLAY_CHANGED).apply {
             setPackage(appContext.packageName)
         }
         appContext.sendBroadcast(i)

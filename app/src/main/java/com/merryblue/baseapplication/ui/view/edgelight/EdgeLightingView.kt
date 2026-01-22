@@ -1,10 +1,21 @@
 package com.merryblue.baseapplication.ui.view.edgelight
 
 import android.animation.ValueAnimator
+import android.annotation.SuppressLint
 import android.content.Context
-import android.graphics.*
-import android.graphics.drawable.Drawable
-import android.net.Uri
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
+import android.graphics.BitmapShader
+import android.graphics.Canvas
+import android.graphics.Color
+import android.graphics.LinearGradient
+import android.graphics.Matrix
+import android.graphics.Paint
+import android.graphics.Path
+import android.graphics.PathMeasure
+import android.graphics.RectF
+import android.graphics.Shader
+import android.graphics.SweepGradient
 import android.util.AttributeSet
 import android.util.Xml
 import android.view.View
@@ -13,31 +24,23 @@ import androidx.annotation.DrawableRes
 import androidx.annotation.MainThread
 import androidx.core.content.res.use
 import androidx.core.graphics.PathParser
-import com.bumptech.glide.Glide
-import com.bumptech.glide.load.engine.DiskCacheStrategy
-import com.bumptech.glide.request.target.CustomTarget
-import com.bumptech.glide.request.transition.Transition
 import com.merryblue.baseapplication.R
 import com.merryblue.baseapplication.coredata.model.edge.Advanced
 import com.merryblue.baseapplication.coredata.model.edge.EdgePreset
 import com.merryblue.baseapplication.coredata.model.edge.EdgeStyle
 import com.merryblue.baseapplication.helpers.BackgroundType
 import com.merryblue.baseapplication.helpers.dpToPx
-import com.merryblue.baseapplication.ui.view.edgelight.EdgeLightingState
 import org.xmlpull.v1.XmlPullParser
 import kotlin.math.atan2
 import kotlin.math.max
 import kotlin.math.min
 import kotlin.math.roundToInt
+import androidx.core.graphics.withTranslation
 
 class EdgeLightingView @JvmOverloads constructor(context: Context, attrs: AttributeSet? = null) : View(context, attrs) {
 
     private var batchDepth = 0
     private var pendingInvalidateSmart = false
-
-    private var bgUrlTarget: CustomTarget<Bitmap>? = null
-    private var bgUrl: String? = null
-    private var pendingBgUri: Uri? = null
 
     private var direction = Advanced.DIRECTION_CLOCKWISE
     private var notchType = Advanced.NOTCH_DEFAULT
@@ -84,7 +87,6 @@ class EdgeLightingView @JvmOverloads constructor(context: Context, attrs: Attrib
     private var lastProgress = 0f
     private var isViewAttached = false
     private var cachedBgPath: Path? = null
-    private var cachedOuterEdgePath: Path? = null
     private var cachedPatternEdgePath: Path? = null
     private var cachedHoleEdgePath: Path? = null
     private var cachedPatternHoleEdgePath: Path? = null
@@ -165,18 +167,6 @@ class EdgeLightingView @JvmOverloads constructor(context: Context, attrs: Attrib
         super.onAttachedToWindow()
         isViewAttached = true
         if (animationEnabled) animator.start()
-
-        pendingBgUri?.let { uri ->
-            if (width > 0 && height > 0) {
-                loadBackgroundFromUriInternal(uri)
-            }
-        }
-
-        bgUrl?.let { url ->
-            if (width > 0 && height > 0 && backgroundInside == null) {
-                setBackgroundImageUrl(url)
-            }
-        }
     }
 
     override fun onDetachedFromWindow() {
@@ -199,12 +189,6 @@ class EdgeLightingView @JvmOverloads constructor(context: Context, attrs: Attrib
             updateBgMatrix(w.toFloat(), h.toFloat())
             cachedBitmapShader?.setLocalMatrix(bgMatrix)
         }
-
-        pendingBgUri?.let { uri ->
-            if (isAttachedToWindow && w > 0 && h > 0) {
-                loadBackgroundFromUriInternal(uri)
-            }
-        }
     }
 
     private fun batch(block: () -> Unit) {
@@ -216,19 +200,22 @@ class EdgeLightingView @JvmOverloads constructor(context: Context, attrs: Attrib
             if (batchDepth == 0) {
                 if (pendingInvalidateSmart) {
                     pendingInvalidateSmart = false
-                    postInvalidate()
+                    postInvalidateOnAnimation()
                 }
             }
         }
     }
 
     private fun invalidateSmart() {
-        if (batchDepth > 0) pendingInvalidateSmart = true else invalidate()
+        if (batchDepth > 0) {
+            pendingInvalidateSmart = true
+        } else {
+            postInvalidateOnAnimation()
+        }
     }
 
     private fun resetGeometryCaches() {
         cachedBgPath = null
-        cachedOuterEdgePath = null
         cachedPatternEdgePath = null
         cachedHoleEdgePath = null
         cachedPatternHoleEdgePath = null
@@ -338,7 +325,6 @@ class EdgeLightingView @JvmOverloads constructor(context: Context, attrs: Attrib
         }
 
         cachedBgPath = buildBackgroundPath()
-        cachedOuterEdgePath = buildOuterEdgePath()
         cachedPatternEdgePath = buildPatternEdgePath()
 
         cachedHoleEdgePath = if (notchType == Advanced.NOTCH_DISPLAY_HOLE) buildHoleEdgePath() else null
@@ -408,7 +394,7 @@ class EdgeLightingView @JvmOverloads constructor(context: Context, attrs: Attrib
             right: Float,
             bottom: Float,
             topR: Float,
-            bottomR: Float
+            bottomR: Float,
         ) {
             val radii = floatArrayOf(
                 topR, topR,       // TL
@@ -464,11 +450,10 @@ class EdgeLightingView @JvmOverloads constructor(context: Context, attrs: Attrib
                 path.lineTo(pad, pad + topR)
                 path.quadTo(pad, pad, pad + topR, pad)
 
-                val (infW, infH, rTop, _) = resolveInfinityParams(
-                    inset = pad,
-                    outerTopRadius = topR,
-                    outerBottomRadius = botR
-                )
+                val p = resolveInfinityParams(inset = pad, outerTopRadius = topR, outerBottomRadius = botR)
+                val infW = p.w
+                val infH = p.h
+                val rTop = p.rTop
 
                 val halfW = infW / 2f
                 val startX = (topMid - halfW).coerceAtLeast(pad + topR)
@@ -511,18 +496,6 @@ class EdgeLightingView @JvmOverloads constructor(context: Context, attrs: Attrib
         }
 
         return path
-    }
-
-    private fun buildOuterEdgePath(): Path {
-        val pad = strokeWidth / 2f
-        val tr = topRadius.coerceAtLeast(0f)
-        val br = bottomRadius.coerceAtLeast(0f)
-
-        val radii = floatArrayOf(tr, tr, tr, tr, br, br, br, br)
-
-        return Path().apply {
-            addRoundRect(RectF(pad, pad, width - pad, height - pad), radii, Path.Direction.CW)
-        }
     }
 
     private fun buildHoleEdgePath(): Path {
@@ -611,11 +584,10 @@ class EdgeLightingView @JvmOverloads constructor(context: Context, attrs: Attrib
         val topR = (topRadius - iconHalf).coerceAtLeast(0f).coerceAtMost(usableW / 2f)
         val botR = (bottomRadius - iconHalf).coerceAtLeast(0f).coerceAtMost((bottom - inset) / 2f)
 
-        val (infW, infH, rTop) = resolveInfinityParams(
-            inset = inset,
-            outerTopRadius = topR,
-            outerBottomRadius = botR
-        )
+        val p = resolveInfinityParams(inset = inset, outerTopRadius = topR, outerBottomRadius = botR)
+        val infW = p.w
+        val infH = p.h
+        val rTop = p.rTop
 
         val halfW = infW / 2f
         val startX = (topMid - halfW).coerceAtLeast(inset + topR)
@@ -630,7 +602,15 @@ class EdgeLightingView @JvmOverloads constructor(context: Context, attrs: Attrib
 
         when (infinityShape) {
             InfinityShape.U -> buildInfinityUPath(path, startX, endX, inset, inset + infH, rTop)
-            InfinityShape.V -> buildInfinityVPath(path, startX, endX, inset, inset + infH, rTop, tipRadius = infinityTipRadiusPx,)
+            InfinityShape.V -> buildInfinityVPath(
+                path,
+                startX,
+                endX,
+                inset,
+                inset + infH,
+                rTop,
+                tipRadius = infinityTipRadiusPx
+            )
         }
 
         path.lineTo(right - topR, inset)
@@ -671,7 +651,7 @@ class EdgeLightingView @JvmOverloads constructor(context: Context, attrs: Attrib
         notchHeight: Float,
         notchTopRadius: Float,
         notchBottomRadius: Float,
-        notchBottomFullness: Float
+        notchBottomFullness: Float,
     ) {
         val usableW = (right - left).coerceAtLeast(1f)
         val cx = (left + right) / 2f
@@ -883,14 +863,13 @@ class EdgeLightingView @JvmOverloads constructor(context: Context, attrs: Attrib
         while (c < idx && pm.nextContour()) c++
 
         if (pm.getPosTan(local, pos, tan)) {
-            canvas.save()
-            canvas.translate(pos[0], pos[1])
-            if (patternRotate) {
-                val angle = atan2(tan[1], tan[0]) * 180f / Math.PI.toFloat()
-                canvas.rotate(angle)
+            canvas.withTranslation(pos[0], pos[1]) {
+                if (patternRotate) {
+                    val angle = atan2(tan[1], tan[0]) * 180f / Math.PI.toFloat()
+                    rotate(angle)
+                }
+                drawPath(icon, edgePaint)
             }
-            canvas.drawPath(icon, edgePaint)
-            canvas.restore()
         }
     }
 
@@ -898,7 +877,7 @@ class EdgeLightingView @JvmOverloads constructor(context: Context, attrs: Attrib
         return when (direction) {
             Advanced.DIRECTION_ANTI_CLOCKWISE,
             Advanced.DIRECTION_UP,
-            Advanced.DIRECTION_TOP_RIGHT_BOTTOM_LEFT -> -phase
+            Advanced.DIRECTION_TOP_RIGHT_BOTTOM_LEFT, -> -phase
             else -> phase
         }
     }
@@ -962,6 +941,7 @@ class EdgeLightingView @JvmOverloads constructor(context: Context, attrs: Attrib
         patternPath = v.path.centerAndScaleTo(iconSizePx, v.viewportW, v.viewportH)
     }
 
+    @SuppressLint("ResourceType")
     private fun loadVectorAsPath(context: Context, @DrawableRes resId: Int): VectorPathResult {
         val parser = context.resources.getXml(resId)
         val attrs = Xml.asAttributeSet(parser)
@@ -1163,32 +1143,27 @@ class EdgeLightingView @JvmOverloads constructor(context: Context, attrs: Attrib
     private fun resolveInfinityParams(
         inset: Float,
         outerTopRadius: Float,
-        outerBottomRadius: Float
-    ): FloatArray {
+        outerBottomRadius: Float,
+    ): InfinityParams {
         val w = width.toFloat().coerceAtLeast(1f)
         val h = height.toFloat().coerceAtLeast(1f)
 
         val maxAvailableW = (w - 2f * inset - 2f * outerTopRadius).coerceAtLeast(10f)
         val autoW = (w * 0.42f).coerceIn(60f.dpToPx, maxAvailableW)
-        val infW = (if (infinityWidthPx >= 0f) infinityWidthPx else autoW)
-            .coerceIn(10f, maxAvailableW)
+        val infW = (if (infinityWidthPx >= 0f) infinityWidthPx else autoW).coerceIn(10f, maxAvailableW)
 
         val maxH = (h - inset - outerBottomRadius - inset - 1f).coerceAtLeast(0f)
         val autoH = 20f.dpToPx.coerceAtMost(maxH)
-        val infH = (if (infinityHeightPx >= 0f) infinityHeightPx else autoH)
-            .coerceIn(0f, maxH)
+        val infH = (if (infinityHeightPx >= 0f) infinityHeightPx else autoH).coerceIn(0f, maxH)
 
         val halfW = infW / 2f
-
-        val autoTopR = outerTopRadius.coerceAtLeast(0f)
-        val rTopRaw = if (infinityRadiusTopPx >= 0f) infinityRadiusTopPx else autoTopR
+        val rTopRaw = if (infinityRadiusTopPx >= 0f) infinityRadiusTopPx else outerTopRadius.coerceAtLeast(0f)
         val rTop = rTopRaw.coerceIn(0f, min(halfW, infH))
 
-        val autoBotR = 0f
-        val rBotRaw = if (infinityRadiusBottomPx >= 0f) infinityRadiusBottomPx else autoBotR
+        val rBotRaw = if (infinityRadiusBottomPx >= 0f) infinityRadiusBottomPx else 0f
         val rBot = rBotRaw.coerceIn(0f, min(halfW, infH))
 
-        return floatArrayOf(infW, infH, rTop, rBot)
+        return InfinityParams(infW, infH, rTop, rBot)
     }
 
     private fun buildInfinityUPath(
@@ -1197,7 +1172,7 @@ class EdgeLightingView @JvmOverloads constructor(context: Context, attrs: Attrib
         endX: Float,
         topY: Float,
         bottomY: Float,
-        radiusTop: Float
+        radiusTop: Float,
     ) {
         val w = (endX - startX).coerceAtLeast(0f)
         val h = (bottomY - topY).coerceAtLeast(0f)
@@ -1331,63 +1306,6 @@ class EdgeLightingView @JvmOverloads constructor(context: Context, attrs: Attrib
         backgroundInside = EdgeBackground.Color(color)
     }
 
-    @MainThread
-    fun setBackgroundImageInternal(@DrawableRes resId: Int) {
-        pendingBgUri = null
-        bgUrl = null
-
-        bgUrlTarget?.let {
-            try {
-                Glide.with(context.applicationContext).clear(it)
-            } catch (e: Exception) {
-                e.printStackTrace()
-            }
-        }
-        bgUrlTarget = null
-
-        if (resId == 0) {
-            backgroundInside = EdgeBackground.Color(Color.TRANSPARENT)
-            cachedBitmap = null
-            cachedBitmapShader = null
-            cachedBgW = 0
-            cachedBgH = 0
-            invalidateSmart()
-            return
-        }
-
-        val target = object : CustomTarget<Bitmap>() {
-            override fun onResourceReady(resource: Bitmap, transition: Transition<in Bitmap>?) {
-                backgroundInside = EdgeBackground.Image(resource)
-                cachedBitmap = null
-                cachedBitmapShader = null
-                cachedBgW = 0
-                cachedBgH = 0
-                invalidateSmart()
-            }
-            override fun onLoadCleared(placeholder: Drawable?) {}
-            override fun onLoadFailed(errorDrawable: Drawable?) {
-                backgroundInside = EdgeBackground.Color(Color.TRANSPARENT)
-                cachedBitmap = null
-                cachedBitmapShader = null
-                cachedBgW = 0
-                cachedBgH = 0
-                invalidateSmart()
-            }
-        }
-
-        bgUrlTarget = target
-
-        val targetWidth = if (width > 0) width else 1080
-        val targetHeight = if (height > 0) height else 1920
-
-        Glide.with(context.applicationContext)
-            .asBitmap()
-            .load(resId)
-            .override(targetWidth, targetHeight)
-            .diskCacheStrategy(DiskCacheStrategy.ALL)
-            .into(target)
-    }
-
     private fun setPatternEnabledInternal(enabled: Boolean) {
         patternEnabled = enabled
         resetGeometryCaches()
@@ -1428,7 +1346,7 @@ class EdgeLightingView @JvmOverloads constructor(context: Context, attrs: Attrib
         rotate: Boolean,
         phaseMultiplier: Float,
         evenSpacing: Boolean,
-        gapPx: Float
+        gapPx: Float,
     ) {
         val v = loadVectorAsPath(context, vectorResId)
         val scaled = v.path.centerAndScaleTo(iconSizePx, v.viewportW, v.viewportH)
@@ -1484,140 +1402,29 @@ class EdgeLightingView @JvmOverloads constructor(context: Context, attrs: Attrib
     }
 
     fun setBackgroundImageResId(@DrawableRes resId: Int) {
-        setBackgroundImageInternal(resId)
+        val bmp = BitmapFactory.decodeResource(resources, resId)
+        setBackgroundBitmap(bmp)
+    }
+
+    @MainThread
+    fun setBackgroundBitmap(bitmap: Bitmap) {
+        clearBackgroundBitmap()
+        backgroundInside = EdgeBackground.Image(bitmap)
+        cachedBitmap = null
+        cachedBitmapShader = null
+        cachedBgW = 0
+        cachedBgH = 0
         invalidateSmart()
     }
 
     @MainThread
-    fun setBackgroundImageUrl(url: String?) {
-        bgUrl = url
-        pendingBgUri = null
-
-        // clear previous
-        bgUrlTarget?.let {
-            try {
-                Glide.with(context.applicationContext).clear(it)
-            } catch (e: Exception) {
-                e.printStackTrace()
-            }
-        }
-        bgUrlTarget = null
-
-        if (url.isNullOrBlank()) {
-            backgroundInside = EdgeBackground.Color(Color.TRANSPARENT)
-            cachedBitmap = null
-            cachedBitmapShader = null
-            invalidateSmart()
-            return
-        }
-
-        val target = object : CustomTarget<Bitmap>() {
-            override fun onResourceReady(resource: Bitmap, transition: Transition<in Bitmap>?) {
-                if (bgUrl != url) return
-
-                backgroundInside = EdgeBackground.Image(resource)
-                cachedBitmap = null
-                cachedBitmapShader = null
-                cachedBgW = 0
-                cachedBgH = 0
-
-                if (width > 0 && height > 0) {
-                    updateBgMatrix(width.toFloat(), height.toFloat())
-                    cachedBitmapShader?.setLocalMatrix(bgMatrix)
-                }
-
-                invalidateSmart()
-            }
-
-            override fun onLoadCleared(placeholder: Drawable?) {}
-
-            override fun onLoadFailed(errorDrawable: Drawable?) {
-                if (bgUrl != url) return
-                backgroundInside = EdgeBackground.Color(Color.TRANSPARENT)
-                invalidateSmart()
-            }
-        }
-
-        bgUrlTarget = target
-
-        Glide.with(context.applicationContext)
-            .asBitmap()
-            .load(url)
-            .skipMemoryCache(false)
-            .diskCacheStrategy(DiskCacheStrategy.ALL)
-            .into(target)
-    }
-
-    @MainThread
-    fun setBackgroundImageUri(uri: Uri?) {
-        pendingBgUri = uri
-
-        bgUrlTarget?.let {
-            try {
-                Glide.with(context.applicationContext).clear(it)
-            } catch (e: Exception) {
-                e.printStackTrace()
-            }
-        }
-        bgUrlTarget = null
-        bgUrl = null
-
-        if (uri == null) {
-            backgroundInside = EdgeBackground.Color(Color.TRANSPARENT)
-            cachedBitmap = null
-            cachedBitmapShader = null
-            cachedBgW = 0
-            cachedBgH = 0
-            invalidateSmart()
-            return
-        }
-
-        if (width <= 0 || height <= 0 || !isAttachedToWindow) {
-            post {
-                val u = pendingBgUri
-                if (u != null && isAttachedToWindow && width > 0 && height > 0) {
-                    loadBackgroundFromUriInternal(u)
-                }
-            }
-            return
-        }
-
-        loadBackgroundFromUriInternal(uri)
-    }
-
-    private fun loadBackgroundFromUriInternal(uri: Uri) {
-
-        val target = object : CustomTarget<Bitmap>() {
-            override fun onResourceReady(resource: Bitmap, transition: Transition<in Bitmap>?) {
-                if (pendingBgUri != uri) return
-                backgroundInside = EdgeBackground.Image(resource)
-                cachedBitmap = null
-                cachedBitmapShader = null
-                cachedBgW = 0
-                cachedBgH = 0
-                invalidateSmart()
-            }
-
-            override fun onLoadCleared(placeholder: Drawable?) {}
-
-            override fun onLoadFailed(errorDrawable: Drawable?) {
-                if (pendingBgUri != uri) return
-                backgroundInside = EdgeBackground.Color(Color.TRANSPARENT)
-                cachedBitmap = null
-                cachedBitmapShader = null
-                cachedBgW = 0
-                cachedBgH = 0
-                invalidateSmart()
-            }
-        }
-
-        bgUrlTarget = target
-
-        Glide.with(context.applicationContext)
-            .asBitmap()
-            .load(uri)
-            .override(width.coerceAtLeast(1), height.coerceAtLeast(1))
-            .into(target)
+    fun clearBackgroundBitmap() {
+        backgroundInside = EdgeBackground.Color(Color.TRANSPARENT)
+        cachedBitmap = null
+        cachedBitmapShader = null
+        cachedBgW = 0
+        cachedBgH = 0
+        invalidateSmart()
     }
 
     fun setColors(vararg c: Int) {
@@ -1652,7 +1459,7 @@ class EdgeLightingView @JvmOverloads constructor(context: Context, attrs: Attrib
         gapPx: Float = (26f.dpToPx - 14f.dpToPx),
         rotate: Boolean = true,
         phaseMultiplier: Float = 1f,
-        evenSpacing: Boolean = true
+        evenSpacing: Boolean = true,
     ) {
         setEdgePatternVectorInternal(
             vectorResId = vectorResId,
@@ -1679,7 +1486,10 @@ class EdgeLightingView @JvmOverloads constructor(context: Context, attrs: Attrib
                 applyEdgeStyleInternal(preset.edge)
             }
             is EdgePreset.BackgroundImageRes -> {
-                if (hasBgBefore) setBackgroundImageInternal(preset.resId)
+                if (hasBgBefore) {
+                    val bmp = BitmapFactory.decodeResource(resources, preset.resId)
+                    setBackgroundBitmap(bmp)
+                }
                 applyEdgeStyleInternal(preset.edge)
             }
         }
@@ -1737,12 +1547,14 @@ class EdgeLightingView @JvmOverloads constructor(context: Context, attrs: Attrib
             Advanced.DIRECTION_TOP_RIGHT_BOTTOM_LEFT,
             Advanced.DIRECTION_BOTTOM_LEFT_TOP_RIGHT,
             Advanced.DIRECTION_DOWN,
-            Advanced.DIRECTION_UP -> setDirection(value, resetState)
+            Advanced.DIRECTION_UP,
+                -> setDirection(value, resetState)
 
             Advanced.NOTCH_DEFAULT,
             Advanced.NOTCH_DISPLAY_NOTCH,
             Advanced.NOTCH_DISPLAY_HOLE,
-            Advanced.NOTCH_DISPLAY_INFINITY -> setNotchType(value, resetState)
+            Advanced.NOTCH_DISPLAY_INFINITY,
+                -> setNotchType(value, resetState)
         }
     }
 
@@ -2020,6 +1832,9 @@ class EdgeLightingView @JvmOverloads constructor(context: Context, attrs: Attrib
         // speed
         setSpeedMs(s.speedMs)
 
+        // size
+        setSizePx(s.iconSizePx)
+
         // radius
         setTopRadiusPx(s.topRadius)
         setBottomRadiusPx(s.bottomRadius)
@@ -2061,7 +1876,6 @@ class EdgeLightingView @JvmOverloads constructor(context: Context, attrs: Attrib
             1 -> {
                 if (s.vectorResId == R.drawable.ic_none || s.vectorResId == 0) {
                     setPatternEnabled(false)
-                    setColors(*s.colors)
                 } else {
                     setEdgePatternVector(
                         vectorResId = s.vectorResId,
@@ -2072,18 +1886,10 @@ class EdgeLightingView @JvmOverloads constructor(context: Context, attrs: Attrib
                         evenSpacing = true
                     )
                 }
+                setColors(*s.colors)
             }
 
             else -> setPatternEnabled(false)
-        }
-
-        // background
-        when (s.backgroundType) {
-            BackgroundType.BACKGROUND_COLOR -> setBackgroundColorInside(s.backgroundColor)
-            BackgroundType.BACKGROUND_RES -> setBackgroundImageResId(s.backgroundImageResId)
-            BackgroundType.BACKGROUND_URL -> setBackgroundImageUrl(s.backgroundImageUrl)
-            BackgroundType.BACKGROUND_URI -> setBackgroundImageUri(s.backgroundImageUri)
-            else -> Unit
         }
     }
 

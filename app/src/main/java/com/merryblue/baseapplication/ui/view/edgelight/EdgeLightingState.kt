@@ -5,6 +5,7 @@ import android.net.Uri
 import com.merryblue.baseapplication.R
 import com.merryblue.baseapplication.coredata.model.edge.Advanced
 import com.merryblue.baseapplication.helpers.BackgroundType
+import com.merryblue.baseapplication.helpers.EdgeStyle.EDGE_LINEAR
 import com.merryblue.baseapplication.helpers.dpToPx
 
 data class EdgeLightingState(
@@ -54,14 +55,14 @@ data class EdgeLightingState(
     val infinityRadiusTopPx: Float = -1f,
     val infinityShape: InfinityShape = InfinityShape.U,
 
-    val edgeStyleType: Int = 0,       // 0 linear, 1 pattern, 2 none
+    val edgeStyleType: Int = EDGE_LINEAR,       // 0 linear, 1 pattern, 2 none
     val patternEnabled: Boolean = false,
 
     val backgroundType: Int = BackgroundType.BACKGROUND_COLOR,      // 0 color, 1 resId, 2 url, 3 uri
     val backgroundColor: Int = Color.TRANSPARENT,
     val backgroundImageResId: Int = 0,
     val backgroundImageUrl: String? = null,
-    val backgroundImageUri: Uri? = null,
+    val backgroundImageUriString: String? = null,
 
     val isEnableEdgeLighting: Boolean = false
 )

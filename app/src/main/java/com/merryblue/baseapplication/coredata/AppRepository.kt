@@ -84,6 +84,10 @@ class AppRepository @Inject constructor(
         get() = appPreferences.edgeState
         set(value) { appPreferences.edgeState = value }
 
+    var cacheEdgeState: EdgeLightingState
+        get() = appPreferences.cacheEdgeState
+        set(value) { appPreferences.cacheEdgeState = value }
+
     private var _isInternetConnected = true
     private val _networkState = MutableStateFlow(false)
     val networkState = _networkState.asStateFlow()
@@ -287,6 +291,12 @@ class AppRepository @Inject constructor(
             return ""
         }
     }
+
+    fun clearCacheEdgeState() {
+        appPreferences.clearCacheEdgeState()
+    }
+
+    fun hasCacheEdgeState() = appPreferences.hasCacheEdgeState()
 
     companion object {
         fun isSdkHigherThan28(): Boolean {

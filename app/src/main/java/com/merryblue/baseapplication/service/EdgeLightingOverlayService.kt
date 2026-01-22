@@ -19,6 +19,10 @@ import android.view.View
 import android.view.WindowManager
 import androidx.core.app.NotificationCompat
 import com.merryblue.baseapplication.R
+import com.merryblue.baseapplication.coredata.local.AppPreferences
+import com.merryblue.baseapplication.helpers.ServiceState.ACTION_EDGE_OVERLAY_CHANGED
+import com.merryblue.baseapplication.helpers.ServiceState.ACTION_EDGE_OVERLAY_RESTART
+import com.merryblue.baseapplication.helpers.ServiceState.ACTION_EDGE_OVERLAY_STOP
 import com.merryblue.baseapplication.ui.view.edgelight.EdgeLightingView
 
 class EdgeLightingOverlayService: Service() {
@@ -27,13 +31,18 @@ class EdgeLightingOverlayService: Service() {
     private var edgeView: EdgeLightingView? = null
     private var lp: WindowManager.LayoutParams? = null
 
-    private val prefs by lazy { com.merryblue.baseapplication.coredata.local.AppPreferences(applicationContext) }
+    private val prefs by lazy { AppPreferences(applicationContext) }
 
     private val edgeStateReceiver = object : BroadcastReceiver() {
         override fun onReceive(context: Context, intent: Intent) {
-            if (intent.action == com.merryblue.baseapplication.helpers.ACTION_EDGE_STATE_CHANGED) {
-                val s = prefs.edgeState
-                edgeView?.applyEdgeState(s)
+            when (intent.action) {
+                ACTION_EDGE_OVERLAY_CHANGED -> edgeView?.applyEdgeState(prefs.edgeState)
+                ACTION_EDGE_OVERLAY_STOP -> stopSelf()
+                ACTION_EDGE_OVERLAY_RESTART -> {
+                    hideOverlay()
+                    showOverlayIfNeeded()
+                    edgeView?.applyEdgeState(prefs.edgeState)
+                }
             }
         }
     }
@@ -80,7 +89,11 @@ class EdgeLightingOverlayService: Service() {
     override fun onBind(intent: Intent?): IBinder? = null
 
     private fun registerEdgeStateReceiver() {
-        val filter = IntentFilter(com.merryblue.baseapplication.helpers.ACTION_EDGE_STATE_CHANGED)
+        val filter = IntentFilter().apply {
+            addAction(ACTION_EDGE_OVERLAY_CHANGED)
+            addAction(ACTION_EDGE_OVERLAY_STOP)
+            addAction(ACTION_EDGE_OVERLAY_RESTART)
+        }
         if (Build.VERSION.SDK_INT >= 33) {
             registerReceiver(edgeStateReceiver, filter, RECEIVER_NOT_EXPORTED)
         } else {

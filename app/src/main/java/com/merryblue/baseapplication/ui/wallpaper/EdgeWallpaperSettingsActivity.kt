@@ -7,11 +7,12 @@ import android.os.Bundle
 import com.merryblue.baseapplication.R
 import com.merryblue.baseapplication.coredata.local.AppPreferences
 import com.merryblue.baseapplication.databinding.ActivityEdgeWallpaperSettingsBinding
+import com.merryblue.baseapplication.helpers.BitmapMemoryCache
+import com.merryblue.baseapplication.helpers.PreviewType.KEY_EDGE
 import com.merryblue.baseapplication.service.EdgeLightingWallpaperService
 import org.app.core.base.BaseActivity
 
 class EdgeWallpaperSettingsActivity : BaseActivity<ActivityEdgeWallpaperSettingsBinding>() {
-
     private val prefs by lazy { AppPreferences(this) }
 
     override fun getLayoutId(): Int = R.layout.activity_edge_wallpaper_settings
@@ -22,15 +23,24 @@ class EdgeWallpaperSettingsActivity : BaseActivity<ActivityEdgeWallpaperSettings
     }
 
     override fun setUpViews() {
+        showEdgePreview()
+
+        binding.btnBackWallpaper.setOnClickListener { finish() }
+
+        binding.btnSetWallpaper.setOnClickListener { onClickSetLiveWallpaperOrApply() }
+    }
+
+    private fun showEdgePreview() {
         val state = prefs.edgeState
-        binding.apply {
-            edgeViewWallpaper.applyEdgeState(state)
-            btnBackWallpaper.setOnClickListener { finish() }
-            btnSetWallpaper.setOnClickListener { onClickSetLiveWallpaperOrApply() }
+        BitmapMemoryCache.get(KEY_EDGE)?.let { bmp ->
+            binding.edgeViewWallpaper.applyEdgeState(state)
+            binding.edgeViewWallpaper.setBackgroundBitmap(bmp)
         }
     }
 
     private fun onClickSetLiveWallpaperOrApply() {
+        prefs.clearCacheEdgeState()
+
         if (!isMyLiveWallpaperActive()) {
             openSystemLiveWallpaperPicker()
             return
@@ -38,7 +48,6 @@ class EdgeWallpaperSettingsActivity : BaseActivity<ActivityEdgeWallpaperSettings
         sendBroadcast(Intent(ACTION_EDGE_WALLPAPER_STATE_CHANGED))
         finish()
     }
-
 
     private fun isMyLiveWallpaperActive(): Boolean {
         val last = prefs.edgeWallpaperLastSeenElapsed
@@ -58,6 +67,6 @@ class EdgeWallpaperSettingsActivity : BaseActivity<ActivityEdgeWallpaperSettings
     }
 
     companion object {
-        const val ACTION_EDGE_WALLPAPER_STATE_CHANGED = "ACTION_EDGE_WALLPAPER_STATE_CHANGED"
+        const val ACTION_EDGE_WALLPAPER_STATE_CHANGED = "com.merryblue.baseapplication.ACTION_EDGE_WALLPAPER_STATE_CHANGED"
     }
 }

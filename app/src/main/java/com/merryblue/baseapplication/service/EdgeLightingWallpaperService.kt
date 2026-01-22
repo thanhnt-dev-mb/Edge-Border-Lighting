@@ -16,6 +16,8 @@ import android.view.SurfaceHolder
 import android.view.View
 import androidx.core.content.ContextCompat
 import com.merryblue.baseapplication.coredata.local.AppPreferences
+import com.merryblue.baseapplication.helpers.BitmapMemoryCache
+import com.merryblue.baseapplication.helpers.PreviewType.KEY_EDGE
 import com.merryblue.baseapplication.ui.view.edgelight.EdgeLightingView
 import com.merryblue.baseapplication.ui.wallpaper.EdgeWallpaperSettingsActivity.Companion.ACTION_EDGE_WALLPAPER_STATE_CHANGED
 import timber.log.Timber
@@ -65,18 +67,16 @@ class EdgeLightingWallpaperService : WallpaperService() {
 
         // Start rendering frames. Called when wallpaper becomes visible.
         private fun startLoop() {
-            if (running) {
-                // Reset heartbeat so "is wallpaper alive" checks become accurate right after visibility.
-                nextHeartbeatAt = 0L
+            // Reset heartbeat so "is wallpaper alive" checks become accurate right after visibility.
+            nextHeartbeatAt = 0L
 
-                // Start the view's internal animator (updates progress / pattern phase, etc.).
-                // Note: for wallpaper, the continuous rendering loop is what actually refreshes the Surface.
-                view.startAnimationForWallpaper()
+            // Start the view's internal animator (updates progress / pattern phase, etc.).
+            // Note: for wallpaper, the continuous rendering loop is what actually refreshes the Surface.
+            view.startAnimationForWallpaper()
 
-                // Make sure we don't register the same callback twice.
-                Choreographer.getInstance().removeFrameCallback(frameCallback)
-                Choreographer.getInstance().postFrameCallback(frameCallback)
-            }
+            // Make sure we don't register the same callback twice.
+            Choreographer.getInstance().removeFrameCallback(frameCallback)
+            Choreographer.getInstance().postFrameCallback(frameCallback)
         }
 
         // Stop rendering frames. Called when wallpaper is no longer visible.
@@ -91,7 +91,6 @@ class EdgeLightingWallpaperService : WallpaperService() {
                 if (intent.action == ACTION_EDGE_WALLPAPER_STATE_CHANGED) {
                     // Apply the latest state on the main thread (safe for view updates and Glide usage).
                     mainHandler.post { applyStateIfNeeded(force = true) }
-                    Timber.tag("Log_EdgeView").d("ACTION_EDGE_WALLPAPER_STATE_CHANGED")
                 }
             }
         }
@@ -164,9 +163,11 @@ class EdgeLightingWallpaperService : WallpaperService() {
                 mainHandler.post { applyStateIfNeeded(force = true) }
                 return
             }
-
             // Apply all visual parameters (colors, notch, speed, background, etc.).
             view.applyEdgeState(s)
+            BitmapMemoryCache.get(KEY_EDGE)?.let { bmp ->
+                view.setBackgroundBitmap(bmp)
+            }
         }
 
         // Draw a single frame onto the wallpaper Surface.
