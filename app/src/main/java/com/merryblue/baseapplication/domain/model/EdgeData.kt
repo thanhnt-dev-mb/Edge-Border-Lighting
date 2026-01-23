@@ -16,7 +16,6 @@ data class EdgeData(
 data class Topic(
     val topicKey: String,
     val module: String,
-    val type: String,
     val premium: Boolean,
     val items: List<Item>
 )
@@ -26,6 +25,7 @@ data class Item(
     val index: Int,
     val path: String,
     val premium: Boolean,
+    val type: String,
     val thumbPath: String? = null,
     val colors: List<String>? = null
 ): ThemeUi() {

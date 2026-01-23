@@ -65,10 +65,6 @@ class EdgeDataRepositoryImpl @Inject constructor(
         return edgeData?.topics?.filter { it.module == module } ?: emptyList()
     }
 
-    override fun getTopicsByType(type: String): List<Topic> {
-        return edgeData?.topics?.filter { it.type == type } ?: emptyList()
-    }
-
     override fun getPremiumTopics(): List<Topic> {
         return edgeData?.topics?.filter { it.premium } ?: emptyList()
     }

@@ -84,9 +84,21 @@ class AppRepository @Inject constructor(
         get() = appPreferences.edgeState
         set(value) { appPreferences.edgeState = value }
 
+    var videoUrl: String
+        get() = appPreferences.videoUrl
+        set(value) { appPreferences.videoUrl = value }
+
+    var rippleEffectUrl: String
+        get() = appPreferences.rippleEffectUrl
+        set(value) { appPreferences.rippleEffectUrl = value }
+
     var cacheEdgeState: EdgeLightingState
         get() = appPreferences.cacheEdgeState
         set(value) { appPreferences.cacheEdgeState = value }
+
+    var isToggleEdgeFirstTime: Boolean
+        get() = appPreferences.isToggleEdgeFirstTime
+        set(value) { appPreferences.isToggleEdgeFirstTime = value }
 
     private var _isInternetConnected = true
     private val _networkState = MutableStateFlow(false)

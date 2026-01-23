@@ -24,9 +24,25 @@ const val RIPPLE_TOP_PICS = "ripple/top_pics"
 const val RIPPLE_RIPPLE = "ripple/ripple"
 
 object ServiceState {
+
+    // EdgeLightingService
     const val ACTION_EDGE_OVERLAY_CHANGED = "com.merryblue.baseapplication.ACTION_EDGE_OVERLAY_CHANGED"
     const val ACTION_EDGE_OVERLAY_STOP = "com.merryblue.baseapplication.ACTION_EDGE_OVERLAY_STOP"
     const val ACTION_EDGE_OVERLAY_RESTART = "com.merryblue.baseapplication.ACTION_EDGE_OVERLAY_RESTART"
+
+    // EdgeLightingWallpaperService
+    const val ACTION_EDGE_WALLPAPER_STATE_CHANGED = "com.merryblue.baseapplication.ACTION_EDGE_WALLPAPER_STATE_CHANGED"
+    const val ACTION_EDGE_WALLPAPER_STATE_STOP = "com.merryblue.baseapplication.ACTION_EDGE_WALLPAPER_STATE_STOP"
+
+    // VideoWallpaperService
+    const val ACTION_VIDEO_WALLPAPER_STATE_CHANGED = "com.merryblue.baseapplication.wallpaper.ACTION_VIDEO_WALLPAPER_STATE_CHANGED"
+}
+
+object WallpaperType {
+    const val TYPE_EDGE = "edge"
+    const val TYPE_VIDEO = "video"
+    const val TYPE_STATIC = "static"
+    const val TYPE_RIPPLE = "ripple"
 }
 
 object BackgroundType {

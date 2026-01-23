@@ -73,25 +73,6 @@ class EdgeEffectFragment : BaseFragment<FragmentEdgeEffectBinding>() {
 
                         if (index in items.indices) {
                             val selected = items[index]
-
-                            val edgeState = viewModel.getEdgeState()
-
-                            homeViewModel.emitEdgeColor(
-                                EdgeSelection.EdgeEffect(
-                                    selectedIndex = index,
-                                    preset = EdgePreset.BackgroundColor(
-                                        color = R.color.colorBgSurface,
-                                        edge = EdgeStyle.Pattern(
-                                            vectorResId = selected.resId,
-                                            iconSizePx = edgeState.iconSizePx,
-                                            advancePx = edgeState.advancePx,
-                                            rotate = edgeState.rotate,
-                                            phaseMultiplier = edgeState.phaseMultiplier
-                                        )
-                                    )
-                                )
-                            )
-
                             viewModel.updateEdgeState { it.copy(edgeStyleType = EDGE_PATTERN, vectorResId = selected.resId) }
                         }
                     }
@@ -104,7 +85,6 @@ class EdgeEffectFragment : BaseFragment<FragmentEdgeEffectBinding>() {
                 override fun onProgressChanged(seekBar: CustomSeekBar, progress: Float, fromUser: Boolean) {
                     if (!fromUser) return
                     val durationMs = (1f - progress).mapFloatToRangeLong(min = 500L, max = 8000L)
-                    homeViewModel.emitEdgeSettings(EdgeSettings.EdgeSpeed(durationMs))
                     viewModel.updateEdgeState { it.copy(speedMs = durationMs) }
                 }
             })
@@ -115,7 +95,6 @@ class EdgeEffectFragment : BaseFragment<FragmentEdgeEffectBinding>() {
                     val minPx = 2f.dpToPx
                     val maxPx = 20f.dpToPx
                     val sizePx = progress.mapFloatToRange(minPx, maxPx)
-                    homeViewModel.emitEdgeSettings(EdgeSettings.EdgeSize(sizePx))
                     viewModel.updateEdgeState { it.copy(iconSizePx = sizePx) }
                 }
             })
@@ -124,7 +103,6 @@ class EdgeEffectFragment : BaseFragment<FragmentEdgeEffectBinding>() {
                 override fun onProgressChanged(seekBar: CustomSeekBar, progress: Float, fromUser: Boolean) {
                     if (!fromUser) return
                     val radiusPx = progress.mapFloatToRange(0f.dpToPx, 60f.dpToPx)
-                    homeViewModel.emitEdgeSettings(EdgeSettings.EdgeBottomRadius(radiusPx))
                     viewModel.updateEdgeState { it.copy(bottomRadius = radiusPx) }
                 }
             })
@@ -133,7 +111,6 @@ class EdgeEffectFragment : BaseFragment<FragmentEdgeEffectBinding>() {
                 override fun onProgressChanged(seekBar: CustomSeekBar, progress: Float, fromUser: Boolean, ) {
                     if (!fromUser) return
                     val radiusPx = progress.mapFloatToRange(0f.dpToPx, 60f.dpToPx)
-                    homeViewModel.emitEdgeSettings(EdgeSettings.EdgeTopRadius(radiusPx))
                     viewModel.updateEdgeState { it.copy(topRadius = radiusPx) }
                 }
             })

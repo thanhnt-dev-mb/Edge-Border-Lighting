@@ -33,4 +33,8 @@
     <string name="txt_yesterday">Yesterday</string>
     <string name="txt_select_all">Select all</string>
     <string name="txt_grant">Grant</string>
+    <string name="txt_edge_lighting_service">EdgeLightingWallpaperService</string>
+    <string name="txt_video_service">VideoWallpaperService</string>
+    <string name="txt_ripple_service">RippleWallpaperService</string>
+
 </resources>

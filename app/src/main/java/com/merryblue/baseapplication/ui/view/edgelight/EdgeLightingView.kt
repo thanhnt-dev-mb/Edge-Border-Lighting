@@ -36,8 +36,13 @@ import kotlin.math.max
 import kotlin.math.min
 import kotlin.math.roundToInt
 import androidx.core.graphics.withTranslation
+import com.merryblue.baseapplication.helpers.EdgeStyle.EDGE_LINEAR
+import com.merryblue.baseapplication.helpers.EdgeStyle.EDGE_PATTERN
 
 class EdgeLightingView @JvmOverloads constructor(context: Context, attrs: AttributeSet? = null) : View(context, attrs) {
+
+    private var edgeEnabled = true
+    private var backgroundEnabled = true
 
     private var batchDepth = 0
     private var pendingInvalidateSmart = false
@@ -237,8 +242,8 @@ class EdgeLightingView @JvmOverloads constructor(context: Context, attrs: Attrib
         val bgPath = cachedBgPath ?: return
         val edgePath = getEdgePathForDrawing() ?: return
 
-        drawBackground(canvas, bgPath)
-        drawEdge(canvas, edgePath)
+        if (backgroundEnabled) drawBackground(canvas, bgPath)
+        if (edgeEnabled) drawEdge(canvas, edgePath)
     }
 
     private fun parseAttrs(attrs: AttributeSet) {
@@ -1372,19 +1377,16 @@ class EdgeLightingView @JvmOverloads constructor(context: Context, attrs: Attrib
     }
 
     private fun setLinearStrokeWidthOnlyPx(px: Float) {
-        val v = px.coerceAtLeast(0.5f)
-        if (strokeWidth == v) return
-        strokeWidth = v
-        edgePaint.strokeWidth = v
+        if (strokeWidth == px) return
+        strokeWidth = px
+        edgePaint.strokeWidth = px
         resetGeometryCaches()
         invalidateSmart()
     }
 
     private fun setPatternIconSizeOnlyPx(iconSizePx: Float) {
-        val v = iconSizePx.coerceAtLeast(0.5f)
-        if (patternSizePx == v) return
-
-        patternSizePx = v
+        if (patternSizePx == iconSizePx) return
+        patternSizePx = iconSizePx
         patternAdvance = patternSizePx + patternGapPx
 
         if (patternVectorResId != 0) {
@@ -1499,9 +1501,8 @@ class EdgeLightingView @JvmOverloads constructor(context: Context, attrs: Attrib
     }
 
     fun setSizePx(px: Float) {
-        val v = px.coerceAtLeast(0.5f)
-        setPatternIconSizeOnlyPx(v)
-        setLinearStrokeWidthOnlyPx(v)
+        setPatternIconSizeOnlyPx(px)
+        setLinearStrokeWidthOnlyPx(px)
     }
 
     fun setLinearStrokeWidthPx(px: Float) = setLinearStrokeWidthOnlyPx(px)
@@ -1517,17 +1518,15 @@ class EdgeLightingView @JvmOverloads constructor(context: Context, attrs: Attrib
     }
 
     fun setTopRadiusPx(px: Float) {
-        val v = px.coerceAtLeast(0f)
-        if (topRadius == v) return
-        topRadius = v
+        if (topRadius == px) return
+        topRadius = px
         resetGeometryCaches()
         invalidateSmart()
     }
 
     fun setBottomRadiusPx(px: Float) {
-        val v = px.coerceAtLeast(0f)
-        if (bottomRadius == v) return
-        bottomRadius = v
+        if (bottomRadius == px) return
+        bottomRadius = px
         resetGeometryCaches()
         invalidateSmart()
     }
@@ -1829,6 +1828,9 @@ class EdgeLightingView @JvmOverloads constructor(context: Context, attrs: Attrib
 
     fun applyEdgeState(s: EdgeLightingState) = batch {
 
+        setBackgroundEnabled(s.backgroundEnabled)
+        setEdgeEnabled(s.edgeEnabled)
+
         // speed
         setSpeedMs(s.speedMs)
 
@@ -1867,13 +1869,13 @@ class EdgeLightingView @JvmOverloads constructor(context: Context, attrs: Attrib
 
         // style
         when (s.edgeStyleType) {
-            0 -> { // linear
+            EDGE_LINEAR -> { // linear
                 setPatternEnabled(false)
                 setColors(*s.colors)
                 setLinearStrokeWidthPx(s.iconSizePx)
             }
 
-            1 -> {
+            EDGE_PATTERN -> {
                 if (s.vectorResId == R.drawable.ic_none || s.vectorResId == 0) {
                     setPatternEnabled(false)
                 } else {
@@ -1889,9 +1891,55 @@ class EdgeLightingView @JvmOverloads constructor(context: Context, attrs: Attrib
                 setColors(*s.colors)
             }
 
-            else -> setPatternEnabled(false)
+            else -> {
+                setPatternEnabled(false)
+                setEdgeEnabled(false)
+                setNotchType(Advanced.NOTCH_DEFAULT)
+                setSizePx(0f)
+                setTopRadiusPx(0f)
+                setBottomRadiusPx(0f)
+            }
         }
     }
+
+    fun setBackgroundScaleType(type: EdgeImageScaleType) {
+        if (imageScaleType == type) return
+        imageScaleType = type
+
+        if (cachedBitmap != null) {
+            cachedBgW = 0
+            cachedBgH = 0
+            updateBgMatrix(width.toFloat().coerceAtLeast(1f), height.toFloat().coerceAtLeast(1f))
+            cachedBitmapShader?.setLocalMatrix(bgMatrix)
+        }
+        invalidateSmart()
+    }
+
+    fun setEdgeEnabled(enabled: Boolean) {
+        if (edgeEnabled == enabled) return
+        edgeEnabled = enabled
+
+        if (!enabled) {
+            animator.cancel()
+            resetAnimationState()
+        } else {
+            if (isViewAttached && animationEnabled) {
+                resetAnimationState()
+                animator.start()
+            }
+        }
+        invalidateSmart()
+    }
+
+    fun setBackgroundEnabled(enabled: Boolean) {
+        if (backgroundEnabled == enabled) return
+        backgroundEnabled = enabled
+        invalidateSmart()
+    }
+
+    fun isEdgeEnabled(): Boolean = edgeEnabled
+
+    fun isBackgroundEnabled(): Boolean = backgroundEnabled
 
     fun startAnimationForWallpaper() {
         if (!animationEnabled) animationEnabled = true

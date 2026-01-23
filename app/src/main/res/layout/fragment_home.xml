@@ -126,7 +126,8 @@
                     app:layout_constraintTop_toBottomOf="@+id/tvPresetHome"
                     app:spanCount="3"
                     tools:itemCount="3"
-                    tools:listitem="@layout/item_home_preset" />
+                    tools:listitem="@layout/item_home_preset"
+                    tools:ignore="RtlSymmetry" />
 
                 <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/tvThemeHome"
@@ -177,7 +178,8 @@
                     app:layout_constraintTop_toBottomOf="@+id/tvThemeHome"
                     app:spanCount="3"
                     tools:itemCount="3"
-                    tools:listitem="@layout/item_home_theme_custom" />
+                    tools:listitem="@layout/item_home_theme_custom"
+                    tools:ignore="RtlSymmetry" />
 
                 <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/tvTitleSettingEdge"

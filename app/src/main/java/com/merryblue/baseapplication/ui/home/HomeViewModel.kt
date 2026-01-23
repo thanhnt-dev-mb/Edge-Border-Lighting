@@ -20,6 +20,7 @@ import com.merryblue.baseapplication.domain.repository.TargetSize
 import com.merryblue.baseapplication.helpers.ServiceState.ACTION_EDGE_OVERLAY_CHANGED
 import com.merryblue.baseapplication.helpers.BackgroundType
 import com.merryblue.baseapplication.helpers.EdgeStyle.EDGE_LINEAR
+import com.merryblue.baseapplication.helpers.EdgeStyle.EDGE_NONE
 import com.merryblue.baseapplication.helpers.ServiceState.ACTION_EDGE_OVERLAY_STOP
 import com.merryblue.baseapplication.helpers.dpToPx
 import com.merryblue.baseapplication.ui.iap.BillingRepository
@@ -53,27 +54,6 @@ class HomeViewModel @Inject constructor(
     private val _themeState = MutableStateFlow<Topic?>(null)
     val themeState: StateFlow<Topic?> = _themeState.asStateFlow()
 
-    private val _edgeColorEvents = MutableSharedFlow<EdgeSelection>(replay = 0, extraBufferCapacity = 1)
-    val edgeColorEvents = _edgeColorEvents.asSharedFlow()
-
-    private var _edgeSettingsEvents = MutableSharedFlow<EdgeSettings>(replay = 0, extraBufferCapacity = 1)
-    val edgeSettingsEvents = _edgeSettingsEvents.asSharedFlow()
-
-    private var _edgeAdvancedEvents = MutableSharedFlow<Advanced>(replay = 0, extraBufferCapacity = 1)
-    val edgeAdvancedEvents = _edgeAdvancedEvents.asSharedFlow()
-
-    private var _edgeDisplayNotchTypeEvents = MutableSharedFlow<DisplayNotchType>(replay = 0, extraBufferCapacity = 1)
-    val edgeDisplayNotchTypeEvents = _edgeDisplayNotchTypeEvents.asSharedFlow()
-
-    private var _edgeHoleTypeEvents = MutableSharedFlow<EdgeHoleShape>(replay = 0, extraBufferCapacity = 1)
-    val edgeHoleTypeEvents = _edgeHoleTypeEvents.asSharedFlow()
-
-    private var _edgeInfinityTypeEvents = MutableSharedFlow<InfinityShape>(replay = 0, extraBufferCapacity = 1)
-    val edgeInfinityTypeEvents = _edgeInfinityTypeEvents.asSharedFlow()
-
-    private var _edgeVisibilityEvents = MutableSharedFlow<Boolean>(replay = 0, extraBufferCapacity = 1)
-    val edgeVisibilityEvents = _edgeVisibilityEvents.asSharedFlow()
-
     private val _bgBitmap = MutableSharedFlow<Bitmap?>(replay = 0)
     val bgBitmap = _bgBitmap.asSharedFlow()
 
@@ -81,8 +61,6 @@ class HomeViewModel @Inject constructor(
     val restartOverlay = _restartOverlay.asSharedFlow()
 
     val connectionState = appRepository.networkState
-    private val _uiState = MutableStateFlow(HomeUiState())
-    val uiState: StateFlow<HomeUiState> = _uiState
 
     var isStartSession
         get() = appRepository.isStartSession
@@ -106,34 +84,6 @@ class HomeViewModel @Inject constructor(
         appRepository.rated = rate
     }
 
-    fun emitEdgeColor(event: EdgeSelection) {
-        _edgeColorEvents.tryEmit(event)
-    }
-
-    fun emitEdgeSettings(event: EdgeSettings) {
-        _edgeSettingsEvents.tryEmit(event)
-    }
-
-    fun emitEdgeAdvances(event: Advanced) {
-        _edgeAdvancedEvents.tryEmit(event)
-    }
-
-    fun emitEdgeDisplayNotchType(event: DisplayNotchType) {
-        _edgeDisplayNotchTypeEvents.tryEmit(event)
-    }
-
-    fun emitHoleType(event: EdgeHoleShape) {
-        _edgeHoleTypeEvents.tryEmit(event)
-    }
-
-    fun emitInfinityType(event: InfinityShape) {
-        _edgeInfinityTypeEvents.tryEmit(event)
-    }
-
-    fun emitVisibilityEdgeView(isShow: Boolean) {
-        _edgeVisibilityEvents.tryEmit(isShow)
-    }
-
     fun loadPreset(topicKey: String) {
         _presetState.value = edgeDataRepository.getDataTopic(topicKey)
     }
@@ -142,28 +92,48 @@ class HomeViewModel @Inject constructor(
         _themeState.value = edgeDataRepository.getDataTopic(topicKey)
     }
 
+    var isToggleEdgeFirstTime
+        get() = appRepository.isToggleEdgeFirstTime
+        set(value) {
+            appRepository.isToggleEdgeFirstTime = value
+        }
+
+    var videoUrl: String
+        get() = appRepository.videoUrl
+        set(value) { appRepository.videoUrl = value }
+
+    var rippleEffectUrl: String
+        get() = appRepository.rippleEffectUrl
+        set(value) { appRepository.rippleEffectUrl = value }
+
+    var edgeState: EdgeLightingState
+        get() = appRepository.edgeState
+        set(value) { appRepository.edgeState = value }
+
     fun updateEdgeState(block: (EdgeLightingState) -> EdgeLightingState) {
-        appRepository.edgeState = block.invoke(appRepository.edgeState)
+        edgeState = block.invoke(edgeState)
         sendActionBroadcast(ACTION_EDGE_OVERLAY_CHANGED)
     }
 
-    fun getEdgeState() = appRepository.edgeState
+    fun saveCacheEdgeState() {
+        appRepository.cacheEdgeState = edgeState
+    }
 
     fun onClickBackgroundUrl(item: Item, target: TargetSize) {
 
-        appRepository.cacheEdgeState = appRepository.edgeState
+        saveCacheEdgeState()
 
         val colorsInt = item.colors?.map(Color::parseColor)?.toIntArray()
-        val newState = appRepository.edgeState.copy(
-            edgeStyleType = if (colorsInt != null) EDGE_LINEAR else appRepository.edgeState.edgeStyleType,
+        val newState = edgeState.copy(
+            edgeStyleType = if (colorsInt != null) EDGE_LINEAR else EDGE_NONE,
             backgroundType = BackgroundType.BACKGROUND_URL,
             backgroundImageUrl = item.pathUrl,
             backgroundImageUriString = null,
             backgroundImageResId = 0,
-            colors = colorsInt ?: appRepository.edgeState.colors
+            colors = colorsInt ?: edgeState.colors
         )
 
-        appRepository.edgeState = newState
+        edgeState = newState
 
         viewModelScope.launch {
             val bmp = edgeImageRepository.loadBitmap(EdgeImageSource.Url(item.pathUrl), target)
@@ -173,13 +143,13 @@ class HomeViewModel @Inject constructor(
     }
 
     fun onClickBackgroundUri(uri: Uri, target: TargetSize) {
-        val newState = appRepository.edgeState.copy(
+        val newState = edgeState.copy(
             backgroundType = BackgroundType.BACKGROUND_URI,
             backgroundImageUriString = uri.toString(),
             backgroundImageUrl = null,
             backgroundImageResId = 0
         )
-        appRepository.edgeState = newState
+        edgeState = newState
 
         viewModelScope.launch {
             val bmp = edgeImageRepository.loadBitmap(EdgeImageSource.UriSource(uri), target)
@@ -189,13 +159,13 @@ class HomeViewModel @Inject constructor(
     }
 
     fun onClickBackgroundRes(resId: Int, target: TargetSize) {
-        val newState = appRepository.edgeState.copy(
+        val newState = edgeState.copy(
             backgroundType = BackgroundType.BACKGROUND_RES,
             backgroundImageResId = resId,
             backgroundImageUrl = null,
             backgroundImageUriString = null
         )
-        appRepository.edgeState = newState
+        edgeState = newState
 
         viewModelScope.launch {
             val bmp = edgeImageRepository.loadBitmap(EdgeImageSource.Res(resId), target)
@@ -207,7 +177,7 @@ class HomeViewModel @Inject constructor(
     fun restartOverlay() {
         viewModelScope.launch {
             if (appRepository.hasCacheEdgeState()) {
-                appRepository.edgeState = appRepository.cacheEdgeState.copy(isEnableEdgeLighting = true)
+                edgeState = appRepository.cacheEdgeState.copy(isEnableEdgeLighting = true)
                 appRepository.clearCacheEdgeState()
                 _restartOverlay.emit(true)
             }
