@@ -3,6 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="com.merryblue.baseapplication">
 
+    <uses-permission android:name="android.permission.SET_WALLPAPER" />
     <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE_SPECIAL_USE" />
@@ -64,6 +65,13 @@
         tools:ignore="DiscouragedApi,LockedOrientationActivity"
         tools:overrideLibrary="org.app.core"
         tools:replace="android:allowBackup">
+        <activity
+            android:name=".ui.wallpaper.RippleWallpaperSettingsActivity"
+            android:theme="@style/Theme.Ripple.Fullscreen"
+            android:exported="true" />
+        <activity
+            android:name=".ui.wallpaper.VideoWallpaperSettingsActivity"
+            android:exported="false" />
         <activity
             android:name=".ui.wallpaper.EdgeWallpaperSettingsActivity"
             android:exported="false"
@@ -133,6 +141,19 @@
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />
             </intent-filter>
         </service>
+
+        <service
+            android:name=".service.RippleWallpaperService"
+            android:permission="android.permission.BIND_WALLPAPER"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.service.wallpaper.WallpaperService"/>
+            </intent-filter>
+
+            <meta-data
+                android:name="android.service.wallpaper"
+                android:resource="@xml/ripple_wallpaper" />
+        </service>
         <service
             android:name=".service.EdgeLightingWallpaperService"
             android:exported="true"
@@ -144,6 +165,18 @@
             <meta-data
                 android:name="android.service.wallpaper"
                 android:resource="@xml/edge_lighting_wallpaper" />
+        </service>
+        <service
+            android:name=".service.VideoWallpaperService"
+            android:exported="true"
+            android:permission="android.permission.BIND_WALLPAPER">
+            <intent-filter>
+                <action android:name="android.service.wallpaper.WallpaperService" />
+            </intent-filter>
+
+            <meta-data
+                android:name="android.service.wallpaper"
+                android:resource="@xml/video_wallpaper" />
         </service>
         <service
             android:name=".service.EdgeLightingOverlayService"

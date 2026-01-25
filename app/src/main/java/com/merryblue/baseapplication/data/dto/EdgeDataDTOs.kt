@@ -13,7 +13,6 @@ data class EdgeDataDto(
 data class TopicDto(
     @SerializedName("topicKey") val topicKey: String,
     @SerializedName("module") val module: String,
-    @SerializedName("type") val type: String,
     @SerializedName("premium") val premium: Boolean,
     @SerializedName("items") val items: List<ItemDto>
 )
@@ -23,6 +22,7 @@ data class ItemDto(
     @SerializedName("index") val index: Int,
     @SerializedName("path") val path: String,
     @SerializedName("premium") val premium: Boolean,
+    @SerializedName("type") val type: String?,
     @SerializedName("thumbPath") val thumbPath: String? = null,
     @SerializedName("colors") val colors: List<String>? = null
 )
@@ -38,7 +38,6 @@ fun TopicDto.toDomain(): Topic {
     return Topic(
         topicKey = topicKey,
         module = module,
-        type = type,
         premium = premium,
         items = items.map { it.toDomain() }
     )
@@ -50,6 +49,7 @@ fun ItemDto.toDomain(): Item {
         index = index,
         path = path,
         premium = premium,
+        type = type ?: "",
         thumbPath = thumbPath,
         colors = colors
     )

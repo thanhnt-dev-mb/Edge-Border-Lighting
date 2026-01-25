@@ -118,7 +118,6 @@ class EdgeAdvancedFragment : BaseFragment<FragmentEdgeAdvancedBinding>() {
                 override fun onProgressChanged(seekBar: CustomSeekBar, progress: Float, fromUser: Boolean) {
                     if (!fromUser) return
                     val fraction = progress.mapFloatToRange(min = 0.25f, max = 0.65f)
-                    homeViewModel.emitEdgeDisplayNotchType(DisplayNotchType.TypeDisplayNotch(progress = fraction, DisplayNotch.NOTCH_WIDTH))
                     viewModel.updateEdgeState { it.copy(notchWidthFraction = fraction) }
                 }
             })
@@ -127,7 +126,6 @@ class EdgeAdvancedFragment : BaseFragment<FragmentEdgeAdvancedBinding>() {
                 override fun onProgressChanged(seekBar: CustomSeekBar, progress: Float, fromUser: Boolean) {
                     if (!fromUser) return
                     val heightPx = progress.mapFloatToRange(min = 10f.dpToPx, max = 80f.dpToPx)
-                    homeViewModel.emitEdgeDisplayNotchType(DisplayNotchType.TypeDisplayNotch(progress = heightPx, DisplayNotch.NOTCH_HEIGHT))
                     viewModel.updateEdgeState { it.copy(notchHeightPx = heightPx) }
                 }
             })
@@ -136,7 +134,6 @@ class EdgeAdvancedFragment : BaseFragment<FragmentEdgeAdvancedBinding>() {
                 override fun onProgressChanged(seekBar: CustomSeekBar, progress: Float, fromUser: Boolean) {
                     if (!fromUser) return
                     val topRadiusPx = progress.mapFloatToRange(min = 0f.dpToPx, max = 40f.dpToPx)
-                    homeViewModel.emitEdgeDisplayNotchType(DisplayNotchType.TypeDisplayNotch(progress = topRadiusPx, DisplayNotch.NOTCH_TOP_RADIUS))
                     viewModel.updateEdgeState { it.copy(notchTopRadiusPx = topRadiusPx) }
                 }
             })
@@ -145,7 +142,6 @@ class EdgeAdvancedFragment : BaseFragment<FragmentEdgeAdvancedBinding>() {
                 override fun onProgressChanged(seekBar: CustomSeekBar, progress: Float, fromUser: Boolean) {
                     if (!fromUser) return
                     val bottomRadiusPx = progress.mapFloatToRange(0f.dpToPx, 60f.dpToPx)
-                    homeViewModel.emitEdgeDisplayNotchType(DisplayNotchType.TypeDisplayNotch(progress = bottomRadiusPx, DisplayNotch.NOTCH_BOTTOM_RADIUS))
                     viewModel.updateEdgeState { it.copy(notchBottomRadiusPx = bottomRadiusPx) }
                 }
             })
@@ -153,7 +149,6 @@ class EdgeAdvancedFragment : BaseFragment<FragmentEdgeAdvancedBinding>() {
             seekBarNotchBottomFullness.setOnProgressChangeListener(object : OnProgressChangeListener {
                 override fun onProgressChanged(seekBar: CustomSeekBar, progress: Float, fromUser: Boolean) {
                     if (!fromUser) return
-                    homeViewModel.emitEdgeDisplayNotchType(DisplayNotchType.TypeDisplayNotch(progress = progress, DisplayNotch.NOTCH_BOTTOM_FULLNESS))
                     viewModel.updateEdgeState { it.copy(notchBottomFullness = progress) }
                 }
             })
@@ -163,20 +158,17 @@ class EdgeAdvancedFragment : BaseFragment<FragmentEdgeAdvancedBinding>() {
 
             btnCircleHole.setOnClickListener {
                 notchHoleUI(EdgeHoleShape.CIRCLE)
-                homeViewModel.emitHoleType(EdgeHoleShape.CIRCLE)
                 viewModel.updateEdgeState { it.copy(holeShape = EdgeHoleShape.CIRCLE) }
             }
 
             btnRoundHole.setOnClickListener {
                 notchHoleUI(EdgeHoleShape.ROUND)
-                homeViewModel.emitHoleType(EdgeHoleShape.ROUND)
                 viewModel.updateEdgeState { it.copy(holeShape = EdgeHoleShape.ROUND) }
             }
 
             seekBarHoleLeft.setOnProgressChangeListener(object : OnProgressChangeListener {
                 override fun onProgressChanged(seekBar: CustomSeekBar, progress: Float, fromUser: Boolean) {
                     if (!fromUser) return
-                    homeViewModel.emitEdgeDisplayNotchType(DisplayNotchType.TypeDisplayHole(progress = progress, DisplayHole.HOLE_HORIZONTAL))
                     viewModel.updateEdgeState { it.copy(holeOffsetX = progress) }
                 }
             })
@@ -184,7 +176,6 @@ class EdgeAdvancedFragment : BaseFragment<FragmentEdgeAdvancedBinding>() {
             seekBarHoleTop.setOnProgressChangeListener(object : OnProgressChangeListener {
                 override fun onProgressChanged(seekBar: CustomSeekBar, progress: Float, fromUser: Boolean) {
                     if (!fromUser) return
-                    homeViewModel.emitEdgeDisplayNotchType(DisplayNotchType.TypeDisplayHole(progress = progress, DisplayHole.HOLE_VERTICAL))
                     viewModel.updateEdgeState { it.copy(holeOffsetY = progress) }
                 }
             })
@@ -193,7 +184,6 @@ class EdgeAdvancedFragment : BaseFragment<FragmentEdgeAdvancedBinding>() {
                 override fun onProgressChanged(seekBar: CustomSeekBar, progress: Float, fromUser: Boolean) {
                     if (!fromUser) return
                     val r = progress.mapFloatToRange(6f.dpToPx, 30f.dpToPx)
-                    homeViewModel.emitEdgeDisplayNotchType(DisplayNotchType.TypeDisplayHole(progress = r, DisplayHole.HOLE_RADIUS))
                     viewModel.updateEdgeState { it.copy(holeRadius = r) }
                 }
             })
@@ -202,7 +192,6 @@ class EdgeAdvancedFragment : BaseFragment<FragmentEdgeAdvancedBinding>() {
                 override fun onProgressChanged(seekBar: CustomSeekBar, progress: Float, fromUser: Boolean) {
                     if (!fromUser) return
                     val w = progress.mapFloatToRange(40f.dpToPx, 180f.dpToPx)
-                    homeViewModel.emitEdgeDisplayNotchType(DisplayNotchType.TypeDisplayHole(progress = w, DisplayHole.HOLE_WIDTH))
                     viewModel.updateEdgeState { it.copy(holeWidthPx = w) }
                 }
             })
@@ -211,7 +200,6 @@ class EdgeAdvancedFragment : BaseFragment<FragmentEdgeAdvancedBinding>() {
                 override fun onProgressChanged(seekBar: CustomSeekBar, progress: Float, fromUser: Boolean) {
                     if (!fromUser) return
                     val h = progress.mapFloatToRange(16f.dpToPx, 80f.dpToPx)
-                    homeViewModel.emitEdgeDisplayNotchType(DisplayNotchType.TypeDisplayHole(progress = h, DisplayHole.HOLE_HEIGHT))
                     viewModel.updateEdgeState { it.copy(holeHeightPx = h) }
                 }
             })
@@ -220,7 +208,6 @@ class EdgeAdvancedFragment : BaseFragment<FragmentEdgeAdvancedBinding>() {
                 override fun onProgressChanged(seekBar: CustomSeekBar, progress: Float, fromUser: Boolean) {
                     if (!fromUser) return
                     val cr = progress.mapFloatToRange(0f.dpToPx, 40f.dpToPx)
-                    homeViewModel.emitEdgeDisplayNotchType(DisplayNotchType.TypeDisplayHole(progress = cr, DisplayHole.HOLE_CORNER))
                     viewModel.updateEdgeState { it.copy(holeCornerRadiusPx = cr) }
                 }
             })
@@ -230,13 +217,11 @@ class EdgeAdvancedFragment : BaseFragment<FragmentEdgeAdvancedBinding>() {
 
             btnInfinityU.setOnClickListener {
                 notchInfinityUI(InfinityShape.U)
-                homeViewModel.emitInfinityType(InfinityShape.U)
                 viewModel.updateEdgeState { it.copy(infinityShape = InfinityShape.U) }
             }
 
             btnInfinityV.setOnClickListener {
                 notchInfinityUI(InfinityShape.V)
-                homeViewModel.emitInfinityType(InfinityShape.V)
                 viewModel.updateEdgeState { it.copy(infinityShape = InfinityShape.V) }
             }
 
@@ -244,7 +229,6 @@ class EdgeAdvancedFragment : BaseFragment<FragmentEdgeAdvancedBinding>() {
                 override fun onProgressChanged(seekBar: CustomSeekBar, progress: Float, fromUser: Boolean) {
                     if (!fromUser) return
                     val value = progress.mapFloatToRange(60f.dpToPx, 360f.dpToPx)
-                    homeViewModel.emitEdgeDisplayNotchType(DisplayNotchType.TypeDisplayInfinity(progress = value, DisplayInfinity.INFINITY_WIDTH))
                     viewModel.updateEdgeState { it.copy(infinityWidthPx = value) }
                 }
             })
@@ -253,7 +237,6 @@ class EdgeAdvancedFragment : BaseFragment<FragmentEdgeAdvancedBinding>() {
                 override fun onProgressChanged(seekBar: CustomSeekBar, progress: Float, fromUser: Boolean) {
                     if (!fromUser) return
                     val value = progress.mapFloatToRange(0f.dpToPx, 140f.dpToPx)
-                    homeViewModel.emitEdgeDisplayNotchType(DisplayNotchType.TypeDisplayInfinity(progress = value, DisplayInfinity.INFINITY_HEIGHT))
                     viewModel.updateEdgeState { it.copy(infinityHeightPx = value) }
                 }
             })
@@ -262,7 +245,6 @@ class EdgeAdvancedFragment : BaseFragment<FragmentEdgeAdvancedBinding>() {
                 override fun onProgressChanged(seekBar: CustomSeekBar, progress: Float, fromUser: Boolean) {
                     if (!fromUser) return
                     val value = progress.mapFloatToRange(0f.dpToPx, 60f.dpToPx)
-                    homeViewModel.emitEdgeDisplayNotchType(DisplayNotchType.TypeDisplayInfinity(progress = value, DisplayInfinity.INFINITY_TOP))
                     viewModel.updateEdgeState { it.copy(infinityRadiusTopPx = value) }
                 }
             })
@@ -316,7 +298,6 @@ class EdgeAdvancedFragment : BaseFragment<FragmentEdgeAdvancedBinding>() {
                         directionAdapter.submitList(directionItems)
                         if (directionIndex in directionItems.indices) {
                             val selected = directionItems[directionIndex]
-                            homeViewModel.emitEdgeAdvances(selected.type)
                             viewModel.updateEdgeState { it.copy(direction = selected.type) }
                         }
                     }
@@ -329,7 +310,6 @@ class EdgeAdvancedFragment : BaseFragment<FragmentEdgeAdvancedBinding>() {
                         notchTypeAdapter.submitList(notchTypeItems)
                         if (notchTypeIndex in notchTypeItems.indices) {
                             val selected = notchTypeItems[notchTypeIndex]
-                            homeViewModel.emitEdgeAdvances(selected.type)
                             viewModel.updateEdgeState { it.copy(notchType = selected.type) }
                             showNotchTypeUi(selected.type)
                         }

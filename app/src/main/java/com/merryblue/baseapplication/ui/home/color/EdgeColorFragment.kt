@@ -95,23 +95,11 @@ class EdgeColorFragment: BaseFragment<FragmentEdgeColorBinding>() {
                         .distinctUntilChanged { old, new ->
                             old.first == new.first && old.second == new.second && old.third == new.third
                         }
-                        .collect { (tab, index, items) ->
+                        .collect { (_, index, items) ->
                             edgeColorAdapter.submitList(items)
 
                             if (index in items.indices) {
                                 val selected = items[index]
-
-                                homeViewModel.emitEdgeColor(
-                                    EdgeSelection.EdgeColor(
-                                        tab = tab,
-                                        selectedIndex = index,
-                                        preset = EdgePreset.BackgroundColor(
-                                            color = R.color.colorBgSurface,
-                                            edge = EdgeStyle.LinearColor(colors = selected.colors)
-                                        )
-                                    )
-                                )
-
                                 viewModel.updateEdgeState { it.copy(colors = selected.colors) }
                             }
                         }

@@ -19,14 +19,32 @@ import com.merryblue.baseapplication.coredata.local.AppPreferences
 import com.merryblue.baseapplication.helpers.BitmapMemoryCache
 import com.merryblue.baseapplication.helpers.PreviewType.KEY_EDGE
 import com.merryblue.baseapplication.ui.view.edgelight.EdgeLightingView
-import com.merryblue.baseapplication.ui.wallpaper.EdgeWallpaperSettingsActivity.Companion.ACTION_EDGE_WALLPAPER_STATE_CHANGED
-import timber.log.Timber
+import com.merryblue.baseapplication.helpers.ServiceState.ACTION_EDGE_WALLPAPER_STATE_CHANGED
+import com.merryblue.baseapplication.helpers.ServiceState.ACTION_EDGE_WALLPAPER_STATE_STOP
 
 class EdgeLightingWallpaperService : WallpaperService() {
 
     override fun onCreateEngine(): Engine = EdgeEngine()
 
     inner class EdgeEngine : Engine() {
+
+        private val stateChangedReceiver = object : BroadcastReceiver() {
+            override fun onReceive(context: Context, intent: Intent) {
+                mainHandler.post {
+                    when (intent.action) {
+                        ACTION_EDGE_WALLPAPER_STATE_CHANGED -> {
+                            view.setEdgeEnabled(true)
+                            view.setBackgroundEnabled(true)
+                            applyStateIfNeeded(force = true)
+                        }
+                        ACTION_EDGE_WALLPAPER_STATE_STOP -> {
+                            view.setEdgeEnabled(false)
+                            view.setBackgroundEnabled(false)
+                        }
+                    }
+                }
+            }
+        }
 
         private val prefs by lazy { AppPreferences(applicationContext) }
 
@@ -65,46 +83,16 @@ class EdgeLightingWallpaperService : WallpaperService() {
             }
         }
 
-        // Start rendering frames. Called when wallpaper becomes visible.
-        private fun startLoop() {
-            // Reset heartbeat so "is wallpaper alive" checks become accurate right after visibility.
-            nextHeartbeatAt = 0L
-
-            // Start the view's internal animator (updates progress / pattern phase, etc.).
-            // Note: for wallpaper, the continuous rendering loop is what actually refreshes the Surface.
-            view.startAnimationForWallpaper()
-
-            // Make sure we don't register the same callback twice.
-            Choreographer.getInstance().removeFrameCallback(frameCallback)
-            Choreographer.getInstance().postFrameCallback(frameCallback)
-        }
-
-        // Stop rendering frames. Called when wallpaper is no longer visible.
-        private fun stopLoop() {
-            Choreographer.getInstance().removeFrameCallback(frameCallback)
-            view.stopAnimationForWallpaper()
-        }
-
-        // Listen for SettingsActivity broadcasts indicating the state has changed.
-        private val stateChangedReceiver = object : BroadcastReceiver() {
-            override fun onReceive(context: Context, intent: Intent) {
-                if (intent.action == ACTION_EDGE_WALLPAPER_STATE_CHANGED) {
-                    // Apply the latest state on the main thread (safe for view updates and Glide usage).
-                    mainHandler.post { applyStateIfNeeded(force = true) }
-                }
-            }
-        }
-
         override fun onCreate(surfaceHolder: SurfaceHolder) {
             super.onCreate(surfaceHolder)
 
+            val intentFilter = IntentFilter().apply {
+                addAction(ACTION_EDGE_WALLPAPER_STATE_CHANGED)
+                addAction(ACTION_EDGE_WALLPAPER_STATE_STOP)
+            }
+
             // Register state-change broadcast receiver (not exported).
-            ContextCompat.registerReceiver(
-                this@EdgeLightingWallpaperService,
-                stateChangedReceiver,
-                IntentFilter(ACTION_EDGE_WALLPAPER_STATE_CHANGED),
-                ContextCompat.RECEIVER_NOT_EXPORTED
-            )
+            ContextCompat.registerReceiver(this@EdgeLightingWallpaperService, stateChangedReceiver, intentFilter, ContextCompat.RECEIVER_NOT_EXPORTED)
 
             // Start internal animation and apply the first state (if view has size, it will apply immediately).
             view.startAnimationForWallpaper()
@@ -151,6 +139,26 @@ class EdgeLightingWallpaperService : WallpaperService() {
             super.onDestroy()
         }
 
+        // Start rendering frames. Called when wallpaper becomes visible.
+        private fun startLoop() {
+            // Reset heartbeat so "is wallpaper alive" checks become accurate right after visibility.
+            nextHeartbeatAt = 0L
+
+            // Start the view's internal animator (updates progress / pattern phase, etc.).
+            // Note: for wallpaper, the continuous rendering loop is what actually refreshes the Surface.
+            view.startAnimationForWallpaper()
+
+            // Make sure we don't register the same callback twice.
+            Choreographer.getInstance().removeFrameCallback(frameCallback)
+            Choreographer.getInstance().postFrameCallback(frameCallback)
+        }
+
+        // Stop rendering frames. Called when wallpaper is no longer visible.
+        private fun stopLoop() {
+            Choreographer.getInstance().removeFrameCallback(frameCallback)
+            view.stopAnimationForWallpaper()
+        }
+
         // Apply the latest EdgeLightingState only when necessary (hash changed) or when forced.
         private fun applyStateIfNeeded(force: Boolean) {
             val s = prefs.edgeState
@@ -163,6 +171,7 @@ class EdgeLightingWallpaperService : WallpaperService() {
                 mainHandler.post { applyStateIfNeeded(force = true) }
                 return
             }
+
             // Apply all visual parameters (colors, notch, speed, background, etc.).
             view.applyEdgeState(s)
             BitmapMemoryCache.get(KEY_EDGE)?.let { bmp ->
@@ -172,13 +181,6 @@ class EdgeLightingWallpaperService : WallpaperService() {
 
         // Draw a single frame onto the wallpaper Surface.
         private fun drawFrame() {
-            // Update heartbeat for "wallpaper alive" detection.
-            val now = SystemClock.elapsedRealtime()
-            if (now >= nextHeartbeatAt) {
-                nextHeartbeatAt = now + heartbeatIntervalMs
-                prefs.edgeWallpaperLastSeenElapsed = now
-            }
-
             val holder = surfaceHolder ?: return
 
             // Prefer HardwareCanvas (API 23+) for smoother path/shader drawing.

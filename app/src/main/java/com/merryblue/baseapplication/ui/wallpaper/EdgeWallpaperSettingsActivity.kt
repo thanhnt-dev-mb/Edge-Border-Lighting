@@ -9,6 +9,7 @@ import com.merryblue.baseapplication.coredata.local.AppPreferences
 import com.merryblue.baseapplication.databinding.ActivityEdgeWallpaperSettingsBinding
 import com.merryblue.baseapplication.helpers.BitmapMemoryCache
 import com.merryblue.baseapplication.helpers.PreviewType.KEY_EDGE
+import com.merryblue.baseapplication.helpers.ServiceState.ACTION_EDGE_WALLPAPER_STATE_CHANGED
 import com.merryblue.baseapplication.service.EdgeLightingWallpaperService
 import org.app.core.base.BaseActivity
 
@@ -41,18 +42,18 @@ class EdgeWallpaperSettingsActivity : BaseActivity<ActivityEdgeWallpaperSettings
     private fun onClickSetLiveWallpaperOrApply() {
         prefs.clearCacheEdgeState()
 
-        if (!isMyLiveWallpaperActive()) {
+        if (isMyLiveWallpaperActive()) {
+            sendBroadcast(Intent(ACTION_EDGE_WALLPAPER_STATE_CHANGED).setPackage(packageName))
+        } else {
             openSystemLiveWallpaperPicker()
-            return
         }
-        sendBroadcast(Intent(ACTION_EDGE_WALLPAPER_STATE_CHANGED))
         finish()
     }
 
     private fun isMyLiveWallpaperActive(): Boolean {
-        val last = prefs.edgeWallpaperLastSeenElapsed
-        val now = android.os.SystemClock.elapsedRealtime()
-        return last > 0L && (now - last) <= 6000L
+        val wm = WallpaperManager.getInstance(this)
+        val info = wm.wallpaperInfo ?: return false
+        return info.component == ComponentName(this, EdgeLightingWallpaperService::class.java)
     }
 
     private fun openSystemLiveWallpaperPicker() {
@@ -63,10 +64,5 @@ class EdgeWallpaperSettingsActivity : BaseActivity<ActivityEdgeWallpaperSettings
             )
         }
         startActivity(intent)
-        finish()
-    }
-
-    companion object {
-        const val ACTION_EDGE_WALLPAPER_STATE_CHANGED = "com.merryblue.baseapplication.ACTION_EDGE_WALLPAPER_STATE_CHANGED"
     }
 }

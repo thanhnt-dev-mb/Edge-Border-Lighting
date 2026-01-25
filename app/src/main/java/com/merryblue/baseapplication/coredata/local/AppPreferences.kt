@@ -27,6 +27,7 @@ class AppPreferences @Inject constructor(context: Context) {
         private const val KEY_APP_OPEN_COUNT = "key_app_open_count"
         private const val KEY_APP_SELECTED_ALIAS = "key_app_selected_alias"
         private const val KEY_IS_FIRST_TUTORIAL = "key_is_first_tutorial"
+        private const val KEY_IS_FIRST_TOGGLE_EDGE = "key_is_first_toggle_first"
 
         private const val KEY_EDGE_STATE = "edge_state_json"
         private const val KEY_CACHE_EDGE_STATE = "KEY_CACHE_EDGE_STATE"
@@ -113,13 +114,17 @@ class AppPreferences @Inject constructor(context: Context) {
         }
         set(value) = appPreferences.edit { it.putString(KEY_CACHE_EDGE_STATE, gson.toJson(value)) }
 
-    var edgeWallpaperLastSeenElapsed: Long
-        get() = appPreferences.getLong(KEY_EDGE_LAST_SEEN_ELAPSED, 0L)
-        set(value) = appPreferences.edit().putLong(KEY_EDGE_LAST_SEEN_ELAPSED, value).apply()
+    var isToggleEdgeFirstTime: Boolean
+        get() = appPreferences.getBoolean(KEY_IS_FIRST_TOGGLE_EDGE, false)
+        set(value) = appPreferences.edit { it.putBoolean(KEY_IS_FIRST_TOGGLE_EDGE, value) }
 
     var videoUrl: String
         get() = appPreferences.getString(KEY_VIDEO_URL, "") ?: ""
         set(value) = appPreferences.edit().putString(KEY_VIDEO_URL, value).apply()
+
+    var rippleEffectUrl: String
+        get() = appPreferences.getString(KEY_RIPPLE_IMAGE_URL, "") ?: ""
+        set(value) = appPreferences.edit().putString(KEY_RIPPLE_IMAGE_URL, value).apply()
 
     fun clearCacheEdgeState() {
         appPreferences.edit { it.remove(KEY_CACHE_EDGE_STATE) }
