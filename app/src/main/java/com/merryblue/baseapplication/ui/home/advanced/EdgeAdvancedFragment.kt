@@ -11,10 +11,6 @@ import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.merryblue.baseapplication.R
 import com.merryblue.baseapplication.coredata.model.edge.Advanced
-import com.merryblue.baseapplication.coredata.model.edge.DisplayHole
-import com.merryblue.baseapplication.coredata.model.edge.DisplayInfinity
-import com.merryblue.baseapplication.coredata.model.edge.DisplayNotch
-import com.merryblue.baseapplication.coredata.model.edge.DisplayNotchType
 import com.merryblue.baseapplication.databinding.FragmentEdgeAdvancedBinding
 import com.merryblue.baseapplication.helpers.dpToPx
 import com.merryblue.baseapplication.helpers.mapFloatToRange
@@ -23,12 +19,11 @@ import com.merryblue.baseapplication.ui.home.HomeFragment
 import com.merryblue.baseapplication.ui.home.HomeViewModel
 import com.merryblue.baseapplication.ui.view.CustomSeekBar
 import com.merryblue.baseapplication.ui.view.CustomSeekBar.OnProgressChangeListener
-import com.merryblue.baseapplication.ui.view.edgelight.EdgeHoleShape
-import com.merryblue.baseapplication.ui.view.edgelight.InfinityShape
+import com.merryblue.baseapplication.ui.view.edgelight.model.EdgeHoleShape
+import com.merryblue.baseapplication.ui.view.edgelight.model.InfinityShape
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 import org.app.core.base.BaseFragment
-import timber.log.Timber
 
 
 @AndroidEntryPoint

@@ -1,9 +1,9 @@
-package com.merryblue.baseapplication.helpers
+package com.merryblue.baseapplication.helpers.video
 
 import android.content.Context
 import androidx.media3.common.MediaItem
 import androidx.media3.exoplayer.offline.ProgressiveDownloader
-import com.merryblue.baseapplication.data.source.VideoDataSource
+import com.merryblue.baseapplication.helpers.video.VideoDataSource
 import java.util.concurrent.ConcurrentHashMap
 import java.util.concurrent.Executors
 

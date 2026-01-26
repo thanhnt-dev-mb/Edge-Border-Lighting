@@ -4,7 +4,7 @@ import android.content.Context
 import android.content.SharedPreferences
 import com.google.gson.GsonBuilder
 import com.merryblue.baseapplication.coredata.model.LanguageModel
-import com.merryblue.baseapplication.ui.view.edgelight.EdgeLightingState
+import com.merryblue.baseapplication.ui.view.edgelight.model.EdgeLightingState
 import javax.inject.Inject
 
 class AppPreferences @Inject constructor(context: Context) {
@@ -35,9 +35,13 @@ class AppPreferences @Inject constructor(context: Context) {
         private const val KEY_VIDEO_URL = "video_url"
         private const val KEY_EFFECT = "key_effect"
         private const val KEY_RIPPLE_IMAGE_URL = "ripple_image_url"
+        private const val KEY_BACKGROUND_PATH = "backgroundPath"
         private const val KEY_HEARTBEAT = "heartbeat_elapsed"
 
         private const val KEY_EDGE_LAST_SEEN_ELAPSED = "edge_wallpaper_last_seen_elapsed"
+
+        private const val KEY_AUTO_RIPPLE = "auto_ripple"
+        private const val KEY_AUTO_RIPPLE_INTERVAL_MS = "auto_ripple_interval_ms"
     }
     
     private val appPreferences: SharedPreferences = context.getSharedPreferences(
@@ -125,6 +129,18 @@ class AppPreferences @Inject constructor(context: Context) {
     var rippleEffectUrl: String
         get() = appPreferences.getString(KEY_RIPPLE_IMAGE_URL, "") ?: ""
         set(value) = appPreferences.edit().putString(KEY_RIPPLE_IMAGE_URL, value).apply()
+
+    var backgrondPath: String?
+        get() = appPreferences.getString(KEY_BACKGROUND_PATH, null)
+        set(value) = appPreferences.edit().putString(KEY_BACKGROUND_PATH, value).apply()
+
+    var autoRipple: Boolean
+        get() = appPreferences.getBoolean(KEY_AUTO_RIPPLE, true)
+        set(value) = appPreferences.edit().putBoolean(KEY_AUTO_RIPPLE, value).apply()
+
+    var autoRippleIntervalMs: Long
+        get() = appPreferences.getLong(KEY_AUTO_RIPPLE_INTERVAL_MS, 2000L)
+        set(value) = appPreferences.edit().putLong(KEY_AUTO_RIPPLE_INTERVAL_MS, value).apply()
 
     fun clearCacheEdgeState() {
         appPreferences.edit { it.remove(KEY_CACHE_EDGE_STATE) }

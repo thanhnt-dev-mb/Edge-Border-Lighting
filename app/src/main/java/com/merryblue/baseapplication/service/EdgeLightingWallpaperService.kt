@@ -9,18 +9,15 @@ import android.graphics.PorterDuff
 import android.os.Build
 import android.os.Handler
 import android.os.Looper
-import android.os.SystemClock
 import android.service.wallpaper.WallpaperService
 import android.view.Choreographer
 import android.view.SurfaceHolder
 import android.view.View
 import androidx.core.content.ContextCompat
 import com.merryblue.baseapplication.coredata.local.AppPreferences
-import com.merryblue.baseapplication.helpers.BitmapMemoryCache
-import com.merryblue.baseapplication.helpers.PreviewType.KEY_EDGE
-import com.merryblue.baseapplication.ui.view.edgelight.EdgeLightingView
 import com.merryblue.baseapplication.helpers.ServiceState.ACTION_EDGE_WALLPAPER_STATE_CHANGED
 import com.merryblue.baseapplication.helpers.ServiceState.ACTION_EDGE_WALLPAPER_STATE_STOP
+import com.merryblue.baseapplication.ui.view.edgelight.EdgeLightingView
 
 class EdgeLightingWallpaperService : WallpaperService() {
 
@@ -67,7 +64,6 @@ class EdgeLightingWallpaperService : WallpaperService() {
 
         // A simple "heartbeat" so your SettingsActivity can detect whether the live wallpaper engine is alive.
         private var nextHeartbeatAt = 0L
-        private val heartbeatIntervalMs = 2000L
 
         // --- VSYNC render loop ---
         // Instead of postDelayed(33ms) (which easily becomes jittery), use Choreographer to align with VSYNC.
@@ -174,9 +170,8 @@ class EdgeLightingWallpaperService : WallpaperService() {
 
             // Apply all visual parameters (colors, notch, speed, background, etc.).
             view.applyEdgeState(s)
-            BitmapMemoryCache.get(KEY_EDGE)?.let { bmp ->
-                view.setBackgroundBitmap(bmp)
-            }
+            prefs.backgrondPath?.let { view.setBackgroundFromFilePath(it) }
+
         }
 
         // Draw a single frame onto the wallpaper Surface.

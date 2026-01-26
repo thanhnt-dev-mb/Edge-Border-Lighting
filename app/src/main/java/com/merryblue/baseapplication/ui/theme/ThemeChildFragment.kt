@@ -2,6 +2,7 @@ package com.merryblue.baseapplication.ui.theme
 
 import android.content.Intent
 import android.os.Bundle
+import android.widget.Toast
 import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
@@ -12,13 +13,14 @@ import androidx.recyclerview.widget.GridLayoutManager
 import com.merryblue.baseapplication.R
 import com.merryblue.baseapplication.databinding.FragmentThemeChildBinding
 import com.merryblue.baseapplication.domain.model.Item
-import com.merryblue.baseapplication.helpers.BitmapMemoryCache
 import com.merryblue.baseapplication.helpers.PreviewType.KEY_EDGE
+import com.merryblue.baseapplication.helpers.PreviewType.KEY_RIPPLE
 import com.merryblue.baseapplication.helpers.RIPPLE_MAGICAL_BORDERS
 import com.merryblue.baseapplication.helpers.TYPE_THEME
-import com.merryblue.baseapplication.helpers.VideoPreloader
 import com.merryblue.baseapplication.helpers.WallpaperType
+import com.merryblue.baseapplication.helpers.cache.WallpaperBgStore
 import com.merryblue.baseapplication.helpers.getFullScreenTargetSize
+import com.merryblue.baseapplication.helpers.video.VideoPreloader
 import com.merryblue.baseapplication.ui.home.HomeViewModel
 import com.merryblue.baseapplication.ui.wallpaper.EdgeWallpaperSettingsActivity
 import com.merryblue.baseapplication.ui.wallpaper.RippleWallpaperSettingsActivity
@@ -78,12 +80,24 @@ class ThemeChildFragment: BaseFragment<FragmentThemeChildBinding>() {
                 }
 
                 launch {
-                    homeViewModel.bgBitmap.collectLatest { bmp ->
+                    homeViewModel.bgBitmap.collectLatest { pair ->
+                        val key = pair.first
+                        val bmp = pair.second
                         bmp?.let {
-                            viewModel.updateEdgeState { state -> state.copy(isEnableEdgeLighting = false) }
-                            BitmapMemoryCache.put(KEY_EDGE, it)
-                            val intent = Intent(requireContext(), EdgeWallpaperSettingsActivity::class.java)
-                            startActivity(intent)
+                            when (key) {
+                                KEY_EDGE -> {
+                                    viewModel.updateEdgeState { state -> state.copy(isEnableEdgeLighting = false) }
+                                    WallpaperBgStore.saveFile(requireContext(), it)
+                                    startActivity(Intent(requireContext(), EdgeWallpaperSettingsActivity::class.java))
+                                }
+
+                                KEY_RIPPLE -> {
+                                    WallpaperBgStore.saveRippleAndNotify(requireContext(), it)
+                                    startActivity(Intent(requireContext(), RippleWallpaperSettingsActivity::class.java))
+                                }
+                            }
+                        } ?: run {
+                            Toast.makeText(requireContext(), getString(R.string.an_error_has_occurred), Toast.LENGTH_SHORT).show()
                         }
                     }
                 }
@@ -117,7 +131,7 @@ class ThemeChildFragment: BaseFragment<FragmentThemeChildBinding>() {
 
             WallpaperType.TYPE_RIPPLE -> {
                 homeViewModel.rippleEffectUrl = item.pathUrl
-                startActivity(Intent(requireContext(), RippleWallpaperSettingsActivity::class.java))
+                homeViewModel.loadBackgroundRippleUrl(item, requireContext().getFullScreenTargetSize())
             }
         }
 

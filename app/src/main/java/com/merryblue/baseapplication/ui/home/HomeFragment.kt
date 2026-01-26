@@ -1,10 +1,8 @@
 package com.merryblue.baseapplication.ui.home
 
-import android.app.WallpaperManager
-import android.content.ComponentName
 import android.content.Intent
-import android.os.Build
 import android.provider.Settings
+import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.core.net.toUri
 import androidx.fragment.app.activityViewModels
@@ -18,23 +16,20 @@ import com.merryblue.baseapplication.R
 import com.merryblue.baseapplication.databinding.FragmentHomeBinding
 import com.merryblue.baseapplication.domain.model.Item
 import com.merryblue.baseapplication.domain.model.ThemeUi
-import com.merryblue.baseapplication.helpers.BitmapMemoryCache
 import com.merryblue.baseapplication.helpers.EDGE_MOST
 import com.merryblue.baseapplication.helpers.KEY_RECEIVE_DATA
 import com.merryblue.baseapplication.helpers.PreviewType.KEY_EDGE
+import com.merryblue.baseapplication.helpers.PreviewType.KEY_RIPPLE
 import com.merryblue.baseapplication.helpers.RIPPLE_MAGICAL_BORDERS
 import com.merryblue.baseapplication.helpers.ServiceState.ACTION_EDGE_WALLPAPER_STATE_STOP
 import com.merryblue.baseapplication.helpers.TYPE_PRESET
 import com.merryblue.baseapplication.helpers.TYPE_THEME
-import com.merryblue.baseapplication.helpers.VideoCache
-import com.merryblue.baseapplication.helpers.VideoMemoryCache
-import com.merryblue.baseapplication.helpers.VideoPreloader
 import com.merryblue.baseapplication.helpers.WallpaperType
+import com.merryblue.baseapplication.helpers.cache.WallpaperBgStore
 import com.merryblue.baseapplication.helpers.getFullScreenTargetSize
-import com.merryblue.baseapplication.helpers.restoreBuiltInToSystemAndLock
 import com.merryblue.baseapplication.helpers.updateHeightForCurrentPage
+import com.merryblue.baseapplication.helpers.video.VideoPreloader
 import com.merryblue.baseapplication.service.EdgeLightingOverlayService
-import com.merryblue.baseapplication.service.EdgeLightingWallpaperService
 import com.merryblue.baseapplication.ui.theme.ThemesActivity
 import com.merryblue.baseapplication.ui.wallpaper.EdgeWallpaperSettingsActivity
 import com.merryblue.baseapplication.ui.wallpaper.RippleWallpaperSettingsActivity
@@ -104,13 +99,25 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
                     }
 
                     launch {
-                        viewModel.bgBitmap.collectLatest { bmp ->
+                        viewModel.bgBitmap.collectLatest { pair ->
+                            val key = pair.first
+                            val bmp = pair.second
                             bmp?.let {
-                                binding.edgeToggle.isChecked = false
-                                viewModel.updateEdgeState { state -> state.copy(isEnableEdgeLighting = false) }
-                                BitmapMemoryCache.put(KEY_EDGE, it)
-                                val intent = Intent(requireContext(), EdgeWallpaperSettingsActivity::class.java)
-                                startActivity(intent)
+                                when (key) {
+                                    KEY_EDGE -> {
+                                        binding.edgeToggle.isChecked = false
+                                        viewModel.updateEdgeState { state -> state.copy(isEnableEdgeLighting = false) }
+                                        WallpaperBgStore.saveFile(requireContext(), it)
+                                        startActivity(Intent(requireContext(), EdgeWallpaperSettingsActivity::class.java))
+                                    }
+
+                                    KEY_RIPPLE -> {
+                                        WallpaperBgStore.saveRippleAndNotify(requireContext(), it)
+                                        startActivity(Intent(requireContext(), RippleWallpaperSettingsActivity::class.java))
+                                    }
+                                }
+                            } ?: run {
+                                Toast.makeText(requireContext(), getString(R.string.an_error_has_occurred), Toast.LENGTH_SHORT).show()
                             }
                         }
                     }
@@ -233,7 +240,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
 
             WallpaperType.TYPE_RIPPLE -> {
                 viewModel.rippleEffectUrl = item.pathUrl
-                startActivity(Intent(requireContext(), RippleWallpaperSettingsActivity::class.java))
+                viewModel.loadBackgroundRippleUrl(item, requireContext().getFullScreenTargetSize())
             }
         }
 
