@@ -7,8 +7,6 @@ import android.os.Bundle
 import com.merryblue.baseapplication.R
 import com.merryblue.baseapplication.coredata.local.AppPreferences
 import com.merryblue.baseapplication.databinding.ActivityEdgeWallpaperSettingsBinding
-import com.merryblue.baseapplication.helpers.BitmapMemoryCache
-import com.merryblue.baseapplication.helpers.PreviewType.KEY_EDGE
 import com.merryblue.baseapplication.helpers.ServiceState.ACTION_EDGE_WALLPAPER_STATE_CHANGED
 import com.merryblue.baseapplication.service.EdgeLightingWallpaperService
 import org.app.core.base.BaseActivity
@@ -33,9 +31,9 @@ class EdgeWallpaperSettingsActivity : BaseActivity<ActivityEdgeWallpaperSettings
 
     private fun showEdgePreview() {
         val state = prefs.edgeState
-        BitmapMemoryCache.get(KEY_EDGE)?.let { bmp ->
+        prefs.backgrondPath?.let { path ->
             binding.edgeViewWallpaper.applyEdgeState(state)
-            binding.edgeViewWallpaper.setBackgroundBitmap(bmp)
+            binding.edgeViewWallpaper.setBackgroundFromFilePath(path)
         }
     }
 

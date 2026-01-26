@@ -14,7 +14,7 @@ import androidx.core.database.getStringOrNull
 import com.google.gson.Gson
 import com.merryblue.baseapplication.coredata.local.AppPreferences
 import com.merryblue.baseapplication.coredata.model.LanguageModel
-import com.merryblue.baseapplication.ui.view.edgelight.EdgeLightingState
+import com.merryblue.baseapplication.ui.view.edgelight.model.EdgeLightingState
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -23,7 +23,6 @@ import org.app.core.base.utils.getPath
 import org.app.core.ads.openads.AdapterOpenAppManager
 import org.app.core.ads.remoteconfig.CoreRemoteConfig
 import org.app.core.ads.remoteconfig.config.AdsConfigure
-import org.app.core.base.extensions.coroutinesIO
 import java.io.File
 import java.io.IOException
 import javax.inject.Inject

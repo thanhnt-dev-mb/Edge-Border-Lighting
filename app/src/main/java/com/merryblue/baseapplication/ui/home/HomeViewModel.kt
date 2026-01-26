@@ -7,10 +7,6 @@ import android.graphics.Color
 import android.net.Uri
 import androidx.lifecycle.viewModelScope
 import com.merryblue.baseapplication.coredata.AppRepository
-import com.merryblue.baseapplication.coredata.model.edge.Advanced
-import com.merryblue.baseapplication.coredata.model.edge.DisplayNotchType
-import com.merryblue.baseapplication.coredata.model.edge.EdgeSelection
-import com.merryblue.baseapplication.coredata.model.edge.EdgeSettings
 import com.merryblue.baseapplication.domain.model.Item
 import com.merryblue.baseapplication.domain.model.Topic
 import com.merryblue.baseapplication.domain.repository.EdgeDataRepository
@@ -21,12 +17,11 @@ import com.merryblue.baseapplication.helpers.ServiceState.ACTION_EDGE_OVERLAY_CH
 import com.merryblue.baseapplication.helpers.BackgroundType
 import com.merryblue.baseapplication.helpers.EdgeStyle.EDGE_LINEAR
 import com.merryblue.baseapplication.helpers.EdgeStyle.EDGE_NONE
+import com.merryblue.baseapplication.helpers.PreviewType.KEY_EDGE
+import com.merryblue.baseapplication.helpers.PreviewType.KEY_RIPPLE
 import com.merryblue.baseapplication.helpers.ServiceState.ACTION_EDGE_OVERLAY_STOP
-import com.merryblue.baseapplication.helpers.dpToPx
 import com.merryblue.baseapplication.ui.iap.BillingRepository
-import com.merryblue.baseapplication.ui.view.edgelight.EdgeHoleShape
-import com.merryblue.baseapplication.ui.view.edgelight.EdgeLightingState
-import com.merryblue.baseapplication.ui.view.edgelight.InfinityShape
+import com.merryblue.baseapplication.ui.view.edgelight.model.EdgeLightingState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -37,7 +32,6 @@ import kotlinx.coroutines.launch
 import org.app.core.base.BaseViewModel
 import timber.log.Timber
 import javax.inject.Inject
-import kotlin.Float
 
 @HiltViewModel
 class HomeViewModel @Inject constructor(
@@ -54,7 +48,7 @@ class HomeViewModel @Inject constructor(
     private val _themeState = MutableStateFlow<Topic?>(null)
     val themeState: StateFlow<Topic?> = _themeState.asStateFlow()
 
-    private val _bgBitmap = MutableSharedFlow<Bitmap?>(replay = 0)
+    private val _bgBitmap = MutableSharedFlow<Pair<String, Bitmap?>>(replay = 0)
     val bgBitmap = _bgBitmap.asSharedFlow()
 
     private val _restartOverlay = MutableSharedFlow<Boolean>(replay = 0)
@@ -119,6 +113,15 @@ class HomeViewModel @Inject constructor(
         appRepository.cacheEdgeState = edgeState
     }
 
+    fun loadBackgroundRippleUrl(item: Item, target: TargetSize) {
+        viewModelScope.launch {
+            val bmp = edgeImageRepository.loadBitmap(EdgeImageSource.Url(item.pathUrl), target)
+            bmp?.let { sendActionBroadcast(ACTION_EDGE_OVERLAY_STOP) }
+            Timber.tag("Log_Bitmap").d("ripple bitmap: $bmp")
+            _bgBitmap.emit(Pair(KEY_RIPPLE, bmp))
+        }
+    }
+
     fun onClickBackgroundUrl(item: Item, target: TargetSize) {
 
         saveCacheEdgeState()
@@ -138,7 +141,7 @@ class HomeViewModel @Inject constructor(
         viewModelScope.launch {
             val bmp = edgeImageRepository.loadBitmap(EdgeImageSource.Url(item.pathUrl), target)
             bmp?.let { sendActionBroadcast(ACTION_EDGE_OVERLAY_STOP) }
-            _bgBitmap.emit(bmp)
+            _bgBitmap.emit(Pair(KEY_EDGE, bmp))
         }
     }
 
@@ -154,7 +157,7 @@ class HomeViewModel @Inject constructor(
         viewModelScope.launch {
             val bmp = edgeImageRepository.loadBitmap(EdgeImageSource.UriSource(uri), target)
             bmp?.let { sendActionBroadcast(ACTION_EDGE_OVERLAY_STOP) }
-            _bgBitmap.emit(bmp)
+            _bgBitmap.emit(Pair(KEY_EDGE, bmp))
         }
     }
 
@@ -170,7 +173,7 @@ class HomeViewModel @Inject constructor(
         viewModelScope.launch {
             val bmp = edgeImageRepository.loadBitmap(EdgeImageSource.Res(resId), target)
             bmp?.let { sendActionBroadcast(ACTION_EDGE_OVERLAY_STOP) }
-            _bgBitmap.emit(bmp)
+            _bgBitmap.emit(Pair(KEY_EDGE, bmp))
         }
     }
 

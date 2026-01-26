@@ -1,11 +1,8 @@
-package com.merryblue.baseapplication.data.source
+package com.merryblue.baseapplication.helpers.video
 
 import android.content.Context
-import androidx.media3.datasource.DataSource
 import androidx.media3.datasource.cache.CacheDataSource
-import androidx.media3.datasource.cache.CacheDataSource.FLAG_IGNORE_CACHE_ON_ERROR
 import androidx.media3.datasource.okhttp.OkHttpDataSource
-import com.merryblue.baseapplication.helpers.VideoCache
 import okhttp3.OkHttpClient
 import java.util.concurrent.TimeUnit
 
@@ -23,6 +20,6 @@ object VideoDataSource {
         return CacheDataSource.Factory()
             .setCache(VideoCache.get(context))
             .setUpstreamDataSourceFactory(upstream)
-            .setFlags(FLAG_IGNORE_CACHE_ON_ERROR)
+            .setFlags(CacheDataSource.FLAG_IGNORE_CACHE_ON_ERROR)
     }
 }

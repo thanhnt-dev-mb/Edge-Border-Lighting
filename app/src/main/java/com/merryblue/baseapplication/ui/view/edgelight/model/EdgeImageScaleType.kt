@@ -1,4 +1,4 @@
-package com.merryblue.baseapplication.ui.view.edgelight
+package com.merryblue.baseapplication.ui.view.edgelight.model
 
 enum class EdgeImageScaleType {
     FIT_XY,

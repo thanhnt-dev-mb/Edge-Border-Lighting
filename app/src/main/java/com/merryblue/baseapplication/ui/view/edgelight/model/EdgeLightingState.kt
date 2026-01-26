@@ -1,7 +1,6 @@
-package com.merryblue.baseapplication.ui.view.edgelight
+package com.merryblue.baseapplication.ui.view.edgelight.model
 
 import android.graphics.Color
-import android.net.Uri
 import com.merryblue.baseapplication.R
 import com.merryblue.baseapplication.coredata.model.edge.Advanced
 import com.merryblue.baseapplication.helpers.BackgroundType

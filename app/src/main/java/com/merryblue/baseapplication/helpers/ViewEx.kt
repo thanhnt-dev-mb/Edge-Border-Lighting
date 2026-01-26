@@ -8,10 +8,7 @@ import android.view.View
 import android.view.WindowManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager2.widget.ViewPager2
-import com.merryblue.baseapplication.R
 import com.merryblue.baseapplication.domain.repository.TargetSize
-import com.merryblue.baseapplication.ui.view.edgelight.EdgeLightingState
-import com.merryblue.baseapplication.ui.view.edgelight.EdgeLightingView
 import kotlin.math.max
 
 fun ViewPager2.updateHeightForCurrentPage(extraBottomPx: Int = 0) {

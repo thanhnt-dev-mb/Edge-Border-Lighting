@@ -8,7 +8,7 @@ import com.merryblue.baseapplication.coredata.model.edge.EdgeColorItem
 import com.merryblue.baseapplication.helpers.EdgeStyle.EDGE_PATTERN
 import com.merryblue.baseapplication.helpers.ServiceState.ACTION_EDGE_OVERLAY_CHANGED
 import com.merryblue.baseapplication.helpers.loadColorsFromArray
-import com.merryblue.baseapplication.ui.view.edgelight.EdgeLightingState
+import com.merryblue.baseapplication.ui.view.edgelight.model.EdgeLightingState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow

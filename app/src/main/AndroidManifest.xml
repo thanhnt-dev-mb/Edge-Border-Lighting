@@ -154,6 +154,7 @@
                 android:name="android.service.wallpaper"
                 android:resource="@xml/ripple_wallpaper" />
         </service>
+
         <service
             android:name=".service.EdgeLightingWallpaperService"
             android:exported="true"

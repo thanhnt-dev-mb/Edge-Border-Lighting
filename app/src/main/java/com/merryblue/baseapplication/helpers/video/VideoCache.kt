@@ -1,4 +1,4 @@
-package com.merryblue.baseapplication.helpers
+package com.merryblue.baseapplication.helpers.video
 
 import android.content.Context
 import androidx.media3.database.StandaloneDatabaseProvider

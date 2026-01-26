@@ -4,7 +4,6 @@ import android.app.Application
 import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.Color
-import android.graphics.Color.parseColor
 import androidx.lifecycle.viewModelScope
 import androidx.paging.Pager
 import androidx.paging.PagingConfig
@@ -20,7 +19,7 @@ import com.merryblue.baseapplication.helpers.EdgeStyle.EDGE_LINEAR
 import com.merryblue.baseapplication.helpers.EdgeStyle.EDGE_NONE
 import com.merryblue.baseapplication.helpers.ServiceState.ACTION_EDGE_OVERLAY_CHANGED
 import com.merryblue.baseapplication.helpers.ServiceState.ACTION_EDGE_OVERLAY_STOP
-import com.merryblue.baseapplication.ui.view.edgelight.EdgeLightingState
+import com.merryblue.baseapplication.ui.view.edgelight.model.EdgeLightingState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.asSharedFlow

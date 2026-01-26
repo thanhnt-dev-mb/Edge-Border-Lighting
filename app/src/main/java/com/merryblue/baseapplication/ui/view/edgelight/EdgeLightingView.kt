@@ -28,7 +28,6 @@ import com.merryblue.baseapplication.R
 import com.merryblue.baseapplication.coredata.model.edge.Advanced
 import com.merryblue.baseapplication.coredata.model.edge.EdgePreset
 import com.merryblue.baseapplication.coredata.model.edge.EdgeStyle
-import com.merryblue.baseapplication.helpers.BackgroundType
 import com.merryblue.baseapplication.helpers.dpToPx
 import org.xmlpull.v1.XmlPullParser
 import kotlin.math.atan2
@@ -38,6 +37,15 @@ import kotlin.math.roundToInt
 import androidx.core.graphics.withTranslation
 import com.merryblue.baseapplication.helpers.EdgeStyle.EDGE_LINEAR
 import com.merryblue.baseapplication.helpers.EdgeStyle.EDGE_PATTERN
+import com.merryblue.baseapplication.ui.view.edgelight.model.EdgeBackground
+import com.merryblue.baseapplication.ui.view.edgelight.model.EdgeHoleShape
+import com.merryblue.baseapplication.ui.view.edgelight.model.EdgeImageScaleType
+import com.merryblue.baseapplication.ui.view.edgelight.model.EdgeLightingState
+import com.merryblue.baseapplication.ui.view.edgelight.model.HoleCenterBounds
+import com.merryblue.baseapplication.ui.view.edgelight.model.InfinityParams
+import com.merryblue.baseapplication.ui.view.edgelight.model.InfinityShape
+import com.merryblue.baseapplication.ui.view.edgelight.model.OffsetRange
+import com.merryblue.baseapplication.ui.view.edgelight.model.VectorPathResult
 
 class EdgeLightingView @JvmOverloads constructor(context: Context, attrs: AttributeSet? = null) : View(context, attrs) {
 
@@ -1406,6 +1414,17 @@ class EdgeLightingView @JvmOverloads constructor(context: Context, attrs: Attrib
     fun setBackgroundImageResId(@DrawableRes resId: Int) {
         val bmp = BitmapFactory.decodeResource(resources, resId)
         setBackgroundBitmap(bmp)
+    }
+
+    fun setBackgroundFromFilePath(path: String) {
+        clearBackgroundBitmap()
+        val bmp = BitmapFactory.decodeFile(path) ?: throw IllegalStateException("Decode bitmap failed: $path")
+        backgroundInside = EdgeBackground.Image(bmp)
+        cachedBitmap = null
+        cachedBitmapShader = null
+        cachedBgW = 0
+        cachedBgH = 0
+        invalidateSmart()
     }
 
     @MainThread

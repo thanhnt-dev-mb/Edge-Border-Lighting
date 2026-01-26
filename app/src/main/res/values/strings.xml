@@ -82,5 +82,6 @@
     <string name="device_unsupported_wallpaper">Device unsupported Wallpaper</string>
     <string name="txt_set_as_wallpaper">Set as Wallpaper</string>
     <string name="txt_live_wallpaper_applied">Live wallpaper applied</string>
+    <string name="an_error_has_occurred">An error has occurred</string>
 
 </resources>

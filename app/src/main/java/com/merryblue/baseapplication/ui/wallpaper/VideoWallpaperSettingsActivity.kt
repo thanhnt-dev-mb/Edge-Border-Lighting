@@ -10,15 +10,12 @@ import androidx.media3.common.MediaItem
 import androidx.media3.common.Player
 import androidx.media3.exoplayer.ExoPlayer
 import androidx.media3.exoplayer.source.DefaultMediaSourceFactory
-import androidx.media3.ui.AspectRatioFrameLayout
 import com.merryblue.baseapplication.R
 import com.merryblue.baseapplication.coredata.local.AppPreferences
-import com.merryblue.baseapplication.data.source.VideoDataSource
+import com.merryblue.baseapplication.helpers.video.VideoDataSource
 import com.merryblue.baseapplication.databinding.ActivityVideoWallpaperSettingsBinding
 import com.merryblue.baseapplication.helpers.ServiceState.ACTION_VIDEO_WALLPAPER_STATE_CHANGED
-import com.merryblue.baseapplication.helpers.VideoCache
-import com.merryblue.baseapplication.helpers.VideoMemoryCache
-import com.merryblue.baseapplication.helpers.VideoPreloader
+import com.merryblue.baseapplication.helpers.video.VideoPreloader
 import com.merryblue.baseapplication.service.VideoWallpaperService
 import org.app.core.base.BaseActivity
 

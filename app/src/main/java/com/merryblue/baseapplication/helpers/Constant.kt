@@ -36,6 +36,9 @@ object ServiceState {
 
     // VideoWallpaperService
     const val ACTION_VIDEO_WALLPAPER_STATE_CHANGED = "com.merryblue.baseapplication.wallpaper.ACTION_VIDEO_WALLPAPER_STATE_CHANGED"
+
+    // RippleWallpaperService
+    const val ACTION_RIPPLE_BG_CHANGED = "com.merryblue.baseapplication.ACTION_RIPPLE_BG_CHANGED"
 }
 
 object WallpaperType {
