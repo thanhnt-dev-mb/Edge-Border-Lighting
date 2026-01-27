@@ -83,5 +83,13 @@
     <string name="txt_set_as_wallpaper">Set as Wallpaper</string>
     <string name="txt_live_wallpaper_applied">Live wallpaper applied</string>
     <string name="an_error_has_occurred">An error has occurred</string>
+    <string name="hex_code">HEX CODE</string>
+    <string name="live_preview">Live Preview</string>
+    <string name="apply">Apply</string>
+    <string name="color_1">Color 1</string>
+    <string name="color_2">Color 2</string>
+    <string name="color_3">Color 3</string>
+    <string name="color_4">Color 4</string>
+    <string name="changes_have_been_applied">Changes have been applied</string>
 
 </resources>

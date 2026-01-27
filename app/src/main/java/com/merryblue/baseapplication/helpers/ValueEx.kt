@@ -1,5 +1,8 @@
 package com.merryblue.baseapplication.helpers
 
+import android.content.Context
+import android.graphics.Color
+
 fun Float.mapFloatToRange(min: Float, max: Float): Float {
     val p = this.coerceIn(0f, 1f)
     return min + (max - min) * p
@@ -23,3 +26,24 @@ fun Long.mapValueToProgress(min: Long, max: Long): Float {
     val v = this.toFloat().coerceIn(minF, maxF)
     return ((v - minF) / (maxF - minF)).coerceIn(0f, 1f)
 }
+
+val Int.dpToPx: Int get() = (this * android.content.res.Resources.getSystem().displayMetrics.density).toInt()
+
+val Float.dpToPx: Float get() = this * android.content.res.Resources.getSystem().displayMetrics.density
+
+val Int.toHex: String get() = String.format("#%08X", this)
+
+val String.parseHexSafe: Int?
+    get() {
+        val t = trim().replace(" ", "")
+        return try {
+            when {
+                t.startsWith("#") -> Color.parseColor(t)
+                t.length == 6 -> Color.parseColor("#$t")
+                t.length == 8 -> Color.parseColor("#$t")
+                else -> null
+            }
+        } catch (_: Throwable) {
+            null
+        }
+    }

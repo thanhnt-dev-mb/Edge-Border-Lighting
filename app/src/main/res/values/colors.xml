@@ -267,5 +267,9 @@
     <color name="color_border">#5D5D84</color>
     <color name="color_thumb_shadow">#40000000</color>
     <color name="color_bottom_nav">#19193F</color>
+    <color name="color_6e6e6e">#6E6E6E</color>
+    <color name="color_1e1e1e">#1E1E1E</color>
+    <color name="color_b388ff">#B388FF</color>
+    <color name="color_bdbdbd">#BDBDBD</color>
 
 </resources>

@@ -92,4 +92,21 @@
         <attr name="settingIconUnselected" format="reference" />
     </declare-styleable>
 
+    <declare-styleable name="SvPickerView">
+        <attr name="svCornerRadius" format="dimension" />
+        <attr name="svThumbRadius" format="dimension" />
+        <attr name="svThumbMargin" format="dimension" />
+        <attr name="svClipToRoundRect" format="boolean" />
+        <attr name="svUseSoftwareLayer" format="boolean" />
+    </declare-styleable>
+
+    <declare-styleable name="HueSliderView">
+        <attr name="hueCornerRadius" format="dimension" />
+        <attr name="hueInnerPadding" format="dimension" />
+        <attr name="hueThumbRadius" format="dimension" />
+        <attr name="hueThumbMargin" format="dimension" />
+        <attr name="hueClipToRoundRect" format="boolean" />
+        <attr name="hueUseSoftwareLayer" format="boolean" />
+    </declare-styleable>
+
 </resources>
