@@ -1,0 +1,535 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/main"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/colorBgSurface">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/btnBackPreview"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_marginStart="2dp"
+                android:layout_marginTop="4dp"
+                android:padding="14dp"
+                android:src="@drawable/ic_back"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tvTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="6dp"
+                android:fontFamily="@font/roboto_bold"
+                android:text="@string/live_preview"
+                android:textColor="@color/colorWhite"
+                android:textSize="18sp"
+                app:layout_constraintBottom_toBottomOf="@+id/btnBackPreview"
+                app:layout_constraintStart_toEndOf="@+id/btnBackPreview"
+                app:layout_constraintTop_toTopOf="@+id/btnBackPreview" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/btnApply"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="16dp"
+                android:background="@drawable/bg_tab_color_edge_unselected"
+                android:backgroundTint="@color/colorPrimary"
+                android:paddingHorizontal="20dp"
+                android:paddingVertical="5dp"
+                android:text="@string/apply"
+                android:textColor="@color/colorWhite"
+                app:layout_constraintBottom_toBottomOf="@+id/btnBackPreview"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/btnBackPreview" />
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/previewContainer"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_marginTop="12dp"
+                android:backgroundTint="@color/colorGray02"
+                android:src="@drawable/bg_phone"
+                app:layout_constraintDimensionRatio="9:16"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHeight_default="percent"
+                app:layout_constraintHeight_percent="0.38"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tvTitle" />
+
+            <com.merryblue.baseapplication.ui.view.edgelight.EdgeLightingView
+                android:id="@+id/edgeViewPreview"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_marginHorizontal="20dp"
+                android:layout_marginTop="6dp"
+                app:edgeBottomCornerRadius="26dp"
+                app:edgeColors="@array/edge_colors_0"
+                app:edgeDirection="clockwise"
+                app:edgeDuration="2500"
+                app:edgeNotchType="noNotch"
+                app:edgeStrokeWidth="6dp"
+                app:edgeTopCornerRadius="26dp"
+                app:layout_constraintBottom_toBottomOf="@+id/previewContainer"
+                app:layout_constraintDimensionRatio="2:4"
+                app:layout_constraintEnd_toEndOf="@+id/previewContainer"
+                app:layout_constraintStart_toStartOf="@+id/previewContainer"
+                app:layout_constraintTop_toTopOf="@+id/previewContainer" />
+
+            <androidx.appcompat.widget.LinearLayoutCompat
+                android:id="@+id/cardTabs"
+                android:layout_width="match_parent"
+                android:layout_height="52dp"
+                android:layout_marginTop="8dp"
+                android:gravity="center"
+                android:paddingHorizontal="16dp"
+                app:cardBackgroundColor="#1B1B1B"
+                app:cardCornerRadius="12dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/previewContainer">
+
+                <androidx.appcompat.widget.LinearLayoutCompat
+                    android:id="@+id/btnFourColors"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:background="@drawable/bg_tab_color_edge_selected"
+                    android:gravity="center"
+                    android:paddingHorizontal="14dp"
+                    android:paddingVertical="6dp">
+
+                    <androidx.appcompat.widget.AppCompatImageView
+                        android:id="@+id/ivCheckFour"
+                        android:layout_width="12dp"
+                        android:layout_height="12dp"
+                        android:src="@drawable/ic_check_selected" />
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="4dp"
+                        android:text="@string/txt_four_colors"
+                        android:textColor="@color/white"
+                        android:textSize="14sp" />
+
+                </androidx.appcompat.widget.LinearLayoutCompat>
+
+                <androidx.appcompat.widget.LinearLayoutCompat
+                    android:id="@+id/btnThreeColors"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="12dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/bg_tab_color_edge_unselected"
+                    android:gravity="center"
+                    android:paddingHorizontal="14dp"
+                    android:paddingVertical="6dp">
+
+                    <androidx.appcompat.widget.AppCompatImageView
+                        android:id="@+id/ivCheckThree"
+                        android:layout_width="12dp"
+                        android:layout_height="12dp"
+                        android:src="@drawable/ic_check_unselected" />
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="4dp"
+                        android:text="@string/txt_three_colors"
+                        android:textColor="@color/white"
+                        android:textSize="14sp" />
+
+                </androidx.appcompat.widget.LinearLayoutCompat>
+
+                <androidx.appcompat.widget.LinearLayoutCompat
+                    android:id="@+id/btnTwoColors"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:background="@drawable/bg_tab_color_edge_unselected"
+                    android:gravity="center"
+                    android:paddingHorizontal="14dp"
+                    android:paddingVertical="6dp">
+
+                    <androidx.appcompat.widget.AppCompatImageView
+                        android:id="@+id/ivCheckTwo"
+                        android:layout_width="12dp"
+                        android:layout_height="12dp"
+                        android:src="@drawable/ic_check_unselected" />
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="4dp"
+                        android:text="@string/txt_two_colors"
+                        android:textColor="@color/white"
+                        android:textSize="14sp" />
+
+                </androidx.appcompat.widget.LinearLayoutCompat>
+            </androidx.appcompat.widget.LinearLayoutCompat>
+
+            <androidx.core.widget.NestedScrollView
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:fillViewport="true"
+                android:padding="16dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/cardTabs">
+
+                <androidx.appcompat.widget.LinearLayoutCompat
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical">
+
+                    <androidx.appcompat.widget.LinearLayoutCompat
+                        android:id="@+id/rowColors"
+                        android:layout_width="match_parent"
+                        android:layout_height="0dp"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:orientation="horizontal">
+
+                        <androidx.appcompat.widget.LinearLayoutCompat
+                            android:id="@+id/lnColor4"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical"
+                            android:gravity="center"
+                            android:orientation="vertical">
+
+                            <androidx.appcompat.widget.AppCompatTextView
+                                android:id="@+id/tvColor4"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:fontFamily="@font/roboto_bold"
+                                android:text="@string/color_4"
+                                android:textColor="@color/colorGray04"
+                                android:textSize="13sp" />
+
+                            <FrameLayout
+                                android:id="@+id/chipColor4"
+                                android:layout_width="80dp"
+                                android:layout_height="80dp"
+                                android:layout_marginTop="2dp"
+                                android:padding="5dp">
+
+                                <View
+                                    android:id="@+id/viewColor4"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="match_parent"
+                                    android:background="@drawable/bg_corner_10"
+                                    android:backgroundTint="@color/color4B5563" />
+                            </FrameLayout>
+
+                        </androidx.appcompat.widget.LinearLayoutCompat>
+
+                        <androidx.appcompat.widget.LinearLayoutCompat
+                            android:id="@+id/lnColor3"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical"
+                            android:layout_marginStart="10dp"
+                            android:gravity="center"
+                            android:orientation="vertical">
+
+                            <androidx.appcompat.widget.AppCompatTextView
+                                android:id="@+id/tvColor3"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:fontFamily="@font/roboto_bold"
+                                android:text="@string/color_3"
+                                android:textColor="@color/colorGray04"
+                                android:textSize="13sp" />
+
+                            <FrameLayout
+                                android:id="@+id/chipColor3"
+                                android:layout_width="80dp"
+                                android:layout_height="80dp"
+                                android:layout_marginTop="2dp"
+                                android:padding="5dp">
+
+                                <View
+                                    android:id="@+id/viewColor3"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="match_parent"
+                                    android:background="@drawable/bg_corner_10"
+                                    android:backgroundTint="@color/color_edge_dark_olive" />
+                            </FrameLayout>
+
+                        </androidx.appcompat.widget.LinearLayoutCompat>
+
+                        <androidx.appcompat.widget.LinearLayoutCompat
+                            android:id="@+id/lnColor2"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical"
+                            android:layout_marginStart="10dp"
+                            android:gravity="center"
+                            android:orientation="vertical">
+
+                            <androidx.appcompat.widget.AppCompatTextView
+                                android:id="@+id/tvColor2"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:fontFamily="@font/roboto_bold"
+                                android:text="@string/color_2"
+                                android:textColor="@color/colorGray04"
+                                android:textSize="13sp" />
+
+                            <FrameLayout
+                                android:id="@+id/chipColor2"
+                                android:layout_width="80dp"
+                                android:layout_height="80dp"
+                                android:layout_marginTop="2dp"
+                                android:padding="5dp">
+
+                                <View
+                                    android:id="@+id/viewColor2"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="match_parent"
+                                    android:background="@drawable/bg_corner_10"
+                                    android:backgroundTint="@color/color_edge_blue_00A3FF" />
+                            </FrameLayout>
+
+                        </androidx.appcompat.widget.LinearLayoutCompat>
+
+                        <androidx.appcompat.widget.LinearLayoutCompat
+                            android:id="@+id/lnColor1"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical"
+                            android:layout_marginStart="10dp"
+                            android:gravity="center"
+                            android:orientation="vertical">
+
+                            <androidx.appcompat.widget.AppCompatTextView
+                                android:id="@+id/tvColor1"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:fontFamily="@font/roboto_bold"
+                                android:text="@string/color_1"
+                                android:textColor="@color/white"
+                                android:textSize="13sp" />
+
+                            <FrameLayout
+                                android:id="@+id/chipColor1"
+                                android:layout_width="80dp"
+                                android:layout_height="80dp"
+                                android:layout_marginTop="2dp"
+                                android:background="@drawable/bg_select_color_preview"
+                                android:padding="5dp">
+
+                                <View
+                                    android:id="@+id/viewColor1"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="match_parent"
+                                    android:background="@drawable/bg_corner_10"
+                                    android:backgroundTint="@color/color_edge_gold" />
+                            </FrameLayout>
+
+
+                        </androidx.appcompat.widget.LinearLayoutCompat>
+
+                    </androidx.appcompat.widget.LinearLayoutCompat>
+
+                    <com.google.android.material.card.MaterialCardView
+                        android:id="@+id/cardPicker"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="12dp"
+                        app:cardBackgroundColor="#161616"
+                        app:cardCornerRadius="12dp">
+
+                        <androidx.constraintlayout.widget.ConstraintLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:padding="12dp">
+
+                            <com.merryblue.baseapplication.ui.picker.SvPickerView
+                                android:id="@+id/svPicker"
+                                android:layout_width="0dp"
+                                android:layout_height="160dp"
+                                android:layout_marginEnd="12dp"
+                                app:layout_constraintBottom_toBottomOf="parent"
+                                app:layout_constraintEnd_toStartOf="@id/hueSlider"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintTop_toTopOf="parent"
+                                app:svClipToRoundRect="true"
+                                app:svCornerRadius="12dp"
+                                app:svThumbMargin="2dp"
+                                app:svThumbRadius="6dp"
+                                app:svUseSoftwareLayer="true" />
+
+                            <com.merryblue.baseapplication.ui.picker.HueSliderView
+                                android:id="@+id/hueSlider"
+                                android:layout_width="22dp"
+                                android:layout_height="160dp"
+                                android:layout_marginEnd="12dp"
+                                app:hueClipToRoundRect="true"
+                                app:hueCornerRadius="12dp"
+                                app:hueThumbMargin="0dp"
+                                app:hueThumbRadius="8dp"
+                                app:hueUseSoftwareLayer="false"
+                                app:layout_constraintBottom_toBottomOf="@id/svPicker"
+                                app:layout_constraintEnd_toStartOf="@id/colHex"
+                                app:layout_constraintTop_toTopOf="@id/svPicker" />
+
+                            <androidx.constraintlayout.widget.ConstraintLayout
+                                android:id="@+id/colHex"
+                                android:layout_width="78dp"
+                                android:layout_height="0dp"
+                                android:gravity="center"
+                                android:orientation="vertical"
+                                app:layout_constraintBottom_toBottomOf="parent"
+                                app:layout_constraintEnd_toEndOf="parent"
+                                app:layout_constraintTop_toTopOf="parent">
+
+                                <androidx.appcompat.widget.AppCompatTextView
+                                    android:id="@+id/tvRGB"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_gravity="center_vertical"
+                                    android:text="RGB"
+                                    android:textColor="@color/color_6e6e6e"
+                                    android:textSize="10sp"
+                                    app:layout_constraintTop_toTopOf="parent" />
+
+                                <androidx.appcompat.widget.AppCompatTextView
+                                    android:id="@+id/tvR"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_gravity="center_vertical"
+                                    android:text="R -"
+                                    android:textColor="@color/color_6e6e6e"
+                                    android:textSize="13sp"
+                                    app:layout_constraintBottom_toBottomOf="@+id/edtRValue"
+                                    app:layout_constraintTop_toTopOf="@+id/edtRValue" />
+
+                                <androidx.appcompat.widget.AppCompatTextView
+                                    android:id="@+id/tvG"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_gravity="center_vertical"
+                                    android:text="G -"
+                                    android:textColor="@color/color_6e6e6e"
+                                    android:textSize="13sp"
+                                    app:layout_constraintBottom_toBottomOf="@+id/edtGValue"
+                                    app:layout_constraintTop_toTopOf="@+id/edtGValue" />
+
+                                <androidx.appcompat.widget.AppCompatTextView
+                                    android:id="@+id/tvB"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_gravity="center_vertical"
+                                    android:text="B -"
+                                    android:textColor="@color/color_6e6e6e"
+                                    android:textSize="13sp"
+                                    app:layout_constraintBottom_toBottomOf="@+id/edtBValue"
+                                    app:layout_constraintTop_toTopOf="@+id/edtBValue" />
+
+                                <androidx.appcompat.widget.AppCompatEditText
+                                    android:id="@+id/edtRValue"
+                                    android:layout_width="0dp"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginHorizontal="4dp"
+                                    android:autofillHints=""
+                                    android:background="@drawable/bg_input_picker_color"
+                                    android:inputType="number"
+                                    android:paddingHorizontal="4dp"
+                                    android:paddingVertical="2dp"
+                                    android:singleLine="true"
+                                    android:text="255"
+                                    android:textColor="@color/white"
+                                    android:textSize="13sp"
+                                    android:textStyle="bold"
+                                    app:layout_constraintBottom_toTopOf="@+id/edtGValue"
+                                    app:layout_constraintEnd_toEndOf="parent"
+                                    app:layout_constraintStart_toEndOf="@+id/tvR"
+                                    app:layout_constraintTop_toBottomOf="@+id/tvRGB" />
+
+                                <androidx.appcompat.widget.AppCompatEditText
+                                    android:id="@+id/edtGValue"
+                                    android:layout_width="0dp"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginVertical="2dp"
+                                    android:autofillHints=""
+                                    android:background="@drawable/bg_input_picker_color"
+                                    android:inputType="number"
+                                    android:paddingHorizontal="4dp"
+                                    android:paddingVertical="2dp"
+                                    android:singleLine="true"
+                                    android:text="20"
+                                    android:textColor="@color/white"
+                                    android:textSize="13sp"
+                                    android:textStyle="bold"
+                                    app:layout_constraintBottom_toTopOf="@+id/edtBValue"
+                                    app:layout_constraintEnd_toEndOf="@+id/edtRValue"
+                                    app:layout_constraintStart_toStartOf="@+id/edtRValue"
+                                    app:layout_constraintTop_toBottomOf="@+id/edtRValue" />
+
+                                <androidx.appcompat.widget.AppCompatEditText
+                                    android:id="@+id/edtBValue"
+                                    android:layout_width="0dp"
+                                    android:layout_height="wrap_content"
+                                    android:autofillHints=""
+                                    android:background="@drawable/bg_input_picker_color"
+                                    android:inputType="number"
+                                    android:paddingHorizontal="4dp"
+                                    android:paddingVertical="2dp"
+                                    android:singleLine="true"
+                                    android:text="220"
+                                    android:textColor="@color/white"
+                                    android:textSize="13sp"
+                                    android:textStyle="bold"
+                                    app:layout_constraintBottom_toTopOf="@+id/tvHexCode"
+                                    app:layout_constraintEnd_toEndOf="@+id/edtRValue"
+                                    app:layout_constraintStart_toStartOf="@+id/edtRValue"
+                                    app:layout_constraintTop_toBottomOf="@+id/edtGValue" />
+
+                                <androidx.appcompat.widget.AppCompatTextView
+                                    android:id="@+id/tvHexCode"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_gravity="center_vertical"
+                                    android:layout_marginBottom="4dp"
+                                    android:text="@string/hex_code"
+                                    android:textColor="@color/color_6e6e6e"
+                                    android:textSize="10sp"
+                                    app:layout_constraintBottom_toTopOf="@+id/edtHex" />
+
+                                <androidx.appcompat.widget.AppCompatEditText
+                                    android:id="@+id/edtHex"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:autofillHints=""
+                                    android:background="@drawable/bg_input_picker_color"
+                                    android:inputType="textNoSuggestions|textVisiblePassword"
+                                    android:paddingHorizontal="4dp"
+                                    android:paddingVertical="2dp"
+                                    android:singleLine="true"
+                                    android:text="#FF3D00"
+                                    android:textColor="@color/white"
+                                    android:textSize="13sp"
+                                    android:textStyle="bold"
+                                    app:layout_constraintBottom_toBottomOf="parent" />
+                            </androidx.constraintlayout.widget.ConstraintLayout>
+
+                        </androidx.constraintlayout.widget.ConstraintLayout>
+                    </com.google.android.material.card.MaterialCardView>
+                </androidx.appcompat.widget.LinearLayoutCompat>
+
+            </androidx.core.widget.NestedScrollView>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

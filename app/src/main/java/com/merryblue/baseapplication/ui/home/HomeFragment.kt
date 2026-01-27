@@ -30,6 +30,7 @@ import com.merryblue.baseapplication.helpers.getFullScreenTargetSize
 import com.merryblue.baseapplication.helpers.updateHeightForCurrentPage
 import com.merryblue.baseapplication.helpers.video.VideoPreloader
 import com.merryblue.baseapplication.service.EdgeLightingOverlayService
+import com.merryblue.baseapplication.ui.picker.ColorPickerActivity
 import com.merryblue.baseapplication.ui.theme.ThemesActivity
 import com.merryblue.baseapplication.ui.wallpaper.EdgeWallpaperSettingsActivity
 import com.merryblue.baseapplication.ui.wallpaper.RippleWallpaperSettingsActivity
@@ -47,7 +48,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
     private lateinit var homeThemeAdapter: HomeThemeAdapter
     private val presetOnClick: (Item) -> Unit = { handleItemClick(it) }
     private val customOnClick: () -> Unit = {
-
+        startActivity(Intent(requireContext(), ColorPickerActivity::class.java))
     }
     private val overlayPermissionLauncher = registerForActivityResult(androidx.activity.result.contract.ActivityResultContracts.StartActivityForResult()) {
         if (Settings.canDrawOverlays(requireContext())) {

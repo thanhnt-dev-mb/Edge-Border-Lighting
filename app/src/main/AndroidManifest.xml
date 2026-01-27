@@ -66,9 +66,12 @@
         tools:overrideLibrary="org.app.core"
         tools:replace="android:allowBackup">
         <activity
+            android:name=".ui.picker.ColorPickerActivity"
+            android:exported="false" />
+        <activity
             android:name=".ui.wallpaper.RippleWallpaperSettingsActivity"
-            android:theme="@style/Theme.Ripple.Fullscreen"
-            android:exported="true" />
+            android:exported="true"
+            android:theme="@style/Theme.Ripple.Fullscreen" />
         <activity
             android:name=".ui.wallpaper.VideoWallpaperSettingsActivity"
             android:exported="false" />
@@ -141,20 +144,18 @@
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />
             </intent-filter>
         </service>
-
         <service
             android:name=".service.RippleWallpaperService"
-            android:permission="android.permission.BIND_WALLPAPER"
-            android:exported="true">
+            android:exported="true"
+            android:permission="android.permission.BIND_WALLPAPER">
             <intent-filter>
-                <action android:name="android.service.wallpaper.WallpaperService"/>
+                <action android:name="android.service.wallpaper.WallpaperService" />
             </intent-filter>
 
             <meta-data
                 android:name="android.service.wallpaper"
                 android:resource="@xml/ripple_wallpaper" />
         </service>
-
         <service
             android:name=".service.EdgeLightingWallpaperService"
             android:exported="true"
