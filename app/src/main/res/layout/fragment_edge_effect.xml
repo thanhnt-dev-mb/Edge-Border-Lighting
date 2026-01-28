@@ -15,7 +15,7 @@
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="10dp"
             android:layout_marginTop="24dp"
-            android:fontFamily="@font/roboto_medium"
+            app:fontFamily="@font/roboto_medium"
             android:text="@string/txt_border_shape"
             android:textColor="@color/colorWhite"
             android:textSize="16sp" />
@@ -37,7 +37,7 @@
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="10dp"
             android:layout_marginTop="4dp"
-            android:fontFamily="@font/roboto_medium"
+            app:fontFamily="@font/roboto_medium"
             android:text="@string/txt_border_setting"
             android:textColor="@color/white"
             android:textSize="16sp" />
@@ -47,7 +47,7 @@
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="10dp"
             android:layout_marginTop="20dp"
-            android:fontFamily="@font/roboto_medium"
+            app:fontFamily="@font/roboto_medium"
             android:text="@string/txt_animation_speed"
             android:textColor="@color/white"
             android:textSize="14sp" />
@@ -73,7 +73,7 @@
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="10dp"
             android:layout_marginTop="20dp"
-            android:fontFamily="@font/roboto_medium"
+            app:fontFamily="@font/roboto_medium"
             android:text="@string/txt_border_size"
             android:textColor="@color/white"
             android:textSize="14sp" />
@@ -99,7 +99,7 @@
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="10dp"
             android:layout_marginTop="20dp"
-            android:fontFamily="@font/roboto_medium"
+            app:fontFamily="@font/roboto_medium"
             android:text="@string/txt_bottom_radius"
             android:textColor="@color/white"
             android:textSize="14sp" />
@@ -125,7 +125,7 @@
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="10dp"
             android:layout_marginTop="20dp"
-            android:fontFamily="@font/roboto_medium"
+            app:fontFamily="@font/roboto_medium"
             android:text="@string/txt_top_radius"
             android:textColor="@color/white"
             android:textSize="14sp" />

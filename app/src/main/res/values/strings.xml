@@ -91,5 +91,7 @@
     <string name="color_3">Color 3</string>
     <string name="color_4">Color 4</string>
     <string name="changes_have_been_applied">Changes have been applied</string>
+    <string name="choose_from_gallery">Choose From Gallery</string>
+    <string name="txt_all">All</string>
 
 </resources>

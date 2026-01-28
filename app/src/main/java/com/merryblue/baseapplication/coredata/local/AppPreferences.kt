@@ -130,7 +130,7 @@ class AppPreferences @Inject constructor(context: Context) {
         get() = appPreferences.getString(KEY_RIPPLE_IMAGE_URL, "") ?: ""
         set(value) = appPreferences.edit().putString(KEY_RIPPLE_IMAGE_URL, value).apply()
 
-    var backgrondPath: String?
+    var backgroundPath: String?
         get() = appPreferences.getString(KEY_BACKGROUND_PATH, null)
         set(value) = appPreferences.edit().putString(KEY_BACKGROUND_PATH, value).apply()
 

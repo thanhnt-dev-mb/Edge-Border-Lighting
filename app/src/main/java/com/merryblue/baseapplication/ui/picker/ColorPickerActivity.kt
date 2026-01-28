@@ -5,22 +5,30 @@ import android.content.res.ColorStateList
 import android.graphics.Color
 import android.os.Bundle
 import android.view.View
+import androidx.activity.viewModels
 import androidx.appcompat.widget.AppCompatEditText
 import androidx.core.content.ContextCompat
 import androidx.core.widget.doAfterTextChanged
+import androidx.fragment.app.activityViewModels
 import com.merryblue.baseapplication.R
 import com.merryblue.baseapplication.coredata.local.AppPreferences
 import com.merryblue.baseapplication.databinding.ActivityColorPickerBinding
 import com.merryblue.baseapplication.helpers.ServiceState.ACTION_EDGE_OVERLAY_CHANGED
 import com.merryblue.baseapplication.helpers.parseHexSafe
 import com.merryblue.baseapplication.helpers.toHex
+import com.merryblue.baseapplication.ui.home.HomeViewModel
 import com.merryblue.baseapplication.ui.home.color.EdgeTab
+import dagger.hilt.android.AndroidEntryPoint
 import org.app.core.base.BaseActivity
 import org.app.core.base.extensions.toastMsg
+import kotlin.getValue
 
+@AndroidEntryPoint
 class ColorPickerActivity : BaseActivity<ActivityColorPickerBinding>() {
 
     private val prefs by lazy { AppPreferences(this) }
+
+    private val viewModel: HomeViewModel by viewModels()
 
     private val colors = intArrayOf(
         Color.parseColor("#AA00FF"),
@@ -63,6 +71,7 @@ class ColorPickerActivity : BaseActivity<ActivityColorPickerBinding>() {
 
         btnApply.setOnClickListener {
             updateEdgeState()
+            viewModel.saveCacheEdgeState()
             toastMsg(getString(R.string.changes_have_been_applied))
             finish()
         }

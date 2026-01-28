@@ -6,6 +6,10 @@ sealed class ThemeUi {
     data class Custom(
         val id: String = "id"
     ) : ThemeUi()
+
+    data class Gallery(
+        val id: String = "id"
+    ) : ThemeUi()
 }
 
 data class EdgeData(

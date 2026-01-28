@@ -35,7 +35,7 @@ class RippleWallpaperSettingsActivity : BaseActivity<ActivityRippleWallpaperSett
             it.setAutoRippleIntervalMs(prefs.autoRippleIntervalMs)      // time random
             it.start()
 
-            val path = prefs.backgrondPath
+            val path = prefs.backgroundPath
             if (!path.isNullOrBlank()) it.setBackgroundFromFilePath(path)
         }
     }

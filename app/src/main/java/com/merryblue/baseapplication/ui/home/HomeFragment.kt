@@ -16,11 +16,12 @@ import com.merryblue.baseapplication.R
 import com.merryblue.baseapplication.databinding.FragmentHomeBinding
 import com.merryblue.baseapplication.domain.model.Item
 import com.merryblue.baseapplication.domain.model.ThemeUi
-import com.merryblue.baseapplication.helpers.EDGE_MOST
+import com.merryblue.baseapplication.helpers.EDGE_REWARD_DAY
+import com.merryblue.baseapplication.helpers.KEY_IS_CUSTOM
 import com.merryblue.baseapplication.helpers.KEY_RECEIVE_DATA
 import com.merryblue.baseapplication.helpers.PreviewType.KEY_EDGE
 import com.merryblue.baseapplication.helpers.PreviewType.KEY_RIPPLE
-import com.merryblue.baseapplication.helpers.RIPPLE_MAGICAL_BORDERS
+import com.merryblue.baseapplication.helpers.RIPPLE_PREMIUM
 import com.merryblue.baseapplication.helpers.ServiceState.ACTION_EDGE_WALLPAPER_STATE_STOP
 import com.merryblue.baseapplication.helpers.TYPE_PRESET
 import com.merryblue.baseapplication.helpers.TYPE_THEME
@@ -48,6 +49,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
     private lateinit var homeThemeAdapter: HomeThemeAdapter
     private val presetOnClick: (Item) -> Unit = { handleItemClick(it) }
     private val customOnClick: () -> Unit = {
+        disableEdgeLighting()
         startActivity(Intent(requireContext(), ColorPickerActivity::class.java))
     }
     private val overlayPermissionLauncher = registerForActivityResult(androidx.activity.result.contract.ActivityResultContracts.StartActivityForResult()) {
@@ -67,8 +69,8 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
     }
 
     override fun setUpViews() {
-        viewModel.loadPreset(EDGE_MOST)
-        viewModel.loadThemes(RIPPLE_MAGICAL_BORDERS)
+        viewModel.loadPreset(EDGE_REWARD_DAY)
+        viewModel.loadThemes(RIPPLE_PREMIUM)
 
         initTabLayout()
         initRecyclerView()
@@ -175,16 +177,28 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
         edgeToggle.setCheckedSilently(viewModel.edgeState.isEnableEdgeLighting)
 
         btnViewAllTheme.setOnClickListener {
+            disableEdgeLighting()
+
             val intent = Intent(requireContext(), ThemesActivity::class.java)
+            intent.putExtra(KEY_IS_CUSTOM, true)
             intent.putExtra(KEY_RECEIVE_DATA, TYPE_THEME)
             startActivity(intent)
         }
 
         btnViewAllPreset.setOnClickListener {
+            disableEdgeLighting()
+
             val intent = Intent(requireContext(), ThemesActivity::class.java)
+            intent.putExtra(KEY_IS_CUSTOM, false)
             intent.putExtra(KEY_RECEIVE_DATA, TYPE_PRESET)
             startActivity(intent)
         }
+    }
+
+    private fun disableEdgeLighting() {
+        viewModel.updateEdgeState { state -> state.copy(isEnableEdgeLighting = false) }
+        viewModel.saveCacheEdgeState()
+        binding.edgeToggle.isChecked = false
     }
 
     private fun initTabLayout() {
@@ -203,6 +217,8 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
 
         binding.vpSettingEdge.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
             override fun onPageSelected(position: Int) {
+//                disableEdgeLighting()
+
                 binding.vpSettingEdge.post { binding.vpSettingEdge.updateHeightForCurrentPage() }
             }
         })
@@ -230,10 +246,6 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
             }
 
             WallpaperType.TYPE_VIDEO -> {
-                binding.edgeToggle.isChecked = false
-                viewModel.updateEdgeState { state -> state.copy(isEnableEdgeLighting = false) }
-                viewModel.saveCacheEdgeState()
-
                 viewModel.videoUrl = item.pathUrl
                 startActivity(Intent(requireContext(), VideoWallpaperSettingsActivity::class.java))
                 VideoPreloader.preload(requireContext().applicationContext, item.pathUrl)
@@ -245,6 +257,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
             }
         }
 
+        disableEdgeLighting()
     }
 
     fun onChildContentExpanded() = binding.apply {
