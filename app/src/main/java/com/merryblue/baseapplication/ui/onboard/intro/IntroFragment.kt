@@ -40,7 +40,9 @@ class IntroFragment : BaseFragment<FragmentIntroBinding>() {
             pageIndex = it.getInt(ARG_PAGE_NUMBER, 0)
             binding.data = viewModel.getPageDataBy(pageIndex, context ?: return)
         }
+    }
 
+    override fun setBindingVariables() {
         if (pageIndex != 1 && !viewModel.isPremium()) {
             layoutCard = binding.layoutCard
             adsContainer = binding.adsContainer

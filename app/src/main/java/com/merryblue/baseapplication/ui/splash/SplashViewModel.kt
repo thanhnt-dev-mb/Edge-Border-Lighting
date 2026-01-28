@@ -38,15 +38,15 @@ class SplashViewModel @Inject constructor(
 
     fun getJsonConfiguration() = appRepository.getJsonAdsConfigure()
 
-    fun isPremium() = billingRepository.isPurchased()
+    fun isPremium() = true//billingRepository.isPurchased()
 
     init {
         if (appRepository.isFirstLaunch) {
             appRepository.clearPreferences()
         }
-        viewModelScope.launch {
-            billingRepository.initialize()
-        }
+//        viewModelScope.launch {
+//            billingRepository.initialize()
+//        }
     }
 
 
