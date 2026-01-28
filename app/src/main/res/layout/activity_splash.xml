@@ -6,7 +6,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:id="@+id/container"
-        android:background="@color/appBgColor"
+        android:background="#19193F"
         >
 
         <ImageView
@@ -38,7 +38,7 @@
                 android:layout_marginHorizontal="44dp"
                 android:layout_height="16dp"
                 android:indeterminate="true"
-                app:indicatorColor="@color/colorPrimary"/>
+                app:indicatorColor="@color/colorViolet05"/>
 
             <TextView
                 android:id="@+id/tvContent"

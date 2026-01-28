@@ -322,8 +322,8 @@ class BillingRepository @Inject constructor(
     fun purchasedProducts() = _subscriptions.firstOrNull { it.state == Purchase.PurchaseState.PURCHASED }
 
     fun isPurchased() : Boolean {
-        //TODO: Temporary disable ADS
-        return true
+        //TODO: Temporary disable IAP
+        return false
         val cachedPurchase = preference.getBoolean(PREFERENCE_KEY_IS_PURCHASED, false)
         Timber.tag(TAG).i("isPurchased: $cachedPurchase")
         if (cachedPurchase) {
