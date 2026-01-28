@@ -15,7 +15,7 @@
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="10dp"
             android:layout_marginTop="24dp"
-            android:fontFamily="@font/roboto_medium"
+            app:fontFamily="@font/roboto_medium"
             android:text="@string/txt_edge_light_direction"
             android:textColor="@color/white"
             android:textSize="16sp" />
@@ -35,7 +35,7 @@
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="10dp"
             android:layout_marginTop="16dp"
-            android:fontFamily="@font/roboto_medium"
+            app:fontFamily="@font/roboto_medium"
             android:text="@string/txt_notch_type"
             android:textColor="@color/white"
             android:textSize="16sp" />

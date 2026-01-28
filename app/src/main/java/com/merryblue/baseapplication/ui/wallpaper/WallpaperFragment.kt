@@ -3,6 +3,7 @@ package com.merryblue.baseapplication.ui.wallpaper
 import com.google.android.material.tabs.TabLayoutMediator
 import com.merryblue.baseapplication.R
 import com.merryblue.baseapplication.databinding.FragmentWallpaperBinding
+import com.merryblue.baseapplication.helpers.KEY_ALL
 import com.merryblue.baseapplication.helpers.RIPPLE_ABSTRACT_ABSCT
 import com.merryblue.baseapplication.helpers.RIPPLE_MAGICAL_BORDERS
 import com.merryblue.baseapplication.helpers.RIPPLE_NATURE_SPAZ
@@ -25,6 +26,7 @@ class WallpaperFragment : BaseFragment<FragmentWallpaperBinding>() {
     private fun initTabLayout() = binding.apply {
 
         val titles = listOf(
+            KEY_ALL to getString(R.string.txt_all),
             RIPPLE_MAGICAL_BORDERS to getString(R.string.txt_magical_borders),
             RIPPLE_PREMIUM to getString(R.string.txt_premium),
             RIPPLE_NATURE_SPAZ to getString(R.string.txt_nature),
@@ -33,7 +35,12 @@ class WallpaperFragment : BaseFragment<FragmentWallpaperBinding>() {
             RIPPLE_RIPPLE to getString(R.string.txt_ripple)
         )
 
-        vpWallpaper.adapter = ThemePagerAdapter(requireActivity(), titles)
+        vpWallpaper.adapter = ThemePagerAdapter(
+            isCustom = false,
+            isAllTheme = true,
+            activity = requireActivity(),
+            titles = titles
+        )
         mediator = TabLayoutMediator(tabWallpaper, vpWallpaper) { tab, position ->
             tab.text = titles[position].second
         }.apply { attach() }

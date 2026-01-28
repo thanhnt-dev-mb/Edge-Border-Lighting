@@ -27,6 +27,7 @@ class HomeThemeAdapter(
         when (listTheme[position]) {
             is ThemeUi.Custom -> TYPE_THEME_CUSTOM
             is Item -> TYPE_THEME_NORMAL
+            else -> TYPE_THEME_NORMAL
         }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder =
@@ -39,6 +40,7 @@ class HomeThemeAdapter(
         when (val item = listTheme[position]) {
             is ThemeUi.Custom -> (holder as ThemeCustomViewHolder).bind()
             is Item -> (holder as ThemeNormalViewHolder).bind(item)
+            else -> {}
         }
     }
 

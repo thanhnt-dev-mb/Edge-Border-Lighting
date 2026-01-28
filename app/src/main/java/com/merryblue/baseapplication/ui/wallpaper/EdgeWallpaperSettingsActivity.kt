@@ -31,7 +31,7 @@ class EdgeWallpaperSettingsActivity : BaseActivity<ActivityEdgeWallpaperSettings
 
     private fun showEdgePreview() {
         val state = prefs.edgeState
-        prefs.backgrondPath?.let { path ->
+        prefs.backgroundPath?.let { path ->
             binding.edgeViewWallpaper.applyEdgeState(state)
             binding.edgeViewWallpaper.setBackgroundFromFilePath(path)
         }

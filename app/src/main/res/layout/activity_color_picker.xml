@@ -28,7 +28,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="6dp"
-                android:fontFamily="@font/roboto_bold"
+                app:fontFamily="@font/roboto_bold"
                 android:text="@string/live_preview"
                 android:textColor="@color/colorWhite"
                 android:textSize="18sp"
@@ -210,7 +210,7 @@
                                 android:id="@+id/tvColor4"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:fontFamily="@font/roboto_bold"
+                                app:fontFamily="@font/roboto_bold"
                                 android:text="@string/color_4"
                                 android:textColor="@color/colorGray04"
                                 android:textSize="13sp" />
@@ -245,7 +245,7 @@
                                 android:id="@+id/tvColor3"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:fontFamily="@font/roboto_bold"
+                                app:fontFamily="@font/roboto_bold"
                                 android:text="@string/color_3"
                                 android:textColor="@color/colorGray04"
                                 android:textSize="13sp" />
@@ -280,7 +280,7 @@
                                 android:id="@+id/tvColor2"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:fontFamily="@font/roboto_bold"
+                                app:fontFamily="@font/roboto_bold"
                                 android:text="@string/color_2"
                                 android:textColor="@color/colorGray04"
                                 android:textSize="13sp" />
@@ -315,7 +315,7 @@
                                 android:id="@+id/tvColor1"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:fontFamily="@font/roboto_bold"
+                                app:fontFamily="@font/roboto_bold"
                                 android:text="@string/color_1"
                                 android:textColor="@color/white"
                                 android:textSize="13sp" />

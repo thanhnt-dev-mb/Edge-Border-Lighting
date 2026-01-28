@@ -38,8 +38,8 @@ class ThemeViewModel @Inject constructor(
     private val _bgBitmap = MutableSharedFlow<Bitmap?>(replay = 0)
     val bgBitmap = _bgBitmap.asSharedFlow()
 
-    fun getPaging(type: String) = Pager(PagingConfig(pageSize = 15, enablePlaceholders = false)) {
-        ThemePagingSource(type, repo)
+    fun getPaging(type: String, isAllTheme: Boolean, isCustom: Boolean) = Pager(PagingConfig(pageSize = 15, enablePlaceholders = false)) {
+        ThemePagingSource(type, isAllTheme, isCustom, repo)
     }.flow.cachedIn(viewModelScope)
 
     fun onClickBackgroundUrl(item: Item, target: TargetSize) {

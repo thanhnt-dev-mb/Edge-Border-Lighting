@@ -33,7 +33,7 @@ class RippleWallpaperService : WallpaperService() {
             override fun onReceive(context: Context, intent: Intent) {
                 if (intent.action != ACTION_RIPPLE_BG_CHANGED) return
 
-                val path = prefs.backgrondPath
+                val path = prefs.backgroundPath
                 if (path.isNullOrBlank()) return
 
                 renderer?.apply {
@@ -85,7 +85,7 @@ class RippleWallpaperService : WallpaperService() {
                     it.setPaused(!visible)
                     it.start()
 
-                    val path = prefs.backgrondPath
+                    val path = prefs.backgroundPath
                     if (!path.isNullOrBlank()) it.setBackgroundFromFilePath(path)
                 }
             } else {

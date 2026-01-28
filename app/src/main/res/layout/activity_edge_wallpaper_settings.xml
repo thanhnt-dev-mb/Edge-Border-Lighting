@@ -35,7 +35,7 @@
                 android:layout_marginHorizontal="16dp"
                 android:layout_marginBottom="16dp"
                 android:background="@drawable/bg_button_selector"
-                android:fontFamily="@font/roboto_medium"
+                app:fontFamily="@font/roboto_medium"
                 android:gravity="center"
                 android:text="@string/txt_set_as_wallpaper"
                 android:textColor="@color/white" />
@@ -49,7 +49,7 @@
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:layout_marginStart="6dp"
-            android:layout_marginTop="4dp"
+            android:layout_marginTop="30dp"
             android:padding="14dp"
             android:src="@drawable/ic_back" />
 

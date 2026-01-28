@@ -4,11 +4,15 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import androidx.viewpager2.adapter.FragmentStateAdapter
 
-class ThemePagerAdapter(activity: FragmentActivity, titles: List<Pair<String, String>>): FragmentStateAdapter(activity) {
+class ThemePagerAdapter(isCustom: Boolean, isAllTheme: Boolean, activity: FragmentActivity, titles: List<Pair<String, String>>): FragmentStateAdapter(activity) {
 
     private val fragments by lazy {
-        titles.map {
-            ThemeChildFragment.newInstance(it.first)
+        titles.mapIndexed { index, it ->
+            ThemeChildFragment.newInstance(
+                it.first,
+                if (isAllTheme) index == 0 else false,
+                if (isCustom) index == 0 else false
+            )
         }
     }
 

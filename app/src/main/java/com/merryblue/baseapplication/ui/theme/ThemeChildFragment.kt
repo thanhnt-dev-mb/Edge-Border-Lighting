@@ -1,8 +1,11 @@
 package com.merryblue.baseapplication.ui.theme
 
 import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.widget.Toast
+import androidx.activity.result.PickVisualMediaRequest
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
@@ -13,6 +16,9 @@ import androidx.recyclerview.widget.GridLayoutManager
 import com.merryblue.baseapplication.R
 import com.merryblue.baseapplication.databinding.FragmentThemeChildBinding
 import com.merryblue.baseapplication.domain.model.Item
+import com.merryblue.baseapplication.domain.model.ThemeUi
+import com.merryblue.baseapplication.helpers.KEY_IS_ALL
+import com.merryblue.baseapplication.helpers.KEY_IS_CUSTOM
 import com.merryblue.baseapplication.helpers.PreviewType.KEY_EDGE
 import com.merryblue.baseapplication.helpers.PreviewType.KEY_RIPPLE
 import com.merryblue.baseapplication.helpers.RIPPLE_MAGICAL_BORDERS
@@ -22,6 +28,7 @@ import com.merryblue.baseapplication.helpers.cache.WallpaperBgStore
 import com.merryblue.baseapplication.helpers.getFullScreenTargetSize
 import com.merryblue.baseapplication.helpers.video.VideoPreloader
 import com.merryblue.baseapplication.ui.home.HomeViewModel
+import com.merryblue.baseapplication.ui.picker.ColorPickerActivity
 import com.merryblue.baseapplication.ui.wallpaper.EdgeWallpaperSettingsActivity
 import com.merryblue.baseapplication.ui.wallpaper.RippleWallpaperSettingsActivity
 import com.merryblue.baseapplication.ui.wallpaper.VideoWallpaperSettingsActivity
@@ -29,6 +36,7 @@ import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import org.app.core.base.BaseFragment
+import timber.log.Timber
 
 @AndroidEntryPoint
 class ThemeChildFragment: BaseFragment<FragmentThemeChildBinding>() {
@@ -36,12 +44,32 @@ class ThemeChildFragment: BaseFragment<FragmentThemeChildBinding>() {
     private val viewModel: ThemeViewModel by viewModels()
     private val homeViewModel: HomeViewModel by viewModels()
     private var typeTheme: String = RIPPLE_MAGICAL_BORDERS
+    private var isAllTheme: Boolean = false
+    private var isCustom: Boolean = false
     private val onClick : (Item) -> Unit = { handleItemClick(it) }
-    private val themeAdapter by lazy { ThemeChildAdapter(onClick) }
+    private val onGalleryClick: (ThemeUi.Gallery) -> Unit = {
+        openGalleryPickOne()
+    }
+
+    private val onThemeCustomClick: (ThemeUi.Custom) -> Unit = {
+        handelThemeCustomClick()
+    }
+
+    private val pickPhoto = registerForActivityResult(ActivityResultContracts.PickVisualMedia()) { uri: Uri? ->
+        uri?.let { handlePickedImage(it) }
+    }
+
+    private val getContent = registerForActivityResult(ActivityResultContracts.GetContent()) { uri: Uri? ->
+        uri?.let { handlePickedImage(it) }
+    }
+
+    private val themeAdapter by lazy { ThemeChildAdapter(onClick, onGalleryClick, onThemeCustomClick) }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let { typeTheme = it.getString(TYPE_THEME, RIPPLE_MAGICAL_BORDERS) }
+        arguments?.let { isAllTheme = it.getBoolean(KEY_IS_ALL, false) }
+        arguments?.let { isCustom = it.getBoolean(KEY_IS_CUSTOM, false) }
     }
 
     override fun getLayoutId(): Int = R.layout.fragment_theme_child
@@ -60,7 +88,7 @@ class ThemeChildFragment: BaseFragment<FragmentThemeChildBinding>() {
         viewLifecycleOwner.lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
                 launch {
-                    viewModel.getPaging(typeTheme).collectLatest {
+                    viewModel.getPaging(typeTheme, isAllTheme, isCustom).collectLatest {
                         themeAdapter.submitData(it)
                     }
                 }
@@ -105,13 +133,21 @@ class ThemeChildFragment: BaseFragment<FragmentThemeChildBinding>() {
         }
     }
 
-    companion object {
-        @JvmStatic
-        fun newInstance(theme: String) = ThemeChildFragment().apply {
-            arguments = Bundle().apply {
-                putString(TYPE_THEME, theme)
-            }
+    fun openGalleryPickOne() {
+        if (ActivityResultContracts.PickVisualMedia.isPhotoPickerAvailable(requireContext())) {
+            pickPhoto.launch(PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageOnly))
+        } else {
+            getContent.launch("image/*")
         }
+    }
+
+    private fun handlePickedImage(uri: Uri) {
+        homeViewModel.onClickBackgroundUri(uri, requireContext().getFullScreenTargetSize())
+    }
+
+    private fun handelThemeCustomClick() {
+        homeViewModel.saveCacheEdgeState()
+        startActivity(Intent(requireContext(), ColorPickerActivity::class.java))
     }
 
     private fun handleItemClick(item: Item) {
@@ -134,6 +170,16 @@ class ThemeChildFragment: BaseFragment<FragmentThemeChildBinding>() {
                 homeViewModel.loadBackgroundRippleUrl(item, requireContext().getFullScreenTargetSize())
             }
         }
+    }
 
+    companion object {
+        @JvmStatic
+        fun newInstance(theme: String, isAll: Boolean, isCustom: Boolean) = ThemeChildFragment().apply {
+            arguments = Bundle().apply {
+                putString(TYPE_THEME, theme)
+                putBoolean(KEY_IS_ALL, isAll)
+                putBoolean(KEY_IS_CUSTOM, isCustom)
+            }
+        }
     }
 }

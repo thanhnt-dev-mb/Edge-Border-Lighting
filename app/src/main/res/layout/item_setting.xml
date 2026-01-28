@@ -58,7 +58,7 @@
                     android:textSize="@dimen/text_size14"
                     android:maxLines="1"
                     android:ellipsize="end"
-                    android:textColor="@color/toolbarTitleColor"
+                    android:textColor="@color/colorWhite"
                     />
 
                 <TextView
@@ -71,7 +71,7 @@
                     android:textSize="@dimen/text_size12"
                     android:maxLines="1"
                     android:ellipsize="end"
-                    android:textColor="#4B5563"
+                    android:textColor="@color/colorWhite"
                     tools:text="English"
                     android:layout_marginTop="4dp"
                     />

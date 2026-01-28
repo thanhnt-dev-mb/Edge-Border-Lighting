@@ -6,8 +6,11 @@ const val KEY_RECEIVE_DATA = "data_theme"
 // screen
 const val TYPE_PRESET = "type_preset"
 const val TYPE_THEME = "type_theme"
+const val KEY_IS_ALL = "key_is_all"
+const val KEY_IS_CUSTOM = "key_is_custom"
 
 // type
+const val KEY_ALL = "all"
 const val EDGE_MOST = "edge/most"
 const val EDGE_REWARD_DAY = "edge/rewardday"
 const val EDGE_TRENDING = "edge/trending"

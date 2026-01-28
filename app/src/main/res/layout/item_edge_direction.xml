@@ -2,6 +2,7 @@
 <androidx.appcompat.widget.LinearLayoutCompat xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@drawable/bg_item_direction_selector"
     android:gravity="center"
     android:layout_marginBottom="8dp"
@@ -20,7 +21,7 @@
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="4dp"
         android:layout_weight="1"
-        android:fontFamily="@font/roboto_regular"
+        app:fontFamily="@font/roboto_regular"
         android:text="@string/txt_clockwise_default"
         android:textColor="@color/white"
         android:textSize="16sp" />

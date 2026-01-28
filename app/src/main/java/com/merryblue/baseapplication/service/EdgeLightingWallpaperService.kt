@@ -170,7 +170,7 @@ class EdgeLightingWallpaperService : WallpaperService() {
 
             // Apply all visual parameters (colors, notch, speed, background, etc.).
             view.applyEdgeState(s)
-            prefs.backgrondPath?.let { view.setBackgroundFromFilePath(it) }
+            prefs.backgroundPath?.let { view.setBackgroundFromFilePath(it) }
 
         }
 

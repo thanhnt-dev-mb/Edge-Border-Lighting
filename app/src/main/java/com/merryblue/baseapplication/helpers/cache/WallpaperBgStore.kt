@@ -23,6 +23,6 @@ object WallpaperBgStore {
             bitmap.compress(Bitmap.CompressFormat.PNG, quality.coerceIn(50, 100), out)
             out.flush()
         }
-        AppPreferences(context).backgrondPath = file.absolutePath
+        AppPreferences(context).backgroundPath = file.absolutePath
     }
 }

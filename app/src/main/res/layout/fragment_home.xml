@@ -29,8 +29,8 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="10dp"
-                    android:layout_marginTop="16dp"
-                    android:fontFamily="@font/roboto_semi_bold"
+                    android:layout_marginTop="44dp"
+                    app:fontFamily="@font/roboto_bold"
                     android:text="@string/txt_edge_lighting"
                     android:textColor="@color/colorWhite"
                     android:textSize="18sp"
@@ -39,6 +39,7 @@
                     app:layout_constraintTop_toTopOf="parent" />
 
                 <androidx.appcompat.widget.AppCompatImageView
+                    android:visibility="invisible"
                     android:id="@+id/iv_premium"
                     android:layout_width="40dp"
                     android:layout_height="28dp"
@@ -65,7 +66,7 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:fontFamily="@font/roboto_regular"
+                        app:fontFamily="@font/roboto_regular"
                         android:text="@string/txt_enable_edge_light"
                         android:textColor="@color/colorWhite"
                         android:textSize="14sp" />
@@ -84,6 +85,7 @@
                     android:layout_marginStart="10dp"
                     android:layout_marginTop="32dp"
                     android:text="@string/txt_preset"
+                    app:fontFamily="@font/roboto_bold"
                     android:textColor="@color/white"
                     android:textSize="20sp"
                     app:layout_constraintStart_toStartOf="parent"
@@ -102,7 +104,7 @@
                     <androidx.appcompat.widget.AppCompatTextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:fontFamily="@font/roboto_semi_bold"
+                        app:fontFamily="@font/roboto_semi_bold"
                         android:text="@string/txt_view_all"
                         android:textColor="@color/color_teal_00E3FF"
                         android:textSize="14sp" />
@@ -136,6 +138,7 @@
                     android:layout_marginStart="10dp"
                     android:layout_marginTop="20dp"
                     android:text="@string/txt_theme"
+                    app:fontFamily="@font/roboto_bold"
                     android:textColor="@color/white"
                     android:textSize="20sp"
                     app:layout_constraintStart_toStartOf="parent"
@@ -154,7 +157,7 @@
                     <androidx.appcompat.widget.AppCompatTextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:fontFamily="@font/roboto_semi_bold"
+                        app:fontFamily="@font/roboto_semi_bold"
                         android:text="@string/txt_view_all"
                         android:textColor="@color/color_teal_00E3FF"
                         android:textSize="14sp" />
@@ -187,7 +190,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginHorizontal="10dp"
                     android:layout_marginTop="20dp"
-                    android:fontFamily="@font/roboto_bold"
+                    app:fontFamily="@font/roboto_bold"
                     android:text="@string/txt_setting_edge_lighting"
                     android:textColor="@color/white"
                     android:textSize="20sp"
