@@ -1,7 +1,9 @@
 package com.merryblue.baseapplication.ui.setting
 
 import android.content.Intent
+import android.provider.Settings
 import android.view.View
+import androidx.core.content.ContextCompat
 import androidx.core.net.toUri
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
@@ -12,8 +14,11 @@ import com.merryblue.baseapplication.BuildConfig
 import com.merryblue.baseapplication.R
 import com.merryblue.baseapplication.coredata.model.Setting
 import com.merryblue.baseapplication.databinding.FragmentSettingBinding
+import com.merryblue.baseapplication.helpers.ServiceState.ACTION_EDGE_WALLPAPER_STATE_STOP
 import com.merryblue.baseapplication.helpers.isAppInstalled
 import com.merryblue.baseapplication.helpers.openPolicy
+import com.merryblue.baseapplication.service.EdgeLightingOverlayService
+import com.merryblue.baseapplication.ui.home.HomeViewModel
 import com.merryblue.baseapplication.ui.iap.PurchaseActivity
 import com.merryblue.baseapplication.ui.onboard.language.LanguageActivity
 import com.merryblue.baseapplication.ui.policy.PolicyActivity
@@ -32,7 +37,17 @@ import org.app.core.base.extensions.setupVertical
 class SettingFragment : BaseFragment<FragmentSettingBinding>() {
     
     private val viewModel: SettingViewModel by viewModels()
+    private val homeViewModel: HomeViewModel by viewModels()
     private var adapter: SettingAdapter? = null
+
+    private val overlayPermissionLauncher = registerForActivityResult(androidx.activity.result.contract.ActivityResultContracts.StartActivityForResult()) {
+        if (Settings.canDrawOverlays(requireContext())) {
+            startEdgeOverlay()
+        } else {
+            binding.edgeToggle.isChecked = false
+            homeViewModel.isToggleEdgeFirstTime = false
+        }
+    }
     
     override fun getLayoutId() = R.layout.fragment_setting
 
@@ -51,15 +66,39 @@ class SettingFragment : BaseFragment<FragmentSettingBinding>() {
     }
     
     override fun setUpViews() {
-        binding.backBtn.setOnSingleClickListener {
-            activity?.finish()
-        }
         binding.premiumLayout.setOnSingleClickListener {
             if (viewModel.isPremium() || context == null) return@setOnSingleClickListener
 
             PurchaseActivity.open(requireContext(), "setting")
         }
         setupRecycler()
+        registerListener()
+    }
+
+    private fun startEdgeOverlay() {
+        if (!Settings.canDrawOverlays(requireContext())) {
+            val i = Intent(Settings.ACTION_MANAGE_OVERLAY_PERMISSION, "package:${requireContext().packageName}".toUri())
+            overlayPermissionLauncher.launch(i)
+            return
+        }
+        ContextCompat.startForegroundService(requireContext(), Intent(requireContext(), EdgeLightingOverlayService::class.java))
+        homeViewModel.sendActionBroadcast(ACTION_EDGE_WALLPAPER_STATE_STOP)
+    }
+
+    private fun stopEdgeOverlay() {
+        requireContext().stopService(Intent(requireContext(), EdgeLightingOverlayService::class.java))
+    }
+
+    private fun registerListener() {
+        binding.apply {
+            edgeToggle.setOnCheckedChangeListener { isSelected ->
+                if (!homeViewModel.isToggleEdgeFirstTime) homeViewModel.isToggleEdgeFirstTime = true
+                homeViewModel.updateEdgeState { it.copy(isEnableEdgeLighting = isSelected) }
+                if (isSelected) startEdgeOverlay() else stopEdgeOverlay()
+            }
+
+            edgeToggle.setCheckedSilently(homeViewModel.edgeState.isEnableEdgeLighting)
+        }
     }
 
     override fun onFragmentResume() {

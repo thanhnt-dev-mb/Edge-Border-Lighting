@@ -34,10 +34,10 @@ class EdgeLightingWallpaperService : WallpaperService() {
                             view.setBackgroundEnabled(true)
                             applyStateIfNeeded(force = true)
                         }
-                        ACTION_EDGE_WALLPAPER_STATE_STOP -> {
-                            view.setEdgeEnabled(false)
-                            view.setBackgroundEnabled(false)
-                        }
+//                        ACTION_EDGE_WALLPAPER_STATE_STOP -> {
+//                            view.setEdgeEnabled(false)
+//                            view.setBackgroundEnabled(false)
+//                        }
                     }
                 }
             }

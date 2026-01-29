@@ -44,28 +44,31 @@ data class Setting(
                 resTitle = StringResId.language,
                 value = "English"
             )
-            Code.RATE -> Setting(
-                code = code,
-                resIcon = com.merryblue.baseapplication.R.drawable.ic_rate,
-                resTitle =  StringResId.rate,
-            )
-            
-            Code.FEEDBACK -> Setting(
-                code = code,
-                resIcon = R.drawable.ic_menu_feedback,
-                resTitle = StringResId.feedback,
-            )
-            
-            Code.PRIVACY -> Setting(
-                code = code,
-                resIcon = R.drawable.ic_menu_privacy,
-                resTitle = StringResId.privacy,
-            )
+
             Code.Share -> Setting(
                 code = code,
                 resIcon = com.merryblue.baseapplication.R.drawable.ic_share,
                 resTitle = com.merryblue.baseapplication.R.string.txt_share_friend,
             )
+
+            Code.RATE -> Setting(
+                code = code,
+                resIcon = com.merryblue.baseapplication.R.drawable.ic_rate,
+                resTitle =  StringResId.rate,
+            )
+
+            Code.FEEDBACK -> Setting(
+                code = code,
+                resIcon = R.drawable.ic_menu_feedback,
+                resTitle = StringResId.feedback,
+            )
+
+            Code.PRIVACY -> Setting(
+                code = code,
+                resIcon = R.drawable.ic_menu_privacy,
+                resTitle = StringResId.privacy,
+            )
+
             else -> Setting(code)
         }
     }
