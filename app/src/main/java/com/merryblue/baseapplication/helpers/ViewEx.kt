@@ -1,11 +1,18 @@
 package com.merryblue.baseapplication.helpers
 
+import android.app.Activity
+import android.app.Dialog
 import android.app.WallpaperManager
 import android.content.Context
+import android.graphics.Color
 import android.graphics.drawable.BitmapDrawable
 import android.os.Build
+import android.view.Gravity.CENTER
 import android.view.View
+import android.view.ViewGroup.LayoutParams.MATCH_PARENT
+import android.view.Window.FEATURE_NO_TITLE
 import android.view.WindowManager
+import androidx.core.graphics.drawable.toDrawable
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager2.widget.ViewPager2
 import com.merryblue.baseapplication.domain.repository.TargetSize
@@ -69,5 +76,20 @@ fun Context.restoreBuiltInToSystemAndLock() {
             }
         }
     }
+}
+
+fun Context.createDialog() = Dialog(this).apply {
+    requestWindowFeature(FEATURE_NO_TITLE)
+    create()
+}
+
+fun Dialog.showFullScreen() {
+    val window = this.window ?: return
+    val finishing = (this.context as? Activity)?.isFinishing ?: false
+    if (finishing) return
+    this.show()
+    window.setBackgroundDrawable(Color.TRANSPARENT.toDrawable())
+    window.setLayout(MATCH_PARENT, MATCH_PARENT)
+    window.setGravity(CENTER)
 }
 

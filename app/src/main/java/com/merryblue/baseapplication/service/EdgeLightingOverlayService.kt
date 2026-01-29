@@ -106,7 +106,6 @@ class EdgeLightingOverlayService: Service() {
         try { unregisterReceiver(edgeStateReceiver) } catch (_: Throwable) {}
     }
 
-
     private fun showOverlayIfNeeded() {
         if (!Settings.canDrawOverlays(this)) return
 

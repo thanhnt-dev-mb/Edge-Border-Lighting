@@ -16,6 +16,7 @@ import com.merryblue.baseapplication.R
 import com.merryblue.baseapplication.databinding.FragmentHomeBinding
 import com.merryblue.baseapplication.domain.model.Item
 import com.merryblue.baseapplication.domain.model.ThemeUi
+import com.merryblue.baseapplication.helpers.AppLoading
 import com.merryblue.baseapplication.helpers.EDGE_REWARD_DAY
 import com.merryblue.baseapplication.helpers.KEY_IS_CUSTOM
 import com.merryblue.baseapplication.helpers.KEY_RECEIVE_DATA
@@ -42,7 +43,7 @@ import kotlinx.coroutines.launch
 import org.app.core.base.BaseFragment
 
 @AndroidEntryPoint
-class HomeFragment : BaseFragment<FragmentHomeBinding>() {
+class HomeFragment: BaseFragment<FragmentHomeBinding>() {
     private val viewModel: HomeViewModel by activityViewModels()
     private lateinit var mediator: TabLayoutMediator
     private lateinit var presetAdapter: HomePresetAdapter
@@ -51,14 +52,6 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
     private val customOnClick: () -> Unit = {
         disableEdgeLighting()
         startActivity(Intent(requireContext(), ColorPickerActivity::class.java))
-    }
-    private val overlayPermissionLauncher = registerForActivityResult(androidx.activity.result.contract.ActivityResultContracts.StartActivityForResult()) {
-        if (Settings.canDrawOverlays(requireContext())) {
-            startEdgeOverlay()
-        } else {
-            binding.edgeToggle.isChecked = false
-            viewModel.isToggleEdgeFirstTime = false
-        }
     }
 
     override fun getLayoutId() = R.layout.fragment_home
@@ -103,13 +96,14 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
 
                     launch {
                         viewModel.bgBitmap.collectLatest { pair ->
+                            AppLoading.closeLoading()
                             val key = pair.first
                             val bmp = pair.second
                             bmp?.let {
                                 when (key) {
                                     KEY_EDGE -> {
-                                        binding.edgeToggle.isChecked = false
-                                        viewModel.updateEdgeState { state -> state.copy(isEnableEdgeLighting = false) }
+//                                        binding.edgeToggle.isChecked = false
+//                                        viewModel.updateEdgeState { state -> state.copy(isEnableEdgeLighting = false) }
                                         WallpaperBgStore.saveFile(requireContext(), it)
                                         startActivity(Intent(requireContext(), EdgeWallpaperSettingsActivity::class.java))
                                     }
@@ -128,9 +122,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
                     launch {
                         viewModel.restartOverlay.collectLatest { isRestart ->
                             if (isRestart) {
-                                binding.edgeToggle.isChecked = true
                                 viewModel.updateEdgeState { it.copy(isEnableEdgeLighting = true) }
-                                startEdgeOverlay()
                             }
                         }
                     }
@@ -168,16 +160,8 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
 
     private fun registerOnClick() = with (binding) {
 
-        edgeToggle.setOnCheckedChangeListener { isSelected ->
-            if (!viewModel.isToggleEdgeFirstTime) viewModel.isToggleEdgeFirstTime = true
-            viewModel.updateEdgeState { it.copy(isEnableEdgeLighting = isSelected) }
-            if (isSelected) startEdgeOverlay() else stopEdgeOverlay()
-        }
-
-        edgeToggle.setCheckedSilently(viewModel.edgeState.isEnableEdgeLighting)
-
         btnViewAllTheme.setOnClickListener {
-            disableEdgeLighting()
+//            disableEdgeLighting()
 
             val intent = Intent(requireContext(), ThemesActivity::class.java)
             intent.putExtra(KEY_IS_CUSTOM, true)
@@ -186,7 +170,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
         }
 
         btnViewAllPreset.setOnClickListener {
-            disableEdgeLighting()
+//            disableEdgeLighting()
 
             val intent = Intent(requireContext(), ThemesActivity::class.java)
             intent.putExtra(KEY_IS_CUSTOM, false)
@@ -198,7 +182,6 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
     private fun disableEdgeLighting() {
         viewModel.updateEdgeState { state -> state.copy(isEnableEdgeLighting = false) }
         viewModel.saveCacheEdgeState()
-        binding.edgeToggle.isChecked = false
     }
 
     private fun initTabLayout() {
@@ -224,21 +207,8 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
         })
     }
 
-    private fun startEdgeOverlay() {
-        if (!Settings.canDrawOverlays(requireContext())) {
-            val i = Intent(Settings.ACTION_MANAGE_OVERLAY_PERMISSION, "package:${requireContext().packageName}".toUri())
-            overlayPermissionLauncher.launch(i)
-            return
-        }
-        ContextCompat.startForegroundService(requireContext(), Intent(requireContext(), EdgeLightingOverlayService::class.java))
-        viewModel.sendActionBroadcast(ACTION_EDGE_WALLPAPER_STATE_STOP)
-    }
-
-    private fun stopEdgeOverlay() {
-        requireContext().stopService(Intent(requireContext(), EdgeLightingOverlayService::class.java))
-    }
-
     private fun handleItemClick(item: Item) {
+        AppLoading.displayLoading(requireContext())
         when (item.type) {
             WallpaperType.TYPE_EDGE,
             WallpaperType.TYPE_STATIC -> {
@@ -249,6 +219,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
                 viewModel.videoUrl = item.pathUrl
                 startActivity(Intent(requireContext(), VideoWallpaperSettingsActivity::class.java))
                 VideoPreloader.preload(requireContext().applicationContext, item.pathUrl)
+                AppLoading.closeLoading()
             }
 
             WallpaperType.TYPE_RIPPLE -> {
@@ -257,7 +228,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
             }
         }
 
-        disableEdgeLighting()
+//        disableEdgeLighting()
     }
 
     fun onChildContentExpanded() = binding.apply {

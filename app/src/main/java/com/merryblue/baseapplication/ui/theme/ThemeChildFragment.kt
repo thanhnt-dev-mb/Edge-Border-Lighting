@@ -17,6 +17,7 @@ import com.merryblue.baseapplication.R
 import com.merryblue.baseapplication.databinding.FragmentThemeChildBinding
 import com.merryblue.baseapplication.domain.model.Item
 import com.merryblue.baseapplication.domain.model.ThemeUi
+import com.merryblue.baseapplication.helpers.AppLoading
 import com.merryblue.baseapplication.helpers.KEY_IS_ALL
 import com.merryblue.baseapplication.helpers.KEY_IS_CUSTOM
 import com.merryblue.baseapplication.helpers.PreviewType.KEY_EDGE
@@ -36,17 +37,16 @@ import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import org.app.core.base.BaseFragment
-import timber.log.Timber
 
 @AndroidEntryPoint
-class ThemeChildFragment: BaseFragment<FragmentThemeChildBinding>() {
+class ThemeChildFragment : BaseFragment<FragmentThemeChildBinding>() {
 
     private val viewModel: ThemeViewModel by viewModels()
     private val homeViewModel: HomeViewModel by viewModels()
     private var typeTheme: String = RIPPLE_MAGICAL_BORDERS
     private var isAllTheme: Boolean = false
     private var isCustom: Boolean = false
-    private val onClick : (Item) -> Unit = { handleItemClick(it) }
+    private val onClick: (Item) -> Unit = { handleItemClick(it) }
     private val onGalleryClick: (ThemeUi.Gallery) -> Unit = {
         openGalleryPickOne()
     }
@@ -63,21 +63,24 @@ class ThemeChildFragment: BaseFragment<FragmentThemeChildBinding>() {
         uri?.let { handlePickedImage(it) }
     }
 
-    private val themeAdapter by lazy { ThemeChildAdapter(onClick, onGalleryClick, onThemeCustomClick) }
+    private val themeAdapter by lazy {
+        ThemeChildAdapter(onClick, onGalleryClick, onThemeCustomClick)
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        arguments?.let { typeTheme = it.getString(TYPE_THEME, RIPPLE_MAGICAL_BORDERS) }
-        arguments?.let { isAllTheme = it.getBoolean(KEY_IS_ALL, false) }
-        arguments?.let { isCustom = it.getBoolean(KEY_IS_CUSTOM, false) }
+        arguments?.let {
+            typeTheme = it.getString(TYPE_THEME, RIPPLE_MAGICAL_BORDERS)
+            isAllTheme = it.getBoolean(KEY_IS_ALL, false)
+            isCustom = it.getBoolean(KEY_IS_CUSTOM, false)
+        }
     }
 
     override fun getLayoutId(): Int = R.layout.fragment_theme_child
 
     override fun setUpViews() {
-        val gridManager = GridLayoutManager(requireContext(), 3)
         binding.rcvTheme.apply {
-            layoutManager = gridManager
+            layoutManager = GridLayoutManager(requireContext(), 3)
             adapter = themeAdapter
             setHasFixedSize(true)
             itemAnimator = null
@@ -87,20 +90,20 @@ class ThemeChildFragment: BaseFragment<FragmentThemeChildBinding>() {
     override fun setupObservers() {
         viewLifecycleOwner.lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
+
                 launch {
-                    viewModel.getPaging(typeTheme, isAllTheme, isCustom).collectLatest {
-                        themeAdapter.submitData(it)
-                    }
+                    viewModel.getPaging(typeTheme, isAllTheme, isCustom).collectLatest { themeAdapter.submitData(it) }
                 }
 
                 launch {
                     themeAdapter.loadStateFlow.collectLatest { loadState ->
-                        val isListEmpty = themeAdapter.itemCount == 0
-                        binding.progressBarTheme.isVisible = loadState.refresh is LoadState.Loading && isListEmpty
-                        binding.tvEmptyTheme.isVisible = loadState.refresh is LoadState.NotLoading && isListEmpty
-                        val errorState = loadState.refresh as? LoadState.Error
-                        if (errorState != null) {
-                            binding.tvEmptyTheme.text = String.format("%s", "Error: ${errorState.error.message}")
+                        val isEmpty = themeAdapter.itemCount == 0
+                        binding.progressBarTheme.isVisible = loadState.refresh is LoadState.Loading && isEmpty
+                        binding.tvEmptyTheme.isVisible = loadState.refresh is LoadState.NotLoading && isEmpty
+
+                        val error = loadState.refresh as? LoadState.Error
+                        error?.let {
+                            binding.tvEmptyTheme.text = "Error: ${it.error.message}"
                             binding.tvEmptyTheme.isVisible = true
                             binding.progressBarTheme.isVisible = false
                         }
@@ -109,12 +112,15 @@ class ThemeChildFragment: BaseFragment<FragmentThemeChildBinding>() {
 
                 launch {
                     homeViewModel.bgBitmap.collectLatest { pair ->
+                        AppLoading.closeLoading()
                         val key = pair.first
                         val bmp = pair.second
+
                         bmp?.let {
                             when (key) {
                                 KEY_EDGE -> {
-                                    viewModel.updateEdgeState { state -> state.copy(isEnableEdgeLighting = false) }
+//                                    viewModel.updateEdgeState { state -> state.copy(isEnableEdgeLighting = false) }
+
                                     WallpaperBgStore.saveFile(requireContext(), it)
                                     startActivity(Intent(requireContext(), EdgeWallpaperSettingsActivity::class.java))
                                 }
@@ -124,16 +130,20 @@ class ThemeChildFragment: BaseFragment<FragmentThemeChildBinding>() {
                                     startActivity(Intent(requireContext(), RippleWallpaperSettingsActivity::class.java))
                                 }
                             }
-                        } ?: run {
-                            Toast.makeText(requireContext(), getString(R.string.an_error_has_occurred), Toast.LENGTH_SHORT).show()
-                        }
+                        } ?: Toast.makeText(requireContext(), getString(R.string.an_error_has_occurred), Toast.LENGTH_SHORT).show()
                     }
                 }
             }
         }
     }
 
-    fun openGalleryPickOne() {
+    private fun openGalleryPickOne() {
+        if (!isAdded || isDetached) return
+
+        if (!viewLifecycleOwner.lifecycle.currentState.isAtLeast(Lifecycle.State.STARTED)) {
+            return
+        }
+
         if (ActivityResultContracts.PickVisualMedia.isPhotoPickerAvailable(requireContext())) {
             pickPhoto.launch(PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageOnly))
         } else {
@@ -151,6 +161,7 @@ class ThemeChildFragment: BaseFragment<FragmentThemeChildBinding>() {
     }
 
     private fun handleItemClick(item: Item) {
+        AppLoading.displayLoading(requireContext())
         when (item.type) {
             WallpaperType.TYPE_EDGE,
             WallpaperType.TYPE_STATIC -> {
@@ -158,11 +169,14 @@ class ThemeChildFragment: BaseFragment<FragmentThemeChildBinding>() {
             }
 
             WallpaperType.TYPE_VIDEO -> {
-                homeViewModel.updateEdgeState { state -> state.copy(isEnableEdgeLighting = false) }
+//                homeViewModel.updateEdgeState {
+//                    it.copy(isEnableEdgeLighting = false)
+//                }
                 homeViewModel.saveCacheEdgeState()
                 homeViewModel.videoUrl = item.pathUrl
                 startActivity(Intent(requireContext(), VideoWallpaperSettingsActivity::class.java))
                 VideoPreloader.preload(requireContext().applicationContext, item.pathUrl)
+                AppLoading.closeLoading()
             }
 
             WallpaperType.TYPE_RIPPLE -> {
