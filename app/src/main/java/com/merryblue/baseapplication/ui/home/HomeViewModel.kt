@@ -6,7 +6,9 @@ import android.graphics.Bitmap
 import android.graphics.Color
 import android.net.Uri
 import androidx.lifecycle.viewModelScope
+import com.merryblue.baseapplication.R
 import com.merryblue.baseapplication.coredata.AppRepository
+import com.merryblue.baseapplication.coredata.model.edge.Advanced
 import com.merryblue.baseapplication.domain.model.Item
 import com.merryblue.baseapplication.domain.model.Topic
 import com.merryblue.baseapplication.domain.repository.EdgeDataRepository
@@ -17,9 +19,12 @@ import com.merryblue.baseapplication.helpers.ServiceState.ACTION_EDGE_OVERLAY_CH
 import com.merryblue.baseapplication.helpers.BackgroundType
 import com.merryblue.baseapplication.helpers.EdgeStyle.EDGE_LINEAR
 import com.merryblue.baseapplication.helpers.EdgeStyle.EDGE_NONE
-import com.merryblue.baseapplication.helpers.PreviewType.KEY_EDGE
-import com.merryblue.baseapplication.helpers.PreviewType.KEY_RIPPLE
+import com.merryblue.baseapplication.helpers.PreviewType.EDGE_WALLPAPER_SCREEN
+import com.merryblue.baseapplication.helpers.PreviewType.RIPPLE_WALLPAPER_SCREEN
+import com.merryblue.baseapplication.helpers.PreviewType.STATIC_WALLPAPER_SCREEN
 import com.merryblue.baseapplication.helpers.ServiceState.ACTION_EDGE_OVERLAY_STOP
+import com.merryblue.baseapplication.helpers.WallpaperType
+import com.merryblue.baseapplication.helpers.dpToPx
 import com.merryblue.baseapplication.ui.iap.BillingRepository
 import com.merryblue.baseapplication.ui.view.edgelight.model.EdgeLightingState
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -30,8 +35,8 @@ import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import org.app.core.base.BaseViewModel
-import timber.log.Timber
 import javax.inject.Inject
+import kotlin.Int
 
 @HiltViewModel
 class HomeViewModel @Inject constructor(
@@ -116,36 +121,48 @@ class HomeViewModel @Inject constructor(
     fun loadBackgroundRippleUrl(item: Item, target: TargetSize) {
         viewModelScope.launch {
             val bmp = edgeImageRepository.loadBitmap(EdgeImageSource.Url(item.pathUrl), target)
-            bmp?.let { sendActionBroadcast(ACTION_EDGE_OVERLAY_STOP) }
-            Timber.tag("Log_Bitmap").d("ripple bitmap: $bmp")
-            _bgBitmap.emit(Pair(KEY_RIPPLE, bmp))
+            _bgBitmap.emit(Pair(RIPPLE_WALLPAPER_SCREEN, bmp))
         }
     }
 
-    fun onClickBackgroundUrl(item: Item, target: TargetSize) {
-
-        saveCacheEdgeState()
-
+    fun loadEdgeBackgroundUrl(item: Item, target: TargetSize) {
         val colorsInt = item.colors?.map(Color::parseColor)?.toIntArray()
         val newState = edgeState.copy(
+            isEnableEdgeLighting = true,
+            notchType = Advanced.NOTCH_DEFAULT,
+            direction = Advanced.DIRECTION_CLOCKWISE,
             edgeStyleType = if (colorsInt != null) EDGE_LINEAR else EDGE_NONE,
             backgroundType = BackgroundType.BACKGROUND_URL,
             backgroundImageUrl = item.pathUrl,
             backgroundImageUriString = null,
             backgroundImageResId = 0,
-            colors = colorsInt ?: edgeState.colors
+            colors = colorsInt ?: edgeState.colors,
+            vectorResId = R.drawable.ic_none,
+            iconSizePx = 8f.dpToPx,
+            advancePx = 18f.dpToPx,
+            rotate = true,
+            phaseMultiplier = 0.1f,
+            speedMs = 2500L,
         )
 
         edgeState = newState
 
         viewModelScope.launch {
             val bmp = edgeImageRepository.loadBitmap(EdgeImageSource.Url(item.pathUrl), target)
-            bmp?.let { sendActionBroadcast(ACTION_EDGE_OVERLAY_STOP) }
-            _bgBitmap.emit(Pair(KEY_EDGE, bmp))
+            bmp?.let { sendActionBroadcast(ACTION_EDGE_OVERLAY_CHANGED) }
+            _bgBitmap.emit(Pair(EDGE_WALLPAPER_SCREEN, bmp))
         }
     }
 
-    fun onClickBackgroundUri(uri: Uri, target: TargetSize) {
+    fun loadStaticBackgroundUrl(item: Item, target: TargetSize) {
+        viewModelScope.launch {
+            val originalUrl = if (item.type == WallpaperType.TYPE_VIDEO) item.thumbUrl else item.pathUrl
+            val bmp = edgeImageRepository.loadBitmap(EdgeImageSource.Url(originalUrl), target)
+            _bgBitmap.emit(Pair(EDGE_WALLPAPER_SCREEN, bmp))
+        }
+    }
+
+    fun loadBackgroundUri(uri: Uri, target: TargetSize) {
         val newState = edgeState.copy(
             backgroundType = BackgroundType.BACKGROUND_URI,
             backgroundImageUriString = uri.toString(),
@@ -156,8 +173,7 @@ class HomeViewModel @Inject constructor(
 
         viewModelScope.launch {
             val bmp = edgeImageRepository.loadBitmap(EdgeImageSource.UriSource(uri), target)
-            bmp?.let { sendActionBroadcast(ACTION_EDGE_OVERLAY_STOP) }
-            _bgBitmap.emit(Pair(KEY_EDGE, bmp))
+            _bgBitmap.emit(Pair(EDGE_WALLPAPER_SCREEN, bmp))
         }
     }
 
@@ -172,8 +188,7 @@ class HomeViewModel @Inject constructor(
 
         viewModelScope.launch {
             val bmp = edgeImageRepository.loadBitmap(EdgeImageSource.Res(resId), target)
-            bmp?.let { sendActionBroadcast(ACTION_EDGE_OVERLAY_STOP) }
-            _bgBitmap.emit(Pair(KEY_EDGE, bmp))
+            _bgBitmap.emit(Pair(EDGE_WALLPAPER_SCREEN, bmp))
         }
     }
 

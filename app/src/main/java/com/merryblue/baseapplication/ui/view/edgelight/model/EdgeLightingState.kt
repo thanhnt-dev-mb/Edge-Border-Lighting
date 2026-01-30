@@ -9,9 +9,6 @@ import com.merryblue.baseapplication.helpers.dpToPx
 
 data class EdgeLightingState(
 
-    // enable edge lighting
-    val edgeEnabled: Boolean = true,
-
     // enable edge background
     val backgroundEnabled: Boolean = true,
 

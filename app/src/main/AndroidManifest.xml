@@ -50,6 +50,20 @@
         <package android:name="com.google.android.gm" />
     </queries>
 
+    <queries>
+        <intent>
+            <action android:name="android.service.wallpaper.WallpaperService" />
+        </intent>
+
+        <intent>
+            <action android:name="android.app.action.CHANGE_LIVE_WALLPAPER" />
+        </intent>
+
+        <intent>
+            <action android:name="android.intent.action.SET_WALLPAPER" />
+        </intent>
+    </queries>
+
     <application
         android:name=".Application"
         android:allowBackup="true"
@@ -65,6 +79,9 @@
         tools:ignore="DiscouragedApi,LockedOrientationActivity"
         tools:overrideLibrary="org.app.core"
         tools:replace="android:allowBackup">
+        <activity
+            android:name=".ui.wallpaper.StaticWallpaperSettingsActivity"
+            android:exported="false" />
         <activity
             android:name=".ui.picker.ColorPickerActivity"
             android:exported="false" />

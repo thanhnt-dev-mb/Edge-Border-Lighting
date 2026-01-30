@@ -3,8 +3,6 @@ package com.merryblue.baseapplication.ui.home
 import android.content.Intent
 import android.provider.Settings
 import android.widget.Toast
-import androidx.core.content.ContextCompat
-import androidx.core.net.toUri
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
@@ -13,6 +11,7 @@ import androidx.recyclerview.widget.GridLayoutManager
 import androidx.viewpager2.widget.ViewPager2
 import com.google.android.material.tabs.TabLayoutMediator
 import com.merryblue.baseapplication.R
+import com.merryblue.baseapplication.coredata.local.AppPreferences
 import com.merryblue.baseapplication.databinding.FragmentHomeBinding
 import com.merryblue.baseapplication.domain.model.Item
 import com.merryblue.baseapplication.domain.model.ThemeUi
@@ -20,10 +19,12 @@ import com.merryblue.baseapplication.helpers.AppLoading
 import com.merryblue.baseapplication.helpers.EDGE_REWARD_DAY
 import com.merryblue.baseapplication.helpers.KEY_IS_CUSTOM
 import com.merryblue.baseapplication.helpers.KEY_RECEIVE_DATA
-import com.merryblue.baseapplication.helpers.PreviewType.KEY_EDGE
-import com.merryblue.baseapplication.helpers.PreviewType.KEY_RIPPLE
+import com.merryblue.baseapplication.helpers.PreviewType.EDGE_WALLPAPER_SCREEN
+import com.merryblue.baseapplication.helpers.PreviewType.RIPPLE_WALLPAPER_SCREEN
+import com.merryblue.baseapplication.helpers.PreviewType.STATIC_WALLPAPER_SCREEN
 import com.merryblue.baseapplication.helpers.RIPPLE_PREMIUM
-import com.merryblue.baseapplication.helpers.ServiceState.ACTION_EDGE_WALLPAPER_STATE_STOP
+import com.merryblue.baseapplication.helpers.RIPPLE_RIPPLE
+import com.merryblue.baseapplication.helpers.ServiceState.ACTION_EDGE_OVERLAY_STOP
 import com.merryblue.baseapplication.helpers.TYPE_PRESET
 import com.merryblue.baseapplication.helpers.TYPE_THEME
 import com.merryblue.baseapplication.helpers.WallpaperType
@@ -31,11 +32,11 @@ import com.merryblue.baseapplication.helpers.cache.WallpaperBgStore
 import com.merryblue.baseapplication.helpers.getFullScreenTargetSize
 import com.merryblue.baseapplication.helpers.updateHeightForCurrentPage
 import com.merryblue.baseapplication.helpers.video.VideoPreloader
-import com.merryblue.baseapplication.service.EdgeLightingOverlayService
 import com.merryblue.baseapplication.ui.picker.ColorPickerActivity
 import com.merryblue.baseapplication.ui.theme.ThemesActivity
 import com.merryblue.baseapplication.ui.wallpaper.EdgeWallpaperSettingsActivity
 import com.merryblue.baseapplication.ui.wallpaper.RippleWallpaperSettingsActivity
+import com.merryblue.baseapplication.ui.wallpaper.StaticWallpaperSettingsActivity
 import com.merryblue.baseapplication.ui.wallpaper.VideoWallpaperSettingsActivity
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
@@ -48,26 +49,29 @@ class HomeFragment: BaseFragment<FragmentHomeBinding>() {
     private lateinit var mediator: TabLayoutMediator
     private lateinit var presetAdapter: HomePresetAdapter
     private lateinit var homeThemeAdapter: HomeThemeAdapter
+    private val prefs by lazy { AppPreferences(requireContext()) }
+    private var currentType = WallpaperType.TYPE_STATIC
+
     private val presetOnClick: (Item) -> Unit = { handleItemClick(it) }
     private val customOnClick: () -> Unit = {
-        disableEdgeLighting()
+//        disableEdgeLighting()
         startActivity(Intent(requireContext(), ColorPickerActivity::class.java))
     }
 
     override fun getLayoutId() = R.layout.fragment_home
 
-    override fun onResume() {
-        super.onResume()
-        if (viewModel.isToggleEdgeFirstTime) viewModel.restartOverlay()
-    }
-
     override fun setUpViews() {
-        viewModel.loadPreset(EDGE_REWARD_DAY)
-        viewModel.loadThemes(RIPPLE_PREMIUM)
-
+        initData()
         initTabLayout()
         initRecyclerView()
         registerOnClick()
+    }
+
+    private fun initData() {
+        viewModel.loadPreset(EDGE_REWARD_DAY)
+
+        val canSetLive = prefs.canChangeLive || prefs.canLiveChooser
+        viewModel.loadThemes(if (canSetLive) RIPPLE_PREMIUM else RIPPLE_RIPPLE)
     }
 
     override fun setupObservers() {
@@ -96,34 +100,42 @@ class HomeFragment: BaseFragment<FragmentHomeBinding>() {
 
                     launch {
                         viewModel.bgBitmap.collectLatest { pair ->
-                            AppLoading.closeLoading()
                             val key = pair.first
                             val bmp = pair.second
                             bmp?.let {
-                                when (key) {
-                                    KEY_EDGE -> {
-//                                        binding.edgeToggle.isChecked = false
-//                                        viewModel.updateEdgeState { state -> state.copy(isEnableEdgeLighting = false) }
-                                        WallpaperBgStore.saveFile(requireContext(), it)
-                                        startActivity(Intent(requireContext(), EdgeWallpaperSettingsActivity::class.java))
+
+                                val canSetLive = prefs.canChangeLive || prefs.canLiveChooser
+
+                                if (canSetLive) {
+                                    when (key) {
+                                        EDGE_WALLPAPER_SCREEN -> {
+                                            WallpaperBgStore.saveFile(requireContext(), it)
+                                            startActivity(Intent(requireContext(), EdgeWallpaperSettingsActivity::class.java))
+                                        }
+
+                                        RIPPLE_WALLPAPER_SCREEN -> {
+                                            WallpaperBgStore.saveRippleAndNotify(requireContext(), it)
+                                            startActivity(Intent(requireContext(), RippleWallpaperSettingsActivity::class.java))
+                                        }
+
+                                        STATIC_WALLPAPER_SCREEN -> {
+                                            WallpaperBgStore.saveFile(requireContext(), it)
+                                            startActivity(Intent(requireContext(), StaticWallpaperSettingsActivity::class.java))
+                                        }
                                     }
 
-                                    KEY_RIPPLE -> {
-                                        WallpaperBgStore.saveRippleAndNotify(requireContext(), it)
-                                        startActivity(Intent(requireContext(), RippleWallpaperSettingsActivity::class.java))
-                                    }
+                                } else {
+                                    WallpaperBgStore.saveFile(requireContext(), it)
+                                    startActivity(Intent(requireContext(), StaticWallpaperSettingsActivity::class.java))
                                 }
-                            } ?: run {
-                                Toast.makeText(requireContext(), getString(R.string.an_error_has_occurred), Toast.LENGTH_SHORT).show()
-                            }
+                            } ?: run { Toast.makeText(requireContext(), getString(R.string.an_error_has_occurred), Toast.LENGTH_SHORT).show() }
+                            AppLoading.closeLoading()
                         }
                     }
 
                     launch {
                         viewModel.restartOverlay.collectLatest { isRestart ->
-                            if (isRestart) {
-                                viewModel.updateEdgeState { it.copy(isEnableEdgeLighting = true) }
-                            }
+                            viewModel.updateEdgeState { it.copy(isEnableEdgeLighting = isRestart) }
                         }
                     }
                 }
@@ -161,8 +173,6 @@ class HomeFragment: BaseFragment<FragmentHomeBinding>() {
     private fun registerOnClick() = with (binding) {
 
         btnViewAllTheme.setOnClickListener {
-//            disableEdgeLighting()
-
             val intent = Intent(requireContext(), ThemesActivity::class.java)
             intent.putExtra(KEY_IS_CUSTOM, true)
             intent.putExtra(KEY_RECEIVE_DATA, TYPE_THEME)
@@ -170,8 +180,6 @@ class HomeFragment: BaseFragment<FragmentHomeBinding>() {
         }
 
         btnViewAllPreset.setOnClickListener {
-//            disableEdgeLighting()
-
             val intent = Intent(requireContext(), ThemesActivity::class.java)
             intent.putExtra(KEY_IS_CUSTOM, false)
             intent.putExtra(KEY_RECEIVE_DATA, TYPE_PRESET)
@@ -200,8 +208,6 @@ class HomeFragment: BaseFragment<FragmentHomeBinding>() {
 
         binding.vpSettingEdge.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
             override fun onPageSelected(position: Int) {
-//                disableEdgeLighting()
-
                 binding.vpSettingEdge.post { binding.vpSettingEdge.updateHeightForCurrentPage() }
             }
         })
@@ -209,26 +215,34 @@ class HomeFragment: BaseFragment<FragmentHomeBinding>() {
 
     private fun handleItemClick(item: Item) {
         AppLoading.displayLoading(requireContext())
-        when (item.type) {
-            WallpaperType.TYPE_EDGE,
-            WallpaperType.TYPE_STATIC -> {
-                viewModel.onClickBackgroundUrl(item, requireContext().getFullScreenTargetSize())
+
+        currentType = item.type
+
+        val canSetLive = prefs.canChangeLive || prefs.canLiveChooser
+
+        if (canSetLive) {
+            when (item.type) {
+                WallpaperType.TYPE_EDGE -> viewModel.loadEdgeBackgroundUrl(item, requireContext().getFullScreenTargetSize())
+
+                WallpaperType.TYPE_STATIC -> viewModel.loadStaticBackgroundUrl(item, requireContext().getFullScreenTargetSize())
+
+                WallpaperType.TYPE_VIDEO -> {
+                    viewModel.videoUrl = item.pathUrl
+                    viewModel.sendActionBroadcast(ACTION_EDGE_OVERLAY_STOP)
+                    startActivity(Intent(requireContext(), VideoWallpaperSettingsActivity::class.java))
+                    VideoPreloader.preload(requireContext().applicationContext, item.pathUrl) {
+                        AppLoading.closeLoading()
+                    }
+                }
+
+                WallpaperType.TYPE_RIPPLE -> {
+                    viewModel.rippleEffectUrl = item.pathUrl
+                    viewModel.loadBackgroundRippleUrl(item, requireContext().getFullScreenTargetSize())
+                }
             }
 
-            WallpaperType.TYPE_VIDEO -> {
-                viewModel.videoUrl = item.pathUrl
-                startActivity(Intent(requireContext(), VideoWallpaperSettingsActivity::class.java))
-                VideoPreloader.preload(requireContext().applicationContext, item.pathUrl)
-                AppLoading.closeLoading()
-            }
+        } else viewModel.loadStaticBackgroundUrl(item, requireContext().getFullScreenTargetSize())
 
-            WallpaperType.TYPE_RIPPLE -> {
-                viewModel.rippleEffectUrl = item.pathUrl
-                viewModel.loadBackgroundRippleUrl(item, requireContext().getFullScreenTargetSize())
-            }
-        }
-
-//        disableEdgeLighting()
     }
 
     fun onChildContentExpanded() = binding.apply {

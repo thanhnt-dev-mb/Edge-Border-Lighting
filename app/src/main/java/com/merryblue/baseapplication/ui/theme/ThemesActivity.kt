@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.View
 import com.google.android.material.tabs.TabLayoutMediator
 import com.merryblue.baseapplication.R
+import com.merryblue.baseapplication.coredata.local.AppPreferences
 import com.merryblue.baseapplication.databinding.ActivityThemesBinding
 import com.merryblue.baseapplication.helpers.EDGE_FIM
 import com.merryblue.baseapplication.helpers.EDGE_MOST
@@ -14,6 +15,7 @@ import com.merryblue.baseapplication.helpers.KEY_RECEIVE_DATA
 import com.merryblue.baseapplication.helpers.RIPPLE_MAGICAL_BORDERS
 import com.merryblue.baseapplication.helpers.RIPPLE_NATURE_SPAZ
 import com.merryblue.baseapplication.helpers.RIPPLE_PREMIUM
+import com.merryblue.baseapplication.helpers.RIPPLE_RIPPLE
 import com.merryblue.baseapplication.helpers.TYPE_PRESET
 import com.merryblue.baseapplication.helpers.TYPE_THEME
 import dagger.hilt.android.AndroidEntryPoint
@@ -21,8 +23,10 @@ import org.app.core.base.BaseActivity
 
 @AndroidEntryPoint
 class ThemesActivity : BaseActivity<ActivityThemesBinding>() {
+
     override fun getLayoutId(): Int = R.layout.activity_themes
 
+    private val prefs by lazy { AppPreferences(this) }
     private var initType: String? = TYPE_PRESET
     private var isCustom: Boolean = false
 
@@ -42,6 +46,8 @@ class ThemesActivity : BaseActivity<ActivityThemesBinding>() {
     private fun initTabLayout() = binding.apply {
         tvTitleTheme.text = getString(if (initType == TYPE_PRESET) R.string.txt_preset else R.string.txt_themes)
 
+        val canSetLive = prefs.canChangeLive || prefs.canLiveChooser
+
         val titles = when (initType) {
             TYPE_PRESET -> listOf(
                 EDGE_REWARD_DAY to getString(R.string.txt_daily_rewards),
@@ -50,10 +56,10 @@ class ThemesActivity : BaseActivity<ActivityThemesBinding>() {
                 EDGE_FIM to getString(R.string.txt_static)
             )
 
-            else -> listOf(
-                RIPPLE_MAGICAL_BORDERS to getString(R.string.txt_magical_borders),
-//                RIPPLE_PREMIUM to getString(R.string.txt_premium)
-            )
+            else -> buildList {
+                if (canSetLive) add(RIPPLE_MAGICAL_BORDERS to getString(R.string.txt_magical_borders))
+                else add(RIPPLE_RIPPLE to getString(R.string.txt_ripple))
+            }
         }
 
         vpThemes.adapter = ThemePagerAdapter(isCustom, false, this@ThemesActivity, titles)

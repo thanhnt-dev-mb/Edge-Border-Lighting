@@ -2,6 +2,7 @@ package com.merryblue.baseapplication.ui.wallpaper
 
 import com.google.android.material.tabs.TabLayoutMediator
 import com.merryblue.baseapplication.R
+import com.merryblue.baseapplication.coredata.local.AppPreferences
 import com.merryblue.baseapplication.databinding.FragmentWallpaperBinding
 import com.merryblue.baseapplication.helpers.KEY_ALL
 import com.merryblue.baseapplication.helpers.RIPPLE_ABSTRACT_ABSCT
@@ -16,6 +17,7 @@ import org.app.core.base.BaseFragment
 class WallpaperFragment : BaseFragment<FragmentWallpaperBinding>() {
 
     private lateinit var mediator: TabLayoutMediator
+    private val prefs by lazy { AppPreferences(requireContext()) }
 
     override fun getLayoutId(): Int = R.layout.fragment_wallpaper
 
@@ -24,20 +26,23 @@ class WallpaperFragment : BaseFragment<FragmentWallpaperBinding>() {
     }
 
     private fun initTabLayout() = binding.apply {
+        val canSetLive = prefs.canChangeLive || prefs.canLiveChooser
 
-        val titles = listOf(
-            KEY_ALL to getString(R.string.txt_all),
-            RIPPLE_MAGICAL_BORDERS to getString(R.string.txt_magical_borders),
-            RIPPLE_PREMIUM to getString(R.string.txt_premium),
-            RIPPLE_NATURE_SPAZ to getString(R.string.txt_nature),
-            RIPPLE_ABSTRACT_ABSCT to getString(R.string.txt_abstract),
-            RIPPLE_TOP_PICS to getString(R.string.txt_top_pics),
-            RIPPLE_RIPPLE to getString(R.string.txt_ripple)
-        )
+        val titles = buildList {
+            add(KEY_ALL to getString(R.string.txt_all))
+
+            if (canSetLive) add(RIPPLE_MAGICAL_BORDERS to getString(R.string.txt_magical_borders))
+            if (canSetLive) add(RIPPLE_PREMIUM to getString(R.string.txt_premium))
+
+            add(RIPPLE_NATURE_SPAZ to getString(R.string.txt_nature))
+            add(RIPPLE_ABSTRACT_ABSCT to getString(R.string.txt_abstract))
+            add(RIPPLE_TOP_PICS to getString(R.string.txt_top_pics))
+            add(RIPPLE_RIPPLE to getString(R.string.txt_ripple))
+        }
 
         vpWallpaper.adapter = ThemePagerAdapter(
             isCustom = false,
-            isAllTheme = true,
+            isGallery = true,
             activity = requireActivity(),
             titles = titles
         )

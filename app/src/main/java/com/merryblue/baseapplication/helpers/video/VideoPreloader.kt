@@ -1,9 +1,10 @@
 package com.merryblue.baseapplication.helpers.video
 
 import android.content.Context
+import androidx.annotation.OptIn
 import androidx.media3.common.MediaItem
+import androidx.media3.common.util.UnstableApi
 import androidx.media3.exoplayer.offline.ProgressiveDownloader
-import com.merryblue.baseapplication.helpers.video.VideoDataSource
 import java.util.concurrent.ConcurrentHashMap
 import java.util.concurrent.Executors
 
@@ -19,6 +20,7 @@ object VideoPreloader {
      *
      * Call this from UI thread safely.
      */
+    @OptIn(UnstableApi::class)
     fun preload(context: Context, url: String, onProgress: ((Int) -> Unit)? = null) {
         val appContext = context.applicationContext
         val safeUrl = url.trim()
@@ -30,10 +32,7 @@ object VideoPreloader {
         executor.execute {
             try {
                 val mediaItem = MediaItem.fromUri(safeUrl)
-                val downloader = ProgressiveDownloader(
-                    mediaItem,
-                    VideoDataSource.cachedFactory(appContext)
-                )
+                val downloader = ProgressiveDownloader(mediaItem, VideoDataSource.cachedFactory(appContext))
 
                 downloader.download { _, _, percentDownloaded ->
                     onProgress?.invoke(percentDownloaded.toInt())

@@ -1,25 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:app="http://schemas.android.com/apk/res-auto">
+<layout>
 
     <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
         xmlns:tools="http://schemas.android.com/tools"
         android:id="@+id/main"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/colorBgSurface"
-        tools:context=".ui.wallpaper.EdgeWallpaperSettingsActivity">
+        tools:context=".ui.wallpaper.StaticWallpaperSettingsActivity">
 
-        <com.merryblue.baseapplication.ui.view.edgelight.EdgeLightingView
-            android:id="@+id/edgeViewWallpaper"
+        <androidx.appcompat.widget.AppCompatImageView
+            android:scaleType="centerCrop"
+            android:id="@+id/ivStaticWallpaper"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            app:edgeBottomCornerRadius="20dp"
-            app:edgeColors="@array/edge_colors_0"
-            app:edgeDirection="clockwise"
-            app:edgeDuration="2500"
-            app:edgeNotchType="noNotch"
-            app:edgeStrokeWidth="6dp"
-            app:edgeTopCornerRadius="20dp" />
+            android:src="@drawable/img_place_holder" />
 
         <androidx.appcompat.widget.LinearLayoutCompat
             android:layout_width="match_parent"
@@ -31,12 +27,11 @@
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/btnSetWallpaper"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="40dp"
                 android:layout_marginHorizontal="16dp"
                 android:layout_marginBottom="16dp"
                 android:background="@drawable/bg_button_selector"
                 android:gravity="center"
-                android:paddingVertical="12dp"
                 android:text="@string/txt_set_as_wallpaper"
                 android:textColor="@color/white"
                 app:fontFamily="@font/roboto_medium" />

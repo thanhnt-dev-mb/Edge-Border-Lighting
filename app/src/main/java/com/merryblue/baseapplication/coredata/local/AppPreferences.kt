@@ -42,6 +42,8 @@ class AppPreferences @Inject constructor(context: Context) {
 
         private const val KEY_AUTO_RIPPLE = "auto_ripple"
         private const val KEY_AUTO_RIPPLE_INTERVAL_MS = "auto_ripple_interval_ms"
+        private const val KEY_CAN_CHANGE_LIVE = "can_change_live"
+        private const val KEY_CAN_LIVE_CHOOSER = "can_live_chooser"
     }
     
     private val appPreferences: SharedPreferences = context.getSharedPreferences(
@@ -141,6 +143,14 @@ class AppPreferences @Inject constructor(context: Context) {
     var autoRippleIntervalMs: Long
         get() = appPreferences.getLong(KEY_AUTO_RIPPLE_INTERVAL_MS, 2000L)
         set(value) = appPreferences.edit().putLong(KEY_AUTO_RIPPLE_INTERVAL_MS, value).apply()
+
+    var canChangeLive: Boolean
+        get() = appPreferences.getBoolean(KEY_CAN_CHANGE_LIVE, true)
+        set(value) = appPreferences.edit().putBoolean(KEY_CAN_CHANGE_LIVE, value).apply()
+
+    var canLiveChooser: Boolean
+        get() = appPreferences.getBoolean(KEY_CAN_LIVE_CHOOSER, true)
+        set(value) = appPreferences.edit().putBoolean(KEY_CAN_LIVE_CHOOSER, value).apply()
 
     fun clearCacheEdgeState() {
         appPreferences.edit { it.remove(KEY_CACHE_EDGE_STATE) }

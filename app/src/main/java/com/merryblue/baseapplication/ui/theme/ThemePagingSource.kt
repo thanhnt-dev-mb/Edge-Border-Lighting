@@ -25,7 +25,7 @@ data class ChainKey(
 
 class ThemePagingSource(
     private val type: String,
-    private val isAllTheme: Boolean,
+    private val isGallery: Boolean,
     private val isCustom: Boolean,
     private val repo: EdgeDataRepository
 ) : PagingSource<ChainKey, ThemeUi>() {
@@ -43,21 +43,17 @@ class ThemePagingSource(
             RIPPLE_ABSTRACT_CQ
         )
 
+        RIPPLE_RIPPLE -> listOf(RIPPLE_RIPPLE)
+
         KEY_ALL -> listOf(
-//            RIPPLE_MAGICAL_BORDERS,
-//            RIPPLE_PREMIUM,
-            RIPPLE_TOP_PICS,
             RIPPLE_RIPPLE,
+            RIPPLE_TOP_PICS,
             RIPPLE_NATURE_SPAZ,
             RIPPLE_NATURE_INDS,
             RIPPLE_NATURE_D,
             RIPPLE_NATURE_LIVE,
             RIPPLE_ABSTRACT_ABSCT,
             RIPPLE_ABSTRACT_CQ
-        )
-
-        RIPPLE_MAGICAL_BORDERS, RIPPLE_PREMIUM -> listOf(
-            RIPPLE_PREMIUM, RIPPLE_MAGICAL_BORDERS
         )
 
         else -> null
@@ -67,7 +63,7 @@ class ThemePagingSource(
         if (!isFirstPage) return null
         return when {
             isCustom -> ThemeUi.Custom(id = "custom_header")
-            isAllTheme -> ThemeUi.Gallery(id = "gallery_header")
+            isGallery -> ThemeUi.Gallery(id = "gallery_header")
             else -> null
         }
     }
@@ -80,9 +76,9 @@ class ThemePagingSource(
 
     override suspend fun load(params: LoadParams<ChainKey>): LoadResult<ChainKey, ThemeUi> {
         return try {
-            Timber.tag("Log_Key").d("isAllTheme: $isAllTheme, isCustom: $isCustom")
+            Timber.tag("Log_Key").d("isGallery: $isGallery, isCustom: $isCustom")
 
-            require(!(isAllTheme && isCustom)) { "isAllTheme và isCustom không được cùng true" }
+            require(!(isGallery && isCustom)) { "isGallery và isCustom không được cùng true" }
 
             val chain = chainForType(type)
 

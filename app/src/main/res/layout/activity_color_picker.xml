@@ -200,7 +200,8 @@
 
                         <androidx.appcompat.widget.LinearLayoutCompat
                             android:id="@+id/lnColor4"
-                            android:layout_width="wrap_content"
+                            android:layout_width="0dp"
+                            android:layout_weight="1"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center_vertical"
                             android:gravity="center"
@@ -217,7 +218,7 @@
 
                             <FrameLayout
                                 android:id="@+id/chipColor4"
-                                android:layout_width="80dp"
+                                android:layout_width="match_parent"
                                 android:layout_height="80dp"
                                 android:layout_marginTop="2dp"
                                 android:padding="5dp">
@@ -234,7 +235,8 @@
 
                         <androidx.appcompat.widget.LinearLayoutCompat
                             android:id="@+id/lnColor3"
-                            android:layout_width="wrap_content"
+                            android:layout_width="0dp"
+                            android:layout_weight="1"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center_vertical"
                             android:layout_marginStart="10dp"
@@ -252,7 +254,7 @@
 
                             <FrameLayout
                                 android:id="@+id/chipColor3"
-                                android:layout_width="80dp"
+                                android:layout_width="match_parent"
                                 android:layout_height="80dp"
                                 android:layout_marginTop="2dp"
                                 android:padding="5dp">
@@ -269,7 +271,8 @@
 
                         <androidx.appcompat.widget.LinearLayoutCompat
                             android:id="@+id/lnColor2"
-                            android:layout_width="wrap_content"
+                            android:layout_width="0dp"
+                            android:layout_weight="1"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center_vertical"
                             android:layout_marginStart="10dp"
@@ -287,7 +290,7 @@
 
                             <FrameLayout
                                 android:id="@+id/chipColor2"
-                                android:layout_width="80dp"
+                                android:layout_width="match_parent"
                                 android:layout_height="80dp"
                                 android:layout_marginTop="2dp"
                                 android:padding="5dp">
@@ -304,7 +307,8 @@
 
                         <androidx.appcompat.widget.LinearLayoutCompat
                             android:id="@+id/lnColor1"
-                            android:layout_width="wrap_content"
+                            android:layout_width="0dp"
+                            android:layout_weight="1"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center_vertical"
                             android:layout_marginStart="10dp"
@@ -322,7 +326,7 @@
 
                             <FrameLayout
                                 android:id="@+id/chipColor1"
-                                android:layout_width="80dp"
+                                android:layout_width="match_parent"
                                 android:layout_height="80dp"
                                 android:layout_marginTop="2dp"
                                 android:background="@drawable/bg_select_color_preview"
