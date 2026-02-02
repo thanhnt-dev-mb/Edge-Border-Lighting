@@ -44,8 +44,6 @@ class ThemeViewModel @Inject constructor(
 
     fun onClickBackgroundUrl(item: Item, target: TargetSize) {
 
-        appPreferences.cacheEdgeState = appPreferences.edgeState
-
         val colorsInt = item.colors?.map(Color::parseColor)?.toIntArray()
         val newState = appPreferences.edgeState.copy(
             edgeStyleType = if (colorsInt != null) EDGE_LINEAR else EDGE_NONE,

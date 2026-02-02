@@ -12,8 +12,10 @@ import com.merryblue.baseapplication.helpers.RIPPLE_PREMIUM
 import com.merryblue.baseapplication.helpers.RIPPLE_RIPPLE
 import com.merryblue.baseapplication.helpers.RIPPLE_TOP_PICS
 import com.merryblue.baseapplication.ui.theme.ThemePagerAdapter
+import dagger.hilt.android.AndroidEntryPoint
 import org.app.core.base.BaseFragment
 
+@AndroidEntryPoint
 class WallpaperFragment : BaseFragment<FragmentWallpaperBinding>() {
 
     private lateinit var mediator: TabLayoutMediator

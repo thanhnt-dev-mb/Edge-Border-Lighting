@@ -1,7 +1,6 @@
 package com.merryblue.baseapplication.ui.home
 
 import android.content.Intent
-import android.provider.Settings
 import android.widget.Toast
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Lifecycle
@@ -14,7 +13,6 @@ import com.merryblue.baseapplication.R
 import com.merryblue.baseapplication.coredata.local.AppPreferences
 import com.merryblue.baseapplication.databinding.FragmentHomeBinding
 import com.merryblue.baseapplication.domain.model.Item
-import com.merryblue.baseapplication.domain.model.ThemeUi
 import com.merryblue.baseapplication.helpers.AppLoading
 import com.merryblue.baseapplication.helpers.EDGE_REWARD_DAY
 import com.merryblue.baseapplication.helpers.KEY_IS_CUSTOM
@@ -51,10 +49,8 @@ class HomeFragment: BaseFragment<FragmentHomeBinding>() {
     private lateinit var homeThemeAdapter: HomeThemeAdapter
     private val prefs by lazy { AppPreferences(requireContext()) }
     private var currentType = WallpaperType.TYPE_STATIC
-
     private val presetOnClick: (Item) -> Unit = { handleItemClick(it) }
     private val customOnClick: () -> Unit = {
-//        disableEdgeLighting()
         startActivity(Intent(requireContext(), ColorPickerActivity::class.java))
     }
 
@@ -91,8 +87,8 @@ class HomeFragment: BaseFragment<FragmentHomeBinding>() {
                         viewModel.themeState.collectLatest { theme ->
                             homeThemeAdapter.submitList(
                                 buildList {
-                                    add(ThemeUi.Custom())
-                                    addAll(theme?.items?.take(2).orEmpty())
+//                                    add(ThemeUi.Custom())     // todo: comment custom
+                                    addAll(theme?.items?.take(3).orEmpty())
                                 }
                             )
                         }
@@ -100,6 +96,8 @@ class HomeFragment: BaseFragment<FragmentHomeBinding>() {
 
                     launch {
                         viewModel.bgBitmap.collectLatest { pair ->
+                            AppLoading.closeLoading()
+
                             val key = pair.first
                             val bmp = pair.second
                             bmp?.let {
@@ -129,13 +127,6 @@ class HomeFragment: BaseFragment<FragmentHomeBinding>() {
                                     startActivity(Intent(requireContext(), StaticWallpaperSettingsActivity::class.java))
                                 }
                             } ?: run { Toast.makeText(requireContext(), getString(R.string.an_error_has_occurred), Toast.LENGTH_SHORT).show() }
-                            AppLoading.closeLoading()
-                        }
-                    }
-
-                    launch {
-                        viewModel.restartOverlay.collectLatest { isRestart ->
-                            viewModel.updateEdgeState { it.copy(isEnableEdgeLighting = isRestart) }
                         }
                     }
                 }
@@ -187,11 +178,6 @@ class HomeFragment: BaseFragment<FragmentHomeBinding>() {
         }
     }
 
-    private fun disableEdgeLighting() {
-        viewModel.updateEdgeState { state -> state.copy(isEnableEdgeLighting = false) }
-        viewModel.saveCacheEdgeState()
-    }
-
     private fun initTabLayout() {
 
         binding.vpSettingEdge.adapter = SettingEdgeAdapter(this@HomeFragment)
@@ -228,11 +214,11 @@ class HomeFragment: BaseFragment<FragmentHomeBinding>() {
 
                 WallpaperType.TYPE_VIDEO -> {
                     viewModel.videoUrl = item.pathUrl
-                    viewModel.sendActionBroadcast(ACTION_EDGE_OVERLAY_STOP)
-                    startActivity(Intent(requireContext(), VideoWallpaperSettingsActivity::class.java))
                     VideoPreloader.preload(requireContext().applicationContext, item.pathUrl) {
                         AppLoading.closeLoading()
                     }
+                    viewModel.sendActionBroadcast(ACTION_EDGE_OVERLAY_STOP)
+                    startActivity(Intent(requireContext(), VideoWallpaperSettingsActivity::class.java))
                 }
 
                 WallpaperType.TYPE_RIPPLE -> {

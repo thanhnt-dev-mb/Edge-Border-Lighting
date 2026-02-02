@@ -91,14 +91,6 @@ class AppRepository @Inject constructor(
         get() = appPreferences.rippleEffectUrl
         set(value) { appPreferences.rippleEffectUrl = value }
 
-    var cacheEdgeState: EdgeLightingState
-        get() = appPreferences.cacheEdgeState
-        set(value) { appPreferences.cacheEdgeState = value }
-
-    var isToggleEdgeFirstTime: Boolean
-        get() = appPreferences.isToggleEdgeFirstTime
-        set(value) { appPreferences.isToggleEdgeFirstTime = value }
-
     private var _isInternetConnected = true
     private val _networkState = MutableStateFlow(false)
     val networkState = _networkState.asStateFlow()
@@ -285,10 +277,7 @@ class AppRepository @Inject constructor(
     fun getJsonAdsConfigure(): String {
         try {
             val ins = context.resources.openRawResource(
-                context.resources.getIdentifier(
-                    "config_ads_default",
-                    "raw", context.packageName
-                )
+                context.resources.getIdentifier("config_ads_default", "raw", context.packageName)
             )
             var text: String
             ins.bufferedReader().use {
@@ -302,12 +291,6 @@ class AppRepository @Inject constructor(
             return ""
         }
     }
-
-    fun clearCacheEdgeState() {
-        appPreferences.clearCacheEdgeState()
-    }
-
-    fun hasCacheEdgeState() = appPreferences.hasCacheEdgeState()
 
     companion object {
         fun isSdkHigherThan28(): Boolean {

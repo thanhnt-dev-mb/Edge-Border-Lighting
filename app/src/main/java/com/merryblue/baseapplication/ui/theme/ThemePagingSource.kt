@@ -62,7 +62,7 @@ class ThemePagingSource(
     private fun headerIfNeeded(isFirstPage: Boolean): ThemeUi? {
         if (!isFirstPage) return null
         return when {
-            isCustom -> ThemeUi.Custom(id = "custom_header")
+//            isCustom -> ThemeUi.Custom(id = "custom_header")      // todo: comment custom
             isGallery -> ThemeUi.Gallery(id = "gallery_header")
             else -> null
         }

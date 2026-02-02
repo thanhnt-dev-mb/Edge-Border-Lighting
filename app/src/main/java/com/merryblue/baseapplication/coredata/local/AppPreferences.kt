@@ -29,8 +29,7 @@ class AppPreferences @Inject constructor(context: Context) {
         private const val KEY_IS_FIRST_TUTORIAL = "key_is_first_tutorial"
         private const val KEY_IS_FIRST_TOGGLE_EDGE = "key_is_first_toggle_first"
 
-        private const val KEY_EDGE_STATE = "edge_state_json"
-        private const val KEY_CACHE_EDGE_STATE = "KEY_CACHE_EDGE_STATE"
+        private const val KEY_EDGE_STATE = "key_edge_state"
 
         private const val KEY_VIDEO_URL = "video_url"
         private const val KEY_EFFECT = "key_effect"
@@ -113,17 +112,6 @@ class AppPreferences @Inject constructor(context: Context) {
         }
         set(value) = appPreferences.edit { it.putString(KEY_EDGE_STATE, gson.toJson(value)) }
 
-    var cacheEdgeState: EdgeLightingState
-        get() {
-            val json = appPreferences.getString(KEY_CACHE_EDGE_STATE, null) ?: return EdgeLightingState()
-            return runCatching { gson.fromJson(json, EdgeLightingState::class.java) }.getOrElse { EdgeLightingState() }
-        }
-        set(value) = appPreferences.edit { it.putString(KEY_CACHE_EDGE_STATE, gson.toJson(value)) }
-
-    var isToggleEdgeFirstTime: Boolean
-        get() = appPreferences.getBoolean(KEY_IS_FIRST_TOGGLE_EDGE, false)
-        set(value) = appPreferences.edit { it.putBoolean(KEY_IS_FIRST_TOGGLE_EDGE, value) }
-
     var videoUrl: String
         get() = appPreferences.getString(KEY_VIDEO_URL, "") ?: ""
         set(value) = appPreferences.edit().putString(KEY_VIDEO_URL, value).apply()
@@ -151,12 +139,6 @@ class AppPreferences @Inject constructor(context: Context) {
     var canLiveChooser: Boolean
         get() = appPreferences.getBoolean(KEY_CAN_LIVE_CHOOSER, true)
         set(value) = appPreferences.edit().putBoolean(KEY_CAN_LIVE_CHOOSER, value).apply()
-
-    fun clearCacheEdgeState() {
-        appPreferences.edit { it.remove(KEY_CACHE_EDGE_STATE) }
-    }
-
-    fun hasCacheEdgeState(): Boolean = appPreferences.contains(KEY_CACHE_EDGE_STATE)
 
     fun clearPreferences() {
         sessionPreferences.edit {

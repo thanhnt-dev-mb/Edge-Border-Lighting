@@ -3,6 +3,7 @@ package com.merryblue.baseapplication.ui.home.advanced
 import android.content.Context
 import android.content.Intent
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.merryblue.baseapplication.R
 import com.merryblue.baseapplication.coredata.AppRepository
 import com.merryblue.baseapplication.coredata.model.edge.Advanced
@@ -11,9 +12,10 @@ import com.merryblue.baseapplication.ui.view.edgelight.model.EdgeLightingState
 import com.merryblue.baseapplication.helpers.ServiceState.ACTION_EDGE_OVERLAY_CHANGED
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dagger.hilt.android.qualifiers.ApplicationContext
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.update
+import kotlinx.coroutines.channels.BufferOverflow
+import kotlinx.coroutines.flow.MutableSharedFlow
+import kotlinx.coroutines.flow.asSharedFlow
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
@@ -21,11 +23,23 @@ class EdgeAdvancedViewModel @Inject constructor(
     private val appRepository: AppRepository,
     @ApplicationContext private val appContext: Context
 ): ViewModel() {
-    private var _directionStateFlow = MutableStateFlow(EdgeAdvancedState())
-    val directionStateFlow = _directionStateFlow.asStateFlow()
 
-    private var _notchTypeStateFlow = MutableStateFlow(EdgeAdvancedState())
-    val notchTypeStateFlow = _notchTypeStateFlow.asStateFlow()
+    private val _directionStateFlow = MutableSharedFlow<EdgeAdvancedState>(
+        replay = 0,
+        extraBufferCapacity = 1,
+        onBufferOverflow = BufferOverflow.DROP_OLDEST
+    )
+    val directionStateFlow = _directionStateFlow.asSharedFlow()
+
+    private val _notchTypeStateFlow = MutableSharedFlow<EdgeAdvancedState>(
+        replay = 0,
+        extraBufferCapacity = 1,
+        onBufferOverflow = BufferOverflow.DROP_OLDEST
+    )
+    val notchTypeStateFlow = _notchTypeStateFlow.asSharedFlow()
+
+    private var currentDirectionState = EdgeAdvancedState()
+    private var currentNotchTypeState = EdgeAdvancedState()
 
     private val listDirection = buildList {
         add(EdgeAdvanced.EdgeDirection(Advanced.DIRECTION_CLOCKWISE, R.string.txt_clockwise_default, R.drawable.ic_clockwise, false))
@@ -60,7 +74,15 @@ class EdgeAdvancedViewModel @Inject constructor(
         val items = listDirection.mapIndexed { pos, item ->
             item.copy(isSelected = pos == safeIndex)
         }
-        _directionStateFlow.update { it.copy(directionSelectedIndex = index, listDirection = items) }
+
+        currentDirectionState = currentDirectionState.copy(
+            directionSelectedIndex = safeIndex,
+            listDirection = items
+        )
+
+        viewModelScope.launch {
+            _directionStateFlow.emit(currentDirectionState)
+        }
     }
 
     fun selectNotchType(index: Int) {
@@ -68,7 +90,15 @@ class EdgeAdvancedViewModel @Inject constructor(
         val items = listNotchType.mapIndexed { pos, item ->
             item.copy(isSelected = pos == safeIndex)
         }
-        _notchTypeStateFlow.update { it.copy(notchTypeSelectedIndex = index, listNotchType = items) }
+
+        currentNotchTypeState = currentNotchTypeState.copy(
+            notchTypeSelectedIndex = safeIndex,
+            listNotchType = items
+        )
+
+        viewModelScope.launch {
+            _notchTypeStateFlow.emit(currentNotchTypeState)
+        }
     }
 
     fun loadInitialFromSaved() {

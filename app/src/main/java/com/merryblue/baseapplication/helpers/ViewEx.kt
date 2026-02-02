@@ -9,6 +9,7 @@ import android.content.pm.PackageManager
 import android.graphics.Color
 import android.graphics.drawable.BitmapDrawable
 import android.os.Build
+import android.view.Gravity
 import android.view.Gravity.CENTER
 import android.view.View
 import android.view.ViewGroup.LayoutParams.MATCH_PARENT
@@ -16,6 +17,9 @@ import android.view.Window
 import android.view.Window.FEATURE_NO_TITLE
 import android.view.WindowManager
 import androidx.core.graphics.drawable.toDrawable
+import androidx.core.view.WindowCompat
+import androidx.core.view.WindowInsetsCompat
+import androidx.core.view.WindowInsetsControllerCompat
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager2.widget.ViewPager2
 import com.merryblue.baseapplication.R
@@ -89,12 +93,15 @@ fun Context.createDialog() = Dialog(this, R.style.FullScreenDialog).apply {
 
 fun Dialog.showFullScreen() {
     val window = this.window ?: return
-    val finishing = (this.context as? Activity)?.isFinishing ?: false
-    if (finishing) return
-    this.show()
-    window.setBackgroundDrawable(Color.TRANSPARENT.toDrawable())
+    val activity = context as? Activity
+    if (activity?.isFinishing == true || activity?.isDestroyed == true) return
+    show()
     window.setLayout(MATCH_PARENT, MATCH_PARENT)
     window.setGravity(CENTER)
+    WindowCompat.setDecorFitsSystemWindows(window, false)
+    val controller = WindowInsetsControllerCompat(window, window.decorView)
+    controller.hide(WindowInsetsCompat.Type.systemBars())
+    controller.systemBarsBehavior = WindowInsetsControllerCompat.BEHAVIOR_SHOW_TRANSIENT_BARS_BY_SWIPE
 }
 
 fun Context.canHandleIntent(intent: Intent): Boolean {

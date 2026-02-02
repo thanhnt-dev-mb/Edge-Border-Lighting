@@ -3,6 +3,7 @@ package com.merryblue.baseapplication.ui.home.effect
 import android.content.Context
 import android.content.Intent
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.merryblue.baseapplication.R
 import com.merryblue.baseapplication.coredata.AppRepository
 import com.merryblue.baseapplication.coredata.model.edge.EdgeEffectItem
@@ -10,8 +11,10 @@ import com.merryblue.baseapplication.ui.view.edgelight.model.EdgeLightingState
 import com.merryblue.baseapplication.helpers.ServiceState.ACTION_EDGE_OVERLAY_CHANGED
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dagger.hilt.android.qualifiers.ApplicationContext
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.channels.BufferOverflow
+import kotlinx.coroutines.flow.MutableSharedFlow
+import kotlinx.coroutines.flow.asSharedFlow
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
@@ -19,8 +22,15 @@ class EdgeEffectViewModel @Inject constructor(
     private val appRepository: AppRepository,
     @ApplicationContext private val appContext: Context
 ): ViewModel() {
-    private var _state = MutableStateFlow(EdgeEffectState())
-    val state = _state.asStateFlow()
+
+    private val _state = MutableSharedFlow<EdgeEffectState>(
+        replay = 0,
+        extraBufferCapacity = 1,
+        onBufferOverflow = BufferOverflow.DROP_OLDEST
+    )
+    val state = _state.asSharedFlow()
+
+    private var currentState = EdgeEffectState()
 
     private val listIconRes = buildList {
         add(EdgeEffectItem(R.drawable.ic_none, false))
@@ -56,10 +66,15 @@ class EdgeEffectViewModel @Inject constructor(
         val items = listIconRes.mapIndexed { pos, item ->
             item.copy(isSelected = pos == safeIndex)
         }
-        _state.value = _state.value.copy(
+
+        currentState = currentState.copy(
             selectedIndex = if (items.isEmpty()) -1 else safeIndex,
             listEffect = items
         )
+
+        viewModelScope.launch {
+            _state.emit(currentState)
+        }
     }
 
     fun loadInitialFromSaved() {

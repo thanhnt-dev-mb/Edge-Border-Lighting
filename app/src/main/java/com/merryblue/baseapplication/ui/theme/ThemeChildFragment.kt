@@ -43,7 +43,7 @@ import kotlinx.coroutines.launch
 import org.app.core.base.BaseFragment
 
 @AndroidEntryPoint
-class ThemeChildFragment : BaseFragment<FragmentThemeChildBinding>() {
+class ThemeChildFragment: BaseFragment<FragmentThemeChildBinding>() {
 
     private val viewModel: ThemeViewModel by viewModels()
     private val homeViewModel: HomeViewModel by viewModels()
@@ -54,13 +54,8 @@ class ThemeChildFragment : BaseFragment<FragmentThemeChildBinding>() {
     private var currentType = WallpaperType.TYPE_STATIC
 
     private val onClick: (Item) -> Unit = { handleItemClick(it) }
-    private val onGalleryClick: (ThemeUi.Gallery) -> Unit = {
-        openGalleryPickOne()
-    }
-
-    private val onThemeCustomClick: (ThemeUi.Custom) -> Unit = {
-        handelThemeCustomClick()
-    }
+    private val onGalleryClick: (ThemeUi.Gallery) -> Unit = { openGalleryPickOne() }
+    private val onThemeCustomClick: (ThemeUi.Custom) -> Unit = { handelThemeCustomClick() }
 
     private val pickPhoto = registerForActivityResult(ActivityResultContracts.PickVisualMedia()) { uri: Uri? ->
         uri?.let { handlePickedImage(it) }
@@ -126,6 +121,8 @@ class ThemeChildFragment : BaseFragment<FragmentThemeChildBinding>() {
 
                 launch {
                     homeViewModel.bgBitmap.collectLatest { pair ->
+                        AppLoading.closeLoading()
+
                         val key = pair.first
                         val bmp = pair.second
                         bmp?.let {
@@ -155,7 +152,6 @@ class ThemeChildFragment : BaseFragment<FragmentThemeChildBinding>() {
                                 startActivity(Intent(requireContext(), StaticWallpaperSettingsActivity::class.java))
                             }
                         } ?: run { Toast.makeText(requireContext(), getString(R.string.an_error_has_occurred), Toast.LENGTH_SHORT).show() }
-                        AppLoading.closeLoading()
                     }
                 }
             }
@@ -195,7 +191,6 @@ class ThemeChildFragment : BaseFragment<FragmentThemeChildBinding>() {
     }
 
     private fun handelThemeCustomClick() {
-        homeViewModel.saveCacheEdgeState()
         startActivity(Intent(requireContext(), ColorPickerActivity::class.java))
     }
 
@@ -214,11 +209,11 @@ class ThemeChildFragment : BaseFragment<FragmentThemeChildBinding>() {
 
                 WallpaperType.TYPE_VIDEO -> {
                     homeViewModel.videoUrl = item.pathUrl
-                    homeViewModel.sendActionBroadcast(ACTION_EDGE_OVERLAY_STOP)
-                    startActivity(Intent(requireContext(), VideoWallpaperSettingsActivity::class.java))
                     VideoPreloader.preload(requireContext().applicationContext, item.pathUrl) {
                         AppLoading.closeLoading()
                     }
+                    homeViewModel.sendActionBroadcast(ACTION_EDGE_OVERLAY_STOP)
+                    startActivity(Intent(requireContext(), VideoWallpaperSettingsActivity::class.java))
                 }
 
                 WallpaperType.TYPE_RIPPLE -> {

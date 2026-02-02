@@ -19,7 +19,6 @@ import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.merryblue.baseapplication.R
 import com.merryblue.baseapplication.coredata.local.AppPreferences
 import com.merryblue.baseapplication.databinding.ActivityVideoWallpaperSettingsBinding
-import com.merryblue.baseapplication.helpers.ServiceState.ACTION_EDGE_WALLPAPER_STATE_STOP
 import com.merryblue.baseapplication.helpers.ServiceState.ACTION_VIDEO_WALLPAPER_STATE_CHANGED
 import com.merryblue.baseapplication.helpers.canHandleIntent
 import com.merryblue.baseapplication.helpers.video.VideoDataSource
@@ -28,19 +27,20 @@ import com.merryblue.baseapplication.service.EdgeLightingOverlayService
 import com.merryblue.baseapplication.service.VideoWallpaperService
 import com.merryblue.baseapplication.ui.home.HomeViewModel
 import com.merryblue.baseapplication.ui.widget.BottomSheetEdgePermission
+import dagger.hilt.android.AndroidEntryPoint
 import org.app.core.base.BaseActivity
 import org.app.core.base.extensions.toastMsg
 import kotlin.getValue
 
+@AndroidEntryPoint
 class VideoWallpaperSettingsActivity : BaseActivity<ActivityVideoWallpaperSettingsBinding>() {
 
     private val prefs by lazy { AppPreferences(this) }
-    private val homeViewModel: HomeViewModel by viewModels()
     private val overlayPermissionLauncher = registerForActivityResult(androidx.activity.result.contract.ActivityResultContracts.StartActivityForResult()) {
         if (Settings.canDrawOverlays(this)) {
+            prefs.edgeState = prefs.edgeState.copy(isEnableEdgeLighting = true)
             startEdgeOverlay()
         } else {
-            homeViewModel.isToggleEdgeFirstTime = false
             prefs.edgeState = prefs.edgeState.copy(isEnableEdgeLighting = false)
             finish()
         }
@@ -100,8 +100,6 @@ class VideoWallpaperSettingsActivity : BaseActivity<ActivityVideoWallpaperSettin
     }
 
     private fun onClickSetLiveWallpaperOrApply() {
-        prefs.clearCacheEdgeState()
-
         if (isMyLiveWallpaperActive()) {
             sendBroadcast(Intent(ACTION_VIDEO_WALLPAPER_STATE_CHANGED).setPackage(packageName))
             checkPermissionOverlay()
@@ -120,15 +118,13 @@ class VideoWallpaperSettingsActivity : BaseActivity<ActivityVideoWallpaperSettin
     }
 
     private fun startEdgeOverlay() {
-        if (!prefs.isToggleEdgeFirstTime) prefs.isToggleEdgeFirstTime = true
-        prefs.edgeState = prefs.edgeState.copy(isEnableEdgeLighting = true)
         ContextCompat.startForegroundService(this, Intent(this, EdgeLightingOverlayService::class.java))
         finish()
     }
 
     private fun showBottomSheetEdgePermission() {
         (supportFragmentManager.findFragmentByTag(BottomSheetEdgePermission.TAG) as? BottomSheetDialogFragment)?.dismissAllowingStateLoss()
-        val bottom = BottomSheetEdgePermission {
+        val bottom = BottomSheetEdgePermission.newInstance {
             val i = Intent(Settings.ACTION_MANAGE_OVERLAY_PERMISSION, "package:${packageName}".toUri())
             overlayPermissionLauncher.launch(i)
         }

@@ -15,7 +15,6 @@ import com.merryblue.baseapplication.R
 import com.merryblue.baseapplication.coredata.local.AppPreferences
 import com.merryblue.baseapplication.coredata.model.Setting
 import com.merryblue.baseapplication.databinding.FragmentSettingBinding
-import com.merryblue.baseapplication.helpers.ServiceState.ACTION_EDGE_WALLPAPER_STATE_STOP
 import com.merryblue.baseapplication.helpers.isAppInstalled
 import com.merryblue.baseapplication.helpers.openPolicy
 import com.merryblue.baseapplication.service.EdgeLightingOverlayService
@@ -46,13 +45,11 @@ class SettingFragment : BaseFragment<FragmentSettingBinding>() {
             startEdgeOverlay()
         } else {
             binding.edgeToggle.isChecked = false
-            homeViewModel.isToggleEdgeFirstTime = false
         }
     }
 
     override fun onResume() {
         super.onResume()
-        if (homeViewModel.isToggleEdgeFirstTime) homeViewModel.restartOverlay()
         binding.edgeToggle.isChecked = prefs.edgeState.isEnableEdgeLighting
     }
     
@@ -98,7 +95,6 @@ class SettingFragment : BaseFragment<FragmentSettingBinding>() {
     private fun registerListener() {
         binding.apply {
             edgeToggle.setOnCheckedChangeListener { isSelected ->
-                if (!homeViewModel.isToggleEdgeFirstTime) homeViewModel.isToggleEdgeFirstTime = true
                 homeViewModel.updateEdgeState { it.copy(isEnableEdgeLighting = isSelected) }
                 if (isSelected) startEdgeOverlay() else stopEdgeOverlay()
             }
