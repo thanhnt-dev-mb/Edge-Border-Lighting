@@ -126,8 +126,7 @@ class SettingFragment : BaseFragment<FragmentSettingBinding>() {
     private fun handleItemClick(data: Setting, view: View? = null) {
         when(data.code) {
             Setting.Code.LANGUAGE -> {
-//                LanguageActivity.open(context ?: return, "setting")
-                navigateSafe(SettingFragmentDirections.actionSettingToLanguage())
+                LanguageActivity.open(context ?: return, "setting")
             }
             Setting.Code.RATE -> {
                 try {

@@ -16,4 +16,8 @@ class IntroActivity : BaseActivity<ActivityIntroBinding>() {
         enableEdgeToEdge(binding.main, true)
         AdapterOpenAppManager.instance.registerDisableOpenAdsAt(IntroActivity::class.java)
     }
+
+    override fun setupBinding() {
+        //TODO: Should do nothing
+    }
 }
