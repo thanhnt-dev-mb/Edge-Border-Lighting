@@ -4,17 +4,21 @@ import android.app.Activity
 import android.app.Dialog
 import android.app.WallpaperManager
 import android.content.Context
+import android.content.Intent
+import android.content.pm.PackageManager
 import android.graphics.Color
 import android.graphics.drawable.BitmapDrawable
 import android.os.Build
 import android.view.Gravity.CENTER
 import android.view.View
 import android.view.ViewGroup.LayoutParams.MATCH_PARENT
+import android.view.Window
 import android.view.Window.FEATURE_NO_TITLE
 import android.view.WindowManager
 import androidx.core.graphics.drawable.toDrawable
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager2.widget.ViewPager2
+import com.merryblue.baseapplication.R
 import com.merryblue.baseapplication.domain.repository.TargetSize
 import kotlin.math.max
 
@@ -78,7 +82,7 @@ fun Context.restoreBuiltInToSystemAndLock() {
     }
 }
 
-fun Context.createDialog() = Dialog(this).apply {
+fun Context.createDialog() = Dialog(this, R.style.FullScreenDialog).apply {
     requestWindowFeature(FEATURE_NO_TITLE)
     create()
 }
@@ -92,4 +96,12 @@ fun Dialog.showFullScreen() {
     window.setLayout(MATCH_PARENT, MATCH_PARENT)
     window.setGravity(CENTER)
 }
+
+fun Context.canHandleIntent(intent: Intent): Boolean {
+    val pm = packageManager
+    val list = pm.queryIntentActivities(intent, PackageManager.MATCH_DEFAULT_ONLY)
+    return list.isNotEmpty()
+}
+
+
 

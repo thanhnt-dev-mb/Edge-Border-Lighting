@@ -6,7 +6,7 @@ const val KEY_RECEIVE_DATA = "data_theme"
 // screen
 const val TYPE_PRESET = "type_preset"
 const val TYPE_THEME = "type_theme"
-const val KEY_IS_ALL = "key_is_all"
+const val KEY_IS_GALLERY = "key_is_gallery"
 const val KEY_IS_CUSTOM = "key_is_custom"
 
 // type
@@ -65,7 +65,7 @@ object EdgeStyle {
 }
 
 object PreviewType {
-    const val KEY_EDGE = "key_edge"
-    const val KEY_VIDEO = "key_video"
-    const val KEY_RIPPLE = "key_ripple"
+    const val EDGE_WALLPAPER_SCREEN = "EDGE_WALLPAPER_SCREEN"
+    const val STATIC_WALLPAPER_SCREEN = "STATIC_WALLPAPER_SCREEN"
+    const val RIPPLE_WALLPAPER_SCREEN = "RIPPLE_WALLPAPER_SCREEN"
 }

@@ -1,6 +1,7 @@
 package com.merryblue.baseapplication.ui.home
 
 import android.Manifest
+import android.app.WallpaperManager
 import android.content.Intent
 import android.os.Build
 import android.os.Bundle
@@ -16,6 +17,7 @@ import androidx.navigation.fragment.NavHostFragment
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.merryblue.baseapplication.BuildConfig
 import com.merryblue.baseapplication.R
+import com.merryblue.baseapplication.coredata.local.AppPreferences
 import com.merryblue.baseapplication.coredata.model.edge.DisplayHole
 import com.merryblue.baseapplication.coredata.model.edge.DisplayInfinity
 import com.merryblue.baseapplication.coredata.model.edge.DisplayNotch
@@ -24,6 +26,7 @@ import com.merryblue.baseapplication.coredata.model.edge.EdgeSelection
 import com.merryblue.baseapplication.coredata.model.edge.EdgeSettings
 import com.merryblue.baseapplication.databinding.ActivityHomeBinding
 import com.merryblue.baseapplication.helpers.Compatibility
+import com.merryblue.baseapplication.helpers.canHandleIntent
 import com.merryblue.baseapplication.helpers.isAppInstalled
 import com.merryblue.baseapplication.helpers.isBackground
 import com.merryblue.baseapplication.helpers.openPolicy
@@ -37,6 +40,7 @@ import org.app.core.ads.remoteconfig.CoreRemoteConfig
 import org.app.core.base.BaseActivity
 import org.app.core.base.extensions.openActivityAndClearStack
 import org.app.core.base.utils.StringResId
+import timber.log.Timber
 
 
 @AndroidEntryPoint
@@ -46,6 +50,7 @@ class HomeActivity : BaseActivity<ActivityHomeBinding>() {
     private var isActive: Boolean = false
     private lateinit var navControllers: Map<EdgeBottomNavView.Tab, NavController>
     private var currentTab: EdgeBottomNavView.Tab = EdgeBottomNavView.Tab.EDGE
+    private val prefs by lazy { AppPreferences(this) }
 
     override
     fun getLayoutId() = R.layout.activity_home
@@ -72,7 +77,16 @@ class HomeActivity : BaseActivity<ActivityHomeBinding>() {
     override fun setUpViews() {
         binding.bottomNav.setSelectedTab(EdgeBottomNavView.Tab.EDGE)
         binding.bottomNav.setOnTabSelectedListener { showTab(it) }
+        initDeviceSupport()
         setupBottomNavMultiStack()
+    }
+
+    private fun initDeviceSupport() {
+        prefs.canChangeLive = canHandleIntent(Intent(WallpaperManager.ACTION_CHANGE_LIVE_WALLPAPER))
+        prefs.canLiveChooser = canHandleIntent(Intent(WallpaperManager.ACTION_LIVE_WALLPAPER_CHOOSER))
+
+        Timber.tag("Log_CanChangeLive").d("canChangeLive: ${prefs.canChangeLive}")
+        Timber.tag("Log_CanChangeLive").d("canLiveChooser: ${prefs.canLiveChooser}")
     }
 
     override fun setUpObserver() = Unit

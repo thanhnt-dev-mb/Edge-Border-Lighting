@@ -4,20 +4,26 @@ import android.content.Intent
 import android.content.res.ColorStateList
 import android.graphics.Color
 import android.os.Bundle
+import android.provider.Settings
 import android.view.View
 import androidx.activity.viewModels
 import androidx.appcompat.widget.AppCompatEditText
 import androidx.core.content.ContextCompat
+import androidx.core.net.toUri
 import androidx.core.widget.doAfterTextChanged
 import androidx.fragment.app.activityViewModels
+import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.merryblue.baseapplication.R
 import com.merryblue.baseapplication.coredata.local.AppPreferences
 import com.merryblue.baseapplication.databinding.ActivityColorPickerBinding
 import com.merryblue.baseapplication.helpers.ServiceState.ACTION_EDGE_OVERLAY_CHANGED
+import com.merryblue.baseapplication.helpers.ServiceState.ACTION_EDGE_WALLPAPER_STATE_STOP
 import com.merryblue.baseapplication.helpers.parseHexSafe
 import com.merryblue.baseapplication.helpers.toHex
+import com.merryblue.baseapplication.service.EdgeLightingOverlayService
 import com.merryblue.baseapplication.ui.home.HomeViewModel
 import com.merryblue.baseapplication.ui.home.color.EdgeTab
+import com.merryblue.baseapplication.ui.widget.BottomSheetEdgePermission
 import dagger.hilt.android.AndroidEntryPoint
 import org.app.core.base.BaseActivity
 import org.app.core.base.extensions.toastMsg
@@ -27,8 +33,17 @@ import kotlin.getValue
 class ColorPickerActivity : BaseActivity<ActivityColorPickerBinding>() {
 
     private val prefs by lazy { AppPreferences(this) }
-
     private val viewModel: HomeViewModel by viewModels()
+
+    private val overlayPermissionLauncher = registerForActivityResult(androidx.activity.result.contract.ActivityResultContracts.StartActivityForResult()) {
+        if (Settings.canDrawOverlays(this)) {
+            startEdgeOverlay()
+        } else {
+            viewModel.isToggleEdgeFirstTime = false
+            prefs.edgeState = prefs.edgeState.copy(isEnableEdgeLighting = false)
+            finish()
+        }
+    }
 
     private val colors = intArrayOf(
         Color.parseColor("#AA00FF"),
@@ -56,6 +71,30 @@ class ColorPickerActivity : BaseActivity<ActivityColorPickerBinding>() {
         registerOnClick()
     }
 
+    private fun checkPermissionOverlay() {
+        if (!Settings.canDrawOverlays(this)) {
+            showBottomSheetEdgePermission()
+            return
+        }
+        startEdgeOverlay()
+    }
+
+    private fun startEdgeOverlay() {
+        if (!prefs.isToggleEdgeFirstTime) prefs.isToggleEdgeFirstTime = true
+        prefs.edgeState = prefs.edgeState.copy(isEnableEdgeLighting = true)
+        ContextCompat.startForegroundService(this, Intent(this, EdgeLightingOverlayService::class.java))
+        finish()
+    }
+
+    private fun showBottomSheetEdgePermission() {
+        (supportFragmentManager.findFragmentByTag(BottomSheetEdgePermission.TAG) as? BottomSheetDialogFragment)?.dismissAllowingStateLoss()
+        val bottom = BottomSheetEdgePermission {
+            val i = Intent(Settings.ACTION_MANAGE_OVERLAY_PERMISSION, "package:${packageName}".toUri())
+            overlayPermissionLauncher.launch(i)
+        }
+        bottom.show(supportFragmentManager, BottomSheetEdgePermission.TAG)
+    }
+
     private fun registerOnClick() = with (binding) {
 
         btnBackPreview.setOnClickListener { finish() }
@@ -70,20 +109,10 @@ class ColorPickerActivity : BaseActivity<ActivityColorPickerBinding>() {
         btnTwoColors.setOnClickListener { renderSelectedTab(EdgeTab.TAB_2) }
 
         btnApply.setOnClickListener {
-            updateEdgeState()
             viewModel.saveCacheEdgeState()
             toastMsg(getString(R.string.changes_have_been_applied))
-            finish()
+            checkPermissionOverlay()
         }
-    }
-
-    private fun updateEdgeState() {
-        prefs.edgeState = prefs.edgeState.copy(colors = currentColor)
-        val ctx = application.applicationContext
-        val i = Intent(ACTION_EDGE_OVERLAY_CHANGED).apply {
-            setPackage(ctx.packageName)
-        }
-        ctx.sendBroadcast(i)
     }
 
     private fun initViews() = with (binding) {
@@ -339,7 +368,10 @@ class ColorPickerActivity : BaseActivity<ActivityColorPickerBinding>() {
             EdgeTab.TAB_3 -> intArrayOf(colors[COLOR_1], colors[COLOR_2], colors[COLOR_3])
             EdgeTab.TAB_4 -> intArrayOf(colors[COLOR_1], colors[COLOR_2], colors[COLOR_3], colors[COLOR_4])
         }
+
         binding.edgeViewPreview.setColors(*currentColor)
+        prefs.edgeState = prefs.edgeState.copy(colors = currentColor)
+        viewModel.sendActionBroadcast(ACTION_EDGE_OVERLAY_CHANGED)
     }
 
     companion object {

@@ -1,38 +1,142 @@
 package com.merryblue.baseapplication.ui.wallpaper
 
 import android.app.WallpaperManager
+import android.content.ActivityNotFoundException
 import android.content.ComponentName
 import android.content.Intent
+import android.graphics.BitmapFactory
 import android.os.Bundle
+import android.provider.Settings
 import android.view.MotionEvent
 import android.view.SurfaceHolder
+import androidx.activity.viewModels
+import androidx.core.content.ContextCompat
+import androidx.core.net.toUri
+import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.merryblue.baseapplication.R
 import com.merryblue.baseapplication.coredata.local.AppPreferences
 import com.merryblue.baseapplication.databinding.ActivityRippleWallpaperSettingsBinding
+import com.merryblue.baseapplication.helpers.ServiceState.ACTION_EDGE_WALLPAPER_STATE_STOP
 import com.merryblue.baseapplication.helpers.ServiceState.ACTION_RIPPLE_BG_CHANGED
+import com.merryblue.baseapplication.helpers.canHandleIntent
 import com.merryblue.baseapplication.helpers.ripple.WaterDropRenderer
+import com.merryblue.baseapplication.service.EdgeLightingOverlayService
 import com.merryblue.baseapplication.service.RippleWallpaperService
+import com.merryblue.baseapplication.ui.home.HomeViewModel
+import com.merryblue.baseapplication.ui.widget.BottomSheetEdgePermission
 import dagger.hilt.android.AndroidEntryPoint
 import org.app.core.base.BaseActivity
-import timber.log.Timber
+import org.app.core.base.extensions.toastMsg
+import kotlin.getValue
 
 @AndroidEntryPoint
 class RippleWallpaperSettingsActivity : BaseActivity<ActivityRippleWallpaperSettingsBinding>(), SurfaceHolder.Callback {
+
     private val prefs by lazy { AppPreferences(this) }
+    private val homeViewModel: HomeViewModel by viewModels()
+    private val overlayPermissionLauncher = registerForActivityResult(androidx.activity.result.contract.ActivityResultContracts.StartActivityForResult()) {
+        if (Settings.canDrawOverlays(this)) {
+            startEdgeOverlay()
+        } else {
+            homeViewModel.isToggleEdgeFirstTime = false
+            prefs.edgeState = prefs.edgeState.copy(isEnableEdgeLighting = false)
+            finish()
+        }
+    }
     private var renderer: WaterDropRenderer? = null
+
+    override fun getLayoutId(): Int = R.layout.activity_ripple_wallpaper_settings
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge(binding.main, true)
     }
 
-    override fun getLayoutId(): Int = R.layout.activity_ripple_wallpaper_settings
+    override fun setUpViews() {
+        initSurfaceView()
+        registerClicks()
+    }
+
+    private fun initSurfaceView() {
+        binding.surfaceView.holder.addCallback(this)
+
+        binding.surfaceView.setOnTouchListener { _, event ->
+            if (event.actionMasked == MotionEvent.ACTION_DOWN || event.actionMasked == MotionEvent.ACTION_MOVE) {
+                renderer?.onTouch(event.x, event.y)
+            }
+            true
+        }
+    }
+
+    private fun registerClicks() {
+        binding.btnSetWallpaper.setOnClickListener { onClickSetLiveWallpaperOrApply() }
+        binding.btnBackWallpaper.setOnClickListener { finish() }
+    }
+
+    private fun onClickSetLiveWallpaperOrApply() {
+        if (isMyLiveWallpaperActive()) {
+            sendBroadcast(Intent(ACTION_RIPPLE_BG_CHANGED).setPackage(packageName))
+            checkPermissionOverlay()
+            return
+        }
+
+        openSystemLiveWallpaperPicker(ComponentName(this, RippleWallpaperService::class.java))
+    }
+
+    private fun openSystemLiveWallpaperPicker(service: ComponentName) {
+        val changeIntent = Intent(WallpaperManager.ACTION_CHANGE_LIVE_WALLPAPER).apply {
+            putExtra(WallpaperManager.EXTRA_LIVE_WALLPAPER_COMPONENT, service)
+        }
+
+        try {
+            when {
+                prefs.canChangeLive -> startActivity(changeIntent)
+                prefs.canLiveChooser -> startActivity(Intent(WallpaperManager.ACTION_LIVE_WALLPAPER_CHOOSER))
+                else -> toastMsg(getString(R.string.this_device_does_not_support_installing_live_wallpaper))
+            }
+        } catch (_: ActivityNotFoundException) {
+            toastMsg(getString(R.string.this_device_does_not_support_installing_live_wallpaper))
+        }
+
+        checkPermissionOverlay()
+    }
+
+    private fun checkPermissionOverlay() {
+        if (!Settings.canDrawOverlays(this)) {
+            showBottomSheetEdgePermission()
+            return
+        }
+        startEdgeOverlay()
+    }
+
+    private fun startEdgeOverlay() {
+        if (!prefs.isToggleEdgeFirstTime) prefs.isToggleEdgeFirstTime = true
+        prefs.edgeState = prefs.edgeState.copy(isEnableEdgeLighting = true)
+        ContextCompat.startForegroundService(this, Intent(this, EdgeLightingOverlayService::class.java))
+        finish()
+    }
+
+    private fun showBottomSheetEdgePermission() {
+        (supportFragmentManager.findFragmentByTag(BottomSheetEdgePermission.TAG) as? BottomSheetDialogFragment)?.dismissAllowingStateLoss()
+        val bottom = BottomSheetEdgePermission {
+            val i = Intent(Settings.ACTION_MANAGE_OVERLAY_PERMISSION, "package:${packageName}".toUri())
+            overlayPermissionLauncher.launch(i)
+
+        }
+        bottom.show(supportFragmentManager, BottomSheetEdgePermission.TAG)
+    }
+
+    private fun isMyLiveWallpaperActive(): Boolean {
+        val wm = WallpaperManager.getInstance(this)
+        val info = wm.wallpaperInfo ?: return false
+        return info.component == ComponentName(this, RippleWallpaperService::class.java)
+    }
 
     override fun surfaceCreated(holder: SurfaceHolder) {
         renderer = WaterDropRenderer(this, holder).also {
             it.onSurfaceSizeChanged(holder.surfaceFrame.width(), holder.surfaceFrame.height())
-            it.setAutoRippleEnabled(prefs.autoRipple)                   // bật random sóng
-            it.setAutoRippleIntervalMs(prefs.autoRippleIntervalMs)      // time random
+            it.setAutoRippleEnabled(prefs.autoRipple)
+            it.setAutoRippleIntervalMs(prefs.autoRippleIntervalMs)
             it.start()
 
             val path = prefs.backgroundPath
@@ -59,51 +163,4 @@ class RippleWallpaperSettingsActivity : BaseActivity<ActivityRippleWallpaperSett
         super.onPause()
         renderer?.setPaused(true)
     }
-
-    override fun setUpViews() {
-        initSurfaceView()
-        eventClick()
-    }
-
-    private fun initSurfaceView() {
-        binding.surfaceView.holder.addCallback(this)
-
-        binding.surfaceView.setOnTouchListener { _, event ->
-            if (event.actionMasked == MotionEvent.ACTION_DOWN || event.actionMasked == MotionEvent.ACTION_MOVE) {
-                renderer?.onTouch(event.x, event.y)
-            }
-            true
-        }
-    }
-
-    private fun eventClick() {
-        binding.btnSetWallpaper.setOnClickListener {
-            if (isMyLiveWallpaperActive()) {
-                sendBroadcast(Intent(ACTION_RIPPLE_BG_CHANGED).setPackage(packageName))
-            } else openSetLiveWallpaper()
-            finish()
-        }
-
-        binding.btnBackWallpaper.setOnClickListener {
-            finish()
-        }
-    }
-
-    private fun openSetLiveWallpaper() {
-        val intent = Intent(WallpaperManager.ACTION_CHANGE_LIVE_WALLPAPER).apply {
-            putExtra(
-                WallpaperManager.EXTRA_LIVE_WALLPAPER_COMPONENT,
-                ComponentName(this@RippleWallpaperSettingsActivity, RippleWallpaperService::class.java)
-            )
-            addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-        }
-        startActivity(intent)
-    }
-
-    private fun isMyLiveWallpaperActive(): Boolean {
-        val wm = WallpaperManager.getInstance(this)
-        val info = wm.wallpaperInfo ?: return false
-        return info.component == ComponentName(this, RippleWallpaperService::class.java)
-    }
-
 }

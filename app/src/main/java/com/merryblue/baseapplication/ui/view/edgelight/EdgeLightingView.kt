@@ -1845,10 +1845,43 @@ class EdgeLightingView @JvmOverloads constructor(context: Context, attrs: Attrib
     fun getInfinityRadiusTopPx(): Float = infinityRadiusTopPx
     fun getInfinityRadiusBottomPx(): Float = infinityRadiusBottomPx
 
-    fun applyEdgeState(s: EdgeLightingState) = batch {
+    private fun setEdgeStyle(s: EdgeLightingState) {
+        when (s.edgeStyleType) {
+            EDGE_LINEAR -> { // linear
+                setPatternEnabled(false)
+                setColors(*s.colors)
+                setLinearStrokeWidthPx(s.iconSizePx)
+            }
 
-        setBackgroundEnabled(s.backgroundEnabled)
-        setEdgeEnabled(s.edgeEnabled)
+            EDGE_PATTERN -> {
+                if (s.vectorResId == R.drawable.ic_none || s.vectorResId == 0) {
+                    setPatternEnabled(false)
+                } else {
+                    setEdgePatternVector(
+                        vectorResId = s.vectorResId,
+                        iconSizePx = s.iconSizePx,
+                        gapPx = (s.advancePx - s.iconSizePx).coerceAtLeast(0f),
+                        rotate = s.rotate,
+                        phaseMultiplier = s.phaseMultiplier,
+                        evenSpacing = true
+                    )
+                }
+                setColors(*s.colors)
+            }
+
+            else -> {
+                setPatternEnabled(false)
+                setEdgeEnabled(false)
+                setNotchType(Advanced.NOTCH_DEFAULT)
+                setSizePx(0f)
+                setTopRadiusPx(0f)
+                setBottomRadiusPx(0f)
+            }
+        }
+    }
+
+    fun applyEdgeState(s: EdgeLightingState) = batch {
+        setEdgeStyle(s)
 
         // speed
         setSpeedMs(s.speedMs)
@@ -1886,39 +1919,9 @@ class EdgeLightingView @JvmOverloads constructor(context: Context, attrs: Attrib
         if (s.infinityHeightPx >= 0f) setInfinityHeightPx(s.infinityHeightPx) else setInfinityHeightAuto()
         if (s.infinityRadiusTopPx >= 0f) setInfinityRadiusTopPx(s.infinityRadiusTopPx) else setInfinityRadiusTopAuto()
 
-        // style
-        when (s.edgeStyleType) {
-            EDGE_LINEAR -> { // linear
-                setPatternEnabled(false)
-                setColors(*s.colors)
-                setLinearStrokeWidthPx(s.iconSizePx)
-            }
+        setBackgroundEnabled(s.backgroundEnabled)
+        setEdgeEnabled(s.isEnableEdgeLighting)
 
-            EDGE_PATTERN -> {
-                if (s.vectorResId == R.drawable.ic_none || s.vectorResId == 0) {
-                    setPatternEnabled(false)
-                } else {
-                    setEdgePatternVector(
-                        vectorResId = s.vectorResId,
-                        iconSizePx = s.iconSizePx,
-                        gapPx = (s.advancePx - s.iconSizePx).coerceAtLeast(0f),
-                        rotate = s.rotate,
-                        phaseMultiplier = s.phaseMultiplier,
-                        evenSpacing = true
-                    )
-                }
-                setColors(*s.colors)
-            }
-
-            else -> {
-                setPatternEnabled(false)
-                setEdgeEnabled(false)
-                setNotchType(Advanced.NOTCH_DEFAULT)
-                setSizePx(0f)
-                setTopRadiusPx(0f)
-                setBottomRadiusPx(0f)
-            }
-        }
     }
 
     fun setBackgroundScaleType(type: EdgeImageScaleType) {
@@ -1941,6 +1944,11 @@ class EdgeLightingView @JvmOverloads constructor(context: Context, attrs: Attrib
         if (!enabled) {
             animator.cancel()
             resetAnimationState()
+            setPatternEnabled(false)
+            setNotchType(Advanced.NOTCH_DEFAULT)
+            setSizePx(0f)
+            setTopRadiusPx(0f)
+            setBottomRadiusPx(0f)
         } else {
             if (isViewAttached && animationEnabled) {
                 resetAnimationState()

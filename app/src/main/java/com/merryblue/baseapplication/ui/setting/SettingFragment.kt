@@ -12,6 +12,7 @@ import androidx.lifecycle.repeatOnLifecycle
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.merryblue.baseapplication.BuildConfig
 import com.merryblue.baseapplication.R
+import com.merryblue.baseapplication.coredata.local.AppPreferences
 import com.merryblue.baseapplication.coredata.model.Setting
 import com.merryblue.baseapplication.databinding.FragmentSettingBinding
 import com.merryblue.baseapplication.helpers.ServiceState.ACTION_EDGE_WALLPAPER_STATE_STOP
@@ -35,7 +36,7 @@ import org.app.core.base.extensions.setupVertical
 
 @AndroidEntryPoint
 class SettingFragment : BaseFragment<FragmentSettingBinding>() {
-    
+    private val prefs by lazy { AppPreferences(requireContext()) }
     private val viewModel: SettingViewModel by viewModels()
     private val homeViewModel: HomeViewModel by viewModels()
     private var adapter: SettingAdapter? = null
@@ -47,6 +48,12 @@ class SettingFragment : BaseFragment<FragmentSettingBinding>() {
             binding.edgeToggle.isChecked = false
             homeViewModel.isToggleEdgeFirstTime = false
         }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        if (homeViewModel.isToggleEdgeFirstTime) homeViewModel.restartOverlay()
+        binding.edgeToggle.isChecked = prefs.edgeState.isEnableEdgeLighting
     }
     
     override fun getLayoutId() = R.layout.fragment_setting
@@ -82,7 +89,6 @@ class SettingFragment : BaseFragment<FragmentSettingBinding>() {
             return
         }
         ContextCompat.startForegroundService(requireContext(), Intent(requireContext(), EdgeLightingOverlayService::class.java))
-        homeViewModel.sendActionBroadcast(ACTION_EDGE_WALLPAPER_STATE_STOP)
     }
 
     private fun stopEdgeOverlay() {
@@ -119,18 +125,6 @@ class SettingFragment : BaseFragment<FragmentSettingBinding>() {
             }
         }
         binding.settingRv.setupVertical(adapter ?: return)
-//        binding.settingRv.addItemDecoration(object : DividerItemDecoration(context, VERTICAL) {
-//
-//            override fun getItemOffsets(outRect: Rect, view: View, parent: RecyclerView, state: RecyclerView.State) {
-//                super.getItemOffsets(outRect, view, parent, state)
-//
-//                val last = parent.adapter?.itemCount ?: 0
-//                if (parent.getChildAdapterPosition(view) == last - 1)
-//                    setDrawable(getMyDrawable(vertical_decorator))
-//                else
-//                    setDrawable(getMyDrawable(vertical_decorator_1px))
-//            }
-//        })
     }
 
     private fun handleItemClick(data: Setting, view: View? = null) {
