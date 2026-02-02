@@ -17,12 +17,12 @@ import com.merryblue.baseapplication.R
 import com.merryblue.baseapplication.coredata.local.AppPreferences
 import com.merryblue.baseapplication.databinding.ActivityColorPickerBinding
 import com.merryblue.baseapplication.helpers.ServiceState.ACTION_EDGE_OVERLAY_CHANGED
-import com.merryblue.baseapplication.helpers.ServiceState.ACTION_EDGE_WALLPAPER_STATE_STOP
 import com.merryblue.baseapplication.helpers.parseHexSafe
 import com.merryblue.baseapplication.helpers.toHex
 import com.merryblue.baseapplication.service.EdgeLightingOverlayService
 import com.merryblue.baseapplication.ui.home.HomeViewModel
 import com.merryblue.baseapplication.ui.home.color.EdgeTab
+import com.merryblue.baseapplication.ui.view.edgelight.model.EdgeLightingState
 import com.merryblue.baseapplication.ui.widget.BottomSheetEdgePermission
 import dagger.hilt.android.AndroidEntryPoint
 import org.app.core.base.BaseActivity
@@ -39,7 +39,6 @@ class ColorPickerActivity : BaseActivity<ActivityColorPickerBinding>() {
         if (Settings.canDrawOverlays(this)) {
             startEdgeOverlay()
         } else {
-            viewModel.isToggleEdgeFirstTime = false
             prefs.edgeState = prefs.edgeState.copy(isEnableEdgeLighting = false)
             finish()
         }
@@ -80,7 +79,6 @@ class ColorPickerActivity : BaseActivity<ActivityColorPickerBinding>() {
     }
 
     private fun startEdgeOverlay() {
-        if (!prefs.isToggleEdgeFirstTime) prefs.isToggleEdgeFirstTime = true
         prefs.edgeState = prefs.edgeState.copy(isEnableEdgeLighting = true)
         ContextCompat.startForegroundService(this, Intent(this, EdgeLightingOverlayService::class.java))
         finish()
@@ -88,7 +86,7 @@ class ColorPickerActivity : BaseActivity<ActivityColorPickerBinding>() {
 
     private fun showBottomSheetEdgePermission() {
         (supportFragmentManager.findFragmentByTag(BottomSheetEdgePermission.TAG) as? BottomSheetDialogFragment)?.dismissAllowingStateLoss()
-        val bottom = BottomSheetEdgePermission {
+        val bottom = BottomSheetEdgePermission.newInstance {
             val i = Intent(Settings.ACTION_MANAGE_OVERLAY_PERMISSION, "package:${packageName}".toUri())
             overlayPermissionLauncher.launch(i)
         }
@@ -109,7 +107,6 @@ class ColorPickerActivity : BaseActivity<ActivityColorPickerBinding>() {
         btnTwoColors.setOnClickListener { renderSelectedTab(EdgeTab.TAB_2) }
 
         btnApply.setOnClickListener {
-            viewModel.saveCacheEdgeState()
             toastMsg(getString(R.string.changes_have_been_applied))
             checkPermissionOverlay()
         }
@@ -358,7 +355,6 @@ class ColorPickerActivity : BaseActivity<ActivityColorPickerBinding>() {
         viewColor2.backgroundTintList = ColorStateList.valueOf(colors[COLOR_2])
         viewColor3.backgroundTintList = ColorStateList.valueOf(colors[COLOR_3])
         viewColor4.backgroundTintList = ColorStateList.valueOf(colors[COLOR_4])
-
         updateCurrentColor()
     }
 

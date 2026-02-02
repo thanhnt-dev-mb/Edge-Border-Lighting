@@ -16,8 +16,8 @@ import android.view.View
 import androidx.core.content.ContextCompat
 import com.merryblue.baseapplication.coredata.local.AppPreferences
 import com.merryblue.baseapplication.helpers.ServiceState.ACTION_EDGE_WALLPAPER_STATE_CHANGED
-import com.merryblue.baseapplication.helpers.ServiceState.ACTION_EDGE_WALLPAPER_STATE_STOP
 import com.merryblue.baseapplication.ui.view.edgelight.EdgeLightingView
+import timber.log.Timber
 
 class EdgeLightingWallpaperService : WallpaperService() {
 
@@ -34,10 +34,6 @@ class EdgeLightingWallpaperService : WallpaperService() {
                             view.setBackgroundEnabled(true)
                             applyStateIfNeeded(force = true)
                         }
-//                        ACTION_EDGE_WALLPAPER_STATE_STOP -> {
-//                            view.setEdgeEnabled(false)
-//                            view.setBackgroundEnabled(false)
-//                        }
                     }
                 }
             }
@@ -84,7 +80,6 @@ class EdgeLightingWallpaperService : WallpaperService() {
 
             val intentFilter = IntentFilter().apply {
                 addAction(ACTION_EDGE_WALLPAPER_STATE_CHANGED)
-                addAction(ACTION_EDGE_WALLPAPER_STATE_STOP)
             }
 
             // Register state-change broadcast receiver (not exported).
@@ -157,7 +152,7 @@ class EdgeLightingWallpaperService : WallpaperService() {
 
         // Apply the latest EdgeLightingState only when necessary (hash changed) or when forced.
         private fun applyStateIfNeeded(force: Boolean) {
-            val s = prefs.edgeState
+            val s = prefs.edgeState.copy(isEnableEdgeLighting = true)
             val hash = s.hashCode()
             if (!force && hash == lastStateHash) return
             lastStateHash = hash

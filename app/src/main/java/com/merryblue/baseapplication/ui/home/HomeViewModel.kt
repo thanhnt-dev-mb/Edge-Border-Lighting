@@ -21,8 +21,6 @@ import com.merryblue.baseapplication.helpers.EdgeStyle.EDGE_LINEAR
 import com.merryblue.baseapplication.helpers.EdgeStyle.EDGE_NONE
 import com.merryblue.baseapplication.helpers.PreviewType.EDGE_WALLPAPER_SCREEN
 import com.merryblue.baseapplication.helpers.PreviewType.RIPPLE_WALLPAPER_SCREEN
-import com.merryblue.baseapplication.helpers.PreviewType.STATIC_WALLPAPER_SCREEN
-import com.merryblue.baseapplication.helpers.ServiceState.ACTION_EDGE_OVERLAY_STOP
 import com.merryblue.baseapplication.helpers.WallpaperType
 import com.merryblue.baseapplication.helpers.dpToPx
 import com.merryblue.baseapplication.ui.iap.BillingRepository
@@ -35,7 +33,9 @@ import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import org.app.core.base.BaseViewModel
+import timber.log.Timber
 import javax.inject.Inject
+import kotlin.Float
 import kotlin.Int
 
 @HiltViewModel
@@ -55,9 +55,6 @@ class HomeViewModel @Inject constructor(
 
     private val _bgBitmap = MutableSharedFlow<Pair<String, Bitmap?>>(replay = 0)
     val bgBitmap = _bgBitmap.asSharedFlow()
-
-    private val _restartOverlay = MutableSharedFlow<Boolean>(replay = 0)
-    val restartOverlay = _restartOverlay.asSharedFlow()
 
     val connectionState = appRepository.networkState
 
@@ -91,12 +88,6 @@ class HomeViewModel @Inject constructor(
         _themeState.value = edgeDataRepository.getDataTopic(topicKey)
     }
 
-    var isToggleEdgeFirstTime
-        get() = appRepository.isToggleEdgeFirstTime
-        set(value) {
-            appRepository.isToggleEdgeFirstTime = value
-        }
-
     var videoUrl: String
         get() = appRepository.videoUrl
         set(value) { appRepository.videoUrl = value }
@@ -109,26 +100,9 @@ class HomeViewModel @Inject constructor(
         get() = appRepository.edgeState
         set(value) { appRepository.edgeState = value }
 
-    fun updateEdgeState(block: (EdgeLightingState) -> EdgeLightingState) {
-        edgeState = block.invoke(edgeState)
-        sendActionBroadcast(ACTION_EDGE_OVERLAY_CHANGED)
-    }
-
-    fun saveCacheEdgeState() {
-        appRepository.cacheEdgeState = edgeState
-    }
-
-    fun loadBackgroundRippleUrl(item: Item, target: TargetSize) {
-        viewModelScope.launch {
-            val bmp = edgeImageRepository.loadBitmap(EdgeImageSource.Url(item.pathUrl), target)
-            _bgBitmap.emit(Pair(RIPPLE_WALLPAPER_SCREEN, bmp))
-        }
-    }
-
-    fun loadEdgeBackgroundUrl(item: Item, target: TargetSize) {
+    private fun getPresetEdgeLighting(item: Item): EdgeLightingState {
         val colorsInt = item.colors?.map(Color::parseColor)?.toIntArray()
-        val newState = edgeState.copy(
-            isEnableEdgeLighting = true,
+        return edgeState.copy(
             notchType = Advanced.NOTCH_DEFAULT,
             direction = Advanced.DIRECTION_CLOCKWISE,
             edgeStyleType = if (colorsInt != null) EDGE_LINEAR else EDGE_NONE,
@@ -143,9 +117,26 @@ class HomeViewModel @Inject constructor(
             rotate = true,
             phaseMultiplier = 0.1f,
             speedMs = 2500L,
+            topRadius = 24f.dpToPx,
+            bottomRadius = 24f.dpToPx,
         )
+    }
 
-        edgeState = newState
+    fun updateEdgeState(block: (EdgeLightingState) -> EdgeLightingState) {
+        edgeState = block.invoke(edgeState)
+        sendActionBroadcast(ACTION_EDGE_OVERLAY_CHANGED)
+    }
+
+    fun loadBackgroundRippleUrl(item: Item, target: TargetSize) {
+        viewModelScope.launch {
+            val bmp = edgeImageRepository.loadBitmap(EdgeImageSource.Url(item.pathUrl), target)
+            _bgBitmap.emit(Pair(RIPPLE_WALLPAPER_SCREEN, bmp))
+        }
+    }
+
+    fun loadEdgeBackgroundUrl(item: Item, target: TargetSize) {
+        Timber.tag("Log_Colors").d("color: ${item.colors}")
+        edgeState = getPresetEdgeLighting(item)
 
         viewModelScope.launch {
             val bmp = edgeImageRepository.loadBitmap(EdgeImageSource.Url(item.pathUrl), target)
@@ -155,9 +146,15 @@ class HomeViewModel @Inject constructor(
     }
 
     fun loadStaticBackgroundUrl(item: Item, target: TargetSize) {
+        if (item.type == WallpaperType.TYPE_EDGE) {
+            Timber.tag("Log_Colors").d("color: ${item.colors}")
+            edgeState = getPresetEdgeLighting(item)
+        }
+
         viewModelScope.launch {
             val originalUrl = if (item.type == WallpaperType.TYPE_VIDEO) item.thumbUrl else item.pathUrl
             val bmp = edgeImageRepository.loadBitmap(EdgeImageSource.Url(originalUrl), target)
+            bmp?.let { sendActionBroadcast(ACTION_EDGE_OVERLAY_CHANGED) }
             _bgBitmap.emit(Pair(EDGE_WALLPAPER_SCREEN, bmp))
         }
     }
@@ -189,16 +186,6 @@ class HomeViewModel @Inject constructor(
         viewModelScope.launch {
             val bmp = edgeImageRepository.loadBitmap(EdgeImageSource.Res(resId), target)
             _bgBitmap.emit(Pair(EDGE_WALLPAPER_SCREEN, bmp))
-        }
-    }
-
-    fun restartOverlay() {
-        viewModelScope.launch {
-            if (appRepository.hasCacheEdgeState()) {
-                edgeState = appRepository.cacheEdgeState.copy(isEnableEdgeLighting = true)
-                appRepository.clearCacheEdgeState()
-                _restartOverlay.emit(true)
-            }
         }
     }
 

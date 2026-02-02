@@ -35,7 +35,6 @@ object ServiceState {
 
     // EdgeLightingWallpaperService
     const val ACTION_EDGE_WALLPAPER_STATE_CHANGED = "com.merryblue.baseapplication.ACTION_EDGE_WALLPAPER_STATE_CHANGED"
-    const val ACTION_EDGE_WALLPAPER_STATE_STOP = "com.merryblue.baseapplication.ACTION_EDGE_WALLPAPER_STATE_STOP"
 
     // VideoWallpaperService
     const val ACTION_VIDEO_WALLPAPER_STATE_CHANGED = "com.merryblue.baseapplication.wallpaper.ACTION_VIDEO_WALLPAPER_STATE_CHANGED"

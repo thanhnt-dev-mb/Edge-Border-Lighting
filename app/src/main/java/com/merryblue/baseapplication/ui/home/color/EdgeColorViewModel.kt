@@ -2,6 +2,7 @@ package com.merryblue.baseapplication.ui.home.color
 
 import android.app.Application
 import android.content.Intent
+import androidx.lifecycle.viewModelScope
 import com.merryblue.baseapplication.R
 import com.merryblue.baseapplication.coredata.AppRepository
 import com.merryblue.baseapplication.coredata.model.edge.EdgeColorItem
@@ -10,9 +11,13 @@ import com.merryblue.baseapplication.helpers.ServiceState.ACTION_EDGE_OVERLAY_CH
 import com.merryblue.baseapplication.helpers.loadColorsFromArray
 import com.merryblue.baseapplication.ui.view.edgelight.model.EdgeLightingState
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.channels.BufferOverflow
+import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.launch
 import org.app.core.base.BaseViewModel
 import javax.inject.Inject
 
@@ -24,8 +29,14 @@ class EdgeColorViewModel @Inject constructor(
 
     private val tabItemsCache = mutableMapOf<EdgeTab, List<EdgeColorItem>>()
 
-    private val _state = MutableStateFlow(EdgeColorState())
-    val state: StateFlow<EdgeColorState> = _state.asStateFlow()
+    private val _state = MutableSharedFlow<EdgeColorState>(
+        replay = 0,
+        extraBufferCapacity = 1,
+        onBufferOverflow = BufferOverflow.DROP_OLDEST
+    )
+    val state = _state.asSharedFlow()
+
+    private var currentState = EdgeColorState()
 
     private val tabArrays: Map<EdgeTab, List<Int>> = mapOf(
         EdgeTab.TAB_4 to listOf(
@@ -85,26 +96,33 @@ class EdgeColorViewModel @Inject constructor(
             item.copy(isSelected = index == safeIndex)
         }
 
-        _state.value = _state.value.copy(
+        currentState = currentState.copy(
             selectedTab = tab,
             items = items,
             selectedIndex = if (items.isEmpty()) -1 else safeIndex
         )
+
+        viewModelScope.launch {
+            _state.emit(currentState)
+        }
     }
 
     private fun selectColor(newIndex: Int) {
-        val current = _state.value
-        if (newIndex == current.selectedIndex) return
-        if (newIndex !in current.items.indices) return
+        if (newIndex == currentState.selectedIndex) return
+        if (newIndex !in currentState.items.indices) return
 
-        val newItems = current.items.mapIndexed { index, item ->
+        val newItems = currentState.items.mapIndexed { index, item ->
             item.copy(isSelected = index == newIndex)
         }
 
-        _state.value = current.copy(
+        currentState = currentState.copy(
             items = newItems,
             selectedIndex = newIndex
         )
+
+        viewModelScope.launch {
+            _state.emit(currentState)
+        }
     }
 
     private fun detectTabFromColors(colors: IntArray): EdgeTab {
@@ -123,7 +141,6 @@ class EdgeColorViewModel @Inject constructor(
     fun loadInitial(defaultTab: EdgeTab = EdgeTab.TAB_4, defaultIndex: Int = 0) {
         val saved = appRepository.edgeState
 
-        // If pattern style is active, color screen is not applicable -> fallback to default
         val isPattern = saved.edgeStyleType == EDGE_PATTERN && saved.patternEnabled
         if (isPattern) {
             setTab(defaultTab, defaultIndex)
@@ -133,7 +150,6 @@ class EdgeColorViewModel @Inject constructor(
         val savedColors = saved.colors
         val tab = detectTabFromColors(savedColors)
 
-        // Load raw items first to resolve the selected index
         val itemsRaw = tabItemsCache.getOrPut(tab) {
             val arrayIds = tabArrays[tab].orEmpty()
             arrayIds.map { EdgeColorItem(app.applicationContext.loadColorsFromArray(it)) }

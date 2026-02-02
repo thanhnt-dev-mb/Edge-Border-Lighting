@@ -6,7 +6,6 @@ import android.content.ComponentName
 import android.content.Intent
 import android.os.Bundle
 import android.provider.Settings
-import androidx.activity.viewModels
 import androidx.core.content.ContextCompat
 import androidx.core.net.toUri
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
@@ -14,24 +13,26 @@ import com.merryblue.baseapplication.R
 import com.merryblue.baseapplication.coredata.local.AppPreferences
 import com.merryblue.baseapplication.databinding.ActivityEdgeWallpaperSettingsBinding
 import com.merryblue.baseapplication.helpers.ServiceState.ACTION_EDGE_WALLPAPER_STATE_CHANGED
-import com.merryblue.baseapplication.helpers.ServiceState.ACTION_EDGE_WALLPAPER_STATE_STOP
 import com.merryblue.baseapplication.service.EdgeLightingOverlayService
 import com.merryblue.baseapplication.service.EdgeLightingWallpaperService
-import com.merryblue.baseapplication.ui.home.HomeViewModel
+import com.merryblue.baseapplication.ui.view.edgelight.model.EdgeLightingState
 import com.merryblue.baseapplication.ui.widget.BottomSheetEdgePermission
+import dagger.hilt.android.AndroidEntryPoint
 import org.app.core.base.BaseActivity
 import org.app.core.base.extensions.toastMsg
+import timber.log.Timber
 import kotlin.getValue
 
+@AndroidEntryPoint
 class EdgeWallpaperSettingsActivity : BaseActivity<ActivityEdgeWallpaperSettingsBinding>() {
     private val prefs by lazy { AppPreferences(this) }
-    private val homeViewModel: HomeViewModel by viewModels()
+    private lateinit var currentEdgeState: EdgeLightingState
+
     private val overlayPermissionLauncher = registerForActivityResult(androidx.activity.result.contract.ActivityResultContracts.StartActivityForResult()) {
         if (Settings.canDrawOverlays(this)) {
             startEdgeOverlay()
         } else {
-            homeViewModel.isToggleEdgeFirstTime = false
-            prefs.edgeState = prefs.edgeState.copy(isEnableEdgeLighting = false)
+            prefs.edgeState = currentEdgeState.copy(isEnableEdgeLighting = false)
             finish()
         }
     }
@@ -54,22 +55,22 @@ class EdgeWallpaperSettingsActivity : BaseActivity<ActivityEdgeWallpaperSettings
     }
 
     private fun showEdgePreview() {
-        val state = prefs.edgeState
+        currentEdgeState = prefs.edgeState
+
         prefs.backgroundPath?.let { path ->
-            binding.edgeViewWallpaper.applyEdgeState(state)
+            binding.edgeViewWallpaper.applyEdgeState(currentEdgeState.copy(isEnableEdgeLighting = true))
             binding.edgeViewWallpaper.setBackgroundFromFilePath(path)
         }
     }
 
     private fun onClickSetLiveWallpaperOrApply() {
-        prefs.clearCacheEdgeState()
-
         if (isMyLiveWallpaperActive()) {
             sendBroadcast(Intent(ACTION_EDGE_WALLPAPER_STATE_CHANGED).setPackage(packageName))
             checkPermissionOverlay()
             return
         }
 
+        prefs.edgeState = currentEdgeState.copy(isEnableEdgeLighting = true)
         openSystemLiveWallpaperPicker(ComponentName(this, EdgeLightingWallpaperService::class.java))
     }
 
@@ -82,15 +83,13 @@ class EdgeWallpaperSettingsActivity : BaseActivity<ActivityEdgeWallpaperSettings
     }
 
     private fun startEdgeOverlay() {
-        if (!prefs.isToggleEdgeFirstTime) prefs.isToggleEdgeFirstTime = true
-        prefs.edgeState = prefs.edgeState.copy(isEnableEdgeLighting = true)
         ContextCompat.startForegroundService(this, Intent(this, EdgeLightingOverlayService::class.java))
         finish()
     }
 
     private fun showBottomSheetEdgePermission() {
         (supportFragmentManager.findFragmentByTag(BottomSheetEdgePermission.TAG) as? BottomSheetDialogFragment)?.dismissAllowingStateLoss()
-        val bottom = BottomSheetEdgePermission {
+        val bottom = BottomSheetEdgePermission.newInstance {
             val i = Intent(Settings.ACTION_MANAGE_OVERLAY_PERMISSION, "package:${packageName}".toUri())
             overlayPermissionLauncher.launch(i)
         }

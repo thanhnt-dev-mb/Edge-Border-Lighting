@@ -84,9 +84,6 @@ class HomeActivity : BaseActivity<ActivityHomeBinding>() {
     private fun initDeviceSupport() {
         prefs.canChangeLive = canHandleIntent(Intent(WallpaperManager.ACTION_CHANGE_LIVE_WALLPAPER))
         prefs.canLiveChooser = canHandleIntent(Intent(WallpaperManager.ACTION_LIVE_WALLPAPER_CHOOSER))
-
-        Timber.tag("Log_CanChangeLive").d("canChangeLive: ${prefs.canChangeLive}")
-        Timber.tag("Log_CanChangeLive").d("canLiveChooser: ${prefs.canLiveChooser}")
     }
 
     override fun setUpObserver() = Unit
