@@ -20,7 +20,7 @@ object WallpaperBgStore {
     fun saveFile(context: Context, bitmap: Bitmap, quality: Int = 92) {
         val file = File(context.filesDir, FILE_NAME)
         FileOutputStream(file).use { out ->
-            bitmap.compress(Bitmap.CompressFormat.PNG, quality.coerceIn(50, 100), out)
+            bitmap.compress(Bitmap.CompressFormat.JPEG, quality.coerceIn(50, 95), out)
             out.flush()
         }
         AppPreferences(context).backgroundPath = file.absolutePath

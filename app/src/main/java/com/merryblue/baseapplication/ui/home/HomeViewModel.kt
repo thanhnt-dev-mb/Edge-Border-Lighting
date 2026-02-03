@@ -23,6 +23,7 @@ import com.merryblue.baseapplication.helpers.PreviewType.EDGE_WALLPAPER_SCREEN
 import com.merryblue.baseapplication.helpers.PreviewType.RIPPLE_WALLPAPER_SCREEN
 import com.merryblue.baseapplication.helpers.WallpaperType
 import com.merryblue.baseapplication.helpers.dpToPx
+import com.merryblue.baseapplication.service.EdgeLightingOverlayService
 import com.merryblue.baseapplication.ui.iap.BillingRepository
 import com.merryblue.baseapplication.ui.view.edgelight.model.EdgeLightingState
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -53,6 +54,9 @@ class HomeViewModel @Inject constructor(
     private val _themeState = MutableStateFlow<Topic?>(null)
     val themeState: StateFlow<Topic?> = _themeState.asStateFlow()
 
+    private val _settingsEdgeLighting = MutableSharedFlow<Unit>(replay = 0)
+    val settingsEdgeLighting = _settingsEdgeLighting.asSharedFlow()
+
     private val _bgBitmap = MutableSharedFlow<Pair<String, Bitmap?>>(replay = 0)
     val bgBitmap = _bgBitmap.asSharedFlow()
 
@@ -78,6 +82,13 @@ class HomeViewModel @Inject constructor(
 
     fun setRate(rate: Int) {
         appRepository.rated = rate
+    }
+
+    fun applySettingEdgeLighting() {
+        if (EdgeLightingOverlayService.isRunning) return
+        viewModelScope.launch {
+            _settingsEdgeLighting.emit(Unit)
+        }
     }
 
     fun loadPreset(topicKey: String) {

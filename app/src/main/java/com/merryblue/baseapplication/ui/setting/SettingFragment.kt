@@ -5,6 +5,7 @@ import android.provider.Settings
 import android.view.View
 import androidx.core.content.ContextCompat
 import androidx.core.net.toUri
+import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
@@ -37,7 +38,7 @@ import org.app.core.base.extensions.setupVertical
 class SettingFragment : BaseFragment<FragmentSettingBinding>() {
     private val prefs by lazy { AppPreferences(requireContext()) }
     private val viewModel: SettingViewModel by viewModels()
-    private val homeViewModel: HomeViewModel by viewModels()
+    private val homeViewModel: HomeViewModel by activityViewModels()
     private var adapter: SettingAdapter? = null
 
     private val overlayPermissionLauncher = registerForActivityResult(androidx.activity.result.contract.ActivityResultContracts.StartActivityForResult()) {
@@ -51,6 +52,7 @@ class SettingFragment : BaseFragment<FragmentSettingBinding>() {
     override fun onResume() {
         super.onResume()
         binding.edgeToggle.isChecked = prefs.edgeState.isEnableEdgeLighting
+        EdgeLightingOverlayService.isRunning = prefs.edgeState.isEnableEdgeLighting
     }
     
     override fun getLayoutId() = R.layout.fragment_setting
@@ -58,8 +60,16 @@ class SettingFragment : BaseFragment<FragmentSettingBinding>() {
     override fun initView(view: View) {
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED) {
-                viewModel.connectionState.collectLatest { connected ->
-                    onNetworkStateChanged(connected)
+                launch {
+                    viewModel.connectionState.collectLatest { connected ->
+                        onNetworkStateChanged(connected)
+                    }
+                }
+
+                launch {
+                    homeViewModel.settingsEdgeLighting.collectLatest {
+                        if (!binding.edgeToggle.isChecked) binding.edgeToggle.isChecked = true
+                    }
                 }
             }
         }
@@ -72,7 +82,6 @@ class SettingFragment : BaseFragment<FragmentSettingBinding>() {
     override fun setUpViews() {
         binding.premiumLayout.setOnSingleClickListener {
             if (viewModel.isPremium() || context == null) return@setOnSingleClickListener
-
             PurchaseActivity.open(requireContext(), "setting")
         }
         setupRecycler()

@@ -19,16 +19,25 @@ import java.util.concurrent.atomic.AtomicReference
 import kotlin.math.max
 import kotlin.math.min
 import kotlin.random.Random
+import androidx.core.graphics.scale
+import androidx.core.graphics.createBitmap
 
 class WaterDropRenderer(
     private val context: Context,
-    private val holder: SurfaceHolder
+    private val holder: SurfaceHolder,
 ) : Thread("WaterDropRenderer") {
 
     private var autoRippleAccNs: Long = 0L
     private var autoRippleNeedImmediate = true
     private val rng = Random(System.nanoTime())
     private val pendingBitmapRef = AtomicReference<Bitmap?>(null)
+
+    // Remember the last chosen background source (so we can reload after GL context loss)
+    @Volatile private var rememberedBgPath: String? = null
+    @Volatile private var rememberedBgUri: Uri? = null
+    @Volatile private var rememberedBgResId: Int? = null
+    @Volatile private var rememberedBgBitmap: Bitmap? = null // owned copy (optional)
+
     @Volatile private var backgroundUrl: String? = null
     @Volatile private var autoRippleIntervalMs: Long = 700L
     @Volatile private var autoRippleMargin = 0.08f
@@ -125,9 +134,14 @@ class WaterDropRenderer(
     fun setBackgroundFromFilePath(path: String) {
         backgroundSourceLocked = true
         backgroundUrl = null
+
+        rememberedBgPath = path
+        rememberedBgUri = null
+        rememberedBgResId = null
+        rememberedBgBitmap = null
+
         submitBackgroundJob {
-            val bmp = BitmapFactory.decodeFile(path)
-            bmp ?: throw IllegalStateException("Decode bitmap failed: $path")
+            BitmapFactory.decodeFile(path) ?: throw IllegalStateException("Decode bitmap failed: $path")
         }
     }
 
@@ -142,12 +156,27 @@ class WaterDropRenderer(
             return
         }
 
+        // Remember owned bitmap (optional)
+        rememberedBgBitmap?.let { old ->
+            if (old != owned && !old.isRecycled) old.recycle()
+        }
+        rememberedBgBitmap = owned
+        rememberedBgPath = null
+        rememberedBgUri = null
+        rememberedBgResId = null
+
         submitBackgroundJob { owned }
     }
 
     fun setBackgroundFromUri(uri: Uri) {
         backgroundSourceLocked = true
         backgroundUrl = null
+
+        rememberedBgUri = uri
+        rememberedBgPath = null
+        rememberedBgResId = null
+        rememberedBgBitmap = null
+
         submitBackgroundJob {
             context.contentResolver.openInputStream(uri)?.use { input ->
                 BitmapFactory.decodeStream(input)
@@ -158,6 +187,12 @@ class WaterDropRenderer(
     fun setBackgroundFromResId(@androidx.annotation.DrawableRes resId: Int) {
         backgroundSourceLocked = true
         backgroundUrl = null
+
+        rememberedBgResId = resId
+        rememberedBgPath = null
+        rememberedBgUri = null
+        rememberedBgBitmap = null
+
         submitBackgroundJob {
             BitmapFactory.decodeResource(context.resources, resId)
                 ?: throw IllegalStateException("Decode bitmap failed: resId=$resId")
@@ -184,10 +219,50 @@ class WaterDropRenderer(
                 }
 
                 val oldPending = pendingBitmapRef.getAndSet(scaled)
-                if (oldPending != null && oldPending !== scaled && !oldPending.isRecycled) {
+                if (oldPending != null && oldPending != scaled && !oldPending.isRecycled) {
                     oldPending.recycle()
                 }
             } catch (_: Throwable) { }
+        }
+    }
+
+    /**
+     * Called after EGL/GL recreated (context-loss).
+     * If we have a remembered background source but no pending bitmap, enqueue reload.
+     */
+    private fun requestReloadBackgroundIfAny() {
+        if (pendingBitmapRef.get() != null) return
+
+        // Prefer bitmap (if remembered)
+        rememberedBgBitmap?.let { bmp ->
+            if (!bmp.isRecycled) {
+                submitBackgroundJob { bmp }
+                return
+            }
+        }
+
+        rememberedBgPath?.let { path ->
+            submitBackgroundJob {
+                BitmapFactory.decodeFile(path) ?: throw IllegalStateException("Decode bitmap failed: $path")
+            }
+            return
+        }
+
+        rememberedBgUri?.let { uri ->
+            submitBackgroundJob {
+                context.contentResolver.openInputStream(uri)?.use { input ->
+                    BitmapFactory.decodeStream(input)
+                } ?: throw IllegalStateException("Decode bitmap failed: $uri")
+            }
+            return
+        }
+
+        rememberedBgResId?.let { resId ->
+            submitBackgroundJob {
+                BitmapFactory.decodeResource(context.resources, resId)
+                    ?: throw IllegalStateException("Decode bitmap failed: resId=$resId")
+            }
+            return
         }
     }
 
@@ -199,8 +274,8 @@ class WaterDropRenderer(
         val w = (bmp.width * s).toInt().coerceAtLeast(1)
         val h = (bmp.height * s).toInt().coerceAtLeast(1)
 
-        val out = Bitmap.createScaledBitmap(bmp, w, h, true)
-        if (out !== bmp && !bmp.isRecycled) bmp.recycle()
+        val out = bmp.scale(w, h)
+        if (out != bmp && !bmp.isRecycled) bmp.recycle()
         return out
     }
 
@@ -208,6 +283,7 @@ class WaterDropRenderer(
         if (!initEgl()) return
         initGlObjects()
 
+        requestReloadBackgroundIfAny()
         lastNs = System.nanoTime()
 
         while (running) {
@@ -237,6 +313,9 @@ class WaterDropRenderer(
                 }
 
                 initGlObjects()
+
+                requestReloadBackgroundIfAny()
+
                 pendingRebuild = true
                 mvpDirty = true
                 lastNs = System.nanoTime()
@@ -307,6 +386,10 @@ class WaterDropRenderer(
 
         // Cleanup pending bitmap
         pendingBitmapRef.getAndSet(null)?.let { if (!it.isRecycled) it.recycle() }
+
+        // Cleanup remembered bitmap
+        rememberedBgBitmap?.let { if (!it.isRecycled) it.recycle() }
+        rememberedBgBitmap = null
     }
 
     private fun dropRandomOnce() {
@@ -343,6 +426,10 @@ class WaterDropRenderer(
         textureId = GLUtil.loadTextureFromBitmap(bmp)
 
         if (!bmp.isRecycled) bmp.recycle()
+
+        GLES20.glActiveTexture(GLES20.GL_TEXTURE0)
+        GLES20.glBindTexture(GLES20.GL_TEXTURE_2D, textureId)
+        GLES20.glUniform1i(uTex0, 0)
     }
 
     private fun waitSurfaceValid(timeoutMs: Long): Boolean {
@@ -579,7 +666,7 @@ class WaterDropRenderer(
         }
 
         fun loadSolidColorTexture(): Int {
-            val bmp = Bitmap.createBitmap(1, 1, Bitmap.Config.ARGB_8888)
+            val bmp = createBitmap(1, 1)
             bmp.eraseColor(0xFF000000.toInt())
             val id = loadTextureFromBitmap(bmp)
             bmp.recycle()

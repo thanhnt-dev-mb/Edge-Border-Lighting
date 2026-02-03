@@ -15,12 +15,14 @@ import com.merryblue.baseapplication.coredata.model.edge.EdgePreset
 import com.merryblue.baseapplication.coredata.model.edge.EdgeSelection
 import com.merryblue.baseapplication.coredata.model.edge.EdgeStyle
 import com.merryblue.baseapplication.databinding.FragmentEdgeColorBinding
+import com.merryblue.baseapplication.service.EdgeLightingOverlayService
 import com.merryblue.baseapplication.ui.home.HomeViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 import org.app.core.base.BaseFragment
+import timber.log.Timber
 
 @AndroidEntryPoint
 class EdgeColorFragment: BaseFragment<FragmentEdgeColorBinding>() {
@@ -33,6 +35,7 @@ class EdgeColorFragment: BaseFragment<FragmentEdgeColorBinding>() {
 
     override fun initView(view: View) {
         edgeColorAdapter = EdgeColorAdapter { index ->
+            homeViewModel.applySettingEdgeLighting()
             viewModel.dispatch(EdgeColorIntent.SelectColor(index))
         }
 
@@ -43,14 +46,23 @@ class EdgeColorFragment: BaseFragment<FragmentEdgeColorBinding>() {
             itemAnimator = null
         }
 
-        viewModel.loadInitial()
+        viewModel.dispatch(EdgeColorIntent.LoadInitial)
         registerOnClick()
     }
 
     private fun registerOnClick() = with(binding) {
-        btnFourColors.setOnClickListener { viewModel.dispatch(EdgeColorIntent.SelectTab(EdgeTab.TAB_4)) }
-        btnThreeColors.setOnClickListener { viewModel.dispatch(EdgeColorIntent.SelectTab(EdgeTab.TAB_3)) }
-        btnTwoColors.setOnClickListener { viewModel.dispatch(EdgeColorIntent.SelectTab(EdgeTab.TAB_2)) }
+        btnFourColors.setOnClickListener {
+            homeViewModel.applySettingEdgeLighting()
+            viewModel.dispatch(EdgeColorIntent.SelectTab(EdgeTab.TAB_4))
+        }
+        btnThreeColors.setOnClickListener {
+            homeViewModel.applySettingEdgeLighting()
+            viewModel.dispatch(EdgeColorIntent.SelectTab(EdgeTab.TAB_3))
+        }
+        btnTwoColors.setOnClickListener {
+            homeViewModel.applySettingEdgeLighting()
+            viewModel.dispatch(EdgeColorIntent.SelectTab(EdgeTab.TAB_2))
+        }
     }
 
     private fun renderSelectedTab(tab: EdgeTab) = with(binding) {
@@ -78,33 +90,24 @@ class EdgeColorFragment: BaseFragment<FragmentEdgeColorBinding>() {
         viewLifecycleOwner.lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
 
-                // 1) Update tab UI when selectedTab changes (IMPORTANT)
                 launch {
-                    viewModel.state
-                        .map { it.selectedTab }
-                        .distinctUntilChanged()
-                        .collect { tab ->
-                            renderSelectedTab(tab)
-                        }
+                    viewModel.state.collect { state ->
+                        renderSelectedTab(state.selectedTab)
+                        edgeColorAdapter.submitList(state.items)
+                    }
                 }
 
-                // 2) Update list + emit preset when selectedIndex changes
                 launch {
-                    viewModel.state
-                        .map { Triple(it.selectedTab, it.selectedIndex, it.items) }
-                        .distinctUntilChanged { old, new ->
-                            old.first == new.first && old.second == new.second && old.third == new.third
-                        }
-                        .collect { (_, index, items) ->
-                            edgeColorAdapter.submitList(items)
-
-                            if (index in items.indices) {
-                                val selected = items[index]
-                                viewModel.updateEdgeState { it.copy(colors = selected.colors) }
+                    viewModel.effect.collect { effect ->
+                        when (effect) {
+                            is EdgeColorEffect.ApplyColors -> {
+                                viewModel.applyColorsToSystem(effect.colors)
                             }
                         }
+                    }
                 }
             }
         }
     }
+
 }

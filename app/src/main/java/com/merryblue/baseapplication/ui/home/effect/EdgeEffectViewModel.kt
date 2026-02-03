@@ -7,13 +7,13 @@ import androidx.lifecycle.viewModelScope
 import com.merryblue.baseapplication.R
 import com.merryblue.baseapplication.coredata.AppRepository
 import com.merryblue.baseapplication.coredata.model.edge.EdgeEffectItem
-import com.merryblue.baseapplication.ui.view.edgelight.model.EdgeLightingState
+import com.merryblue.baseapplication.helpers.EdgeStyle.EDGE_PATTERN
 import com.merryblue.baseapplication.helpers.ServiceState.ACTION_EDGE_OVERLAY_CHANGED
+import com.merryblue.baseapplication.ui.view.edgelight.model.EdgeLightingState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dagger.hilt.android.qualifiers.ApplicationContext
-import kotlinx.coroutines.channels.BufferOverflow
-import kotlinx.coroutines.flow.MutableSharedFlow
-import kotlinx.coroutines.flow.asSharedFlow
+import kotlinx.coroutines.channels.Channel
+import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -21,16 +21,13 @@ import javax.inject.Inject
 class EdgeEffectViewModel @Inject constructor(
     private val appRepository: AppRepository,
     @ApplicationContext private val appContext: Context
-): ViewModel() {
+) : ViewModel() {
 
-    private val _state = MutableSharedFlow<EdgeEffectState>(
-        replay = 0,
-        extraBufferCapacity = 1,
-        onBufferOverflow = BufferOverflow.DROP_OLDEST
-    )
-    val state = _state.asSharedFlow()
+    private val _state = MutableStateFlow(EdgeEffectState())
+    val state: StateFlow<EdgeEffectState> = _state.asStateFlow()
 
-    private var currentState = EdgeEffectState()
+    private val _effect = Channel<EdgeEffectEffect>(Channel.BUFFERED)
+    val effect = _effect.receiveAsFlow()
 
     private val listIconRes = buildList {
         add(EdgeEffectItem(R.drawable.ic_none, false))
@@ -55,40 +52,65 @@ class EdgeEffectViewModel @Inject constructor(
         add(EdgeEffectItem(R.drawable.ic_emoji_bomb, false))
     }
 
+    fun dispatch(intent: EdgeEffectIntent) {
+        when (intent) {
+            is EdgeEffectIntent.LoadInitial -> loadInitialIfNeeded()
+            is EdgeEffectIntent.SelectEffect -> reduceSelectEffect(intent.index)
+            is EdgeEffectIntent.UpdateSize -> updateEdgeStateAndBroadcast { it.copy(iconSizePx = intent.sizePx) }
+            is EdgeEffectIntent.UpdateSpeed -> updateEdgeStateAndBroadcast { it.copy(speedMs = intent.speedMs) }
+            is EdgeEffectIntent.UpdateBottomRadius -> updateEdgeStateAndBroadcast { it.copy(bottomRadius = intent.radiusPx) }
+            is EdgeEffectIntent.UpdateTopRadius -> updateEdgeStateAndBroadcast { it.copy(topRadius = intent.radiusPx) }
+        }
+    }
+
+    private fun loadInitialIfNeeded() {
+        if (_state.value.isLoaded) return
+
+        val savedResId = appRepository.edgeState.vectorResId
+        val index = findEffectIndexByResId(savedResId)
+
+        setEffectInternal(index)
+        _state.update { it.copy(isLoaded = true) }
+    }
+
+    private fun reduceSelectEffect(index: Int) {
+        setEffectInternal(index)
+
+        val items = _state.value.listEffect
+        if (index in items.indices) {
+            val selected = items[index]
+            updateEdgeStateAndBroadcast {
+                it.copy(edgeStyleType = EDGE_PATTERN, vectorResId = selected.resId)
+            }
+        }
+    }
+
+    private fun setEffectInternal(index: Int) {
+        val safeIndex = index.coerceIn(0, listIconRes.size - 1).coerceAtLeast(0)
+        val items = listIconRes.mapIndexed { pos, item ->
+            item.copy(isSelected = pos == safeIndex)
+        }
+
+        _state.update {
+            it.copy(
+                selectedIndex = if (items.isEmpty()) -1 else safeIndex,
+                listEffect = items
+            )
+        }
+    }
+
     private fun findEffectIndexByResId(resId: Int): Int {
         if (resId == 0) return 0
         val idx = listIconRes.indexOfFirst { it.resId == resId }
         return if (idx >= 0) idx else 0
     }
 
-    fun loadEffect(index: Int = 0) {
-        val safeIndex = index.coerceIn(0, listIconRes.size - 1).coerceAtLeast(0)
-        val items = listIconRes.mapIndexed { pos, item ->
-            item.copy(isSelected = pos == safeIndex)
-        }
-
-        currentState = currentState.copy(
-            selectedIndex = if (items.isEmpty()) -1 else safeIndex,
-            listEffect = items
-        )
-
-        viewModelScope.launch {
-            _state.emit(currentState)
-        }
-    }
-
-    fun loadInitialFromSaved() {
-        val savedResId = appRepository.edgeState.vectorResId
-        val idx = findEffectIndexByResId(savedResId)
-        loadEffect(idx)
-    }
-
-    fun updateEdgeState(block: (EdgeLightingState) -> EdgeLightingState) {
+    private fun updateEdgeStateAndBroadcast(block: (EdgeLightingState) -> EdgeLightingState) {
         appRepository.edgeState = block.invoke(appRepository.edgeState)
-        val i = Intent(ACTION_EDGE_OVERLAY_CHANGED).apply {
+        val intent = Intent(ACTION_EDGE_OVERLAY_CHANGED).apply {
             setPackage(appContext.packageName)
         }
-        appContext.sendBroadcast(i)
+        appContext.sendBroadcast(intent)
     }
 
     fun getEdgeState(): EdgeLightingState = appRepository.edgeState
