@@ -2,7 +2,6 @@ package com.merryblue.baseapplication.ui.home.color
 
 import android.view.View
 import androidx.annotation.ColorRes
-import androidx.appcompat.widget.AppCompatImageView
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
@@ -11,18 +10,11 @@ import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.recyclerview.widget.GridLayoutManager
 import com.merryblue.baseapplication.R
-import com.merryblue.baseapplication.coredata.model.edge.EdgePreset
-import com.merryblue.baseapplication.coredata.model.edge.EdgeSelection
-import com.merryblue.baseapplication.coredata.model.edge.EdgeStyle
 import com.merryblue.baseapplication.databinding.FragmentEdgeColorBinding
-import com.merryblue.baseapplication.service.EdgeLightingOverlayService
 import com.merryblue.baseapplication.ui.home.HomeViewModel
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.flow.distinctUntilChanged
-import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 import org.app.core.base.BaseFragment
-import timber.log.Timber
 
 @AndroidEntryPoint
 class EdgeColorFragment: BaseFragment<FragmentEdgeColorBinding>() {

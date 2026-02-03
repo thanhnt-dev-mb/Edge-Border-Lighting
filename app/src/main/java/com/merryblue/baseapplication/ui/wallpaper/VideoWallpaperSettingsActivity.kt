@@ -7,12 +7,13 @@ import android.content.Intent
 import android.os.Bundle
 import android.provider.Settings
 import android.view.View
-import androidx.activity.viewModels
+import androidx.annotation.OptIn
 import androidx.core.content.ContextCompat
 import androidx.core.net.toUri
 import androidx.media3.common.C
 import androidx.media3.common.MediaItem
 import androidx.media3.common.Player
+import androidx.media3.common.util.UnstableApi
 import androidx.media3.exoplayer.ExoPlayer
 import androidx.media3.exoplayer.source.DefaultMediaSourceFactory
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
@@ -20,12 +21,10 @@ import com.merryblue.baseapplication.R
 import com.merryblue.baseapplication.coredata.local.AppPreferences
 import com.merryblue.baseapplication.databinding.ActivityVideoWallpaperSettingsBinding
 import com.merryblue.baseapplication.helpers.ServiceState.ACTION_VIDEO_WALLPAPER_STATE_CHANGED
-import com.merryblue.baseapplication.helpers.canHandleIntent
 import com.merryblue.baseapplication.helpers.video.VideoDataSource
 import com.merryblue.baseapplication.helpers.video.VideoPreloader
-import com.merryblue.baseapplication.service.EdgeLightingOverlayService
-import com.merryblue.baseapplication.service.VideoWallpaperService
-import com.merryblue.baseapplication.ui.home.HomeViewModel
+import com.merryblue.baseapplication.service.edge.EdgeLightingOverlayService
+import com.merryblue.baseapplication.service.edge.VideoWallpaperService
 import com.merryblue.baseapplication.ui.widget.BottomSheetEdgePermission
 import dagger.hilt.android.AndroidEntryPoint
 import org.app.core.base.BaseActivity
@@ -64,6 +63,7 @@ class VideoWallpaperSettingsActivity : BaseActivity<ActivityVideoWallpaperSettin
         binding.btnBackWallpaper.setOnClickListener { finish() }
     }
 
+    @OptIn(UnstableApi::class)
     private fun initVideoPreview() {
         val videoUrl = prefs.videoUrl
         if (videoUrl.isBlank()) {

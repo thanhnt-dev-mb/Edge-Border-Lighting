@@ -18,11 +18,9 @@ import com.merryblue.baseapplication.coredata.model.Setting
 import com.merryblue.baseapplication.databinding.FragmentSettingBinding
 import com.merryblue.baseapplication.helpers.isAppInstalled
 import com.merryblue.baseapplication.helpers.openPolicy
-import com.merryblue.baseapplication.service.EdgeLightingOverlayService
+import com.merryblue.baseapplication.service.edge.EdgeLightingOverlayService
 import com.merryblue.baseapplication.ui.home.HomeViewModel
 import com.merryblue.baseapplication.ui.iap.PurchaseActivity
-import com.merryblue.baseapplication.ui.onboard.language.LanguageActivity
-import com.merryblue.baseapplication.ui.policy.PolicyActivity
 import com.merryblue.baseapplication.ui.widget.BottomSheetRate
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
@@ -31,7 +29,6 @@ import org.app.core.base.BaseFragment
 import org.app.core.base.OnItemClickListener
 import org.app.core.base.binding.setOnSingleClickListener
 import org.app.core.base.extensions.navigateSafe
-import org.app.core.base.extensions.openActivity
 import org.app.core.base.extensions.setupVertical
 
 @AndroidEntryPoint

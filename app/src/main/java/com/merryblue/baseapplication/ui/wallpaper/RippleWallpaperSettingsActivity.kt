@@ -1,15 +1,14 @@
 package com.merryblue.baseapplication.ui.wallpaper
 
+import android.annotation.SuppressLint
 import android.app.WallpaperManager
 import android.content.ActivityNotFoundException
 import android.content.ComponentName
 import android.content.Intent
-import android.graphics.BitmapFactory
 import android.os.Bundle
 import android.provider.Settings
 import android.view.MotionEvent
 import android.view.SurfaceHolder
-import androidx.activity.viewModels
 import androidx.core.content.ContextCompat
 import androidx.core.net.toUri
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
@@ -17,16 +16,13 @@ import com.merryblue.baseapplication.R
 import com.merryblue.baseapplication.coredata.local.AppPreferences
 import com.merryblue.baseapplication.databinding.ActivityRippleWallpaperSettingsBinding
 import com.merryblue.baseapplication.helpers.ServiceState.ACTION_RIPPLE_BG_CHANGED
-import com.merryblue.baseapplication.helpers.canHandleIntent
 import com.merryblue.baseapplication.helpers.ripple.WaterDropRenderer
-import com.merryblue.baseapplication.service.EdgeLightingOverlayService
-import com.merryblue.baseapplication.service.RippleWallpaperService
-import com.merryblue.baseapplication.ui.home.HomeViewModel
+import com.merryblue.baseapplication.service.edge.EdgeLightingOverlayService
+import com.merryblue.baseapplication.service.edge.RippleWallpaperService
 import com.merryblue.baseapplication.ui.widget.BottomSheetEdgePermission
 import dagger.hilt.android.AndroidEntryPoint
 import org.app.core.base.BaseActivity
 import org.app.core.base.extensions.toastMsg
-import kotlin.getValue
 
 @AndroidEntryPoint
 class RippleWallpaperSettingsActivity : BaseActivity<ActivityRippleWallpaperSettingsBinding>(), SurfaceHolder.Callback {
@@ -55,6 +51,7 @@ class RippleWallpaperSettingsActivity : BaseActivity<ActivityRippleWallpaperSett
         registerClicks()
     }
 
+    @SuppressLint("ClickableViewAccessibility")
     private fun initSurfaceView() {
         binding.surfaceView.holder.addCallback(this)
 

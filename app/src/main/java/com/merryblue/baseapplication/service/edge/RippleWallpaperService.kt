@@ -1,4 +1,4 @@
-package com.merryblue.baseapplication.service
+package com.merryblue.baseapplication.service.edge
 
 import android.content.BroadcastReceiver
 import android.content.Context
@@ -11,7 +11,6 @@ import android.view.SurfaceHolder
 import com.merryblue.baseapplication.coredata.local.AppPreferences
 import com.merryblue.baseapplication.helpers.ServiceState.ACTION_RIPPLE_BG_CHANGED
 import com.merryblue.baseapplication.helpers.ripple.WaterDropRenderer
-import timber.log.Timber
 
 class RippleWallpaperService : WallpaperService() {
 

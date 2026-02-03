@@ -2,6 +2,7 @@ package com.merryblue.baseapplication.helpers
 
 import android.content.Context
 import android.graphics.Color
+import androidx.core.graphics.toColorInt
 
 fun Float.mapFloatToRange(min: Float, max: Float): Float {
     val p = this.coerceIn(0f, 1f)
@@ -38,9 +39,9 @@ val String.parseHexSafe: Int?
         val t = trim().replace(" ", "")
         return try {
             when {
-                t.startsWith("#") -> Color.parseColor(t)
-                t.length == 6 -> Color.parseColor("#$t")
-                t.length == 8 -> Color.parseColor("#$t")
+                t.startsWith("#") -> t.toColorInt()
+                t.length == 6 -> "#$t".toColorInt()
+                t.length == 8 -> "#$t".toColorInt()
                 else -> null
             }
         } catch (_: Throwable) {

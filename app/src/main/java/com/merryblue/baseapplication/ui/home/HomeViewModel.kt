@@ -23,7 +23,7 @@ import com.merryblue.baseapplication.helpers.PreviewType.EDGE_WALLPAPER_SCREEN
 import com.merryblue.baseapplication.helpers.PreviewType.RIPPLE_WALLPAPER_SCREEN
 import com.merryblue.baseapplication.helpers.WallpaperType
 import com.merryblue.baseapplication.helpers.dpToPx
-import com.merryblue.baseapplication.service.EdgeLightingOverlayService
+import com.merryblue.baseapplication.service.edge.EdgeLightingOverlayService
 import com.merryblue.baseapplication.ui.iap.BillingRepository
 import com.merryblue.baseapplication.ui.view.edgelight.model.EdgeLightingState
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -36,7 +36,6 @@ import kotlinx.coroutines.launch
 import org.app.core.base.BaseViewModel
 import timber.log.Timber
 import javax.inject.Inject
-import kotlin.Float
 import kotlin.Int
 
 @HiltViewModel

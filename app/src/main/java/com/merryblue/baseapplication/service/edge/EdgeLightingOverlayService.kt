@@ -1,4 +1,4 @@
-package com.merryblue.baseapplication.service
+package com.merryblue.baseapplication.service.edge
 
 import android.app.Notification
 import android.app.NotificationChannel

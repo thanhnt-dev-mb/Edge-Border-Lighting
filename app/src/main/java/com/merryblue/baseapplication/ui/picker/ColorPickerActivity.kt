@@ -11,7 +11,6 @@ import androidx.appcompat.widget.AppCompatEditText
 import androidx.core.content.ContextCompat
 import androidx.core.net.toUri
 import androidx.core.widget.doAfterTextChanged
-import androidx.fragment.app.activityViewModels
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.merryblue.baseapplication.R
 import com.merryblue.baseapplication.coredata.local.AppPreferences
@@ -19,10 +18,9 @@ import com.merryblue.baseapplication.databinding.ActivityColorPickerBinding
 import com.merryblue.baseapplication.helpers.ServiceState.ACTION_EDGE_OVERLAY_CHANGED
 import com.merryblue.baseapplication.helpers.parseHexSafe
 import com.merryblue.baseapplication.helpers.toHex
-import com.merryblue.baseapplication.service.EdgeLightingOverlayService
+import com.merryblue.baseapplication.service.edge.EdgeLightingOverlayService
 import com.merryblue.baseapplication.ui.home.HomeViewModel
 import com.merryblue.baseapplication.ui.home.color.EdgeTab
-import com.merryblue.baseapplication.ui.view.edgelight.model.EdgeLightingState
 import com.merryblue.baseapplication.ui.widget.BottomSheetEdgePermission
 import dagger.hilt.android.AndroidEntryPoint
 import org.app.core.base.BaseActivity

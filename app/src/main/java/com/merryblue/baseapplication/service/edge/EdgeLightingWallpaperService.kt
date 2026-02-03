@@ -1,4 +1,4 @@
-package com.merryblue.baseapplication.service
+package com.merryblue.baseapplication.service.edge
 
 import android.content.BroadcastReceiver
 import android.content.Context
@@ -17,7 +17,6 @@ import androidx.core.content.ContextCompat
 import com.merryblue.baseapplication.coredata.local.AppPreferences
 import com.merryblue.baseapplication.helpers.ServiceState.ACTION_EDGE_WALLPAPER_STATE_CHANGED
 import com.merryblue.baseapplication.ui.view.edgelight.EdgeLightingView
-import timber.log.Timber
 
 class EdgeLightingWallpaperService : WallpaperService() {
 

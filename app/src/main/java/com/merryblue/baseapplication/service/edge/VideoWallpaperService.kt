@@ -1,4 +1,4 @@
-package com.merryblue.baseapplication.service
+package com.merryblue.baseapplication.service.edge
 
 import android.content.BroadcastReceiver
 import android.content.Context
@@ -41,7 +41,7 @@ class VideoWallpaperService : WallpaperService() {
         val filter = IntentFilter(ACTION_VIDEO_WALLPAPER_STATE_CHANGED)
         if (Build.VERSION.SDK_INT >= 33) {
             // For Android 13+, explicitly mark as not exported.
-            registerReceiver(reloadReceiver, filter, Context.RECEIVER_NOT_EXPORTED)
+            registerReceiver(reloadReceiver, filter, RECEIVER_NOT_EXPORTED)
         } else {
             @Suppress("UnspecifiedRegisterReceiverFlag")
             registerReceiver(reloadReceiver, filter)

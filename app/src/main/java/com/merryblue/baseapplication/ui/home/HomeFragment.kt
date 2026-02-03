@@ -34,7 +34,7 @@ import com.merryblue.baseapplication.helpers.cache.WallpaperBgStore
 import com.merryblue.baseapplication.helpers.getFullScreenTargetSize
 import com.merryblue.baseapplication.helpers.updateHeightForCurrentPage
 import com.merryblue.baseapplication.helpers.video.VideoPreloader
-import com.merryblue.baseapplication.service.EdgeLightingOverlayService
+import com.merryblue.baseapplication.service.edge.EdgeLightingOverlayService
 import com.merryblue.baseapplication.ui.picker.ColorPickerActivity
 import com.merryblue.baseapplication.ui.theme.ThemesActivity
 import com.merryblue.baseapplication.ui.wallpaper.EdgeWallpaperSettingsActivity
