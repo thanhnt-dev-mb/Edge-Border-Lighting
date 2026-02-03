@@ -28,7 +28,7 @@ class IntroViewModel @Inject constructor(
 
     fun getRemoteConfiguration() = appRepository.loadAdsConfiguration()
 
-    fun isPremium() = billingRepository.isPurchased()
+    fun isPremium() = true//billingRepository.isPurchased()
 
     fun setCurrentPage(page: Int) {
         currentPage.postValue(page)
@@ -54,13 +54,15 @@ class IntroViewModel @Inject constructor(
     }
 
     fun hideNativeFullPage() : Boolean {
+        //TODO: Temporary disable ads
+        return true
         if (billingRepository.isPurchased()) return true
 
         val remoteConfig = appRepository.loadAdsConfiguration()
         remoteConfig ?: return true
 
         val tagNative = "NativeFullscreenFragment_Native"
-        val nativeAds = remoteConfig.natives?.firstOrNull {
+        val nativeAds = remoteConfig!!.natives?.firstOrNull {
             it.tag == tagNative && !it.id.isNullOrBlank()
         }
 

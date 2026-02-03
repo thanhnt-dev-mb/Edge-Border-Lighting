@@ -55,9 +55,9 @@ enum class IntroPage {
     companion object {
         fun allPage(hideAds: Boolean = false): List<IntroPage> {
             return if (hideAds) {
-                listOf(PAGE_0, PAGE_1, PAGE_2, PAGE_3)
+                listOf(PAGE_0, PAGE_1, PAGE_2)
             } else {
-                listOf(PAGE_0, PAGE_1, PAGE_ADS, PAGE_2, PAGE_3)
+                listOf(PAGE_0, PAGE_1, PAGE_ADS, PAGE_2)
             }
         }
 
