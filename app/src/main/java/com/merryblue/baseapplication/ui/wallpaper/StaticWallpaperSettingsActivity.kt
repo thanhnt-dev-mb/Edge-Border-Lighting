@@ -5,22 +5,19 @@ import android.content.Intent
 import android.graphics.BitmapFactory
 import android.os.Bundle
 import android.provider.Settings
-import androidx.activity.viewModels
 import androidx.core.content.ContextCompat
 import androidx.core.net.toUri
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.merryblue.baseapplication.R
 import com.merryblue.baseapplication.coredata.local.AppPreferences
 import com.merryblue.baseapplication.databinding.ActivityStaticWallpaperSettingsBinding
-import com.merryblue.baseapplication.service.EdgeLightingOverlayService
-import com.merryblue.baseapplication.ui.home.HomeViewModel
+import com.merryblue.baseapplication.service.edge.EdgeLightingOverlayService
 import com.merryblue.baseapplication.ui.widget.BottomSheetEdgePermission
 import com.merryblue.baseapplication.ui.widget.BottomSheetWallpaperTarget
 import com.merryblue.baseapplication.ui.widget.WallpaperTarget
 import dagger.hilt.android.AndroidEntryPoint
 import org.app.core.base.BaseActivity
 import org.app.core.base.extensions.toastMsg
-import kotlin.getValue
 
 @AndroidEntryPoint
 class StaticWallpaperSettingsActivity : BaseActivity<ActivityStaticWallpaperSettingsBinding>() {

@@ -1,4 +1,4 @@
-package com.merryblue.baseapplication.service
+package com.merryblue.baseapplication.service.edge
 
 import android.app.Notification
 import android.app.NotificationChannel
@@ -24,8 +24,13 @@ import com.merryblue.baseapplication.helpers.ServiceState.ACTION_EDGE_OVERLAY_CH
 import com.merryblue.baseapplication.helpers.ServiceState.ACTION_EDGE_OVERLAY_RESTART
 import com.merryblue.baseapplication.helpers.ServiceState.ACTION_EDGE_OVERLAY_STOP
 import com.merryblue.baseapplication.ui.view.edgelight.EdgeLightingView
+import timber.log.Timber
 
 class EdgeLightingOverlayService: Service() {
+
+    companion object {
+        var isRunning = false
+    }
 
     private lateinit var wm: WindowManager
     private var edgeView: EdgeLightingView? = null
@@ -61,10 +66,13 @@ class EdgeLightingOverlayService: Service() {
         super.onCreate()
 
         if (!Settings.canDrawOverlays(this)) {
+            Timber.tag("Log_IsRunning").d("canDrawOverlays: false")
+            isRunning = false
             stopSelf()
             return
         }
-
+        Timber.tag("Log_IsRunning").d("onCreate: true")
+        isRunning = true
         wm = getSystemService(WINDOW_SERVICE) as WindowManager
         startForeground(1, buildNotification())
 
@@ -80,6 +88,8 @@ class EdgeLightingOverlayService: Service() {
     }
 
     override fun onDestroy() {
+        isRunning = false
+        Timber.tag("Log_IsRunning").d("onDestroy: false")
         unregisterEdgeStateReceiverSafe()
         unregisterReceiverSafe()
         hideOverlay()

@@ -7,6 +7,7 @@ import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.Color
+import android.graphics.Point
 import android.graphics.drawable.BitmapDrawable
 import android.os.Build
 import android.view.Gravity
@@ -46,8 +47,30 @@ fun ViewPager2.updateHeightForCurrentPage(extraBottomPx: Int = 0) {
 
 fun Context.getFullScreenTargetSize(): TargetSize {
     val wm = getSystemService(Context.WINDOW_SERVICE) as WindowManager
-    val b = wm.currentWindowMetrics.bounds
-    return TargetSize(b.width(), b.height())
+
+    val (w, h) = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+        // Android 11+
+        val b = wm.currentWindowMetrics.bounds
+        b.width() to b.height()
+    } else {
+        // Android 10 trở xuống
+        @Suppress("DEPRECATION")
+        val display = wm.defaultDisplay
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
+            val p = Point()
+            @Suppress("DEPRECATION")
+            display.getRealSize(p) // full screen (bao gồm system bars)
+            p.x to p.y
+        } else {
+            val p = Point()
+            @Suppress("DEPRECATION")
+            display.getSize(p) // fallback cũ hơn
+            p.x to p.y
+        }
+    }
+
+    return TargetSize(w, h)
 }
 
 fun Context.clearWallpaperSafely() {

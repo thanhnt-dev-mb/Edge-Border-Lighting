@@ -1,13 +1,17 @@
 package com.merryblue.baseapplication.ui.home
 
 import android.content.Intent
+import android.provider.Settings
 import android.widget.Toast
+import androidx.core.content.ContextCompat
+import androidx.core.net.toUri
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.viewpager2.widget.ViewPager2
+import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.google.android.material.tabs.TabLayoutMediator
 import com.merryblue.baseapplication.R
 import com.merryblue.baseapplication.coredata.local.AppPreferences
@@ -30,12 +34,14 @@ import com.merryblue.baseapplication.helpers.cache.WallpaperBgStore
 import com.merryblue.baseapplication.helpers.getFullScreenTargetSize
 import com.merryblue.baseapplication.helpers.updateHeightForCurrentPage
 import com.merryblue.baseapplication.helpers.video.VideoPreloader
+import com.merryblue.baseapplication.service.edge.EdgeLightingOverlayService
 import com.merryblue.baseapplication.ui.picker.ColorPickerActivity
 import com.merryblue.baseapplication.ui.theme.ThemesActivity
 import com.merryblue.baseapplication.ui.wallpaper.EdgeWallpaperSettingsActivity
 import com.merryblue.baseapplication.ui.wallpaper.RippleWallpaperSettingsActivity
 import com.merryblue.baseapplication.ui.wallpaper.StaticWallpaperSettingsActivity
 import com.merryblue.baseapplication.ui.wallpaper.VideoWallpaperSettingsActivity
+import com.merryblue.baseapplication.ui.widget.BottomSheetEdgePermission
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
@@ -54,6 +60,12 @@ class HomeFragment: BaseFragment<FragmentHomeBinding>() {
         startActivity(Intent(requireContext(), ColorPickerActivity::class.java))
     }
 
+    private val overlayPermissionLauncher = registerForActivityResult(androidx.activity.result.contract.ActivityResultContracts.StartActivityForResult()) {
+        if (Settings.canDrawOverlays(requireContext())) {
+            startEdgeOverlay()
+        }
+    }
+
     override fun getLayoutId() = R.layout.fragment_home
 
     override fun setUpViews() {
@@ -61,6 +73,27 @@ class HomeFragment: BaseFragment<FragmentHomeBinding>() {
         initTabLayout()
         initRecyclerView()
         registerOnClick()
+    }
+
+    private fun startEdgeOverlay() {
+        if (!Settings.canDrawOverlays(requireContext())) {
+            showBottomSheetEdgePermission()
+            return
+        }
+
+        if (!EdgeLightingOverlayService.isRunning) {
+            viewModel.updateEdgeState { it.copy(isEnableEdgeLighting = true) }
+            ContextCompat.startForegroundService(requireContext(), Intent(requireContext(), EdgeLightingOverlayService::class.java))
+        }
+    }
+
+    private fun showBottomSheetEdgePermission() {
+        (parentFragmentManager.findFragmentByTag(BottomSheetEdgePermission.TAG) as? BottomSheetDialogFragment)?.dismissAllowingStateLoss()
+        val bottom = BottomSheetEdgePermission.newInstance {
+            val i = Intent(Settings.ACTION_MANAGE_OVERLAY_PERMISSION, "package:${requireContext().packageName}".toUri())
+            overlayPermissionLauncher.launch(i)
+        }
+        bottom.show(parentFragmentManager, BottomSheetEdgePermission.TAG)
     }
 
     private fun initData() {
@@ -74,6 +107,12 @@ class HomeFragment: BaseFragment<FragmentHomeBinding>() {
         binding.apply {
             viewLifecycleOwner.lifecycleScope.launch {
                 viewLifecycleOwner.lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED) {
+
+                    launch {
+                        viewModel.settingsEdgeLighting.collectLatest {
+                            startEdgeOverlay()
+                        }
+                    }
 
                     launch { viewModel.connectionState.collectLatest { onNetworkStateChanged(it) } }
 
@@ -217,6 +256,7 @@ class HomeFragment: BaseFragment<FragmentHomeBinding>() {
                     VideoPreloader.preload(requireContext().applicationContext, item.pathUrl) {
                         AppLoading.closeLoading()
                     }
+                    viewModel.updateEdgeState { it.copy(isEnableEdgeLighting = false) }
                     viewModel.sendActionBroadcast(ACTION_EDGE_OVERLAY_STOP)
                     startActivity(Intent(requireContext(), VideoWallpaperSettingsActivity::class.java))
                 }

@@ -22,9 +22,12 @@ import com.merryblue.baseapplication.ui.view.CustomSeekBar.OnProgressChangeListe
 import com.merryblue.baseapplication.ui.view.edgelight.model.EdgeHoleShape
 import com.merryblue.baseapplication.ui.view.edgelight.model.InfinityShape
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.distinctUntilChanged
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 import org.app.core.base.BaseFragment
-
+import timber.log.Timber
+import kotlin.getValue
 
 @AndroidEntryPoint
 class EdgeAdvancedFragment : BaseFragment<FragmentEdgeAdvancedBinding>() {
@@ -33,24 +36,37 @@ class EdgeAdvancedFragment : BaseFragment<FragmentEdgeAdvancedBinding>() {
     private val homeViewModel: HomeViewModel by activityViewModels()
     private lateinit var directionAdapter: EdgeDirectionAdapter
     private lateinit var notchTypeAdapter: EdgeNotchTypeAdapter
-    private val tabButtonsHole by lazy { listOf(binding.layoutDisplayHole.btnCircleHole, binding.layoutDisplayHole.btnRoundHole) }
-    private val checkIconsHole by lazy { listOf(binding.layoutDisplayHole.ivCircleHole, binding.layoutDisplayHole.ivRoundHole) }
-    private val tabButtonsInfinity by lazy { listOf(binding.layoutDisplayInfinity.btnInfinityU, binding.layoutDisplayInfinity.btnInfinityV) }
-    private val checkIconsInfinity by lazy { listOf(binding.layoutDisplayInfinity.ivInfinityU, binding.layoutDisplayInfinity.ivInfinityV) }
+
+    private val tabButtonsHole by lazy {
+        listOf(binding.layoutDisplayHole.btnCircleHole, binding.layoutDisplayHole.btnRoundHole)
+    }
+    private val checkIconsHole by lazy {
+        listOf(binding.layoutDisplayHole.ivCircleHole, binding.layoutDisplayHole.ivRoundHole)
+    }
+    private val tabButtonsInfinity by lazy {
+        listOf(binding.layoutDisplayInfinity.btnInfinityU, binding.layoutDisplayInfinity.btnInfinityV)
+    }
+    private val checkIconsInfinity by lazy {
+        listOf(binding.layoutDisplayInfinity.ivInfinityU, binding.layoutDisplayInfinity.ivInfinityV)
+    }
 
     override fun getLayoutId(): Int = R.layout.fragment_edge_advanced
 
     override fun initView(view: View) {
         setupRecyclerView()
-        viewModel.loadInitialFromSaved()
+        registerOnClick()
         applyInitialSlidersFromSaved()
         applyInitialTabsFromSaved()
-        registerOnClick()
+        viewModel.dispatch(EdgeAdvancedIntent.LoadInitial)
     }
 
     private fun setupRecyclerView() = with(binding) {
-        directionAdapter = EdgeDirectionAdapter { viewModel.selectDirection(it) }
-        notchTypeAdapter = EdgeNotchTypeAdapter { viewModel.selectNotchType(it) }
+        directionAdapter = EdgeDirectionAdapter {
+            viewModel.dispatch(EdgeAdvancedIntent.SelectDirection(it))
+        }
+        notchTypeAdapter = EdgeNotchTypeAdapter {
+            viewModel.dispatch(EdgeAdvancedIntent.SelectNotchType(it))
+        }
 
         rcvDirection.apply {
             adapter = directionAdapter
@@ -102,167 +118,230 @@ class EdgeAdvancedFragment : BaseFragment<FragmentEdgeAdvancedBinding>() {
     private fun applyInitialTabsFromSaved() {
         val s = viewModel.getEdgeState()
         showNotchTypeUi(s.notchType)
-        notchHoleUI(s.holeShape)
-        notchInfinityUI(s.infinityShape)
     }
 
     private fun registerOnClick() = with(binding) {
-
+        // NOTCH SEEKBARS
         layoutDisplayNotch.apply {
             seekBarNotchWidth.setOnProgressChangeListener(object : OnProgressChangeListener {
                 override fun onProgressChanged(seekBar: CustomSeekBar, progress: Float, fromUser: Boolean) {
                     if (!fromUser) return
+                    homeViewModel.applySettingEdgeLighting()
                     val fraction = progress.mapFloatToRange(min = 0.25f, max = 0.65f)
-                    viewModel.updateEdgeState { it.copy(notchWidthFraction = fraction) }
+                    viewModel.dispatch(EdgeAdvancedIntent.UpdateNotchWidth(fraction))
                 }
             })
 
             seekBarNotchHeight.setOnProgressChangeListener(object : OnProgressChangeListener {
                 override fun onProgressChanged(seekBar: CustomSeekBar, progress: Float, fromUser: Boolean) {
                     if (!fromUser) return
+                    homeViewModel.applySettingEdgeLighting()
                     val heightPx = progress.mapFloatToRange(min = 10f.dpToPx, max = 80f.dpToPx)
-                    viewModel.updateEdgeState { it.copy(notchHeightPx = heightPx) }
+                    viewModel.dispatch(EdgeAdvancedIntent.UpdateNotchHeight(heightPx))
                 }
             })
 
             seekBarNotchTopRadius.setOnProgressChangeListener(object : OnProgressChangeListener {
                 override fun onProgressChanged(seekBar: CustomSeekBar, progress: Float, fromUser: Boolean) {
                     if (!fromUser) return
+                    homeViewModel.applySettingEdgeLighting()
                     val topRadiusPx = progress.mapFloatToRange(min = 0f.dpToPx, max = 40f.dpToPx)
-                    viewModel.updateEdgeState { it.copy(notchTopRadiusPx = topRadiusPx) }
+                    viewModel.dispatch(EdgeAdvancedIntent.UpdateNotchTopRadius(topRadiusPx))
                 }
             })
 
             seekBarNotchBottomRadius.setOnProgressChangeListener(object : OnProgressChangeListener {
                 override fun onProgressChanged(seekBar: CustomSeekBar, progress: Float, fromUser: Boolean) {
                     if (!fromUser) return
+                    homeViewModel.applySettingEdgeLighting()
                     val bottomRadiusPx = progress.mapFloatToRange(0f.dpToPx, 60f.dpToPx)
-                    viewModel.updateEdgeState { it.copy(notchBottomRadiusPx = bottomRadiusPx) }
+                    viewModel.dispatch(EdgeAdvancedIntent.UpdateNotchBottomRadius(bottomRadiusPx))
                 }
             })
 
             seekBarNotchBottomFullness.setOnProgressChangeListener(object : OnProgressChangeListener {
                 override fun onProgressChanged(seekBar: CustomSeekBar, progress: Float, fromUser: Boolean) {
                     if (!fromUser) return
-                    viewModel.updateEdgeState { it.copy(notchBottomFullness = progress) }
+                    homeViewModel.applySettingEdgeLighting()
+                    viewModel.dispatch(EdgeAdvancedIntent.UpdateNotchBottomFullness(progress))
                 }
             })
         }
 
+        // HOLE TAB BUTTONS & SEEKBARS
         layoutDisplayHole.apply {
-
             btnCircleHole.setOnClickListener {
-                notchHoleUI(EdgeHoleShape.CIRCLE)
-                viewModel.updateEdgeState { it.copy(holeShape = EdgeHoleShape.CIRCLE) }
+                homeViewModel.applySettingEdgeLighting()
+                viewModel.dispatch(EdgeAdvancedIntent.SelectHoleShape(EdgeHoleShape.CIRCLE))
             }
 
             btnRoundHole.setOnClickListener {
-                notchHoleUI(EdgeHoleShape.ROUND)
-                viewModel.updateEdgeState { it.copy(holeShape = EdgeHoleShape.ROUND) }
+                homeViewModel.applySettingEdgeLighting()
+                viewModel.dispatch(EdgeAdvancedIntent.SelectHoleShape(EdgeHoleShape.ROUND))
             }
 
             seekBarHoleLeft.setOnProgressChangeListener(object : OnProgressChangeListener {
                 override fun onProgressChanged(seekBar: CustomSeekBar, progress: Float, fromUser: Boolean) {
                     if (!fromUser) return
-                    viewModel.updateEdgeState { it.copy(holeOffsetX = progress) }
+                    homeViewModel.applySettingEdgeLighting()
+                    viewModel.dispatch(EdgeAdvancedIntent.UpdateHoleOffsetX(progress))
                 }
             })
 
             seekBarHoleTop.setOnProgressChangeListener(object : OnProgressChangeListener {
                 override fun onProgressChanged(seekBar: CustomSeekBar, progress: Float, fromUser: Boolean) {
                     if (!fromUser) return
-                    viewModel.updateEdgeState { it.copy(holeOffsetY = progress) }
+                    homeViewModel.applySettingEdgeLighting()
+                    viewModel.dispatch(EdgeAdvancedIntent.UpdateHoleOffsetY(progress))
                 }
             })
 
             seekBarHoleRadius.setOnProgressChangeListener(object : OnProgressChangeListener {
                 override fun onProgressChanged(seekBar: CustomSeekBar, progress: Float, fromUser: Boolean) {
                     if (!fromUser) return
+                    homeViewModel.applySettingEdgeLighting()
                     val r = progress.mapFloatToRange(6f.dpToPx, 30f.dpToPx)
-                    viewModel.updateEdgeState { it.copy(holeRadius = r) }
+                    viewModel.dispatch(EdgeAdvancedIntent.UpdateHoleRadius(r))
                 }
             })
 
             seekBarHoleRoundWidth.setOnProgressChangeListener(object : OnProgressChangeListener {
                 override fun onProgressChanged(seekBar: CustomSeekBar, progress: Float, fromUser: Boolean) {
                     if (!fromUser) return
+                    homeViewModel.applySettingEdgeLighting()
                     val w = progress.mapFloatToRange(40f.dpToPx, 180f.dpToPx)
-                    viewModel.updateEdgeState { it.copy(holeWidthPx = w) }
+                    viewModel.dispatch(EdgeAdvancedIntent.UpdateHoleWidth(w))
                 }
             })
 
             seekBarHoleRoundHeight.setOnProgressChangeListener(object : OnProgressChangeListener {
                 override fun onProgressChanged(seekBar: CustomSeekBar, progress: Float, fromUser: Boolean) {
                     if (!fromUser) return
+                    homeViewModel.applySettingEdgeLighting()
                     val h = progress.mapFloatToRange(16f.dpToPx, 80f.dpToPx)
-                    viewModel.updateEdgeState { it.copy(holeHeightPx = h) }
+                    viewModel.dispatch(EdgeAdvancedIntent.UpdateHoleHeight(h))
                 }
             })
 
             seekBarHoleCorner.setOnProgressChangeListener(object : OnProgressChangeListener {
                 override fun onProgressChanged(seekBar: CustomSeekBar, progress: Float, fromUser: Boolean) {
                     if (!fromUser) return
+                    homeViewModel.applySettingEdgeLighting()
                     val cr = progress.mapFloatToRange(0f.dpToPx, 40f.dpToPx)
-                    viewModel.updateEdgeState { it.copy(holeCornerRadiusPx = cr) }
+                    viewModel.dispatch(EdgeAdvancedIntent.UpdateHoleCornerRadius(cr))
                 }
             })
         }
 
+        // INFINITY TAB BUTTONS & SEEKBARS
         layoutDisplayInfinity.apply {
-
             btnInfinityU.setOnClickListener {
-                notchInfinityUI(InfinityShape.U)
-                viewModel.updateEdgeState { it.copy(infinityShape = InfinityShape.U) }
+                homeViewModel.applySettingEdgeLighting()
+                viewModel.dispatch(EdgeAdvancedIntent.SelectInfinityShape(InfinityShape.U))
             }
 
             btnInfinityV.setOnClickListener {
-                notchInfinityUI(InfinityShape.V)
-                viewModel.updateEdgeState { it.copy(infinityShape = InfinityShape.V) }
+                homeViewModel.applySettingEdgeLighting()
+                viewModel.dispatch(EdgeAdvancedIntent.SelectInfinityShape(InfinityShape.V))
             }
 
             seekBarInfinityWidth.setOnProgressChangeListener(object : OnProgressChangeListener {
                 override fun onProgressChanged(seekBar: CustomSeekBar, progress: Float, fromUser: Boolean) {
                     if (!fromUser) return
+                    homeViewModel.applySettingEdgeLighting()
                     val value = progress.mapFloatToRange(60f.dpToPx, 360f.dpToPx)
-                    viewModel.updateEdgeState { it.copy(infinityWidthPx = value) }
+                    viewModel.dispatch(EdgeAdvancedIntent.UpdateInfinityWidth(value))
                 }
             })
 
             seekBarInfinityHeight.setOnProgressChangeListener(object : OnProgressChangeListener {
                 override fun onProgressChanged(seekBar: CustomSeekBar, progress: Float, fromUser: Boolean) {
                     if (!fromUser) return
+                    homeViewModel.applySettingEdgeLighting()
                     val value = progress.mapFloatToRange(0f.dpToPx, 140f.dpToPx)
-                    viewModel.updateEdgeState { it.copy(infinityHeightPx = value) }
+                    viewModel.dispatch(EdgeAdvancedIntent.UpdateInfinityHeight(value))
                 }
             })
 
             seekBarInfinityTop.setOnProgressChangeListener(object : OnProgressChangeListener {
                 override fun onProgressChanged(seekBar: CustomSeekBar, progress: Float, fromUser: Boolean) {
                     if (!fromUser) return
+                    homeViewModel.applySettingEdgeLighting()
                     val value = progress.mapFloatToRange(0f.dpToPx, 60f.dpToPx)
-                    viewModel.updateEdgeState { it.copy(infinityRadiusTopPx = value) }
+                    viewModel.dispatch(EdgeAdvancedIntent.UpdateInfinityTopRadius(value))
                 }
             })
         }
     }
 
-    private fun selectTab(tabButtons: List<View>, checkIcons: List<AppCompatImageView>, selectedBtn: View, selectedCheck: AppCompatImageView) {
+    override fun initObserver() {
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewLifecycleOwner.lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED) {
+
+                // Observe state changes
+                launch {
+                    viewModel.state.collect { state ->
+                        directionAdapter.submitList(state.listDirection)
+                        notchTypeAdapter.submitList(state.listNotchType)
+
+                        // Render UI based on current selections
+                        showNotchTypeUi(state.currentNotchType)
+                    }
+                }
+
+                // Observe hole shape changes separately
+                launch {
+                    viewModel.state
+                        .map { it.currentHoleShape }
+                        .distinctUntilChanged()
+                        .collect { holeShape ->
+                            renderHoleShapeUI(holeShape)
+                        }
+                }
+
+                // Observe infinity shape changes separately
+                launch {
+                    viewModel.state
+                        .map { it.currentInfinityShape }
+                        .distinctUntilChanged()
+                        .collect { infinityShape ->
+                            renderInfinityShapeUI(infinityShape)
+                        }
+                }
+
+                // Observe effects
+                launch {
+                    viewModel.effect.collect { effect ->
+                        when (effect) {
+                            is EdgeAdvancedEffect.RefreshLayout -> requestUpdateLayout()
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    private fun selectTab(
+        tabButtons: List<View>,
+        checkIcons: List<AppCompatImageView>,
+        selectedBtn: View,
+        selectedCheck: AppCompatImageView
+    ) {
         tabButtons.forEach { it.setBackgroundResource(R.drawable.bg_tab_color_edge_unselected) }
         checkIcons.forEach { it.setImageResource(R.drawable.ic_check_unselected) }
         selectedBtn.setBackgroundResource(R.drawable.bg_tab_color_edge_selected)
         selectedCheck.setImageResource(R.drawable.ic_check_selected)
     }
 
-    private fun notchInfinityUI(infinityShape: InfinityShape) = binding.layoutDisplayInfinity.apply {
+    private fun renderInfinityShapeUI(infinityShape: InfinityShape) = binding.layoutDisplayInfinity.apply {
         if (infinityShape == InfinityShape.U) {
-            selectTab(tabButtonsInfinity, checkIconsInfinity,btnInfinityU, ivInfinityU)
+            selectTab(tabButtonsInfinity, checkIconsInfinity, btnInfinityU, ivInfinityU)
         } else {
-            selectTab(tabButtonsInfinity, checkIconsInfinity,btnInfinityV, ivInfinityV)
+            selectTab(tabButtonsInfinity, checkIconsInfinity, btnInfinityV, ivInfinityV)
         }
-        requestUpdateLayout()
     }
 
-    private fun notchHoleUI(edgeHoleShape: EdgeHoleShape) = binding.layoutDisplayHole.apply {
+    private fun renderHoleShapeUI(edgeHoleShape: EdgeHoleShape) = binding.layoutDisplayHole.apply {
         if (edgeHoleShape == EdgeHoleShape.CIRCLE) {
             seekBarHoleRadius.visibility = View.VISIBLE
             tvHoleHeight.visibility = View.GONE
@@ -280,41 +359,9 @@ class EdgeAdvancedFragment : BaseFragment<FragmentEdgeAdvancedBinding>() {
             seekBarHoleRadius.visibility = View.GONE
             selectTab(tabButtonsHole, checkIconsHole, btnRoundHole, ivRoundHole)
         }
-        requestUpdateLayout()
     }
 
-    override fun initObserver() {
-        viewLifecycleOwner.lifecycleScope.launch {
-            viewLifecycleOwner.lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED) {
-                launch {
-                    viewModel.directionStateFlow.collect { state ->
-                        val directionIndex = state.directionSelectedIndex
-                        val directionItems = state.listDirection
-                        directionAdapter.submitList(directionItems)
-                        if (directionIndex in directionItems.indices) {
-                            val selected = directionItems[directionIndex]
-                            viewModel.updateEdgeState { it.copy(direction = selected.type) }
-                        }
-                    }
-                }
-
-                launch {
-                    viewModel.notchTypeStateFlow.collect { state ->
-                        val notchTypeIndex = state.notchTypeSelectedIndex
-                        val notchTypeItems = state.listNotchType
-                        notchTypeAdapter.submitList(notchTypeItems)
-                        if (notchTypeIndex in notchTypeItems.indices) {
-                            val selected = notchTypeItems[notchTypeIndex]
-                            viewModel.updateEdgeState { it.copy(notchType = selected.type) }
-                            showNotchTypeUi(selected.type)
-                        }
-                    }
-                }
-            }
-        }
-    }
-
-    private fun showNotchTypeUi(type: Advanced) = with (binding) {
+    private fun showNotchTypeUi(type: Advanced) = with(binding) {
         when (type) {
             Advanced.NOTCH_DEFAULT -> {
                 layoutDisplayNotch.root.visibility = View.GONE
@@ -342,11 +389,9 @@ class EdgeAdvancedFragment : BaseFragment<FragmentEdgeAdvancedBinding>() {
 
             else -> Unit
         }
-
-        requestUpdateLayout()
     }
 
     private fun requestUpdateLayout() {
-       binding.root.post { (parentFragment as? HomeFragment)?.onChildContentExpanded() }
+        binding.root.post { (parentFragment as? HomeFragment)?.onChildContentExpanded() }
     }
 }

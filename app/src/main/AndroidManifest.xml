@@ -162,7 +162,7 @@
             </intent-filter>
         </service>
         <service
-            android:name=".service.RippleWallpaperService"
+            android:name=".service.edge.RippleWallpaperService"
             android:exported="true"
             android:permission="android.permission.BIND_WALLPAPER">
             <intent-filter>
@@ -174,7 +174,7 @@
                 android:resource="@xml/ripple_wallpaper" />
         </service>
         <service
-            android:name=".service.EdgeLightingWallpaperService"
+            android:name=".service.edge.EdgeLightingWallpaperService"
             android:exported="true"
             android:permission="android.permission.BIND_WALLPAPER">
             <intent-filter>
@@ -186,7 +186,7 @@
                 android:resource="@xml/edge_lighting_wallpaper" />
         </service>
         <service
-            android:name=".service.VideoWallpaperService"
+            android:name=".service.edge.VideoWallpaperService"
             android:exported="true"
             android:permission="android.permission.BIND_WALLPAPER">
             <intent-filter>
@@ -198,7 +198,7 @@
                 android:resource="@xml/video_wallpaper" />
         </service>
         <service
-            android:name=".service.EdgeLightingOverlayService"
+            android:name=".service.edge.EdgeLightingOverlayService"
             android:exported="false"
             android:foregroundServiceType="specialUse" />
 

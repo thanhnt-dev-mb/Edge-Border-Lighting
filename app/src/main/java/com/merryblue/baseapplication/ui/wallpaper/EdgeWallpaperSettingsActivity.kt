@@ -13,14 +13,13 @@ import com.merryblue.baseapplication.R
 import com.merryblue.baseapplication.coredata.local.AppPreferences
 import com.merryblue.baseapplication.databinding.ActivityEdgeWallpaperSettingsBinding
 import com.merryblue.baseapplication.helpers.ServiceState.ACTION_EDGE_WALLPAPER_STATE_CHANGED
-import com.merryblue.baseapplication.service.EdgeLightingOverlayService
-import com.merryblue.baseapplication.service.EdgeLightingWallpaperService
+import com.merryblue.baseapplication.service.edge.EdgeLightingOverlayService
+import com.merryblue.baseapplication.service.edge.EdgeLightingWallpaperService
 import com.merryblue.baseapplication.ui.view.edgelight.model.EdgeLightingState
 import com.merryblue.baseapplication.ui.widget.BottomSheetEdgePermission
 import dagger.hilt.android.AndroidEntryPoint
 import org.app.core.base.BaseActivity
 import org.app.core.base.extensions.toastMsg
-import timber.log.Timber
 import kotlin.getValue
 
 @AndroidEntryPoint

@@ -212,6 +212,7 @@ class ThemeChildFragment: BaseFragment<FragmentThemeChildBinding>() {
                     VideoPreloader.preload(requireContext().applicationContext, item.pathUrl) {
                         AppLoading.closeLoading()
                     }
+                    homeViewModel.updateEdgeState { it.copy(isEnableEdgeLighting = false) }
                     homeViewModel.sendActionBroadcast(ACTION_EDGE_OVERLAY_STOP)
                     startActivity(Intent(requireContext(), VideoWallpaperSettingsActivity::class.java))
                 }

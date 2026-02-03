@@ -46,6 +46,7 @@ import com.merryblue.baseapplication.ui.view.edgelight.model.InfinityParams
 import com.merryblue.baseapplication.ui.view.edgelight.model.InfinityShape
 import com.merryblue.baseapplication.ui.view.edgelight.model.OffsetRange
 import com.merryblue.baseapplication.ui.view.edgelight.model.VectorPathResult
+import timber.log.Timber
 
 class EdgeLightingView @JvmOverloads constructor(context: Context, attrs: AttributeSet? = null) : View(context, attrs) {
 
@@ -1694,6 +1695,8 @@ class EdgeLightingView @JvmOverloads constructor(context: Context, attrs: Attrib
     fun getHoleShape(): EdgeHoleShape = holeShape
 
     fun setHoleOffsetX(px: Float) {
+        Timber.tag("Log_HoleOffset").d("holeX: $progress")
+
         if (holeOffsetX == px) return
         holeOffsetX = px
         if (notchType == Advanced.NOTCH_DISPLAY_HOLE) clampHoleOffsetsForCurrentConfig()
@@ -1702,6 +1705,8 @@ class EdgeLightingView @JvmOverloads constructor(context: Context, attrs: Attrib
     }
 
     fun setHoleOffsetY(px: Float) {
+        Timber.tag("Log_HoleOffset").d("holeY: $progress")
+
         if (holeOffsetY == px) return
         holeOffsetY = px
         if (notchType == Advanced.NOTCH_DISPLAY_HOLE) clampHoleOffsetsForCurrentConfig()
@@ -1906,8 +1911,8 @@ class EdgeLightingView @JvmOverloads constructor(context: Context, attrs: Attrib
 
         // hole params
         setHoleShape(s.holeShape)
-        setHoleOffsetX(s.holeOffsetX)
-        setHoleOffsetY(s.holeOffsetY)
+        setHoleOffsetXProgress(s.holeOffsetX)
+        setHoleOffsetYProgress(s.holeOffsetY)
         setHoleCircleRadiusPx(s.holeRadius)
         setHoleRoundWidthPx(s.holeWidthPx)
         setHoleRoundHeightPx(s.holeHeightPx)
