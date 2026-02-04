@@ -32,6 +32,7 @@ import com.merryblue.baseapplication.helpers.TYPE_THEME
 import com.merryblue.baseapplication.helpers.WallpaperType
 import com.merryblue.baseapplication.helpers.cache.WallpaperBgStore
 import com.merryblue.baseapplication.helpers.getFullScreenTargetSize
+import com.merryblue.baseapplication.helpers.openProperNetworkSettings
 import com.merryblue.baseapplication.helpers.updateHeightForCurrentPage
 import com.merryblue.baseapplication.helpers.video.VideoPreloader
 import com.merryblue.baseapplication.service.edge.EdgeLightingOverlayService
@@ -42,10 +43,12 @@ import com.merryblue.baseapplication.ui.wallpaper.RippleWallpaperSettingsActivit
 import com.merryblue.baseapplication.ui.wallpaper.StaticWallpaperSettingsActivity
 import com.merryblue.baseapplication.ui.wallpaper.VideoWallpaperSettingsActivity
 import com.merryblue.baseapplication.ui.widget.BottomSheetEdgePermission
+import com.merryblue.baseapplication.ui.widget.BottomSheetNoInternet
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import org.app.core.base.BaseFragment
+import timber.log.Timber
 
 @AndroidEntryPoint
 class HomeFragment: BaseFragment<FragmentHomeBinding>() {
@@ -114,7 +117,12 @@ class HomeFragment: BaseFragment<FragmentHomeBinding>() {
                         }
                     }
 
-                    launch { viewModel.connectionState.collectLatest { onNetworkStateChanged(it) } }
+                    launch {
+                        viewModel.connectionState.collectLatest {
+                            onNetworkStateChanged(it)
+                            handleNoInternetBottomSheet(it)
+                        }
+                    }
 
                     launch {
                         viewModel.presetState.collectLatest { preset ->
@@ -172,6 +180,23 @@ class HomeFragment: BaseFragment<FragmentHomeBinding>() {
             }
         }
     }
+
+    private fun handleNoInternetBottomSheet(isConnected: Boolean) {
+        val fm = parentFragmentManager
+        val current = fm.findFragmentByTag(BottomSheetNoInternet.TAG) as? BottomSheetDialogFragment
+
+        if (isConnected) {
+            if (current?.dialog?.isShowing == true) current.dismissAllowingStateLoss()
+            return
+        }
+
+        if (current?.dialog?.isShowing == true) return
+
+        BottomSheetNoInternet.newInstance {
+            requireContext().openProperNetworkSettings()
+        }.show(fm, BottomSheetNoInternet.TAG)
+    }
+
 
     private fun initRecyclerView() {
 

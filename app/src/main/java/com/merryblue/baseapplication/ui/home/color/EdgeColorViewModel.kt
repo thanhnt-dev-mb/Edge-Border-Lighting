@@ -36,8 +36,16 @@ class EdgeColorViewModel @Inject constructor(
             R.array.edge_4_2_1, R.array.edge_4_2_2, R.array.edge_4_2_3, R.array.edge_4_2_4,
             R.array.edge_4_3_1, R.array.edge_4_3_2, R.array.edge_4_3_3, R.array.edge_4_3_4,
         ),
-        EdgeTab.TAB_3 to List(12) { R.array.edge_3_1_2 },
-        EdgeTab.TAB_2 to List(12) { R.array.edge_2_1_2 }
+        EdgeTab.TAB_3 to listOf(
+            R.array.edge_3_1_1, R.array.edge_3_1_2, R.array.edge_3_1_3, R.array.edge_3_1_4,
+            R.array.edge_3_2_1, R.array.edge_3_2_2, R.array.edge_3_2_3, R.array.edge_3_2_4,
+            R.array.edge_3_3_1, R.array.edge_3_3_2, R.array.edge_3_3_3, R.array.edge_3_3_4
+        ),
+        EdgeTab.TAB_2 to listOf(
+            R.array.edge_2_1_1, R.array.edge_2_1_2, R.array.edge_2_1_3, R.array.edge_2_1_4,
+            R.array.edge_2_2_1, R.array.edge_2_2_2, R.array.edge_2_2_3, R.array.edge_2_2_4,
+            R.array.edge_2_3_1, R.array.edge_2_3_2, R.array.edge_2_3_3, R.array.edge_2_3_4,
+        )
     )
 
     fun dispatch(intent: EdgeColorIntent) {

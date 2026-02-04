@@ -123,19 +123,129 @@
     </integer-array>
 
     <integer-array name="edge_3_1_2">
-        <item>@color/color_edge_green_sage</item>
-        <item>@color/color_edge_orange_terracotta</item>
-        <item>@color/color_edge_pink_magenta</item>
+        <item>@color/color_FFC308</item>
+        <item>@color/color_FA0287</item>
+        <item>@color/color_0079FF</item>
+    </integer-array>
+
+    <integer-array name="edge_3_1_3">
+        <item>@color/color_3194A9</item>
+        <item>@color/color_F14835</item>
+        <item>@color/color_8AD439</item>
+    </integer-array>
+
+    <integer-array name="edge_3_1_4">
+        <item>@color/color_FC3530</item>
+        <item>@color/color_49C648</item>
+        <item>@color/color_FFBB02</item>
+    </integer-array>
+
+    <integer-array name="edge_3_2_1">
+        <item>@color/color_FCE93</item>
+        <item>@color/color_DA4737</item>
+        <item>@color/color_DB8F13</item>
+    </integer-array>
+
+    <integer-array name="edge_3_2_2">
+        <item>@color/color_FD0160</item>
+        <item>@color/color_FFFC07</item>
+        <item>@color/color_7D02E7</item>
+    </integer-array>
+
+    <integer-array name="edge_3_2_3">
+        <item>@color/color_F7056C</item>
+        <item>@color/color_08D6D4</item>
+        <item>@color/color_2E2E30</item>
+    </integer-array>
+
+    <integer-array name="edge_3_2_4">
+        <item>@color/color_EF6572</item>
+        <item>@color/color_24B1BA</item>
+        <item>@color/color_DDB9AA</item>
+    </integer-array>
+
+    <integer-array name="edge_3_3_1">
+        <item>@color/color_3ED104</item>
+        <item>@color/color_C77A66</item>
+        <item>@color/color_FEFFFF</item>
+    </integer-array>
+
+    <integer-array name="edge_3_3_2">
+        <item>@color/color_F1428F</item>
+        <item>@color/color_1A5674</item>
+        <item>@color/color_FDA4DC</item>
+    </integer-array>
+
+    <integer-array name="edge_3_3_3">
+        <item>@color/color_D9865C</item>
+        <item>@color/color_63BEB9</item>
+        <item>@color/color_F8E1C2</item>
+    </integer-array>
+
+    <integer-array name="edge_3_3_4">
+        <item>@color/color_DC373D</item>
+        <item>@color/color_A065DB</item>
+        <item>@color/color_B4BC32</item>
     </integer-array>
 
     <integer-array name="edge_2_1_1">
-        <item>@color/color_edge_green_olive</item>
-        <item>@color/color_edge_orange_burnt</item>
+        <item>@color/color_6E7455</item>
+        <item>@color/color_EC6D30</item>
     </integer-array>
 
     <integer-array name="edge_2_1_2">
-        <item>@color/color_edge_red_wine</item>
-        <item>@color/color_edge_red_brick</item>
+        <item>@color/color_FA8565</item>
+        <item>@color/color_06D9D7</item>
+    </integer-array>
+
+    <integer-array name="edge_2_1_3">
+        <item>@color/color_FDDC03</item>
+        <item>@color/color_0185FF</item>
+    </integer-array>
+
+    <integer-array name="edge_2_1_4">
+        <item>@color/color_FB02D0</item>
+        <item>@color/color_7002DD</item>
+    </integer-array>
+
+    <integer-array name="edge_2_2_1">
+        <item>@color/color_FFE202</item>
+        <item>@color/color_FE0202</item>
+    </integer-array>
+
+    <integer-array name="edge_2_2_2">
+        <item>@color/color_70FF03</item>
+        <item>@color/color_0086F8</item>
+    </integer-array>
+
+    <integer-array name="edge_2_2_3">
+        <item>@color/color_0082EE</item>
+        <item>@color/color_F90403</item>
+    </integer-array>
+
+    <integer-array name="edge_2_2_4">
+        <item>@color/color_FE00DA</item>
+        <item>@color/color_72FD02</item>
+    </integer-array>
+
+    <integer-array name="edge_2_3_1">
+        <item>@color/color_FEE202</item>
+        <item>@color/color_6EFE00</item>
+    </integer-array>
+
+    <integer-array name="edge_2_3_2">
+        <item>@color/color_FC01E4</item>
+        <item>@color/color_FAEC05</item>
+    </integer-array>
+
+    <integer-array name="edge_2_3_3">
+        <item>@color/color_A5002C</item>
+        <item>@color/color_C3FF00</item>
+    </integer-array>
+
+    <integer-array name="edge_2_3_4">
+        <item>@color/color_072976</item>
+        <item>@color/color_950F58</item>
     </integer-array>
 
 </resources>

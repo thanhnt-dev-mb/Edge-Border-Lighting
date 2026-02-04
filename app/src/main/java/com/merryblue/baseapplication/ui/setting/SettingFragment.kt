@@ -21,6 +21,7 @@ import com.merryblue.baseapplication.helpers.openPolicy
 import com.merryblue.baseapplication.service.edge.EdgeLightingOverlayService
 import com.merryblue.baseapplication.ui.home.HomeViewModel
 import com.merryblue.baseapplication.ui.iap.PurchaseActivity
+import com.merryblue.baseapplication.ui.onboard.language.LanguageActivity
 import com.merryblue.baseapplication.ui.widget.BottomSheetRate
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
