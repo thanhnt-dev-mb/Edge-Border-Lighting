@@ -72,6 +72,8 @@
       "version": 1,
       "always_preload": false,
       "tag": "Guide",
+      "timelapse": 40000,
+      "native_id": "",
       "id": "ca-app-pub-3940256099942544/1033173712",
       "event": "ClickGuide",
       "description": "Guide"
@@ -81,36 +83,11 @@
       "version": 1,
       "always_preload": false,
       "tag": "Unlock",
+      "timelapse": 40000,
+      "native_id": "",
       "id": "ca-app-pub-3940256099942544/1033173712",
       "event": "ClickUnlock",
       "description": "Unlock application"
-    },
-    {
-      "status": false,
-      "version": 1,
-      "always_preload": false,
-      "tag": "AppListActivity_BackAction",
-      "id": "ca-app-pub-3940256099942544/1033173712",
-      "event": "ClickAppListBack",
-      "description": "AppList Back action"
-    },
-    {
-      "status": false,
-      "version": 1,
-      "always_preload": false,
-      "tag": "AccessFunction",
-      "id": "ca-app-pub-3940256099942544/1033173712",
-      "event": "ClickAccessFunction",
-      "description": "Access function fullscreen ads"
-    },
-    {
-      "status": false,
-      "version": 1,
-      "always_preload": false,
-      "tag": "VaultActivity_BackAction",
-      "id": "ca-app-pub-3940256099942544/1033173712",
-      "event": "ClickVaultBack",
-      "description": "Vault Back action"
     }
   ],
   "natives": [
@@ -133,7 +110,7 @@
       "tag": "IntroFragment_Native",
       "id": "ca-app-pub-3940256099942544/2247696110",
       "event": "ClickIntroNative",
-      "style": 8,
+      "style": 13,
       "preload": 0,
       "description": "Intro Native"
     },
@@ -141,7 +118,29 @@
       "status": false,
       "always_preload": false,
       "version": 1,
-      "tag": "NativeFullscreenFragment_Native_DISABLE",
+      "tag": "IntroFragment_Native_0",
+      "id": "ca-app-pub-3940256099942544/2247696110",
+      "event": "ClickIntroNative",
+      "style": 13,
+      "preload": 0,
+      "description": "Intro Native"
+    },
+    {
+      "status": false,
+      "always_preload": false,
+      "version": 1,
+      "tag": "IntroFragment_Native_3",
+      "id": "ca-app-pub-3940256099942544/2247696110",
+      "event": "ClickIntroNative",
+      "style": 13,
+      "preload": 0,
+      "description": "Intro Native"
+    },
+    {
+      "status": false,
+      "always_preload": false,
+      "version": 1,
+      "tag": "NativeFullscreenFragment_Native",
       "id": "ca-app-pub-3940256099942544/2247696110",
       "event": "ClickNativeFull",
       "style": 68,

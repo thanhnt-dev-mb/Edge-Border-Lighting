@@ -6,15 +6,27 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/white">
-        <FrameLayout
+        android:background="#19193F">
+        <androidx.cardview.widget.CardView
+            android:id="@+id/layoutCard"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginTop="28dp"
-            android:id="@+id/adsContainer"
-            tools:context=".ui.intro.intro.NativeFullscreenFragment">
-
-        </FrameLayout>
+            android:clipChildren="false"
+            android:clipToPadding="false"
+            android:gravity="bottom"
+            android:elevation="0dp"
+            app:cardElevation="0dp"
+            android:background="#19193F"
+            app:cardPreventCornerOverlap="false"
+            android:paddingTop="24dp"
+            >
+            <FrameLayout
+                android:id="@+id/adsContainer"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="#19193F"
+                />
+        </androidx.cardview.widget.CardView>
 
         <ImageView
             android:id="@+id/closeBtn"
@@ -27,9 +39,8 @@
             android:elevation="4dp"
             android:layout_gravity="end"
             android:scaleType="center"
-            android:background="@drawable/bg_oval"
-            android:backgroundTint="#F3F4F6"
             android:src="@drawable/ic_close"
+            app:tint="@color/white"
             />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

@@ -38,7 +38,7 @@ class SplashViewModel @Inject constructor(
 
     fun getJsonConfiguration() = appRepository.getJsonAdsConfigure()
 
-    fun isPremium() = true//billingRepository.isPurchased()
+    fun isPremium() = billingRepository.isPurchased()
 
     init {
         if (appRepository.isFirstLaunch) {
@@ -70,6 +70,7 @@ class SplashViewModel @Inject constructor(
     @SuppressLint("LogNotTimber")
     fun preloadBanner(activity: SplashActivity) {
         val rmConfig = appRepository.loadAdsConfiguration() ?: return
+
         rmConfig.banners?.forEach { banner ->
             if (banner.status == true &&
                 !banner.id.isNullOrBlank()) {
