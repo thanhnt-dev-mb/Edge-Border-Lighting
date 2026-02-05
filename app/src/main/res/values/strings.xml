@@ -98,9 +98,9 @@
     <string name="this_device_does_not_support_setting_wallpaper">This device does not support setting Wallpaper</string>
     <string name="txt_set_live_wallpaper">Set Live Wallpaper</string>
     <string name="wallpaper_set_failed">Wallpaper set failed</string>
-    <string name="wallpaper_set_success">Wallpaper set success</string>
+    <string name="wallpaper_set_success">Wallpaper set successfully</string>
+    <string name="live_wallpaper_set_success">Live wallpaper set successfully</string>
     <string name="live_wallpaper_set_failed">Live wallpaper set failed</string>
-    <string name="live_wallpaper_set_success">Live wallpaper set success</string>
     <string name="live_wallpaper_set_cancelled">Live wallpaper cancelled</string>
     <string name="home_screen">Home screen</string>
     <string name="set_wallpaper">Set wallpaper</string>

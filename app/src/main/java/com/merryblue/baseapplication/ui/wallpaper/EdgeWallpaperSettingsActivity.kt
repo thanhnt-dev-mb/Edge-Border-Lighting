@@ -149,7 +149,7 @@ class EdgeWallpaperSettingsActivity : BaseActivity<ActivityEdgeWallpaperSettings
     private fun isMyLiveWallpaperActive(): Boolean {
         val wm = WallpaperManager.getInstance(this)
         val info = wm.wallpaperInfo ?: return false
-        return info.component == ComponentName(this, EdgeLightingWallpaperService::class.java)
+        return info.packageName == packageName && info.serviceName == EdgeLightingWallpaperService::class.java.name
     }
 
     private fun openSystemLiveWallpaperPicker(service: ComponentName) {
