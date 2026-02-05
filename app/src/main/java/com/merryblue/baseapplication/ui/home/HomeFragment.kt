@@ -3,7 +3,6 @@ package com.merryblue.baseapplication.ui.home
 import android.content.Intent
 import android.provider.Settings
 import android.widget.Toast
-import androidx.activity.viewModels
 import androidx.core.content.ContextCompat
 import androidx.core.net.toUri
 import androidx.fragment.app.activityViewModels
@@ -50,7 +49,6 @@ import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import org.app.core.base.BaseFragment
-import timber.log.Timber
 import kotlin.getValue
 
 @AndroidEntryPoint

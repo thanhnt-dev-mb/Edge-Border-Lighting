@@ -15,13 +15,13 @@ import com.merryblue.baseapplication.domain.repository.EdgeDataRepository
 import com.merryblue.baseapplication.domain.repository.EdgeImageRepository
 import com.merryblue.baseapplication.domain.repository.EdgeImageSource
 import com.merryblue.baseapplication.domain.repository.TargetSize
-import com.merryblue.baseapplication.helpers.ServiceState.ACTION_EDGE_OVERLAY_CHANGED
 import com.merryblue.baseapplication.helpers.BackgroundType
 import com.merryblue.baseapplication.helpers.EdgeStyle.EDGE_LINEAR
 import com.merryblue.baseapplication.helpers.EdgeStyle.EDGE_NONE
 import com.merryblue.baseapplication.helpers.PreviewType.EDGE_WALLPAPER_SCREEN
 import com.merryblue.baseapplication.helpers.PreviewType.RIPPLE_WALLPAPER_SCREEN
 import com.merryblue.baseapplication.helpers.PreviewType.STATIC_WALLPAPER_SCREEN
+import com.merryblue.baseapplication.helpers.ServiceState.ACTION_EDGE_OVERLAY_CHANGED
 import com.merryblue.baseapplication.helpers.WallpaperType
 import com.merryblue.baseapplication.helpers.dpToPx
 import com.merryblue.baseapplication.service.edge.EdgeLightingOverlayService
@@ -35,9 +35,7 @@ import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import org.app.core.base.BaseViewModel
-import timber.log.Timber
 import javax.inject.Inject
-import kotlin.Int
 
 @HiltViewModel
 class HomeViewModel @Inject constructor(

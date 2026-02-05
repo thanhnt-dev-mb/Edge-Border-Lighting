@@ -8,15 +8,11 @@ import com.merryblue.baseapplication.domain.repository.EdgeDataRepository
 import com.merryblue.baseapplication.helpers.KEY_ALL
 import com.merryblue.baseapplication.helpers.RIPPLE_ABSTRACT_ABSCT
 import com.merryblue.baseapplication.helpers.RIPPLE_ABSTRACT_CQ
-import com.merryblue.baseapplication.helpers.RIPPLE_MAGICAL_BORDERS
 import com.merryblue.baseapplication.helpers.RIPPLE_NATURE_D
 import com.merryblue.baseapplication.helpers.RIPPLE_NATURE_INDS
 import com.merryblue.baseapplication.helpers.RIPPLE_NATURE_LIVE
 import com.merryblue.baseapplication.helpers.RIPPLE_NATURE_SPAZ
-import com.merryblue.baseapplication.helpers.RIPPLE_PREMIUM
 import com.merryblue.baseapplication.helpers.RIPPLE_RIPPLE
-import com.merryblue.baseapplication.helpers.RIPPLE_TOP_PICS
-import timber.log.Timber
 
 data class ChainKey(
     val typeIndex: Int,

@@ -29,9 +29,7 @@ import kotlinx.coroutines.launch
 import org.app.core.base.BaseFragment
 import org.app.core.base.OnItemClickListener
 import org.app.core.base.binding.setOnSingleClickListener
-import org.app.core.base.extensions.navigateSafe
 import org.app.core.base.extensions.setupVertical
-import timber.log.Timber
 
 @AndroidEntryPoint
 class SettingFragment : BaseFragment<FragmentSettingBinding>() {

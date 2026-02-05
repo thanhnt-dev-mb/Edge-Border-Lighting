@@ -13,8 +13,6 @@ import com.merryblue.baseapplication.helpers.EDGE_TRENDING
 import com.merryblue.baseapplication.helpers.KEY_IS_CUSTOM
 import com.merryblue.baseapplication.helpers.KEY_RECEIVE_DATA
 import com.merryblue.baseapplication.helpers.RIPPLE_MAGICAL_BORDERS
-import com.merryblue.baseapplication.helpers.RIPPLE_NATURE_SPAZ
-import com.merryblue.baseapplication.helpers.RIPPLE_PREMIUM
 import com.merryblue.baseapplication.helpers.RIPPLE_RIPPLE
 import com.merryblue.baseapplication.helpers.TYPE_PRESET
 import com.merryblue.baseapplication.helpers.TYPE_THEME

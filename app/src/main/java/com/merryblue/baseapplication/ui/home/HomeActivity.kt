@@ -7,24 +7,15 @@ import android.os.Build
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
-import android.view.View
 import android.widget.Toast
-import androidx.activity.viewModels
 import androidx.annotation.NavigationRes
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.lifecycleScope
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.merryblue.baseapplication.BuildConfig
 import com.merryblue.baseapplication.R
 import com.merryblue.baseapplication.coredata.local.AppPreferences
-import com.merryblue.baseapplication.coredata.model.edge.DisplayHole
-import com.merryblue.baseapplication.coredata.model.edge.DisplayInfinity
-import com.merryblue.baseapplication.coredata.model.edge.DisplayNotch
-import com.merryblue.baseapplication.coredata.model.edge.DisplayNotchType
-import com.merryblue.baseapplication.coredata.model.edge.EdgeSelection
-import com.merryblue.baseapplication.coredata.model.edge.EdgeSettings
 import com.merryblue.baseapplication.databinding.ActivityHomeBinding
 import com.merryblue.baseapplication.helpers.Compatibility
 import com.merryblue.baseapplication.helpers.canHandleIntent
@@ -37,12 +28,10 @@ import com.merryblue.baseapplication.ui.setting.SettingFragment
 import com.merryblue.baseapplication.ui.view.EdgeBottomNavView
 import com.merryblue.baseapplication.ui.widget.BottomSheetRate
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.launch
 import org.app.core.ads.remoteconfig.CoreRemoteConfig
 import org.app.core.base.BaseActivity
 import org.app.core.base.extensions.openActivityAndClearStack
 import org.app.core.base.utils.StringResId
-import timber.log.Timber
 
 
 @AndroidEntryPoint
@@ -193,7 +182,7 @@ class HomeActivity : BaseActivity<ActivityHomeBinding>() {
                 if (isGmailInstalled) {
                     intent.type = "text/html"
                     intent.setPackage(gmailPkg)
-                    startActivity(intent);
+                    startActivity(intent)
                 } else {
                     intent.type = "message/rfc822"
                     if (intent.resolveActivity(packageManager) != null) {

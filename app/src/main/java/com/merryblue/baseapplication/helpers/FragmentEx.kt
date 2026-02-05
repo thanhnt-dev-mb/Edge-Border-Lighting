@@ -8,7 +8,6 @@ import androidx.navigation.NavDirections
 import androidx.navigation.NavOptions
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
-import timber.log.Timber
 
 fun Fragment.findNavControllerOrNull(): NavController? = runCatching { findNavController() }.getOrNull()
 
