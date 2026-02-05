@@ -55,6 +55,10 @@ import kotlin.getValue
 class HomeFragment: BaseFragment<FragmentHomeBinding>() {
     private val edgePermissionViewModel: EdgePermissionViewModel by activityViewModels()
     private val viewModel: HomeViewModel by activityViewModels()
+
+    override val nativeHeight: Int
+        get() = -1
+
     private lateinit var mediator: TabLayoutMediator
     private lateinit var presetAdapter: HomePresetAdapter
     private lateinit var homeThemeAdapter: HomeThemeAdapter

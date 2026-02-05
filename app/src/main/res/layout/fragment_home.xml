@@ -41,6 +41,25 @@
                 android:visibility="invisible" />
         </androidx.appcompat.widget.LinearLayoutCompat>
 
+        <androidx.cardview.widget.CardView
+            android:id="@+id/layoutCard"
+            android:layout_width="match_parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:layout_height="wrap_content"
+            android:clipChildren="false"
+            android:clipToPadding="false"
+            android:gravity="bottom"
+            app:cardPreventCornerOverlap="false"
+            android:layout_marginTop="8dp"
+            >
+            <FrameLayout
+                android:id="@+id/adsContainer"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="#19193F"
+                />
+        </androidx.cardview.widget.CardView>
+
         <androidx.core.widget.NestedScrollView
             android:id="@+id/nestedScrollHome"
             android:layout_width="match_parent"

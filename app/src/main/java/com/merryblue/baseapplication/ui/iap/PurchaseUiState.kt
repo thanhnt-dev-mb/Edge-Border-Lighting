@@ -28,7 +28,7 @@ data class PurchaseUiState(
         }
         val prefix = "".append(
             if (purchased == BillingPeriod.P1Y) context.getString(R.string.txt_already_yearly_premium) else context.getString(R.string.txt_premium_yearly_package),
-            if (selected == BillingPeriod.P1Y) context.getColorR(org.app.core.R.color.white) else context.getColorR(R.color.toolbarTitleColor),
+            if (selected == BillingPeriod.P1Y) context.getColorR(R.color.colorWhite) else context.getColorR(R.color.colorWhite),
             typeface
         )
 
@@ -65,13 +65,13 @@ data class PurchaseUiState(
         }
         return "".append(
             price + "/" + context.getString(R.string.txt_month),
-            if (selected == BillingPeriod.P1M) context.getColorR(R.color.colorPrimary) else context.getColorR(R.color.colorWhite),
+            if (selected == BillingPeriod.P1M) context.getColorR(R.color.colorViolet05) else context.getColorR(R.color.colorWhite),
             typeface
         )
     }
 
     fun yearlyPrice(context: Context): SpannableStringBuilder {
-        val price = products.firstOrNull { it.period == BillingPeriod.P1Y }?.formatPrice ?: "\$21.50"
+        val price = products.firstOrNull { it.period == BillingPeriod.P1Y }?.formatPrice ?: "\$11.8"
 
         val typeface = if (selected == BillingPeriod.P1Y) {
             ResourcesCompat.getFont(context, R.font.roboto_regular)
@@ -82,7 +82,7 @@ data class PurchaseUiState(
             price + "/" + context.getString(R.string.txt_year),
             if (selected == BillingPeriod.P1Y) context.getColorR(R.color.colorPrimary) else context.getColorR(R.color.colorWhite),
             typeface
-        ).append(" " + context.getString(R.string.txt_try_free_trial))
+        )
     }
 
     fun isMonthlyEnable() : Boolean {
@@ -101,14 +101,33 @@ data class PurchaseUiState(
     }
 
     fun discountText(context: Context) : String {
-        return context.getString(R.string.txt_discount, 80)
+        return "80% +" + context.getString(R.string.txt_discount)
     }
 
     fun confirmTitle(context: Context) : String {
-        return  if (selected == BillingPeriod.P1Y) {
-            context.getString(R.string.txt_try_free)
-        } else {
-            context.getString(R.string.txt_subscribe)
+        when(purchased) {
+            BillingPeriod.NONE -> {
+                val currencyCode = products.firstOrNull()?.currencyCode ?: "$"
+                return if (selected == BillingPeriod.P1Y) {
+                    val hasTrial = products.firstOrNull { it.period == BillingPeriod.P1Y }?.hasTrial ?: true
+                    if (hasTrial) {
+                        context.getString(R.string.txt_try_free) + " 0$currencyCode"
+                    } else {
+                        context.getString(R.string.txt_subscribe)
+                    }
+                } else {
+                    context.getString(R.string.txt_subscribe)
+                }
+            }
+            BillingPeriod.P1M -> {
+                return context.getString(R.string.txt_already_monthly_premium)
+            }
+            BillingPeriod.P1Y -> {
+                return context.getString(R.string.txt_already_yearly_premium)
+            }
+            else -> {
+                return context.getString(R.string.txt_try_free)
+            }
         }
     }
 }

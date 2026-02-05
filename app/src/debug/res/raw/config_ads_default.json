@@ -25,10 +25,10 @@
       "status": false,
       "version": 1,
       "id": "ca-app-pub-3940256099942544/6300978111",
-      "event": "ClickListApp",
-      "tag": "LaunchingAppListFragment_Banner",
+      "event": "EventHomeBanner",
+      "tag": "HomeActivity_Banner",
       "size": "small",
-      "description": "Launching list app Banner"
+      "description": "Home Screen Banner"
     },
     {
       "status": false,
@@ -146,6 +146,17 @@
       "style": 68,
       "preload": 0,
       "description": "Intro Native Fullscreen"
+    },
+    {
+      "status": false,
+      "always_preload": false,
+      "version": 1,
+      "tag": "HomeFragment_Native",
+      "id": "ca-app-pub-3940256099942544/2247696110",
+      "event": "ClickIntroNative",
+      "style": 13,
+      "preload": 0,
+      "description": "Home Native"
     }
   ],
   "rewards": [

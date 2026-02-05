@@ -62,6 +62,11 @@ class HomeActivity : BaseActivity<ActivityHomeBinding>() {
         requestPostNotificationPermissionIfNeed()
     }
 
+    override fun setupBinding() {
+        layoutCard = binding.layoutCard
+        adsContainer = binding.adsContainer
+    }
+
     override fun onResume() {
         super.onResume()
 
