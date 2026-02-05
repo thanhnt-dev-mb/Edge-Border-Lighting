@@ -11,6 +11,9 @@ import androidx.appcompat.widget.AppCompatEditText
 import androidx.core.content.ContextCompat
 import androidx.core.net.toUri
 import androidx.core.widget.doAfterTextChanged
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.merryblue.baseapplication.R
 import com.merryblue.baseapplication.coredata.local.AppPreferences
@@ -21,18 +24,24 @@ import com.merryblue.baseapplication.helpers.toHex
 import com.merryblue.baseapplication.service.edge.EdgeLightingOverlayService
 import com.merryblue.baseapplication.ui.home.HomeViewModel
 import com.merryblue.baseapplication.ui.home.color.EdgeTab
+import com.merryblue.baseapplication.ui.wallpaper.EdgePermissionViewModel
 import com.merryblue.baseapplication.ui.widget.BottomSheetEdgePermission
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.launch
 import org.app.core.base.BaseActivity
 import org.app.core.base.extensions.toastMsg
 import kotlin.getValue
+import androidx.core.graphics.toColorInt
+import com.merryblue.baseapplication.helpers.openProperNetworkSettings
+import com.merryblue.baseapplication.ui.widget.BottomSheetNoInternet
+import kotlinx.coroutines.flow.collectLatest
 
 @AndroidEntryPoint
 class ColorPickerActivity : BaseActivity<ActivityColorPickerBinding>() {
 
     private val prefs by lazy { AppPreferences(this) }
     private val viewModel: HomeViewModel by viewModels()
-
+    private val edgePermissionViewModel: EdgePermissionViewModel by viewModels()
     private val overlayPermissionLauncher = registerForActivityResult(androidx.activity.result.contract.ActivityResultContracts.StartActivityForResult()) {
         if (Settings.canDrawOverlays(this)) {
             startEdgeOverlay()
@@ -42,12 +51,7 @@ class ColorPickerActivity : BaseActivity<ActivityColorPickerBinding>() {
         }
     }
 
-    private val colors = intArrayOf(
-        Color.parseColor("#AA00FF"),
-        Color.parseColor("#2962FF"),
-        Color.parseColor("#00C853"),
-        Color.parseColor("#FF3D00")
-    )
+    private val colors = intArrayOf("#AA00FF".toColorInt(), "#2962FF".toColorInt(), "#00C853".toColorInt(), "#FF3D00".toColorInt())
     private var selectedIndex = 0
     private var isProgrammaticChange = false
     private var isDraggingPicker = false
@@ -68,6 +72,42 @@ class ColorPickerActivity : BaseActivity<ActivityColorPickerBinding>() {
         registerOnClick()
     }
 
+    override fun setUpObserver() {
+        lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                launch {
+                    edgePermissionViewModel.edgePermission.collect {
+                        val i = Intent(Settings.ACTION_MANAGE_OVERLAY_PERMISSION, "package:${packageName}".toUri())
+                        overlayPermissionLauncher.launch(i)
+                    }
+                }
+
+                launch {
+                    viewModel.connectionState.collectLatest {
+                        onNetworkStateChanged(it)
+                        handleNoInternetBottomSheet(it)
+                    }
+                }
+            }
+        }
+    }
+
+    private fun handleNoInternetBottomSheet(isConnected: Boolean) {
+        val fm = supportFragmentManager
+        val current = fm.findFragmentByTag(BottomSheetNoInternet.TAG) as? BottomSheetDialogFragment
+
+        if (isConnected) {
+            if (current?.dialog?.isShowing == true) current.dismissAllowingStateLoss()
+            return
+        }
+
+        if (current?.dialog?.isShowing == true) return
+
+        BottomSheetNoInternet.newInstance {
+            this.openProperNetworkSettings()
+        }.show(fm, BottomSheetNoInternet.TAG)
+    }
+
     private fun checkPermissionOverlay() {
         if (!Settings.canDrawOverlays(this)) {
             showBottomSheetEdgePermission()
@@ -84,11 +124,7 @@ class ColorPickerActivity : BaseActivity<ActivityColorPickerBinding>() {
 
     private fun showBottomSheetEdgePermission() {
         (supportFragmentManager.findFragmentByTag(BottomSheetEdgePermission.TAG) as? BottomSheetDialogFragment)?.dismissAllowingStateLoss()
-        val bottom = BottomSheetEdgePermission.newInstance {
-            val i = Intent(Settings.ACTION_MANAGE_OVERLAY_PERMISSION, "package:${packageName}".toUri())
-            overlayPermissionLauncher.launch(i)
-        }
-        bottom.show(supportFragmentManager, BottomSheetEdgePermission.TAG)
+        BottomSheetEdgePermission.newInstance().show(supportFragmentManager, BottomSheetEdgePermission.TAG)
     }
 
     private fun registerOnClick() = with (binding) {

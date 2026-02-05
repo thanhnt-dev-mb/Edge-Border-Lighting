@@ -4,6 +4,7 @@ import com.google.android.material.tabs.TabLayoutMediator
 import com.merryblue.baseapplication.R
 import com.merryblue.baseapplication.coredata.local.AppPreferences
 import com.merryblue.baseapplication.databinding.FragmentWallpaperBinding
+import com.merryblue.baseapplication.helpers.EDGE_FIM
 import com.merryblue.baseapplication.helpers.KEY_ALL
 import com.merryblue.baseapplication.helpers.RIPPLE_ABSTRACT_ABSCT
 import com.merryblue.baseapplication.helpers.RIPPLE_MAGICAL_BORDERS
@@ -38,7 +39,9 @@ class WallpaperFragment : BaseFragment<FragmentWallpaperBinding>() {
 
             add(RIPPLE_NATURE_SPAZ to getString(R.string.txt_nature))
             add(RIPPLE_ABSTRACT_ABSCT to getString(R.string.txt_abstract))
-            add(RIPPLE_TOP_PICS to getString(R.string.txt_top_pics))
+
+            if (canSetLive) add(RIPPLE_TOP_PICS to getString(R.string.txt_top_pics)) else add(EDGE_FIM to getString(R.string.txt_top_pics))
+
             add(RIPPLE_RIPPLE to getString(R.string.txt_ripple))
         }
 
@@ -52,6 +55,7 @@ class WallpaperFragment : BaseFragment<FragmentWallpaperBinding>() {
             tab.text = titles[position].second
         }.apply { attach() }
 
+        vpWallpaper.offscreenPageLimit = 3
     }
 
     override fun onDestroyView() {

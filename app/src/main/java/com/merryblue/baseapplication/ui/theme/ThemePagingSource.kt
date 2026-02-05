@@ -8,15 +8,11 @@ import com.merryblue.baseapplication.domain.repository.EdgeDataRepository
 import com.merryblue.baseapplication.helpers.KEY_ALL
 import com.merryblue.baseapplication.helpers.RIPPLE_ABSTRACT_ABSCT
 import com.merryblue.baseapplication.helpers.RIPPLE_ABSTRACT_CQ
-import com.merryblue.baseapplication.helpers.RIPPLE_MAGICAL_BORDERS
 import com.merryblue.baseapplication.helpers.RIPPLE_NATURE_D
 import com.merryblue.baseapplication.helpers.RIPPLE_NATURE_INDS
 import com.merryblue.baseapplication.helpers.RIPPLE_NATURE_LIVE
 import com.merryblue.baseapplication.helpers.RIPPLE_NATURE_SPAZ
-import com.merryblue.baseapplication.helpers.RIPPLE_PREMIUM
 import com.merryblue.baseapplication.helpers.RIPPLE_RIPPLE
-import com.merryblue.baseapplication.helpers.RIPPLE_TOP_PICS
-import timber.log.Timber
 
 data class ChainKey(
     val typeIndex: Int,
@@ -47,7 +43,7 @@ class ThemePagingSource(
 
         KEY_ALL -> listOf(
             RIPPLE_RIPPLE,
-            RIPPLE_TOP_PICS,
+//            RIPPLE_TOP_PICS,
             RIPPLE_NATURE_SPAZ,
             RIPPLE_NATURE_INDS,
             RIPPLE_NATURE_D,
@@ -76,8 +72,6 @@ class ThemePagingSource(
 
     override suspend fun load(params: LoadParams<ChainKey>): LoadResult<ChainKey, ThemeUi> {
         return try {
-            Timber.tag("Log_Key").d("isGallery: $isGallery, isCustom: $isCustom")
-
             require(!(isGallery && isCustom)) { "isGallery và isCustom không được cùng true" }
 
             val chain = chainForType(type)

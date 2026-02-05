@@ -29,7 +29,6 @@ import kotlinx.coroutines.launch
 import org.app.core.base.BaseFragment
 import org.app.core.base.OnItemClickListener
 import org.app.core.base.binding.setOnSingleClickListener
-import org.app.core.base.extensions.navigateSafe
 import org.app.core.base.extensions.setupVertical
 
 @AndroidEntryPoint
@@ -43,16 +42,11 @@ class SettingFragment : BaseFragment<FragmentSettingBinding>() {
         if (Settings.canDrawOverlays(requireContext())) {
             startEdgeOverlay()
         } else {
+            prefs.edgeState = prefs.edgeState.copy(isEnableEdgeLighting = false)
             binding.edgeToggle.isChecked = false
         }
     }
 
-    override fun onResume() {
-        super.onResume()
-        binding.edgeToggle.isChecked = prefs.edgeState.isEnableEdgeLighting
-        EdgeLightingOverlayService.isRunning = prefs.edgeState.isEnableEdgeLighting
-    }
-    
     override fun getLayoutId() = R.layout.fragment_setting
 
     override fun initView(view: View) {
@@ -61,12 +55,6 @@ class SettingFragment : BaseFragment<FragmentSettingBinding>() {
                 launch {
                     viewModel.connectionState.collectLatest { connected ->
                         onNetworkStateChanged(connected)
-                    }
-                }
-
-                launch {
-                    homeViewModel.settingsEdgeLighting.collectLatest {
-                        if (!binding.edgeToggle.isChecked) binding.edgeToggle.isChecked = true
                     }
                 }
             }
@@ -84,6 +72,11 @@ class SettingFragment : BaseFragment<FragmentSettingBinding>() {
         }
         setupRecycler()
         registerListener()
+    }
+
+    fun updateEdgeToggle() {
+        binding.edgeToggle.isChecked = prefs.edgeState.isEnableEdgeLighting
+        EdgeLightingOverlayService.isRunning = prefs.edgeState.isEnableEdgeLighting
     }
 
     private fun startEdgeOverlay() {
@@ -105,8 +98,6 @@ class SettingFragment : BaseFragment<FragmentSettingBinding>() {
                 homeViewModel.updateEdgeState { it.copy(isEnableEdgeLighting = isSelected) }
                 if (isSelected) startEdgeOverlay() else stopEdgeOverlay()
             }
-
-            edgeToggle.setCheckedSilently(homeViewModel.edgeState.isEnableEdgeLighting)
         }
     }
 

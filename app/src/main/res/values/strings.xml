@@ -98,12 +98,15 @@
     <string name="this_device_does_not_support_setting_wallpaper">This device does not support setting Wallpaper</string>
     <string name="txt_set_live_wallpaper">Set Live Wallpaper</string>
     <string name="wallpaper_set_failed">Wallpaper set failed</string>
-    <string name="wallpaper_set_success">Wallpaper set success</string>
+    <string name="wallpaper_set_success">Wallpaper set successfully</string>
+    <string name="live_wallpaper_set_success">Live wallpaper set successfully</string>
+    <string name="live_wallpaper_set_failed">Live wallpaper set failed</string>
+    <string name="live_wallpaper_set_cancelled">Live wallpaper cancelled</string>
     <string name="home_screen">Home screen</string>
     <string name="set_wallpaper">Set wallpaper</string>
     <string name="both_home_and_lock_screen">Both home and lock screen</string>
     <string name="lock_screen">Lock screen</string>
-    <string name="please_all_display_over_other_apps_to_show_edge_lighting">Please all display over other apps to show Edge Lighting</string>
+    <string name="please_all_display_over_other_apps_to_show_edge_lighting">Please allow display over other apps to show Edge Lighting</string>
     <string name="allow">Allow</string>
     <string name="no_internet_connection">No internet connection</string>
     <string name="you_are_offline_please_connect_to_the_internet_to_continue_using_the_translation_feature">You are offline. Please connect to the internet to continue using the translation feature</string>

@@ -10,12 +10,21 @@ import com.merryblue.baseapplication.domain.repository.EdgeImageRepository
 import com.merryblue.baseapplication.domain.repository.EdgeImageSource
 import com.merryblue.baseapplication.domain.repository.TargetSize
 import dagger.hilt.android.qualifiers.ApplicationContext
+import okhttp3.OkHttpClient
+import java.util.concurrent.TimeUnit
 
 class EdgeImageRepositoryImpl(
     @ApplicationContext private val appContext: Context
 ) : EdgeImageRepository {
 
+    private val okHttp = OkHttpClient.Builder()
+        .connectTimeout(10, TimeUnit.SECONDS)
+        .readTimeout(30, TimeUnit.SECONDS)
+        .callTimeout(50, TimeUnit.SECONDS)
+        .build()
+
     private val imageLoader: ImageLoader = ImageLoader.Builder(appContext)
+        .okHttpClient(okHttp)
         .crossfade(false)
         .build()
 

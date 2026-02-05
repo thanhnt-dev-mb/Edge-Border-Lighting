@@ -18,6 +18,7 @@ import android.view.Gravity
 import android.view.View
 import android.view.WindowManager
 import androidx.core.app.NotificationCompat
+import androidx.core.content.ContextCompat
 import com.merryblue.baseapplication.R
 import com.merryblue.baseapplication.coredata.local.AppPreferences
 import com.merryblue.baseapplication.helpers.ServiceState.ACTION_EDGE_OVERLAY_CHANGED
@@ -66,12 +67,10 @@ class EdgeLightingOverlayService: Service() {
         super.onCreate()
 
         if (!Settings.canDrawOverlays(this)) {
-            Timber.tag("Log_IsRunning").d("canDrawOverlays: false")
             isRunning = false
             stopSelf()
             return
         }
-        Timber.tag("Log_IsRunning").d("onCreate: true")
         isRunning = true
         wm = getSystemService(WINDOW_SERVICE) as WindowManager
         startForeground(1, buildNotification())
@@ -89,7 +88,6 @@ class EdgeLightingOverlayService: Service() {
 
     override fun onDestroy() {
         isRunning = false
-        Timber.tag("Log_IsRunning").d("onDestroy: false")
         unregisterEdgeStateReceiverSafe()
         unregisterReceiverSafe()
         hideOverlay()
@@ -104,13 +102,10 @@ class EdgeLightingOverlayService: Service() {
             addAction(ACTION_EDGE_OVERLAY_STOP)
             addAction(ACTION_EDGE_OVERLAY_RESTART)
         }
-        if (Build.VERSION.SDK_INT >= 33) {
-            registerReceiver(edgeStateReceiver, filter, RECEIVER_NOT_EXPORTED)
-        } else {
-            @Suppress("DEPRECATION")
-            registerReceiver(edgeStateReceiver, filter)
-        }
+
+        ContextCompat.registerReceiver(this, edgeStateReceiver, filter, ContextCompat.RECEIVER_NOT_EXPORTED)
     }
+
 
     private fun unregisterEdgeStateReceiverSafe() {
         try { unregisterReceiver(edgeStateReceiver) } catch (_: Throwable) {}

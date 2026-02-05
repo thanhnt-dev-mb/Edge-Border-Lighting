@@ -24,19 +24,14 @@ import androidx.annotation.DrawableRes
 import androidx.annotation.MainThread
 import androidx.core.content.res.use
 import androidx.core.graphics.PathParser
+import androidx.core.graphics.withTranslation
 import com.merryblue.baseapplication.R
 import com.merryblue.baseapplication.coredata.model.edge.Advanced
 import com.merryblue.baseapplication.coredata.model.edge.EdgePreset
 import com.merryblue.baseapplication.coredata.model.edge.EdgeStyle
-import com.merryblue.baseapplication.helpers.dpToPx
-import org.xmlpull.v1.XmlPullParser
-import kotlin.math.atan2
-import kotlin.math.max
-import kotlin.math.min
-import kotlin.math.roundToInt
-import androidx.core.graphics.withTranslation
 import com.merryblue.baseapplication.helpers.EdgeStyle.EDGE_LINEAR
 import com.merryblue.baseapplication.helpers.EdgeStyle.EDGE_PATTERN
+import com.merryblue.baseapplication.helpers.dpToPx
 import com.merryblue.baseapplication.ui.view.edgelight.model.EdgeBackground
 import com.merryblue.baseapplication.ui.view.edgelight.model.EdgeHoleShape
 import com.merryblue.baseapplication.ui.view.edgelight.model.EdgeImageScaleType
@@ -46,7 +41,11 @@ import com.merryblue.baseapplication.ui.view.edgelight.model.InfinityParams
 import com.merryblue.baseapplication.ui.view.edgelight.model.InfinityShape
 import com.merryblue.baseapplication.ui.view.edgelight.model.OffsetRange
 import com.merryblue.baseapplication.ui.view.edgelight.model.VectorPathResult
-import timber.log.Timber
+import org.xmlpull.v1.XmlPullParser
+import kotlin.math.atan2
+import kotlin.math.max
+import kotlin.math.min
+import kotlin.math.roundToInt
 
 class EdgeLightingView @JvmOverloads constructor(context: Context, attrs: AttributeSet? = null) : View(context, attrs) {
 
@@ -1695,8 +1694,6 @@ class EdgeLightingView @JvmOverloads constructor(context: Context, attrs: Attrib
     fun getHoleShape(): EdgeHoleShape = holeShape
 
     fun setHoleOffsetX(px: Float) {
-        Timber.tag("Log_HoleOffset").d("holeX: $progress")
-
         if (holeOffsetX == px) return
         holeOffsetX = px
         if (notchType == Advanced.NOTCH_DISPLAY_HOLE) clampHoleOffsetsForCurrentConfig()
@@ -1705,8 +1702,6 @@ class EdgeLightingView @JvmOverloads constructor(context: Context, attrs: Attrib
     }
 
     fun setHoleOffsetY(px: Float) {
-        Timber.tag("Log_HoleOffset").d("holeY: $progress")
-
         if (holeOffsetY == px) return
         holeOffsetY = px
         if (notchType == Advanced.NOTCH_DISPLAY_HOLE) clampHoleOffsetsForCurrentConfig()

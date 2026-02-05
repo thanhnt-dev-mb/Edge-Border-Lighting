@@ -8,48 +8,50 @@
         <import type="android.view.View" />
     </data>
 
-    <FrameLayout
+    <androidx.appcompat.widget.LinearLayoutCompat
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/colorBgSurface">
+        android:background="@color/colorBgSurface"
+        android:orientation="vertical">
+
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="44dp"
+            android:gravity="center">
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tv_edge_lighting"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="20dp"
+                android:layout_weight="1"
+                android:text="@string/txt_edge_lighting"
+                android:textColor="@color/colorWhite"
+                android:textSize="18sp"
+                app:fontFamily="@font/roboto_bold" />
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/iv_premium"
+                android:layout_width="40dp"
+                android:layout_height="28dp"
+                android:layout_marginEnd="20dp"
+                android:contentDescription="@null"
+                android:src="@drawable/ic_diamond"
+                android:visibility="invisible" />
+        </androidx.appcompat.widget.LinearLayoutCompat>
 
         <androidx.core.widget.NestedScrollView
             android:id="@+id/nestedScrollHome"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="0dp"
             android:layout_margin="10dp"
+            android:layout_weight="1"
             android:fillViewport="true">
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
-
-                <androidx.appcompat.widget.AppCompatTextView
-                    android:id="@+id/tv_edge_lighting"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="10dp"
-                    android:layout_marginTop="44dp"
-                    app:fontFamily="@font/roboto_bold"
-                    android:text="@string/txt_edge_lighting"
-                    android:textColor="@color/colorWhite"
-                    android:textSize="18sp"
-                    app:layout_constraintEnd_toStartOf="@+id/iv_premium"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
-
-                <androidx.appcompat.widget.AppCompatImageView
-                    android:visibility="invisible"
-                    android:id="@+id/iv_premium"
-                    android:layout_width="40dp"
-                    android:layout_height="28dp"
-                    android:layout_marginEnd="10dp"
-                    android:contentDescription="@null"
-                    android:src="@drawable/ic_diamond"
-                    app:layout_constraintBottom_toBottomOf="@+id/tv_edge_lighting"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toEndOf="@+id/tv_edge_lighting"
-                    app:layout_constraintTop_toTopOf="@+id/tv_edge_lighting" />
 
                 <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/tvPresetHome"
@@ -58,11 +60,11 @@
                     android:layout_marginStart="10dp"
                     android:layout_marginTop="32dp"
                     android:text="@string/txt_preset"
-                    app:fontFamily="@font/roboto_bold"
                     android:textColor="@color/white"
                     android:textSize="20sp"
+                    app:fontFamily="@font/roboto_bold"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/tv_edge_lighting" />
+                    app:layout_constraintTop_toTopOf="parent" />
 
                 <androidx.appcompat.widget.LinearLayoutCompat
                     android:id="@+id/btnViewAllPreset"
@@ -77,10 +79,10 @@
                     <androidx.appcompat.widget.AppCompatTextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        app:fontFamily="@font/roboto_semi_bold"
                         android:text="@string/txt_view_all"
                         android:textColor="@color/color_teal_00E3FF"
-                        android:textSize="14sp" />
+                        android:textSize="14sp"
+                        app:fontFamily="@font/roboto_semi_bold" />
 
                     <androidx.appcompat.widget.AppCompatImageView
                         android:layout_width="18dp"
@@ -100,9 +102,9 @@
                     app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
                     app:layout_constraintTop_toBottomOf="@+id/tvPresetHome"
                     app:spanCount="3"
+                    tools:ignore="RtlSymmetry"
                     tools:itemCount="3"
-                    tools:listitem="@layout/item_home_preset"
-                    tools:ignore="RtlSymmetry" />
+                    tools:listitem="@layout/item_home_preset" />
 
                 <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/tvThemeHome"
@@ -111,9 +113,9 @@
                     android:layout_marginStart="10dp"
                     android:layout_marginTop="20dp"
                     android:text="@string/txt_theme"
-                    app:fontFamily="@font/roboto_bold"
                     android:textColor="@color/white"
                     android:textSize="20sp"
+                    app:fontFamily="@font/roboto_bold"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/rcvHomePreset" />
 
@@ -130,10 +132,10 @@
                     <androidx.appcompat.widget.AppCompatTextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        app:fontFamily="@font/roboto_semi_bold"
                         android:text="@string/txt_view_all"
                         android:textColor="@color/color_teal_00E3FF"
-                        android:textSize="14sp" />
+                        android:textSize="14sp"
+                        app:fontFamily="@font/roboto_semi_bold" />
 
                     <androidx.appcompat.widget.AppCompatImageView
                         android:layout_width="18dp"
@@ -153,9 +155,9 @@
                     app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
                     app:layout_constraintTop_toBottomOf="@+id/tvThemeHome"
                     app:spanCount="3"
+                    tools:ignore="RtlSymmetry"
                     tools:itemCount="3"
-                    tools:listitem="@layout/item_home_theme_custom"
-                    tools:ignore="RtlSymmetry" />
+                    tools:listitem="@layout/item_home_theme_custom" />
 
                 <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/tvTitleSettingEdge"
@@ -163,10 +165,10 @@
                     android:layout_height="wrap_content"
                     android:layout_marginHorizontal="10dp"
                     android:layout_marginTop="20dp"
-                    app:fontFamily="@font/roboto_bold"
                     android:text="@string/txt_setting_edge_lighting"
                     android:textColor="@color/white"
                     android:textSize="20sp"
+                    app:fontFamily="@font/roboto_bold"
                     app:layout_constraintTop_toBottomOf="@+id/rcvHomeThemes" />
 
                 <com.google.android.material.tabs.TabLayout
@@ -205,6 +207,6 @@
             </androidx.constraintlayout.widget.ConstraintLayout>
 
         </androidx.core.widget.NestedScrollView>
-    </FrameLayout>
+    </androidx.appcompat.widget.LinearLayoutCompat>
 
 </layout>

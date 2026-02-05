@@ -8,6 +8,7 @@ import android.os.Build
 import android.service.wallpaper.WallpaperService
 import android.view.MotionEvent
 import android.view.SurfaceHolder
+import androidx.core.content.ContextCompat
 import com.merryblue.baseapplication.coredata.local.AppPreferences
 import com.merryblue.baseapplication.helpers.ServiceState.ACTION_RIPPLE_BG_CHANGED
 import com.merryblue.baseapplication.helpers.ripple.WaterDropRenderer
@@ -50,7 +51,7 @@ class RippleWallpaperService : WallpaperService() {
                 this@RippleWallpaperService.registerReceiver(bgChangedReceiver, filter,RECEIVER_NOT_EXPORTED)
             } else {
                 @Suppress("DEPRECATION")
-                this@RippleWallpaperService.registerReceiver(bgChangedReceiver, filter)
+                ContextCompat.registerReceiver(this@RippleWallpaperService, bgChangedReceiver, filter, ContextCompat.RECEIVER_NOT_EXPORTED)
             }
             isReceiverRegistered = true
         }
@@ -136,7 +137,7 @@ class RippleWallpaperService : WallpaperService() {
             xOffsetStep: Float,
             yOffsetStep: Float,
             xPixelOffset: Int,
-            yPixelOffset: Int
+            yPixelOffset: Int,
         ) {
             this.xOffset = xOffset
             this.xOffsetStep = xOffsetStep

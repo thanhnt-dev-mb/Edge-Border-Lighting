@@ -62,20 +62,32 @@ class ThemeChildAdapter(
                 .error(R.drawable.placeholder_image)
                 .into(ivHomePreset)
 
-            itemView.setOnClickListener { onClickTheme.invoke(item) }
+            itemView.setOnClickListener {
+                if (bindingAdapterPosition != RecyclerView.NO_POSITION) {
+                    onClickTheme.invoke(item)
+                }
+            }
         }
     }
 
     inner class GalleryVH(private val binding: ItemChooseFromGalleryBinding) : RecyclerView.ViewHolder(binding.root) {
 
         fun bind(item: ThemeUi.Gallery) {
-            binding.root.setOnClickListener { onClickGallery.invoke(item) }
+            binding.root.setOnClickListener {
+                if (bindingAdapterPosition != RecyclerView.NO_POSITION) {
+                    onClickGallery.invoke(item)
+                }
+            }
         }
     }
 
     inner class ThemeCustomVH(private val binding: ItemHomeThemeCustomBinding) : RecyclerView.ViewHolder(binding.root) {
         fun bind(item: ThemeUi.Custom) {
-            binding.root.setOnClickListener { onClickCustom.invoke(item) }
+            binding.root.setOnClickListener {
+                if (bindingAdapterPosition != RecyclerView.NO_POSITION) {
+                    onClickCustom.invoke(item)
+                }
+            }
         }
     }
 

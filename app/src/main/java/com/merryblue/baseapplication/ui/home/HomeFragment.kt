@@ -38,6 +38,7 @@ import com.merryblue.baseapplication.helpers.video.VideoPreloader
 import com.merryblue.baseapplication.service.edge.EdgeLightingOverlayService
 import com.merryblue.baseapplication.ui.picker.ColorPickerActivity
 import com.merryblue.baseapplication.ui.theme.ThemesActivity
+import com.merryblue.baseapplication.ui.wallpaper.EdgePermissionViewModel
 import com.merryblue.baseapplication.ui.wallpaper.EdgeWallpaperSettingsActivity
 import com.merryblue.baseapplication.ui.wallpaper.RippleWallpaperSettingsActivity
 import com.merryblue.baseapplication.ui.wallpaper.StaticWallpaperSettingsActivity
@@ -48,10 +49,11 @@ import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import org.app.core.base.BaseFragment
-import timber.log.Timber
+import kotlin.getValue
 
 @AndroidEntryPoint
 class HomeFragment: BaseFragment<FragmentHomeBinding>() {
+    private val edgePermissionViewModel: EdgePermissionViewModel by activityViewModels()
     private val viewModel: HomeViewModel by activityViewModels()
     private lateinit var mediator: TabLayoutMediator
     private lateinit var presetAdapter: HomePresetAdapter
@@ -92,11 +94,7 @@ class HomeFragment: BaseFragment<FragmentHomeBinding>() {
 
     private fun showBottomSheetEdgePermission() {
         (parentFragmentManager.findFragmentByTag(BottomSheetEdgePermission.TAG) as? BottomSheetDialogFragment)?.dismissAllowingStateLoss()
-        val bottom = BottomSheetEdgePermission.newInstance {
-            val i = Intent(Settings.ACTION_MANAGE_OVERLAY_PERMISSION, "package:${requireContext().packageName}".toUri())
-            overlayPermissionLauncher.launch(i)
-        }
-        bottom.show(parentFragmentManager, BottomSheetEdgePermission.TAG)
+        BottomSheetEdgePermission.newInstance().show(parentFragmentManager, BottomSheetEdgePermission.TAG)
     }
 
     private fun initData() {
@@ -112,15 +110,15 @@ class HomeFragment: BaseFragment<FragmentHomeBinding>() {
                 viewLifecycleOwner.lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED) {
 
                     launch {
-                        viewModel.settingsEdgeLighting.collectLatest {
-                            startEdgeOverlay()
+                        edgePermissionViewModel.edgePermission.collect {
+                            val i = Intent(Settings.ACTION_MANAGE_OVERLAY_PERMISSION, "package:${requireContext().packageName}".toUri())
+                            overlayPermissionLauncher.launch(i)
                         }
                     }
 
                     launch {
-                        viewModel.connectionState.collectLatest {
-                            onNetworkStateChanged(it)
-                            handleNoInternetBottomSheet(it)
+                        viewModel.settingsEdgeLighting.collectLatest {
+                            startEdgeOverlay()
                         }
                     }
 
@@ -180,23 +178,6 @@ class HomeFragment: BaseFragment<FragmentHomeBinding>() {
             }
         }
     }
-
-    private fun handleNoInternetBottomSheet(isConnected: Boolean) {
-        val fm = parentFragmentManager
-        val current = fm.findFragmentByTag(BottomSheetNoInternet.TAG) as? BottomSheetDialogFragment
-
-        if (isConnected) {
-            if (current?.dialog?.isShowing == true) current.dismissAllowingStateLoss()
-            return
-        }
-
-        if (current?.dialog?.isShowing == true) return
-
-        BottomSheetNoInternet.newInstance {
-            requireContext().openProperNetworkSettings()
-        }.show(fm, BottomSheetNoInternet.TAG)
-    }
-
 
     private fun initRecyclerView() {
 
