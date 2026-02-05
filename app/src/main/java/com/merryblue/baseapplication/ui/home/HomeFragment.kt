@@ -3,6 +3,7 @@ package com.merryblue.baseapplication.ui.home
 import android.content.Intent
 import android.provider.Settings
 import android.widget.Toast
+import androidx.activity.viewModels
 import androidx.core.content.ContextCompat
 import androidx.core.net.toUri
 import androidx.fragment.app.activityViewModels
@@ -38,6 +39,7 @@ import com.merryblue.baseapplication.helpers.video.VideoPreloader
 import com.merryblue.baseapplication.service.edge.EdgeLightingOverlayService
 import com.merryblue.baseapplication.ui.picker.ColorPickerActivity
 import com.merryblue.baseapplication.ui.theme.ThemesActivity
+import com.merryblue.baseapplication.ui.wallpaper.EdgePermissionViewModel
 import com.merryblue.baseapplication.ui.wallpaper.EdgeWallpaperSettingsActivity
 import com.merryblue.baseapplication.ui.wallpaper.RippleWallpaperSettingsActivity
 import com.merryblue.baseapplication.ui.wallpaper.StaticWallpaperSettingsActivity
@@ -49,9 +51,11 @@ import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import org.app.core.base.BaseFragment
 import timber.log.Timber
+import kotlin.getValue
 
 @AndroidEntryPoint
 class HomeFragment: BaseFragment<FragmentHomeBinding>() {
+    private val edgePermissionViewModel: EdgePermissionViewModel by activityViewModels()
     private val viewModel: HomeViewModel by activityViewModels()
     private lateinit var mediator: TabLayoutMediator
     private lateinit var presetAdapter: HomePresetAdapter
@@ -92,11 +96,7 @@ class HomeFragment: BaseFragment<FragmentHomeBinding>() {
 
     private fun showBottomSheetEdgePermission() {
         (parentFragmentManager.findFragmentByTag(BottomSheetEdgePermission.TAG) as? BottomSheetDialogFragment)?.dismissAllowingStateLoss()
-        val bottom = BottomSheetEdgePermission.newInstance {
-            val i = Intent(Settings.ACTION_MANAGE_OVERLAY_PERMISSION, "package:${requireContext().packageName}".toUri())
-            overlayPermissionLauncher.launch(i)
-        }
-        bottom.show(parentFragmentManager, BottomSheetEdgePermission.TAG)
+        BottomSheetEdgePermission.newInstance().show(parentFragmentManager, BottomSheetEdgePermission.TAG)
     }
 
     private fun initData() {
@@ -110,6 +110,13 @@ class HomeFragment: BaseFragment<FragmentHomeBinding>() {
         binding.apply {
             viewLifecycleOwner.lifecycleScope.launch {
                 viewLifecycleOwner.lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED) {
+
+                    launch {
+                        edgePermissionViewModel.edgePermission.collect {
+                            val i = Intent(Settings.ACTION_MANAGE_OVERLAY_PERMISSION, "package:${requireContext().packageName}".toUri())
+                            overlayPermissionLauncher.launch(i)
+                        }
+                    }
 
                     launch {
                         viewModel.settingsEdgeLighting.collectLatest {

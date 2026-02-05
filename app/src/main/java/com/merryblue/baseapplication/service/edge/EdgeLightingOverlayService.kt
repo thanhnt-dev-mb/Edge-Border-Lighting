@@ -66,12 +66,10 @@ class EdgeLightingOverlayService: Service() {
         super.onCreate()
 
         if (!Settings.canDrawOverlays(this)) {
-            Timber.tag("Log_IsRunning").d("canDrawOverlays: false")
             isRunning = false
             stopSelf()
             return
         }
-        Timber.tag("Log_IsRunning").d("onCreate: true")
         isRunning = true
         wm = getSystemService(WINDOW_SERVICE) as WindowManager
         startForeground(1, buildNotification())
@@ -89,7 +87,6 @@ class EdgeLightingOverlayService: Service() {
 
     override fun onDestroy() {
         isRunning = false
-        Timber.tag("Log_IsRunning").d("onDestroy: false")
         unregisterEdgeStateReceiverSafe()
         unregisterReceiverSafe()
         hideOverlay()

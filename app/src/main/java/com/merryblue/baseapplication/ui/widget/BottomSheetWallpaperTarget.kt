@@ -1,7 +1,12 @@
 package com.merryblue.baseapplication.ui.widget
 
+import android.app.Dialog
 import android.os.Build
+import android.os.Bundle
+import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.merryblue.baseapplication.databinding.BottomSheetWallpaperTargetBinding
+import com.merryblue.baseapplication.helpers.applyFullScreenMode
+import com.merryblue.baseapplication.helpers.setupFullScreen
 import org.app.core.base.BaseBottomSheetFragment
 
 enum class WallpaperTarget { HOME, LOCK, BOTH }
@@ -9,6 +14,17 @@ enum class WallpaperTarget { HOME, LOCK, BOTH }
 class BottomSheetWallpaperTarget(
     var onSelected: (WallpaperTarget) -> Unit
 ): BaseBottomSheetFragment<BottomSheetWallpaperTargetBinding>() {
+
+    override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
+        val dialog = super.onCreateDialog(savedInstanceState) as BottomSheetDialog
+        dialog.setupFullScreen()
+        return dialog
+    }
+
+    override fun onStart() {
+        super.onStart()
+        dialog?.window?.applyFullScreenMode()
+    }
 
     override fun initDialog() {
         binding.apply {

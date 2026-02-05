@@ -6,6 +6,8 @@ import android.view.View
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.merryblue.baseapplication.databinding.BottomSheetNoInternetBinding
+import com.merryblue.baseapplication.helpers.applyFullScreenMode
+import com.merryblue.baseapplication.helpers.setupFullScreen
 import org.app.core.base.BaseBottomSheetFragment
 
 class BottomSheetNoInternet: BaseBottomSheetFragment<BottomSheetNoInternetBinding>() {
@@ -22,12 +24,15 @@ class BottomSheetNoInternet: BaseBottomSheetFragment<BottomSheetNoInternetBindin
             skipCollapsed = true
             state = BottomSheetBehavior.STATE_EXPANDED
         }
+
+        dialog.window?.applyFullScreenMode()
     }
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         val dialog = super.onCreateDialog(savedInstanceState) as BottomSheetDialog
         dialog.setCanceledOnTouchOutside(false)
         dialog.setCancelable(false)
+        dialog.setupFullScreen()
         return dialog
     }
 

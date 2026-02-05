@@ -18,32 +18,16 @@ fun Fragment.safeNavigate(
 ) {
     runCatching {
         val navController = findNavControllerOrNull() ?: return@runCatching
-
-        Timber.tag("Log_Screen").d(
-            "NAV from=${navController.currentDestination?.id} " +
-                    "label=${navController.currentDestination?.label}"
-        )
-
         if (navController.hasAction(resId)) {
             navController.navigate(resId, args)
         }
-    }.onFailure {
-        Timber.tag("Log_Screen").e(it, "Navigate failed")
     }
 }
 
 fun Fragment.safeNavigate(navDirections: NavDirections) {
     val navController = findNavControllerOrNull() ?: return
-
-    Timber.tag("Log_Screen").d(
-        "NAV from=${navController.currentDestination?.id} " +
-                "label=${navController.currentDestination?.label}"
-    )
-
     runCatching {
         navController.navigate(navDirections)
-    }.onFailure {
-        Timber.tag("Log_Screen").e(it, "Navigate failed")
     }
 }
 
@@ -55,8 +39,6 @@ fun Fragment.safeNavigateParentNav(
         requireActivity()
             .findNavController(navHostId)
             .navigate(navDirections)
-    }.onFailure {
-        Timber.tag("Log_Screen").e(it, "Parent navigate failed")
     }
 }
 

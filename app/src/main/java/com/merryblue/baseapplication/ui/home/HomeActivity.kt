@@ -11,6 +11,7 @@ import android.view.View
 import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.annotation.NavigationRes
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
@@ -32,6 +33,7 @@ import com.merryblue.baseapplication.helpers.isBackground
 import com.merryblue.baseapplication.helpers.openPolicy
 import com.merryblue.baseapplication.ui.appupdate.ForceUpdateActivity
 import com.merryblue.baseapplication.ui.onboard.language.LanguageActivity
+import com.merryblue.baseapplication.ui.setting.SettingFragment
 import com.merryblue.baseapplication.ui.view.EdgeBottomNavView
 import com.merryblue.baseapplication.ui.widget.BottomSheetRate
 import dagger.hilt.android.AndroidEntryPoint
@@ -129,8 +131,22 @@ class HomeActivity : BaseActivity<ActivityHomeBinding>() {
             EdgeBottomNavView.Tab.SETTING -> set
         }
 
-        tx.show(toShow).commit()
+        tx.show(toShow).commitNow()
         currentTab = tab
+
+        checkTabSetting(tab, set)
+    }
+
+    private fun checkTabSetting(tab: EdgeBottomNavView.Tab, set: Fragment, ) {
+        if (tab == EdgeBottomNavView.Tab.SETTING) {
+            val current = set.childFragmentManager.primaryNavigationFragment
+            if (current is SettingFragment) {
+                current.updateEdgeToggle()
+            } else {
+                val nested = (current as? NavHostFragment)?.childFragmentManager?.primaryNavigationFragment
+                (nested as? SettingFragment)?.updateEdgeToggle()
+            }
+        }
     }
 
 

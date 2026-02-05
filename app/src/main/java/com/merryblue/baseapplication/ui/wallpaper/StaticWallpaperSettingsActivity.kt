@@ -5,8 +5,12 @@ import android.content.Intent
 import android.graphics.BitmapFactory
 import android.os.Bundle
 import android.provider.Settings
+import androidx.activity.viewModels
 import androidx.core.content.ContextCompat
 import androidx.core.net.toUri
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.merryblue.baseapplication.R
 import com.merryblue.baseapplication.coredata.local.AppPreferences
@@ -16,6 +20,7 @@ import com.merryblue.baseapplication.ui.widget.BottomSheetEdgePermission
 import com.merryblue.baseapplication.ui.widget.BottomSheetWallpaperTarget
 import com.merryblue.baseapplication.ui.widget.WallpaperTarget
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.launch
 import org.app.core.base.BaseActivity
 import org.app.core.base.extensions.toastMsg
 
@@ -23,6 +28,7 @@ import org.app.core.base.extensions.toastMsg
 class StaticWallpaperSettingsActivity : BaseActivity<ActivityStaticWallpaperSettingsBinding>() {
 
     private val prefs by lazy { AppPreferences(this) }
+    private val edgePermissionViewModel: EdgePermissionViewModel by viewModels()
     private val overlayPermissionLauncher = registerForActivityResult(androidx.activity.result.contract.ActivityResultContracts.StartActivityForResult()) {
         if (Settings.canDrawOverlays(this)) {
             prefs.edgeState = prefs.edgeState.copy(isEnableEdgeLighting = true)
@@ -48,6 +54,17 @@ class StaticWallpaperSettingsActivity : BaseActivity<ActivityStaticWallpaperSett
         registerClicks()
     }
 
+    override fun setUpObserver() {
+        lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                edgePermissionViewModel.edgePermission.collect {
+                    val i = Intent(Settings.ACTION_MANAGE_OVERLAY_PERMISSION, "package:${packageName}".toUri())
+                    overlayPermissionLauncher.launch(i)
+                }
+            }
+        }
+    }
+
     private fun checkPermissionOverlay() {
         if (!Settings.canDrawOverlays(this)) {
             showBottomSheetEdgePermission()
@@ -63,11 +80,7 @@ class StaticWallpaperSettingsActivity : BaseActivity<ActivityStaticWallpaperSett
 
     private fun showBottomSheetEdgePermission() {
         (supportFragmentManager.findFragmentByTag(BottomSheetEdgePermission.TAG) as? BottomSheetDialogFragment)?.dismissAllowingStateLoss()
-        val bottom = BottomSheetEdgePermission.newInstance {
-            val i = Intent(Settings.ACTION_MANAGE_OVERLAY_PERMISSION, "package:${packageName}".toUri())
-            overlayPermissionLauncher.launch(i)
-        }
-        bottom.show(supportFragmentManager, BottomSheetEdgePermission.TAG)
+        BottomSheetEdgePermission.newInstance().show(supportFragmentManager, BottomSheetEdgePermission.TAG)
     }
 
     private fun registerClicks() {

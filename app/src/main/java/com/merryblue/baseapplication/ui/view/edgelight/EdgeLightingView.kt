@@ -1695,8 +1695,6 @@ class EdgeLightingView @JvmOverloads constructor(context: Context, attrs: Attrib
     fun getHoleShape(): EdgeHoleShape = holeShape
 
     fun setHoleOffsetX(px: Float) {
-        Timber.tag("Log_HoleOffset").d("holeX: $progress")
-
         if (holeOffsetX == px) return
         holeOffsetX = px
         if (notchType == Advanced.NOTCH_DISPLAY_HOLE) clampHoleOffsetsForCurrentConfig()
@@ -1705,8 +1703,6 @@ class EdgeLightingView @JvmOverloads constructor(context: Context, attrs: Attrib
     }
 
     fun setHoleOffsetY(px: Float) {
-        Timber.tag("Log_HoleOffset").d("holeY: $progress")
-
         if (holeOffsetY == px) return
         holeOffsetY = px
         if (notchType == Advanced.NOTCH_DISPLAY_HOLE) clampHoleOffsetsForCurrentConfig()

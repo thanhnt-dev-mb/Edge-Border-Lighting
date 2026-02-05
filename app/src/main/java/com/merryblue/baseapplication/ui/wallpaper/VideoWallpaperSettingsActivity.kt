@@ -7,9 +7,14 @@ import android.content.Intent
 import android.os.Bundle
 import android.provider.Settings
 import android.view.View
+import androidx.activity.result.contract.ActivityResultContracts
+import androidx.activity.viewModels
 import androidx.annotation.OptIn
 import androidx.core.content.ContextCompat
 import androidx.core.net.toUri
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import androidx.media3.common.C
 import androidx.media3.common.MediaItem
 import androidx.media3.common.Player
@@ -27,15 +32,24 @@ import com.merryblue.baseapplication.service.edge.EdgeLightingOverlayService
 import com.merryblue.baseapplication.service.edge.VideoWallpaperService
 import com.merryblue.baseapplication.ui.widget.BottomSheetEdgePermission
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.launch
 import org.app.core.base.BaseActivity
 import org.app.core.base.extensions.toastMsg
-import kotlin.getValue
 
 @AndroidEntryPoint
 class VideoWallpaperSettingsActivity : BaseActivity<ActivityVideoWallpaperSettingsBinding>() {
 
     private val prefs by lazy { AppPreferences(this) }
-    private val overlayPermissionLauncher = registerForActivityResult(androidx.activity.result.contract.ActivityResultContracts.StartActivityForResult()) {
+    private val edgePermissionViewModel: EdgePermissionViewModel by viewModels()
+    private val setLiveWallpaperLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { _ ->
+        if (isMyLiveWallpaperActive()) {
+            checkPermissionOverlay()
+        } else {
+            toastMsg(getString(R.string.live_wallpaper_set_cancelled))
+        }
+    }
+
+    private val overlayPermissionLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
         if (Settings.canDrawOverlays(this)) {
             prefs.edgeState = prefs.edgeState.copy(isEnableEdgeLighting = true)
             startEdgeOverlay()
@@ -56,6 +70,17 @@ class VideoWallpaperSettingsActivity : BaseActivity<ActivityVideoWallpaperSettin
     override fun setUpViews() {
         initVideoPreview()
         registerOnClick()
+    }
+
+    override fun setUpObserver() {
+        lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                edgePermissionViewModel.edgePermission.collect {
+                    val i = Intent(Settings.ACTION_MANAGE_OVERLAY_PERMISSION, "package:${packageName}".toUri())
+                    overlayPermissionLauncher.launch(i)
+                }
+            }
+        }
     }
 
     private fun registerOnClick() {
@@ -111,9 +136,12 @@ class VideoWallpaperSettingsActivity : BaseActivity<ActivityVideoWallpaperSettin
 
     private fun checkPermissionOverlay() {
         if (!Settings.canDrawOverlays(this)) {
+            toastMsg(getString(R.string.live_wallpaper_set_success))
             showBottomSheetEdgePermission()
             return
         }
+
+        toastMsg(getString(R.string.live_wallpaper_set_success))
         startEdgeOverlay()
     }
 
@@ -124,11 +152,7 @@ class VideoWallpaperSettingsActivity : BaseActivity<ActivityVideoWallpaperSettin
 
     private fun showBottomSheetEdgePermission() {
         (supportFragmentManager.findFragmentByTag(BottomSheetEdgePermission.TAG) as? BottomSheetDialogFragment)?.dismissAllowingStateLoss()
-        val bottom = BottomSheetEdgePermission.newInstance {
-            val i = Intent(Settings.ACTION_MANAGE_OVERLAY_PERMISSION, "package:${packageName}".toUri())
-            overlayPermissionLauncher.launch(i)
-        }
-        bottom.show(supportFragmentManager, BottomSheetEdgePermission.TAG)
+        BottomSheetEdgePermission.newInstance().show(supportFragmentManager, BottomSheetEdgePermission.TAG)
     }
 
     private fun openSystemLiveWallpaperPicker(service: ComponentName) {
@@ -138,15 +162,13 @@ class VideoWallpaperSettingsActivity : BaseActivity<ActivityVideoWallpaperSettin
 
         try {
             when {
-                prefs.canChangeLive -> startActivity(changeIntent)
-                prefs.canLiveChooser -> startActivity(Intent(WallpaperManager.ACTION_LIVE_WALLPAPER_CHOOSER))
+                prefs.canChangeLive -> setLiveWallpaperLauncher.launch(changeIntent)
+                prefs.canLiveChooser -> setLiveWallpaperLauncher.launch(Intent(WallpaperManager.ACTION_LIVE_WALLPAPER_CHOOSER))
                 else -> toastMsg(getString(R.string.this_device_does_not_support_installing_live_wallpaper))
             }
         } catch (_: ActivityNotFoundException) {
             toastMsg(getString(R.string.this_device_does_not_support_installing_live_wallpaper))
         }
-
-        checkPermissionOverlay()
     }
 
     private fun isMyLiveWallpaperActive(): Boolean {

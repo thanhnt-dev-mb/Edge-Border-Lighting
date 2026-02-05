@@ -76,8 +76,6 @@ class ThemePagingSource(
 
     override suspend fun load(params: LoadParams<ChainKey>): LoadResult<ChainKey, ThemeUi> {
         return try {
-            Timber.tag("Log_Key").d("isGallery: $isGallery, isCustom: $isCustom")
-
             require(!(isGallery && isCustom)) { "isGallery và isCustom không được cùng true" }
 
             val chain = chainForType(type)

@@ -43,32 +43,26 @@ import kotlinx.coroutines.launch
 import org.app.core.base.BaseFragment
 
 @AndroidEntryPoint
-class ThemeChildFragment: BaseFragment<FragmentThemeChildBinding>() {
+class ThemeChildFragment : BaseFragment<FragmentThemeChildBinding>() {
 
     private val viewModel: ThemeViewModel by viewModels()
     private val homeViewModel: HomeViewModel by viewModels()
     private val prefs by lazy { AppPreferences(requireContext()) }
+
     private var typeTheme: String = RIPPLE_MAGICAL_BORDERS
+    private var currentType = WallpaperType.TYPE_STATIC
     private var isGallery: Boolean = false
     private var isCustom: Boolean = false
-    private var currentType = WallpaperType.TYPE_STATIC
 
     private val onClick: (Item) -> Unit = { handleItemClick(it) }
-    private val onGalleryClick: (ThemeUi.Gallery) -> Unit = { openGalleryPickOne() }
+    private val onGalleryClick: (ThemeUi.Gallery) -> Unit = { openGalleryPickOneSafe() }
     private val onThemeCustomClick: (ThemeUi.Custom) -> Unit = { handelThemeCustomClick() }
 
-    private val pickPhoto = registerForActivityResult(ActivityResultContracts.PickVisualMedia()) { uri: Uri? ->
+    private val pickPhoto13Plus = registerForActivityResult(ActivityResultContracts.PickVisualMedia()) { uri: Uri? ->
         uri?.let { handlePickedImage(it) }
     }
 
-    private val pickFromGallery = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
-        val uri = result.data?.data
-        if (result.resultCode == android.app.Activity.RESULT_OK && uri != null) {
-            handlePickedImage(uri)
-        }
-    }
-
-    private val getContent = registerForActivityResult(ActivityResultContracts.GetContent()) { uri: Uri? ->
+    private val getContentLegacy = registerForActivityResult(ActivityResultContracts.GetContent()) { uri: Uri? ->
         uri?.let { handlePickedImage(it) }
     }
 
@@ -126,7 +120,6 @@ class ThemeChildFragment: BaseFragment<FragmentThemeChildBinding>() {
                         val key = pair.first
                         val bmp = pair.second
                         bmp?.let {
-
                             val canSetLive = prefs.canChangeLive || prefs.canLiveChooser
 
                             if (canSetLive) {
@@ -146,43 +139,33 @@ class ThemeChildFragment: BaseFragment<FragmentThemeChildBinding>() {
                                         startActivity(Intent(requireContext(), StaticWallpaperSettingsActivity::class.java))
                                     }
                                 }
-
                             } else {
                                 WallpaperBgStore.saveFile(requireContext(), it)
                                 startActivity(Intent(requireContext(), StaticWallpaperSettingsActivity::class.java))
                             }
-                        } ?: run { Toast.makeText(requireContext(), getString(R.string.an_error_has_occurred), Toast.LENGTH_SHORT).show() }
+                        } ?: run {
+                            Toast.makeText(requireContext(), getString(R.string.an_error_has_occurred), Toast.LENGTH_SHORT).show()
+                        }
                     }
                 }
             }
         }
     }
 
-    private fun openGalleryPickOne() {
-        if (!isAdded || isDetached) return
-        if (!viewLifecycleOwner.lifecycle.currentState.isAtLeast(Lifecycle.State.STARTED)) return
+    private fun canLaunchPicker(): Boolean {
+        if (!isAdded || isDetached) return false
+        if (!isResumed) return false
+        if (parentFragmentManager.isStateSaved) return false
+        if (!viewLifecycleOwner.lifecycle.currentState.isAtLeast(Lifecycle.State.STARTED)) return false
+        return true
+    }
 
+    private fun openGalleryPickOneSafe() {
+        if (!canLaunchPicker()) return
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.TIRAMISU) {
-            pickPhoto.launch(PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageOnly))
-            return
-        }
-
-        val pickIntent = Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI).apply {
-            type = "image/*"
-        }
-
-        val pm = requireContext().packageManager
-        val canPick = pickIntent.resolveActivity(pm) != null
-
-        if (canPick) {
-            pickFromGallery.launch(Intent.createChooser(pickIntent, getString(R.string.app_name)))
-            return
-        }
-
-        try {
-            getContent.launch("image/*")
-        } catch (_: Throwable) {
-            Toast.makeText(requireContext(), "Cannot open gallery on this device", Toast.LENGTH_SHORT).show()
+            pickPhoto13Plus.launch(PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageOnly))
+        } else {
+            getContentLegacy.launch("image/*")
         }
     }
 
@@ -222,18 +205,25 @@ class ThemeChildFragment: BaseFragment<FragmentThemeChildBinding>() {
                     homeViewModel.loadBackgroundRippleUrl(item, requireContext().getFullScreenTargetSize())
                 }
             }
+        } else {
+            homeViewModel.loadStaticBackgroundUrl(item, requireContext().getFullScreenTargetSize())
+        }
+    }
 
-        } else homeViewModel.loadStaticBackgroundUrl(item, requireContext().getFullScreenTargetSize())
+    override fun onDestroyView() {
+        binding.rcvTheme.adapter = null
+        super.onDestroyView()
     }
 
     companion object {
         @JvmStatic
-        fun newInstance(theme: String, isGallery: Boolean, isCustom: Boolean) = ThemeChildFragment().apply {
-            arguments = Bundle().apply {
-                putString(TYPE_THEME, theme)
-                putBoolean(KEY_IS_GALLERY, isGallery)
-                putBoolean(KEY_IS_CUSTOM, isCustom)
+        fun newInstance(theme: String, isGallery: Boolean, isCustom: Boolean) =
+            ThemeChildFragment().apply {
+                arguments = Bundle().apply {
+                    putString(TYPE_THEME, theme)
+                    putBoolean(KEY_IS_GALLERY, isGallery)
+                    putBoolean(KEY_IS_CUSTOM, isCustom)
+                }
             }
-        }
     }
 }

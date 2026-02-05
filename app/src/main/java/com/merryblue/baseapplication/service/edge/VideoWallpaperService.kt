@@ -7,9 +7,11 @@ import android.content.IntentFilter
 import android.os.Build
 import android.service.wallpaper.WallpaperService
 import android.view.SurfaceHolder
+import androidx.annotation.OptIn
 import androidx.media3.common.C
 import androidx.media3.common.MediaItem
 import androidx.media3.common.Player
+import androidx.media3.common.util.UnstableApi
 import androidx.media3.exoplayer.ExoPlayer
 import androidx.media3.exoplayer.source.DefaultMediaSourceFactory
 import com.merryblue.baseapplication.coredata.local.AppPreferences
@@ -139,14 +141,14 @@ class VideoWallpaperService : WallpaperService() {
         /**
          * Create a fresh ExoPlayer instance, bind to the wallpaper surface, and start buffering.
          */
+        @OptIn(UnstableApi::class)
         private fun startPlayer(holder: SurfaceHolder, url: String) {
             release()
 
             // Optional: warm up cache to reduce first-frame latency.
             VideoPreloader.preload(applicationContext, url)
 
-            val mediaSourceFactory =
-                DefaultMediaSourceFactory(VideoDataSource.cachedFactory(applicationContext))
+            val mediaSourceFactory = DefaultMediaSourceFactory(VideoDataSource.cachedFactory(applicationContext))
 
             player = ExoPlayer.Builder(applicationContext)
                 .setMediaSourceFactory(mediaSourceFactory)
