@@ -66,6 +66,7 @@ class ThemesActivity : BaseActivity<ActivityThemesBinding>() {
         mediator = TabLayoutMediator(tabTheme, vpThemes) { tab, position ->
             tab.text = titles[position].second
         }.apply { attach() }
+        vpThemes.offscreenPageLimit = 3
 
         if (initType == TYPE_THEME) tabTheme.visibility = View.GONE
 

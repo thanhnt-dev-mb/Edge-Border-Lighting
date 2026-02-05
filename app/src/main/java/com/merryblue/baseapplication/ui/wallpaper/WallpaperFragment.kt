@@ -55,6 +55,7 @@ class WallpaperFragment : BaseFragment<FragmentWallpaperBinding>() {
             tab.text = titles[position].second
         }.apply { attach() }
 
+        vpWallpaper.offscreenPageLimit = 3
     }
 
     override fun onDestroyView() {
