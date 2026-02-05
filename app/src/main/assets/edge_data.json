@@ -3225,982 +3225,1835 @@
         {
           "id": "ripple/top_pics/fimm1",
           "index": 1,
-          "path": "ripple/top_pics/fimm1_small.jpg",
+          "path": "ripple/top_pics/image/fimm1_small.jpg",
+          "thumbPath": "ripple/top_pics/thumb/fimm1_small.png",
           "premium": false,
-          "type": "static"
+          "type": "edge",
+          "colors": [
+            "#379BEF",
+            "#DD111E",
+            "#FEFCB6",
+            "#0A142F"
+          ]
         },
         {
           "id": "ripple/top_pics/fimm2",
           "index": 2,
-          "path": "ripple/top_pics/fimm2_small.jpg",
+          "path": "ripple/top_pics/image/fimm2_small.jpg",
+          "thumbPath": "ripple/top_pics/thumb/fimm2_small.png",
           "premium": false,
-          "type": "static"
+          "type": "edge",
+          "colors": [
+            "#0A5ABB",
+            "#DB0015"
+          ]
         },
         {
           "id": "ripple/top_pics/fimm3",
           "index": 3,
-          "path": "ripple/top_pics/fimm3_small.jpg",
+          "path": "ripple/top_pics/image/fimm3_small.jpg",
+          "thumbPath": "ripple/top_pics/thumb/fimm3_small.png",
           "premium": false,
-          "type": "static"
+          "type": "edge",
+          "colors": [
+            "#00B6EE",
+            "#FCCD02",
+            "#ED1E2A",
+            "#5A28A0"
+          ]
         },
         {
           "id": "ripple/top_pics/fimm4",
           "index": 4,
-          "path": "ripple/top_pics/fimm4_small.jpg",
+          "path": "ripple/top_pics/image/fimm4_small.jpg",
+          "thumbPath": "ripple/top_pics/thumb/fimm4_small.png",
           "premium": false,
-          "type": "static"
+          "type": "edge",
+          "colors": [
+            "#FF7D1D",
+            "#04F4FC",
+            "#FC04BC",
+            "#000212"
+          ]
         },
         {
           "id": "ripple/top_pics/fimm5",
           "index": 5,
-          "path": "ripple/top_pics/fimm5_small.jpg",
+          "path": "ripple/top_pics/image/fimm5_small.jpg",
+          "thumbPath": "ripple/top_pics/thumb/fimm5_small.png",
           "premium": false,
-          "type": "static"
+          "type": "edge",
+          "colors": [
+            "#FDD914",
+            "#051126",
+            "#FF162E"
+          ]
         },
         {
           "id": "ripple/top_pics/fimm6",
           "index": 6,
-          "path": "ripple/top_pics/fimm6_small.jpg",
+          "path": "ripple/top_pics/image/fimm6_small.jpg",
+          "thumbPath": "ripple/top_pics/thumb/fimm6_small.png",
           "premium": false,
-          "type": "static"
+          "type": "edge",
+          "colors": [
+            "#FF7906",
+            "#D6AB89"
+          ]
         },
         {
           "id": "ripple/top_pics/fimm7",
           "index": 7,
-          "path": "ripple/top_pics/fimm7_small.jpg",
+          "path": "ripple/top_pics/image/fimm7_small.jpg",
+          "thumbPath": "ripple/top_pics/thumb/fimm7_small.png",
           "premium": false,
-          "type": "static"
+          "type": "edge",
+          "colors": [
+            "#FF830B",
+            "#886615",
+            "#0F83D2"
+          ]
         },
         {
           "id": "ripple/top_pics/fimm8",
           "index": 8,
-          "path": "ripple/top_pics/fimm8_small.jpg",
+          "path": "ripple/top_pics/image/fimm8_small.jpg",
+          "thumbPath": "ripple/top_pics/thumb/fimm8_small.png",
           "premium": false,
-          "type": "static"
+          "type": "edge",
+          "colors": [
+            "#FB3800",
+            "#FEC94D",
+            "#120806"
+          ]
         },
         {
           "id": "ripple/top_pics/fimm9",
           "index": 9,
-          "path": "ripple/top_pics/fimm9_small.jpg",
+          "path": "ripple/top_pics/image/fimm9_small.jpg",
+          "thumbPath": "ripple/top_pics/thumb/fimm9_small.png",
           "premium": false,
-          "type": "static"
+          "type": "edge",
+          "colors": [
+            "#5EEFF2",
+            "#023246",
+            "#ECC03E"
+          ]
         },
         {
           "id": "ripple/top_pics/fimm10",
           "index": 10,
-          "path": "ripple/top_pics/fimm10_small.jpg",
+          "path": "ripple/top_pics/image/fimm10_small.jpg",
+          "thumbPath": "ripple/top_pics/thumb/fimm10_small.png",
           "premium": false,
-          "type": "static"
+          "type": "edge",
+          "colors": [
+            "#FF2ACD",
+            "#FC4B15",
+            "#419B39"
+          ]
         },
         {
           "id": "ripple/top_pics/fimm11",
           "index": 11,
-          "path": "ripple/top_pics/fimm11_small.jpg",
+          "path": "ripple/top_pics/image/fimm11_small.jpg",
+          "thumbPath": "ripple/top_pics/thumb/fimm11_small.png",
           "premium": false,
-          "type": "static"
+          "type": "edge",
+          "colors": [
+            "#FFAF37",
+            "#118C50",
+            "#F21B09",
+            "#772A5F"
+          ]
         },
         {
           "id": "ripple/top_pics/fimm12",
           "index": 12,
-          "path": "ripple/top_pics/fimm12_small.jpg",
+          "path": "ripple/top_pics/image/fimm12_small.jpg",
+          "thumbPath": "ripple/top_pics/thumb/fimm12_small.png",
           "premium": false,
-          "type": "static"
+          "type": "edge",
+          "colors": [
+            "#8DFB0F",
+            "#00DFFF",
+            "#F96C03",
+            "#030710"
+          ]
         },
         {
           "id": "ripple/top_pics/fimm13",
           "index": 13,
-          "path": "ripple/top_pics/fimm13_small.jpg",
+          "path": "ripple/top_pics/image/fimm13_small.jpg",
+          "thumbPath": "ripple/top_pics/thumb/fimm13_small.png",
           "premium": false,
-          "type": "static"
+          "type": "edge",
+          "colors": [
+            "#F3CEC5",
+            "#FB8242",
+            "#F8F615",
+            "#023467"
+          ]
         },
         {
           "id": "ripple/top_pics/fimm14",
           "index": 14,
-          "path": "ripple/top_pics/fimm14_small.jpg",
+          "path": "ripple/top_pics/image/fimm14_small.jpg",
+          "thumbPath": "ripple/top_pics/thumb/fimm14_small.png",
           "premium": false,
-          "type": "static"
+          "type": "edge",
+          "colors": [
+            "#FFF62D",
+            "#3E2CDC",
+            "#BA2B8F"
+          ]
         },
         {
           "id": "ripple/top_pics/fimm15",
           "index": 15,
-          "path": "ripple/top_pics/fimm15_small.jpg",
+          "path": "ripple/top_pics/image/fimm15_small.jpg",
+          "thumbPath": "ripple/top_pics/thumb/fimm15_small.png",
           "premium": false,
-          "type": "static"
+          "type": "edge",
+          "colors": [
+            "#FA1D67",
+            "#015CAB"
+          ]
         },
         {
           "id": "ripple/top_pics/fimm16",
           "index": 16,
-          "path": "ripple/top_pics/fimm16_small.jpg",
+          "path": "ripple/top_pics/image/fimm16_small.jpg",
+          "thumbPath": "ripple/top_pics/thumb/fimm16_small.png",
           "premium": false,
-          "type": "static"
+          "type": "edge",
+          "colors": [
+            "#8FCCFF",
+            "#FB5C00",
+            "#0D97EE",
+            "#6ADC05"
+          ]
         },
         {
           "id": "ripple/top_pics/fimm17",
           "index": 17,
-          "path": "ripple/top_pics/fimm17_small.jpg",
+          "path": "ripple/top_pics/image/fimm17_small.jpg",
+          "thumbPath": "ripple/top_pics/thumb/fimm17_small.png",
           "premium": false,
-          "type": "static"
+          "type": "edge",
+          "colors": [
+            "#FC7502",
+            "#B38EFF",
+            "#3D90E0"
+          ]
         },
         {
           "id": "ripple/top_pics/fimm18",
           "index": 18,
-          "path": "ripple/top_pics/fimm18_small.jpg",
+          "path": "ripple/top_pics/image/fimm18_small.jpg",
+          "thumbPath": "ripple/top_pics/thumb/fimm18_small.png",
           "premium": false,
-          "type": "static"
+          "type": "edge",
+          "colors": [
+            "#0E3050",
+            "#F111B2",
+            "#FB4005",
+            "#F59A0A"
+          ]
         },
         {
           "id": "ripple/top_pics/fimm19",
           "index": 19,
-          "path": "ripple/top_pics/fimm19_small.jpg",
+          "path": "ripple/top_pics/image/fimm19_small.jpg",
+          "thumbPath": "ripple/top_pics/thumb/fimm19_small.png",
           "premium": false,
-          "type": "static"
+          "type": "edge",
+          "colors": [
+            "#FFFFFF",
+            "#010101"
+          ]
         },
         {
           "id": "ripple/top_pics/fimm20",
           "index": 20,
-          "path": "ripple/top_pics/fimm20_small.jpg",
+          "path": "ripple/top_pics/image/fimm20_small.jpg",
+          "thumbPath": "ripple/top_pics/thumb/fimm20_small.png",
           "premium": false,
-          "type": "static"
+          "type": "edge",
+          "colors": [
+            "#F12F20",
+            "#201F25"
+          ]
         },
         {
           "id": "ripple/top_pics/fimm21",
           "index": 21,
-          "path": "ripple/top_pics/fimm21_small.jpg",
+          "path": "ripple/top_pics/image/fimm21_small.jpg",
+          "thumbPath": "ripple/top_pics/thumb/fimm21_small.png",
           "premium": false,
-          "type": "static"
+          "type": "edge",
+          "colors": [
+            "#40C1F7",
+            "#BB1F00",
+            "#FFCFE0"
+          ]
         },
         {
           "id": "ripple/top_pics/fimm22",
           "index": 22,
-          "path": "ripple/top_pics/fimm22_small.jpg",
+          "path": "ripple/top_pics/image/fimm22_small.jpg",
+          "thumbPath": "ripple/top_pics/thumb/fimm22_small.png",
           "premium": false,
-          "type": "static"
+          "type": "edge",
+          "colors": [
+            "#01B4FF",
+            "#FF5879",
+            "#0058AD"
+          ]
         },
         {
           "id": "ripple/top_pics/fimm23",
           "index": 23,
-          "path": "ripple/top_pics/fimm23_small.jpg",
+          "path": "ripple/top_pics/image/fimm23_small.jpg",
+          "thumbPath": "ripple/top_pics/thumb/fimm23_small.png",
           "premium": false,
-          "type": "static"
+          "type": "edge",
+          "colors": [
+            "#FF4700",
+            "#F4137F",
+            "#108AE2"
+          ]
         },
         {
           "id": "ripple/top_pics/fimm24",
           "index": 24,
-          "path": "ripple/top_pics/fimm24_small.jpg",
+          "path": "ripple/top_pics/image/fimm24_small.jpg",
+          "thumbPath": "ripple/top_pics/thumb/fimm24_small.png",
           "premium": false,
-          "type": "static"
+          "type": "edge",
+          "colors": [
+            "#FFDFA5",
+            "#FD2700",
+            "#E83604"
+          ]
         },
         {
           "id": "ripple/top_pics/fimm25",
           "index": 25,
-          "path": "ripple/top_pics/fimm25_small.jpg",
+          "path": "ripple/top_pics/image/fimm25_small.jpg",
+          "thumbPath": "ripple/top_pics/thumb/fimm25_small.png",
           "premium": false,
-          "type": "static"
+          "type": "edge",
+          "colors": [
+            "#065ED1",
+            "#FFC948",
+            "#D6FBFF",
+            "#11060E"
+          ]
         },
         {
           "id": "ripple/top_pics/fimm26",
           "index": 26,
-          "path": "ripple/top_pics/fimm26_small.jpg",
+          "path": "ripple/top_pics/image/fimm26_small.jpg",
+          "thumbPath": "ripple/top_pics/thumb/fimm26_small.png",
           "premium": false,
-          "type": "static"
+          "type": "edge",
+          "colors": [
+            "#27E26C",
+            "#C9EEFF",
+            "#ECFF45",
+            "#00A97B"
+          ]
         },
         {
           "id": "ripple/top_pics/fimm27",
           "index": 27,
-          "path": "ripple/top_pics/fimm27_small.jpg",
+          "path": "ripple/top_pics/image/fimm27_small.jpg",
+          "thumbPath": "ripple/top_pics/thumb/fimm27_small.png",
           "premium": false,
-          "type": "static"
+          "type": "edge",
+          "colors": [
+            "#01D4B4",
+            "#FB0300"
+          ]
         },
         {
           "id": "ripple/top_pics/fimm28",
           "index": 28,
-          "path": "ripple/top_pics/fimm28_small.jpg",
+          "path": "ripple/top_pics/image/fimm28_small.jpg",
+          "thumbPath": "ripple/top_pics/thumb/fimm28_small.png",
           "premium": false,
-          "type": "static"
+          "type": "edge",
+          "colors": [
+            "#FB6AF5",
+            "#FF750C",
+            "#FFEC70",
+            "#B83044"
+          ]
         },
         {
           "id": "ripple/top_pics/fimm29",
           "index": 29,
-          "path": "ripple/top_pics/fimm29_small.jpg",
+          "path": "ripple/top_pics/image/fimm29_small.jpg",
+          "thumbPath": "ripple/top_pics/thumb/fimm29_small.png",
           "premium": false,
-          "type": "static"
+          "type": "edge",
+          "colors": [
+            "#01012D",
+            "#FCEF09",
+            "#00AEFF"
+          ]
         },
         {
           "id": "ripple/top_pics/fimm30",
           "index": 30,
-          "path": "ripple/top_pics/fimm30_small.jpg",
+          "path": "ripple/top_pics/image/fimm30_small.jpg",
+          "thumbPath": "ripple/top_pics/thumb/fimm30_small.png",
           "premium": false,
-          "type": "static"
+          "type": "edge",
+          "colors": [
+            "#FFFDE2",
+            "#B7C4F6",
+            "#181E36"
+          ]
         },
         {
           "id": "ripple/top_pics/fimm31",
           "index": 31,
-          "path": "ripple/top_pics/fimm31_small.jpg",
+          "path": "ripple/top_pics/image/fimm31_small.jpg",
+          "thumbPath": "ripple/top_pics/thumb/fimm31_small.png",
           "premium": false,
-          "type": "static"
+          "type": "edge",
+          "colors": [
+            "#E55D14",
+            "#FFAE16",
+            "#6E820D"
+          ]
         },
         {
           "id": "ripple/top_pics/fimm32",
           "index": 32,
-          "path": "ripple/top_pics/fimm32_small.jpg",
+          "path": "ripple/top_pics/image/fimm32_small.jpg",
+          "thumbPath": "ripple/top_pics/thumb/fimm32_small.png",
           "premium": false,
-          "type": "static"
+          "type": "edge",
+          "colors": [
+            "#FD8813",
+            "#0DC7ED",
+            "#012699"
+          ]
         },
         {
           "id": "ripple/top_pics/fimm33",
           "index": 33,
-          "path": "ripple/top_pics/fimm33_small.jpg",
+          "path": "ripple/top_pics/image/fimm33_small.jpg",
+          "thumbPath": "ripple/top_pics/thumb/fimm33_small.png",
           "premium": false,
-          "type": "static"
+          "type": "edge",
+          "colors": [
+            "#FD5305",
+            "#1175B1",
+            "#D0155C"
+          ]
         },
         {
           "id": "ripple/top_pics/fimm34",
           "index": 34,
-          "path": "ripple/top_pics/fimm34_small.jpg",
+          "path": "ripple/top_pics/image/fimm34_small.jpg",
+          "thumbPath": "ripple/top_pics/thumb/fimm34_small.png",
           "premium": false,
-          "type": "static"
+          "type": "edge",
+          "colors": [
+            "#FECC0B",
+            "#3FAAFC",
+            "#F84163",
+            "#287DB4"
+          ]
         },
         {
           "id": "ripple/top_pics/fimm35",
           "index": 35,
-          "path": "ripple/top_pics/fimm35_small.jpg",
+          "path": "ripple/top_pics/image/fimm35_small.jpg",
+          "thumbPath": "ripple/top_pics/thumb/fimm35_small.png",
           "premium": false,
-          "type": "static"
+          "type": "edge",
+          "colors": [
+            "#FCBF11",
+            "#0267DB",
+            "#F92095"
+          ]
         },
         {
           "id": "ripple/top_pics/fimm36",
           "index": 36,
-          "path": "ripple/top_pics/fimm36_small.jpg",
+          "path": "ripple/top_pics/image/fimm36_small.jpg",
+          "thumbPath": "ripple/top_pics/thumb/fimm36_small.png",
           "premium": false,
-          "type": "static"
+          "type": "edge",
+          "colors": [
+            "#FDBC06",
+            "#F65C02",
+            "#3181D3",
+            "#AF0CA5"
+          ]
         },
         {
           "id": "ripple/top_pics/fimm37",
           "index": 37,
-          "path": "ripple/top_pics/fimm37_small.jpg",
+          "path": "ripple/top_pics/image/fimm37_small.jpg",
+          "thumbPath": "ripple/top_pics/thumb/fimm37_small.png",
           "premium": false,
-          "type": "static"
+          "type": "edge",
+          "colors": [
+            "#0261CF",
+            "#584FAC",
+            "#D40137",
+            "#60030D"
+          ]
         },
         {
           "id": "ripple/top_pics/fimm38",
           "index": 38,
-          "path": "ripple/top_pics/fimm38_small.jpg",
+          "path": "ripple/top_pics/image/fimm38_small.jpg",
+          "thumbPath": "ripple/top_pics/thumb/fimm38_small.png",
           "premium": false,
-          "type": "static"
+          "type": "edge",
+          "colors": [
+            "#045DBE",
+            "#F93119",
+            "#EBAF0B"
+          ]
         },
         {
           "id": "ripple/top_pics/fimm39",
           "index": 39,
-          "path": "ripple/top_pics/fimm39_small.jpg",
+          "path": "ripple/top_pics/image/fimm39_small.jpg",
+          "thumbPath": "ripple/top_pics/thumb/fimm39_small.png",
           "premium": false,
-          "type": "static"
+          "type": "edge",
+          "colors": [
+            "#FFAD43",
+            "#F4139A",
+            "#0139F2",
+            "#00A9BF"
+          ]
         },
         {
           "id": "ripple/top_pics/fimm40",
           "index": 40,
-          "path": "ripple/top_pics/fimm40_small.jpg",
+          "path": "ripple/top_pics/image/fimm40_small.jpg",
+          "thumbPath": "ripple/top_pics/thumb/fimm40_small.png",
           "premium": false,
-          "type": "static"
+          "type": "edge",
+          "colors": [
+            "#111016",
+            "#F8260F"
+          ]
         },
         {
           "id": "ripple/top_pics/fimm41",
           "index": 41,
-          "path": "ripple/top_pics/fimm41_small.jpg",
+          "path": "ripple/top_pics/image/fimm41_small.jpg",
+          "thumbPath": "ripple/top_pics/thumb/fimm41_small.png",
           "premium": false,
-          "type": "static"
+          "type": "edge",
+          "colors": [
+            "#F5A323",
+            "#0D1D38",
+            "#A2C216"
+          ]
         },
         {
           "id": "ripple/top_pics/fimm42",
           "index": 42,
-          "path": "ripple/top_pics/fimm42_small.jpg",
+          "path": "ripple/top_pics/image/fimm42_small.jpg",
+          "thumbPath": "ripple/top_pics/thumb/fimm42_small.png",
           "premium": false,
-          "type": "static"
+          "type": "edge",
+          "colors": [
+            "#0B81DE",
+            "#98C6EA",
+            "#95B4D3"
+          ]
         },
         {
           "id": "ripple/top_pics/fimm43",
           "index": 43,
-          "path": "ripple/top_pics/fimm43_small.jpg",
+          "path": "ripple/top_pics/image/fimm43_small.jpg",
+          "thumbPath": "ripple/top_pics/thumb/fimm43_small.png",
           "premium": false,
-          "type": "static"
+          "type": "edge",
+          "colors": [
+            "#FF4700",
+            "#51BBFF",
+            "#1C324A"
+          ]
         },
         {
           "id": "ripple/top_pics/fimm44",
           "index": 44,
-          "path": "ripple/top_pics/fimm44_small.jpg",
+          "path": "ripple/top_pics/image/fimm44_small.jpg",
+          "thumbPath": "ripple/top_pics/thumb/fimm44_small.png",
           "premium": false,
-          "type": "static"
+          "type": "edge",
+          "colors": [
+            "#FF0B40",
+            "#18EBF2",
+            "#FC9930"
+          ]
         },
         {
           "id": "ripple/top_pics/fimm45",
           "index": 45,
-          "path": "ripple/top_pics/fimm45_small.jpg",
+          "path": "ripple/top_pics/image/fimm45_small.jpg",
+          "thumbPath": "ripple/top_pics/thumb/fimm45_small.png",
           "premium": false,
-          "type": "static"
+          "type": "edge",
+          "colors": [
+            "#FFC502",
+            "#173761",
+            "#FA2906"
+          ]
         },
         {
           "id": "ripple/top_pics/fimm46",
           "index": 46,
-          "path": "ripple/top_pics/fimm46_small.jpg",
+          "path": "ripple/top_pics/image/fimm46_small.jpg",
+          "thumbPath": "ripple/top_pics/thumb/fimm46_small.png",
           "premium": false,
-          "type": "static"
+          "type": "edge",
+          "colors": [
+            "#FF6200",
+            "#01090D"
+          ]
         },
         {
           "id": "ripple/top_pics/fimm47",
           "index": 47,
-          "path": "ripple/top_pics/fimm47_small.jpg",
+          "path": "ripple/top_pics/image/fimm47_small.jpg",
+          "thumbPath": "ripple/top_pics/thumb/fimm47_small.png",
           "premium": false,
-          "type": "static"
+          "type": "edge",
+          "colors": [
+            "#FF8B14",
+            "#5D960E",
+            "#433D65"
+          ]
         },
         {
           "id": "ripple/top_pics/fimm48",
           "index": 48,
-          "path": "ripple/top_pics/fimm48_small.jpg",
+          "path": "ripple/top_pics/image/fimm48_small.jpg",
+          "thumbPath": "ripple/top_pics/thumb/fimm48_small.png",
           "premium": false,
-          "type": "static"
+          "type": "edge",
+          "colors": [
+            "#0BABFF",
+            "#F801E8",
+            "#ED048B",
+            "#FBDC29"
+          ]
         },
         {
           "id": "ripple/top_pics/fimm49",
           "index": 49,
-          "path": "ripple/top_pics/fimm49_small.jpg",
+          "path": "ripple/top_pics/image/fimm49_small.jpg",
+          "thumbPath": "ripple/top_pics/thumb/fimm49_small.png",
           "premium": false,
-          "type": "static"
+          "type": "edge",
+          "colors": [
+            "#01276E",
+            "#E9E2D0",
+            "#D0E63C",
+            "#387819"
+          ]
         },
         {
           "id": "ripple/top_pics/fimm50",
           "index": 50,
-          "path": "ripple/top_pics/fimm50_small.jpg",
+          "path": "ripple/top_pics/image/fimm50_small.jpg",
+          "thumbPath": "ripple/top_pics/thumb/fimm50_small.png",
           "premium": false,
-          "type": "static"
+          "type": "edge",
+          "colors": [
+            "#51B9E0",
+            "#EEDC73",
+            "#023564"
+          ]
         },
         {
           "id": "ripple/top_pics/fimm51",
           "index": 51,
-          "path": "ripple/top_pics/fimm51_small.jpg",
+          "path": "ripple/top_pics/image/fimm51_small.jpg",
+          "thumbPath": "ripple/top_pics/thumb/fimm51_small.png",
           "premium": false,
-          "type": "static"
+          "type": "edge",
+          "colors": [
+            "#E92C40",
+            "#FFFFFF",
+            "#090D16"
+          ]
         },
         {
           "id": "ripple/top_pics/fimm52",
           "index": 52,
-          "path": "ripple/top_pics/fimm52_small.jpg",
+          "path": "ripple/top_pics/image/fimm52_small.jpg",
+          "thumbPath": "ripple/top_pics/thumb/fimm52_small.png",
           "premium": false,
-          "type": "static"
+          "type": "edge",
+          "colors": [
+            "#FAD47D",
+            "#070C10",
+            "#ED301D"
+          ]
         },
         {
           "id": "ripple/top_pics/fimm53",
           "index": 53,
-          "path": "ripple/top_pics/fimm53_small.jpg",
+          "path": "ripple/top_pics/image/fimm53_small.jpg",
+          "thumbPath": "ripple/top_pics/thumb/fimm53_small.png",
           "premium": false,
-          "type": "static"
+          "type": "edge",
+          "colors": [
+            "#E2D4FF",
+            "#0070CE"
+          ]
         },
         {
           "id": "ripple/top_pics/fimm54",
           "index": 54,
-          "path": "ripple/top_pics/fimm54_small.jpg",
+          "path": "ripple/top_pics/image/fimm54_small.jpg",
+          "thumbPath": "ripple/top_pics/thumb/fimm54_small.png",
           "premium": false,
-          "type": "static"
+          "type": "edge",
+          "colors": [
+            "#B8140F",
+            "#F7B370"
+          ]
         },
         {
           "id": "ripple/top_pics/fimm55",
           "index": 55,
-          "path": "ripple/top_pics/fimm55_small.jpg",
+          "path": "ripple/top_pics/image/fimm55_small.jpg",
+          "thumbPath": "ripple/top_pics/thumb/fimm55_small.png",
           "premium": false,
-          "type": "static"
+          "type": "edge",
+          "colors": [
+            "#FF5503",
+            "#7B3096",
+            "#0C0F38"
+          ]
         },
         {
           "id": "ripple/top_pics/fimm56",
           "index": 56,
-          "path": "ripple/top_pics/fimm56_small.jpg",
+          "path": "ripple/top_pics/image/fimm56_small.jpg",
+          "thumbPath": "ripple/top_pics/thumb/fimm56_small.png",
           "premium": false,
-          "type": "static"
+          "type": "edge",
+          "colors": [
+            "#FB03AB",
+            "#DBDB1D",
+            "#FBF76A",
+            "#1086F4"
+          ]
         },
         {
           "id": "ripple/top_pics/fimm57",
           "index": 57,
-          "path": "ripple/top_pics/fimm57_small.jpg",
+          "path": "ripple/top_pics/image/fimm57_small.jpg",
+          "thumbPath": "ripple/top_pics/thumb/fimm57_small.png",
           "premium": false,
-          "type": "static"
+          "type": "edge",
+          "colors": [
+            "#EA2402",
+            "#02754D",
+            "#FDA006"
+          ]
         },
         {
           "id": "ripple/top_pics/fimm58",
           "index": 58,
-          "path": "ripple/top_pics/fimm58_small.jpg",
+          "path": "ripple/top_pics/image/fimm58_small.jpg",
+          "thumbPath": "ripple/top_pics/thumb/fimm58_small.png",
           "premium": false,
-          "type": "static"
+          "type": "edge",
+          "colors": [
+            "#C4D6FF",
+            "#FE4700",
+            "#2F3438"
+          ]
         },
         {
           "id": "ripple/top_pics/fimm59",
           "index": 59,
-          "path": "ripple/top_pics/fimm59_small.jpg",
+          "path": "ripple/top_pics/image/fimm59_small.jpg",
+          "thumbPath": "ripple/top_pics/thumb/fimm59_small.png",
           "premium": false,
-          "type": "static"
+          "type": "edge",
+          "colors": [
+            "#EA7E26",
+            "#3B5535",
+            "#75C9DF"
+          ]
         },
         {
           "id": "ripple/top_pics/fimm60",
           "index": 60,
-          "path": "ripple/top_pics/fimm60_small.jpg",
+          "path": "ripple/top_pics/image/fimm60_small.jpg",
+          "thumbPath": "ripple/top_pics/thumb/fimm60_small.png",
           "premium": false,
-          "type": "static"
+          "type": "edge",
+          "colors": [
+            "#FDAB1E",
+            "#E74A09",
+            "#06B8F1"
+          ]
         },
         {
           "id": "ripple/top_pics/fimm61",
           "index": 61,
-          "path": "ripple/top_pics/fimm61_small.jpg",
+          "path": "ripple/top_pics/image/fimm61_small.jpg",
+          "thumbPath": "ripple/top_pics/thumb/fimm61_small.png",
           "premium": false,
-          "type": "static"
+          "type": "edge",
+          "colors": [
+            "#142036",
+            "#188AAE",
+            "#FEEDB5",
+            "#E05B5E"
+          ]
         },
         {
           "id": "ripple/top_pics/fimm62",
           "index": 62,
-          "path": "ripple/top_pics/fimm62_small.jpg",
+          "path": "ripple/top_pics/image/fimm62_small.jpg",
+          "thumbPath": "ripple/top_pics/thumb/fimm62_small.png",
           "premium": false,
-          "type": "static"
+          "type": "edge",
+          "colors": [
+            "#FFD079",
+            "#2E2E2E",
+            "#C62900"
+          ]
         },
         {
           "id": "ripple/top_pics/fimm63",
           "index": 63,
-          "path": "ripple/top_pics/fimm63_small.jpg",
+          "path": "ripple/top_pics/image/fimm63_small.jpg",
+          "thumbPath": "ripple/top_pics/thumb/fimm63_small.png",
           "premium": false,
-          "type": "static"
+          "type": "edge",
+          "colors": [
+            "#D91B00",
+            "#DEE9E9",
+            "#162737"
+          ]
         },
         {
           "id": "ripple/top_pics/fimm64",
           "index": 64,
-          "path": "ripple/top_pics/fimm64_small.jpg",
+          "path": "ripple/top_pics/image/fimm64_small.jpg",
+          "thumbPath": "ripple/top_pics/thumb/fimm64_small.png",
           "premium": false,
-          "type": "static"
+          "type": "edge",
+          "colors": [
+            "#FFE529",
+            "#0A4D76",
+            "#F10D14"
+          ]
         },
         {
           "id": "ripple/top_pics/fimm65",
           "index": 65,
-          "path": "ripple/top_pics/fimm65_small.jpg",
+          "path": "ripple/top_pics/image/fimm65_small.jpg",
+          "thumbPath": "ripple/top_pics/thumb/fimm65_small.png",
           "premium": false,
-          "type": "static"
+          "type": "edge",
+          "colors": [
+            "#F02407",
+            "#010101"
+          ]
         },
         {
           "id": "ripple/top_pics/fimm66",
           "index": 66,
-          "path": "ripple/top_pics/fimm66_small.jpg",
+          "path": "ripple/top_pics/image/fimm66_small.jpg",
+          "thumbPath": "ripple/top_pics/thumb/fimm66_small.png",
           "premium": false,
-          "type": "static"
+          "type": "edge",
+          "colors": [
+            "#7BF1A7",
+            "#FB8000",
+            "#FFD241"
+          ]
         },
         {
           "id": "ripple/top_pics/fimm67",
           "index": 67,
-          "path": "ripple/top_pics/fimm67_small.jpg",
+          "path": "ripple/top_pics/image/fimm67_small.jpg",
+          "thumbPath": "ripple/top_pics/thumb/fimm67_small.png",
           "premium": false,
-          "type": "static"
+          "type": "edge",
+          "colors": [
+            "#F77301",
+            "#FBFBFB",
+            "#1AC3F3"
+          ]
         },
         {
           "id": "ripple/top_pics/fimm68",
           "index": 68,
-          "path": "ripple/top_pics/fimm68_small.jpg",
+          "path": "ripple/top_pics/image/fimm68_small.jpg",
+          "thumbPath": "ripple/top_pics/thumb/fimm68_small.png",
           "premium": false,
-          "type": "static"
+          "type": "edge",
+          "colors": [
+            "#F90C83",
+            "#010006",
+            "#06A0F6"
+          ]
         },
         {
           "id": "ripple/top_pics/fimm69",
           "index": 69,
-          "path": "ripple/top_pics/fimm69_small.jpg",
+          "path": "ripple/top_pics/image/fimm69_small.jpg",
+          "thumbPath": "ripple/top_pics/thumb/fimm69_small.png",
           "premium": false,
-          "type": "static"
+          "type": "edge",
+          "colors": [
+            "#8FE3FF",
+            "#0EE1F9",
+            "#8AC9FF"
+          ]
         },
         {
           "id": "ripple/top_pics/fimm70",
           "index": 70,
-          "path": "ripple/top_pics/fimm70_small.jpg",
+          "path": "ripple/top_pics/image/fimm70_small.jpg",
+          "thumbPath": "ripple/top_pics/thumb/fimm70_small.png",
           "premium": false,
-          "type": "static"
+          "type": "edge",
+          "colors": [
+            "#35EEFF",
+            "#021035"
+          ]
         },
         {
           "id": "ripple/top_pics/fimm71",
           "index": 71,
-          "path": "ripple/top_pics/fimm71_small.jpg",
+          "path": "ripple/top_pics/image/fimm71_small.jpg",
+          "thumbPath": "ripple/top_pics/thumb/fimm71_small.png",
           "premium": false,
-          "type": "static"
+          "type": "edge",
+          "colors": [
+            "#FFF64D",
+            "#20490B",
+            "#56F9FF",
+            "#FFD5B9"
+          ]
         },
         {
           "id": "ripple/top_pics/fimm72",
           "index": 72,
-          "path": "ripple/top_pics/fimm72_small.jpg",
+          "path": "ripple/top_pics/image/fimm72_small.jpg",
+          "thumbPath": "ripple/top_pics/thumb/fimm72_small.png",
           "premium": false,
-          "type": "static"
+          "type": "edge",
+          "colors": [
+            "#F8EE12",
+            "#FDCA36",
+            "#21D58A",
+            "#CF3F24"
+          ]
         },
         {
           "id": "ripple/top_pics/fimm73",
           "index": 73,
-          "path": "ripple/top_pics/fimm73_small.jpg",
+          "path": "ripple/top_pics/image/fimm73_small.jpg",
+          "thumbPath": "ripple/top_pics/thumb/fimm73_small.png",
           "premium": false,
-          "type": "static"
+          "type": "edge",
+          "colors": [
+            "#1C1918",
+            "#3C0B07",
+            "#FDCF77",
+            "#F8F9F3"
+          ]
         },
         {
           "id": "ripple/top_pics/fimm74",
           "index": 74,
-          "path": "ripple/top_pics/fimm74_small.jpg",
+          "path": "ripple/top_pics/image/fimm74_small.jpg",
+          "thumbPath": "ripple/top_pics/thumb/fimm74_small.png",
           "premium": false,
-          "type": "static"
+          "type": "edge",
+          "colors": [
+            "#D54B2F",
+            "#090D16",
+            "#41352F"
+          ]
         },
         {
           "id": "ripple/top_pics/fimm75",
           "index": 75,
-          "path": "ripple/top_pics/fimm75_small.jpg",
+          "path": "ripple/top_pics/image/fimm75_small.jpg",
+          "thumbPath": "ripple/top_pics/thumb/fimm75_small.png",
           "premium": false,
-          "type": "static"
+          "type": "edge",
+          "colors": [
+            "#FFD34C",
+            "#00162E",
+            "#FFA52A"
+          ]
         },
         {
           "id": "ripple/top_pics/fimm76",
           "index": 76,
-          "path": "ripple/top_pics/fimm76_small.jpg",
+          "path": "ripple/top_pics/image/fimm76_small.jpg",
+          "thumbPath": "ripple/top_pics/thumb/fimm76_small.png",
           "premium": false,
-          "type": "static"
+          "type": "edge",
+          "colors": [
+            "#F4BB39",
+            "#FFD64A",
+            "#0C1019"
+          ]
         },
         {
           "id": "ripple/top_pics/fimm77",
           "index": 77,
-          "path": "ripple/top_pics/fimm77_small.jpg",
+          "path": "ripple/top_pics/image/fimm77_small.jpg",
+          "thumbPath": "ripple/top_pics/thumb/fimm77_small.png",
           "premium": false,
-          "type": "static"
+          "type": "edge",
+          "colors": [
+            "#F7FF0C",
+            "#E4AE30",
+            "#1F6BA9"
+          ]
         },
         {
           "id": "ripple/top_pics/fimm78",
           "index": 78,
-          "path": "ripple/top_pics/fimm78_small.jpg",
+          "path": "ripple/top_pics/image/fimm78_small.jpg",
+          "thumbPath": "ripple/top_pics/thumb/fimm78_small.png",
           "premium": false,
-          "type": "static"
+          "type": "edge",
+          "colors": [
+            "#34E174",
+            "#F4D203",
+            "#F114C9"
+          ]
         },
         {
           "id": "ripple/top_pics/fimm79",
           "index": 79,
-          "path": "ripple/top_pics/fimm79_small.jpg",
+          "path": "ripple/top_pics/image/fimm79_small.jpg",
+          "thumbPath": "ripple/top_pics/thumb/fimm79_small.png",
           "premium": false,
-          "type": "static"
+          "type": "edge",
+          "colors": [
+            "#FF0004",
+            "#2ED0BB"
+          ]
         },
         {
           "id": "ripple/top_pics/fimm80",
           "index": 80,
-          "path": "ripple/top_pics/fimm80_small.jpg",
+          "path": "ripple/top_pics/image/fimm80_small.jpg",
+          "thumbPath": "ripple/top_pics/thumb/fimm80_small.png",
           "premium": false,
-          "type": "static"
+          "type": "edge",
+          "colors": [
+            "#F8CC4C",
+            "#F82304",
+            "#7D5B2E"
+          ]
         },
         {
           "id": "ripple/top_pics/fimm81",
           "index": 81,
-          "path": "ripple/top_pics/fimm81_small.jpg",
+          "path": "ripple/top_pics/image/fimm81_small.jpg",
+          "thumbPath": "ripple/top_pics/thumb/fimm81_small.png",
           "premium": false,
-          "type": "static"
+          "type": "edge",
+          "colors": [
+            "#0AD3F8",
+            "#FC14B7",
+            "#FBE83D",
+            "#0843C7"
+          ]
         },
         {
           "id": "ripple/top_pics/fimm82",
           "index": 82,
-          "path": "ripple/top_pics/fimm82_small.jpg",
+          "path": "ripple/top_pics/image/fimm82_small.jpg",
+          "thumbPath": "ripple/top_pics/thumb/fimm82_small.png",
           "premium": false,
-          "type": "static"
+          "type": "edge",
+          "colors": [
+            "#0056DB",
+            "#FC5F00",
+            "#FFB073"
+          ]
         },
         {
           "id": "ripple/top_pics/fimm83",
           "index": 83,
-          "path": "ripple/top_pics/fimm83_small.jpg",
+          "path": "ripple/top_pics/image/fimm83_small.jpg",
+          "thumbPath": "ripple/top_pics/thumb/fimm83_small.png",
           "premium": false,
-          "type": "static"
+          "type": "edge",
+          "colors": [
+            "#FDF939",
+            "#3CCFD6",
+            "#FF2A18"
+          ]
         },
         {
           "id": "ripple/top_pics/fimm84",
           "index": 84,
-          "path": "ripple/top_pics/fimm84_small.jpg",
+          "path": "ripple/top_pics/image/fimm84_small.jpg",
+          "thumbPath": "ripple/top_pics/thumb/fimm84_small.png",
           "premium": false,
-          "type": "static"
+          "type": "edge",
+          "colors": [
+            "#0575FF",
+            "#FFEF3F",
+            "#7B8705"
+          ]
         },
         {
           "id": "ripple/top_pics/fimm85",
           "index": 85,
-          "path": "ripple/top_pics/fimm85_small.jpg",
+          "path": "ripple/top_pics/image/fimm85_small.jpg",
+          "thumbPath": "ripple/top_pics/thumb/fimm85_small.png",
           "premium": false,
-          "type": "static"
+          "type": "edge",
+          "colors": [
+            "#0B1A41",
+            "#3137B4",
+            "#FFAD53",
+            "#B76AE1"
+          ]
         },
         {
           "id": "ripple/top_pics/fimm86",
           "index": 86,
-          "path": "ripple/top_pics/fimm86_small.jpg",
+          "path": "ripple/top_pics/image/fimm86_small.jpg",
+          "thumbPath": "ripple/top_pics/thumb/fimm86_small.png",
           "premium": false,
-          "type": "static"
+          "type": "edge",
+          "colors": [
+            "#D3B9D2",
+            "#142946",
+            "#F8CF65",
+            "#85A5CA"
+          ]
         },
         {
           "id": "ripple/top_pics/fimm87",
           "index": 87,
-          "path": "ripple/top_pics/fimm87_small.jpg",
+          "path": "ripple/top_pics/image/fimm87_small.jpg",
+          "thumbPath": "ripple/top_pics/thumb/fimm87_small.png",
           "premium": false,
-          "type": "static"
+          "type": "edge",
+          "colors": [
+            "#FFB30C",
+            "#074AE4",
+            "#030303"
+          ]
         },
         {
           "id": "ripple/top_pics/fimm88",
           "index": 88,
-          "path": "ripple/top_pics/fimm88_small.jpg",
+          "path": "ripple/top_pics/image/fimm88_small.jpg",
+          "thumbPath": "ripple/top_pics/thumb/fimm88_small.png",
           "premium": false,
-          "type": "static"
+          "type": "edge",
+          "colors": [
+            "#D71808",
+            "#FDF559",
+            "#0B1014"
+          ]
         },
         {
           "id": "ripple/top_pics/fimm89",
           "index": 89,
-          "path": "ripple/top_pics/fimm89_small.jpg",
+          "path": "ripple/top_pics/image/fimm89_small.jpg",
+          "thumbPath": "ripple/top_pics/thumb/fimm89_small.png",
           "premium": false,
-          "type": "static"
+          "type": "edge",
+          "colors": [
+            "#FFFFFF",
+            "#016CEA",
+            "#F2A5B5"
+          ]
         },
         {
           "id": "ripple/top_pics/fimm90",
           "index": 90,
-          "path": "ripple/top_pics/fimm90_small.jpg",
+          "path": "ripple/top_pics/image/fimm90_small.jpg",
+          "thumbPath": "ripple/top_pics/thumb/fimm90_small.png",
           "premium": false,
-          "type": "static"
+          "type": "edge",
+          "colors": [
+            "#FFE809",
+            "#ED3B1D"
+          ]
         },
         {
           "id": "ripple/top_pics/fimm91",
           "index": 91,
-          "path": "ripple/top_pics/fimm91_small.jpg",
+          "path": "ripple/top_pics/image/fimm91_small.jpg",
+          "thumbPath": "ripple/top_pics/thumb/fimm91_small.png",
           "premium": false,
-          "type": "static"
+          "type": "edge",
+          "colors": [
+            "#3555D5",
+            "#F80733",
+            "#FFF92F"
+          ]
         },
         {
           "id": "ripple/top_pics/fimm92",
           "index": 92,
-          "path": "ripple/top_pics/fimm92_small.jpg",
+          "path": "ripple/top_pics/image/fimm92_small.jpg",
+          "thumbPath": "ripple/top_pics/thumb/fimm92_small.png",
           "premium": false,
-          "type": "static"
+          "type": "edge",
+          "colors": [
+            "#FFB740",
+            "#0AD8EF",
+            "#D02829"
+          ]
         },
         {
           "id": "ripple/top_pics/fimm93",
           "index": 93,
-          "path": "ripple/top_pics/fimm93_small.jpg",
+          "path": "ripple/top_pics/image/fimm93_small.jpg",
+          "thumbPath": "ripple/top_pics/thumb/fimm93_small.png",
           "premium": false,
-          "type": "static"
+          "type": "edge",
+          "colors": [
+            "#FFD155",
+            "#F6246B",
+            "#FFE9A7"
+          ]
         },
         {
           "id": "ripple/top_pics/fimm94",
           "index": 94,
-          "path": "ripple/top_pics/fimm94_small.jpg",
+          "path": "ripple/top_pics/image/fimm94_small.jpg",
+          "thumbPath": "ripple/top_pics/thumb/fimm94_small.png",
           "premium": false,
-          "type": "static"
+          "type": "edge",
+          "colors": [
+            "#946245",
+            "#B21100"
+          ]
         },
         {
           "id": "ripple/top_pics/fimm95",
           "index": 95,
-          "path": "ripple/top_pics/fimm95_small.jpg",
+          "path": "ripple/top_pics/image/fimm95_small.jpg",
+          "thumbPath": "ripple/top_pics/thumb/fimm95_small.png",
           "premium": false,
-          "type": "static"
+          "type": "edge",
+          "colors": [
+            "#FB4A1A",
+            "#FFFAF8",
+            "#040811"
+          ]
         },
         {
           "id": "ripple/top_pics/fimm96",
           "index": 96,
-          "path": "ripple/top_pics/fimm96_small.jpg",
+          "path": "ripple/top_pics/image/fimm96_small.jpg",
+          "thumbPath": "ripple/top_pics/thumb/fimm96_small.png",
           "premium": false,
-          "type": "static"
+          "type": "edge",
+          "colors": [
+            "#EF3700",
+            "#15F9FF",
+            "#01060A"
+          ]
         },
         {
           "id": "ripple/top_pics/fimm97",
           "index": 97,
-          "path": "ripple/top_pics/fimm97_small.jpg",
+          "path": "ripple/top_pics/image/fimm97_small.jpg",
+          "thumbPath": "ripple/top_pics/thumb/fimm97_small.png",
           "premium": false,
-          "type": "static"
+          "type": "edge",
+          "colors": [
+            "#F58C4C",
+            "#03A2A6",
+            "#504214"
+          ]
         },
         {
           "id": "ripple/top_pics/fimm98",
           "index": 98,
-          "path": "ripple/top_pics/fimm98_small.jpg",
+          "path": "ripple/top_pics/image/fimm98_small.jpg",
+          "thumbPath": "ripple/top_pics/thumb/fimm98_small.png",
           "premium": false,
-          "type": "static"
+          "type": "edge",
+          "colors": [
+            "#05E2F5",
+            "#E89E62",
+            "#00FAFF"
+          ]
         },
         {
           "id": "ripple/top_pics/fimm99",
           "index": 99,
-          "path": "ripple/top_pics/fimm99_small.jpg",
+          "path": "ripple/top_pics/image/fimm99_small.jpg",
+          "thumbPath": "ripple/top_pics/thumb/fimm99_small.png",
           "premium": false,
-          "type": "static"
+          "type": "edge",
+          "colors": [
+            "#15D2EF",
+            "#0B4BA3",
+            "#E03A00"
+          ]
         },
         {
           "id": "ripple/top_pics/fimm100",
           "index": 100,
-          "path": "ripple/top_pics/fimm100_small.jpg",
+          "path": "ripple/top_pics/image/fimm100_small.jpg",
+          "thumbPath": "ripple/top_pics/thumb/fimm100_small.png",
           "premium": false,
-          "type": "static"
+          "type": "edge",
+          "colors": [
+            "#FFC51B",
+            "#1E5DC2",
+            "#FFF558"
+          ]
         },
         {
           "id": "ripple/top_pics/fimm101",
           "index": 101,
-          "path": "ripple/top_pics/fimm101_small.jpg",
+          "path": "ripple/top_pics/image/fimm101_small.jpg",
+          "thumbPath": "ripple/top_pics/thumb/fimm101_small.png",
           "premium": false,
-          "type": "static"
+          "type": "edge",
+          "colors": [
+            "#FFE120",
+            "#855349",
+            "#FFA93E"
+          ]
         },
         {
           "id": "ripple/top_pics/fimm102",
           "index": 102,
-          "path": "ripple/top_pics/fimm102_small.jpg",
+          "path": "ripple/top_pics/image/fimm102_small.jpg",
+          "thumbPath": "ripple/top_pics/thumb/fimm102_small.png",
           "premium": false,
-          "type": "static"
+          "type": "edge",
+          "colors": [
+            "#FE4A0F",
+            "#2A665C",
+            "#000201"
+          ]
         },
         {
           "id": "ripple/top_pics/fimm103",
           "index": 103,
-          "path": "ripple/top_pics/fimm103_small.jpg",
+          "path": "ripple/top_pics/image/fimm103_small.jpg",
+          "thumbPath": "ripple/top_pics/thumb/fimm103_small.png",
           "premium": false,
-          "type": "static"
+          "type": "edge",
+          "colors": [
+            "#235A89",
+            "#EB1E01",
+            "#09BAF3"
+          ]
         },
         {
           "id": "ripple/top_pics/fimm104",
           "index": 104,
-          "path": "ripple/top_pics/fimm104_small.jpg",
+          "path": "ripple/top_pics/image/fimm104_small.jpg",
+          "thumbPath": "ripple/top_pics/thumb/fimm104_small.png",
           "premium": false,
-          "type": "static"
+          "type": "edge",
+          "colors": [
+            "#FF0E4D",
+            "#F76363",
+            "#427FF6"
+          ]
         },
         {
           "id": "ripple/top_pics/fimm105",
           "index": 105,
-          "path": "ripple/top_pics/fimm105_small.jpg",
+          "path": "ripple/top_pics/image/fimm105_small.jpg",
+          "thumbPath": "ripple/top_pics/thumb/fimm105_small.png",
           "premium": false,
-          "type": "static"
+          "type": "edge",
+          "colors": [
+            "#0CD5EB",
+            "#EC20B4"
+          ]
         },
         {
           "id": "ripple/top_pics/fimm106",
           "index": 106,
-          "path": "ripple/top_pics/fimm106_small.jpg",
+          "path": "ripple/top_pics/image/fimm106_small.jpg",
+          "thumbPath": "ripple/top_pics/thumb/fimm106_small.png",
           "premium": false,
-          "type": "static"
+          "type": "edge",
+          "colors": [
+            "#FF5678",
+            "#0073D5",
+            "#72FFFB"
+          ]
         },
         {
           "id": "ripple/top_pics/fimm107",
           "index": 107,
-          "path": "ripple/top_pics/fimm107_small.jpg",
+          "path": "ripple/top_pics/image/fimm107_small.jpg",
+          "thumbPath": "ripple/top_pics/thumb/fimm107_small.png",
           "premium": false,
-          "type": "static"
+          "type": "edge",
+          "colors": [
+            "#FF4029",
+            "#01253C",
+            "#FF8A5A"
+          ]
         },
         {
           "id": "ripple/top_pics/fimm108",
           "index": 108,
-          "path": "ripple/top_pics/fimm108_small.jpg",
+          "path": "ripple/top_pics/image/fimm108_small.jpg",
+          "thumbPath": "ripple/top_pics/thumb/fimm108_small.png",
           "premium": false,
-          "type": "static"
+          "type": "edge",
+          "colors": [
+            "#FF7B08",
+            "#02070B",
+            "#C9CEDB"
+          ]
         },
         {
           "id": "ripple/top_pics/fimm109",
           "index": 109,
-          "path": "ripple/top_pics/fimm109_small.jpg",
+          "path": "ripple/top_pics/image/fimm109_small.jpg",
+          "thumbPath": "ripple/top_pics/thumb/fimm109_small.png",
           "premium": false,
-          "type": "static"
+          "type": "edge",
+          "colors": [
+            "#000000",
+            "#61CCFF",
+            "#F32700"
+          ]
         },
         {
           "id": "ripple/top_pics/fimm110",
           "index": 110,
-          "path": "ripple/top_pics/fimm110_small.jpg",
+          "path": "ripple/top_pics/image/fimm110_small.jpg",
+          "thumbPath": "ripple/top_pics/thumb/fimm110_small.png",
           "premium": false,
-          "type": "static"
+          "type": "edge",
+          "colors": [
+            "#C70900",
+            "#FEF3E2",
+            "#7BBF04"
+          ]
         },
         {
           "id": "ripple/top_pics/fimm111",
           "index": 111,
-          "path": "ripple/top_pics/fimm111_small.jpg",
+          "path": "ripple/top_pics/image/fimm111_small.jpg",
+          "thumbPath": "ripple/top_pics/thumb/fimm111_small.png",
           "premium": false,
-          "type": "static"
+          "type": "edge",
+          "colors": [
+            "#FDC300",
+            "#0059A4",
+            "#D21801",
+            "#0498F1"
+          ]
         },
         {
           "id": "ripple/top_pics/fimm112",
           "index": 112,
-          "path": "ripple/top_pics/fimm112_small.jpg",
+          "path": "ripple/top_pics/image/fimm112_small.jpg",
+          "thumbPath": "ripple/top_pics/thumb/fimm112_small.png",
           "premium": false,
-          "type": "static"
+          "type": "edge",
+          "colors": [
+            "#FFD118",
+            "#34EEFF",
+            "#D26AFF",
+            "#BB2111"
+          ]
         },
         {
           "id": "ripple/top_pics/fimm113",
           "index": 113,
-          "path": "ripple/top_pics/fimm113_small.jpg",
+          "path": "ripple/top_pics/image/fimm113_small.jpg",
+          "thumbPath": "ripple/top_pics/thumb/fimm113_small.png",
           "premium": false,
-          "type": "static"
+          "type": "edge",
+          "colors": [
+            "#FFFAF6",
+            "#0E2825",
+            "#B2965D"
+          ]
         },
         {
           "id": "ripple/top_pics/fimm114",
           "index": 114,
-          "path": "ripple/top_pics/fimm114_small.jpg",
+          "path": "ripple/top_pics/image/fimm114_small.jpg",
+          "thumbPath": "ripple/top_pics/thumb/fimm114_small.png",
           "premium": false,
-          "type": "static"
+          "type": "edge",
+          "colors": [
+            "#F23F06",
+            "#1B0603",
+            "#F65A00"
+          ]
         },
         {
           "id": "ripple/top_pics/fimm115",
           "index": 115,
-          "path": "ripple/top_pics/fimm115_small.jpg",
+          "path": "ripple/top_pics/image/fimm115_small.jpg",
+          "thumbPath": "ripple/top_pics/thumb/fimm115_small.png",
           "premium": false,
-          "type": "static"
+          "type": "edge",
+          "colors": [
+            "#F71A96",
+            "#07B6FB",
+            "#E63B07",
+            "#1F0447"
+          ]
         },
         {
           "id": "ripple/top_pics/fimm116",
           "index": 116,
-          "path": "ripple/top_pics/fimm116_small.jpg",
+          "path": "ripple/top_pics/image/fimm116_small.jpg",
+          "thumbPath": "ripple/top_pics/thumb/fimm116_small.png",
           "premium": false,
-          "type": "static"
+          "type": "edge",
+          "colors": [
+            "#F60C74",
+            "#E96615",
+            "#13CAEB"
+          ]
         },
         {
           "id": "ripple/top_pics/fimm117",
           "index": 117,
-          "path": "ripple/top_pics/fimm117_small.jpg",
+          "path": "ripple/top_pics/image/fimm117_small.jpg",
+          "thumbPath": "ripple/top_pics/thumb/fimm117_small.png",
           "premium": false,
-          "type": "static"
+          "type": "edge",
+          "colors": [
+            "#F10C53",
+            "#3AE4E4",
+            "#C433E3"
+          ]
         },
         {
           "id": "ripple/top_pics/fimm118",
           "index": 118,
-          "path": "ripple/top_pics/fimm118_small.jpg",
+          "path": "ripple/top_pics/image/fimm118_small.jpg",
+          "thumbPath": "ripple/top_pics/thumb/fimm118_small.png",
           "premium": false,
-          "type": "static"
+          "type": "edge",
+          "colors": [
+            "#0FC7ED",
+            "#E67300",
+            "#E40330"
+          ]
         },
         {
           "id": "ripple/top_pics/fimm119",
           "index": 119,
-          "path": "ripple/top_pics/fimm119_small.jpg",
+          "path": "ripple/top_pics/image/fimm119_small.jpg",
+          "thumbPath": "ripple/top_pics/thumb/fimm119_small.png",
           "premium": false,
-          "type": "static"
+          "type": "edge",
+          "colors": [
+            "#03CAF5",
+            "#8F029B",
+            "#020106"
+          ]
         },
         {
           "id": "ripple/top_pics/fimm120",
           "index": 120,
-          "path": "ripple/top_pics/fimm120_small.jpg",
+          "path": "ripple/top_pics/image/fimm120_small.jpg",
+          "thumbPath": "ripple/top_pics/thumb/fimm120_small.png",
           "premium": false,
-          "type": "static"
+          "type": "edge",
+          "colors": [
+            "#FFDC73",
+            "#DD3845",
+            "#04061F"
+          ]
         },
         {
           "id": "ripple/top_pics/fimm121",
           "index": 121,
-          "path": "ripple/top_pics/fimm121_small.jpg",
+          "path": "ripple/top_pics/image/fimm121_small.jpg",
+          "thumbPath": "ripple/top_pics/thumb/fimm121_small.png",
           "premium": false,
-          "type": "static"
+          "type": "edge",
+          "colors": [
+            "#102F81",
+            "#20D7F7",
+            "#940534",
+            "#FEF453"
+          ]
         },
         {
           "id": "ripple/top_pics/fimm122",
           "index": 122,
-          "path": "ripple/top_pics/fimm122_small.jpg",
+          "path": "ripple/top_pics/image/fimm122_small.jpg",
+          "thumbPath": "ripple/top_pics/thumb/fimm122_small.png",
           "premium": false,
-          "type": "static"
+          "type": "edge",
+          "colors": [
+            "#F9E05E",
+            "#0DA6C3",
+            "#F2D932",
+            "#45C7EA"
+          ]
         },
         {
           "id": "ripple/top_pics/fimm123",
           "index": 123,
-          "path": "ripple/top_pics/fimm123_small.jpg",
+          "path": "ripple/top_pics/image/fimm123_small.jpg",
+          "thumbPath": "ripple/top_pics/thumb/fimm123_small.png",
           "premium": false,
-          "type": "static"
+          "type": "edge",
+          "colors": [
+            "#FF7C08",
+            "#022346",
+            "#F7AA5C"
+          ]
         },
         {
           "id": "ripple/top_pics/fimm124",
           "index": 124,
-          "path": "ripple/top_pics/fimm124_small.jpg",
+          "path": "ripple/top_pics/image/fimm124_small.jpg",
+          "thumbPath": "ripple/top_pics/thumb/fimm124_small.png",
           "premium": false,
-          "type": "static"
+          "type": "edge",
+          "colors": [
+            "#FF0E27",
+            "#2DD4FF",
+            "#FF764F",
+            "#3F65CA"
+          ]
         },
         {
           "id": "ripple/top_pics/fimm125",
           "index": 125,
-          "path": "ripple/top_pics/fimm125_small.jpg",
+          "path": "ripple/top_pics/image/fimm125_small.jpg",
+          "thumbPath": "ripple/top_pics/thumb/fimm125_small.png",
           "premium": false,
-          "type": "static"
+          "type": "edge",
+          "colors": [
+            "#FB78BC",
+            "#2DCBE2",
+            "#FD9729",
+            "#FFDF6A"
+          ]
         },
         {
           "id": "ripple/top_pics/fimm126",
           "index": 126,
-          "path": "ripple/top_pics/fimm126_small.jpg",
+          "path": "ripple/top_pics/image/fimm126_small.jpg",
+          "thumbPath": "ripple/top_pics/thumb/fimm126_small.png",
           "premium": false,
-          "type": "static"
+          "type": "edge",
+          "colors": [
+            "#FF7D13",
+            "#0D84E1",
+            "#C31E5C"
+          ]
         },
         {
           "id": "ripple/top_pics/fimm127",
           "index": 127,
-          "path": "ripple/top_pics/fimm127_small.jpg",
+          "path": "ripple/top_pics/image/fimm127_small.jpg",
+          "thumbPath": "ripple/top_pics/thumb/fimm127_small.png",
           "premium": false,
-          "type": "static"
+          "type": "edge",
+          "colors": [
+            "#E64C00",
+            "#0084D0",
+            "#6487AF"
+          ]
         },
         {
           "id": "ripple/top_pics/fimm128",
           "index": 128,
-          "path": "ripple/top_pics/fimm128_small.jpg",
+          "path": "ripple/top_pics/image/fimm128_small.jpg",
+          "thumbPath": "ripple/top_pics/thumb/fimm128_small.png",
           "premium": false,
-          "type": "static"
+          "type": "edge",
+          "colors": [
+            "#C4EE16",
+            "#F64B15",
+            "#181B2A"
+          ]
         },
         {
           "id": "ripple/top_pics/fimm129",
           "index": 129,
-          "path": "ripple/top_pics/fimm129_small.jpg",
+          "path": "ripple/top_pics/image/fimm129_small.jpg",
+          "thumbPath": "ripple/top_pics/thumb/fimm129_small.png",
           "premium": false,
-          "type": "static"
+          "type": "edge",
+          "colors": [
+            "#FF6007",
+            "#4173B4"
+          ]
         },
         {
           "id": "ripple/top_pics/fimm130",
           "index": 130,
-          "path": "ripple/top_pics/fimm130_small.jpg",
+          "path": "ripple/top_pics/image/fimm130_small.jpg",
+          "thumbPath": "ripple/top_pics/thumb/fimm130_small.png",
           "premium": false,
-          "type": "static"
+          "type": "edge",
+          "colors": [
+            "#FFBD01",
+            "#FF0CF1",
+            "#0837BD"
+          ]
         },
         {
           "id": "ripple/top_pics/fimm131",
           "index": 131,
-          "path": "ripple/top_pics/fimm131_small.jpg",
+          "path": "ripple/top_pics/image/fimm131_small.jpg",
+          "thumbPath": "ripple/top_pics/thumb/fimm131_small.png",
           "premium": false,
-          "type": "static"
+          "type": "edge",
+          "colors": [
+            "#008BE9",
+            "#FFFFFF",
+            "#174983",
+            "#9FEAE6"
+          ]
         },
         {
           "id": "ripple/top_pics/fimm132",
           "index": 132,
-          "path": "ripple/top_pics/fimm132_small.jpg",
+          "path": "ripple/top_pics/image/fimm132_small.jpg",
+          "thumbPath": "ripple/top_pics/thumb/fimm132_small.png",
           "premium": false,
-          "type": "static"
+          "type": "edge",
+          "colors": [
+            "#EE172C",
+            "#10DAFD",
+            "#010101"
+          ]
         },
         {
           "id": "ripple/top_pics/fimm133",
           "index": 133,
-          "path": "ripple/top_pics/fimm133_small.jpg",
+          "path": "ripple/top_pics/image/fimm133_small.jpg",
+          "thumbPath": "ripple/top_pics/thumb/fimm133_small.png",
           "premium": false,
-          "type": "static"
+          "type": "edge",
+          "colors": [
+            "#FEC01F",
+            "#2FBBD4"
+          ]
         },
         {
           "id": "ripple/top_pics/fimm134",
           "index": 134,
-          "path": "ripple/top_pics/fimm134_small.jpg",
+          "path": "ripple/top_pics/image/fimm134_small.jpg",
+          "thumbPath": "ripple/top_pics/thumb/fimm134_small.png",
           "premium": false,
-          "type": "static"
+          "type": "edge",
+          "colors": [
+            "#16AF2F",
+            "#424592"
+          ]
         },
         {
           "id": "ripple/top_pics/fimm135",
           "index": 135,
-          "path": "ripple/top_pics/fimm135_small.jpg",
+          "path": "ripple/top_pics/image/fimm135_small.jpg",
+          "thumbPath": "ripple/top_pics/thumb/fimm135_small.png",
           "premium": false,
-          "type": "static"
+          "type": "edge",
+          "colors": [
+            "#6BFFFF",
+            "#F8C506",
+            "#FFF6EF"
+          ]
         },
         {
           "id": "ripple/top_pics/fimm136",
           "index": 136,
-          "path": "ripple/top_pics/fimm136_small.jpg",
+          "path": "ripple/top_pics/image/fimm136_small.jpg",
+          "thumbPath": "ripple/top_pics/thumb/fimm136_small.png",
           "premium": false,
-          "type": "static"
+          "type": "edge",
+          "colors": [
+            "#0054B4",
+            "#FFFFFF",
+            "#DEC600"
+          ]
         },
         {
           "id": "ripple/top_pics/fimm137",
           "index": 137,
-          "path": "ripple/top_pics/fimm137_small.jpg",
+          "path": "ripple/top_pics/image/fimm137_small.jpg",
+          "thumbPath": "ripple/top_pics/thumb/fimm137_small.png",
           "premium": false,
-          "type": "static"
+          "type": "edge",
+          "colors": [
+            "#26CECF",
+            "#E94E2A",
+            "#3C6877"
+          ]
         },
         {
           "id": "ripple/top_pics/fimm138",
           "index": 138,
-          "path": "ripple/top_pics/fimm138_small.jpg",
+          "path": "ripple/top_pics/image/fimm138_small.jpg",
+          "thumbPath": "ripple/top_pics/thumb/fimm138_small.png",
           "premium": false,
-          "type": "static"
+          "type": "edge",
+          "colors": [
+            "#0BBCD7",
+            "#040D14"
+          ]
         },
         {
           "id": "ripple/top_pics/fimm139",
           "index": 139,
-          "path": "ripple/top_pics/fimm139_small.jpg",
+          "path": "ripple/top_pics/image/fimm139_small.jpg",
+          "thumbPath": "ripple/top_pics/thumb/fimm139_small.png",
           "premium": false,
-          "type": "static"
+          "type": "edge",
+          "colors": [
+            "#D23DA9",
+            "#FFA0B1"
+          ]
         },
         {
           "id": "ripple/top_pics/fimm140",
           "index": 140,
-          "path": "ripple/top_pics/fimm140_small.jpg",
+          "path": "ripple/top_pics/image/fimm140_small.jpg",
+          "thumbPath": "ripple/top_pics/thumb/fimm140_small.png",
           "premium": false,
-          "type": "static"
+          "type": "edge",
+          "colors": [
+            "#F3007B",
+            "#FFF856",
+            "#0C00C6",
+            "#29D8AA"
+          ]
         }
       ]
     },

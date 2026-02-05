@@ -47,7 +47,7 @@ class ThemePagingSource(
 
         KEY_ALL -> listOf(
             RIPPLE_RIPPLE,
-            RIPPLE_TOP_PICS,
+//            RIPPLE_TOP_PICS,
             RIPPLE_NATURE_SPAZ,
             RIPPLE_NATURE_INDS,
             RIPPLE_NATURE_D,
