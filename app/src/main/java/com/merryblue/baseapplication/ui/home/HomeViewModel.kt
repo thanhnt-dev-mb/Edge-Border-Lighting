@@ -160,7 +160,7 @@ class HomeViewModel @Inject constructor(
             val originalUrl = if (item.type == WallpaperType.TYPE_VIDEO) item.thumbUrl else item.pathUrl
             val bmp = edgeImageRepository.loadBitmap(EdgeImageSource.Url(originalUrl), target)
             bmp?.let { sendActionBroadcast(ACTION_EDGE_OVERLAY_CHANGED) }
-            _bgBitmap.emit(Pair(EDGE_WALLPAPER_SCREEN, bmp))
+            _bgBitmap.emit(Pair(STATIC_WALLPAPER_SCREEN, bmp))
         }
     }
 

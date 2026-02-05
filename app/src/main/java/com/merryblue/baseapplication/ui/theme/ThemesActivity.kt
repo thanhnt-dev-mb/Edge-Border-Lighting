@@ -2,6 +2,11 @@ package com.merryblue.baseapplication.ui.theme
 
 import android.os.Bundle
 import android.view.View
+import androidx.activity.viewModels
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
+import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.google.android.material.tabs.TabLayoutMediator
 import com.merryblue.baseapplication.R
 import com.merryblue.baseapplication.coredata.local.AppPreferences
@@ -16,11 +21,19 @@ import com.merryblue.baseapplication.helpers.RIPPLE_MAGICAL_BORDERS
 import com.merryblue.baseapplication.helpers.RIPPLE_RIPPLE
 import com.merryblue.baseapplication.helpers.TYPE_PRESET
 import com.merryblue.baseapplication.helpers.TYPE_THEME
+import com.merryblue.baseapplication.helpers.openProperNetworkSettings
+import com.merryblue.baseapplication.ui.home.HomeViewModel
+import com.merryblue.baseapplication.ui.widget.BottomSheetNoInternet
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.launch
 import org.app.core.base.BaseActivity
+import kotlin.getValue
 
 @AndroidEntryPoint
 class ThemesActivity : BaseActivity<ActivityThemesBinding>() {
+
+    private val homeViewModel: HomeViewModel by viewModels()
 
     override fun getLayoutId(): Int = R.layout.activity_themes
 
@@ -39,6 +52,35 @@ class ThemesActivity : BaseActivity<ActivityThemesBinding>() {
         initType = intent.getStringExtra(KEY_RECEIVE_DATA)
         isCustom = intent.getBooleanExtra(KEY_IS_CUSTOM, false)
         initTabLayout()
+    }
+
+    override fun setUpObserver() {
+        lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                launch {
+                    homeViewModel.connectionState.collectLatest {
+                        onNetworkStateChanged(it)
+                        handleNoInternetBottomSheet(it)
+                    }
+                }
+            }
+        }
+    }
+
+    private fun handleNoInternetBottomSheet(isConnected: Boolean) {
+        val fm = supportFragmentManager
+        val current = fm.findFragmentByTag(BottomSheetNoInternet.TAG) as? BottomSheetDialogFragment
+
+        if (isConnected) {
+            if (current?.dialog?.isShowing == true) current.dismissAllowingStateLoss()
+            return
+        }
+
+        if (current?.dialog?.isShowing == true) return
+
+        BottomSheetNoInternet.newInstance {
+            this.openProperNetworkSettings()
+        }.show(fm, BottomSheetNoInternet.TAG)
     }
 
     private fun initTabLayout() = binding.apply {

@@ -26,12 +26,16 @@ import com.merryblue.baseapplication.R
 import com.merryblue.baseapplication.coredata.local.AppPreferences
 import com.merryblue.baseapplication.databinding.ActivityVideoWallpaperSettingsBinding
 import com.merryblue.baseapplication.helpers.ServiceState.ACTION_VIDEO_WALLPAPER_STATE_CHANGED
+import com.merryblue.baseapplication.helpers.openProperNetworkSettings
 import com.merryblue.baseapplication.helpers.video.VideoDataSource
 import com.merryblue.baseapplication.helpers.video.VideoPreloader
 import com.merryblue.baseapplication.service.edge.EdgeLightingOverlayService
 import com.merryblue.baseapplication.service.edge.VideoWallpaperService
+import com.merryblue.baseapplication.ui.home.HomeViewModel
 import com.merryblue.baseapplication.ui.widget.BottomSheetEdgePermission
+import com.merryblue.baseapplication.ui.widget.BottomSheetNoInternet
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import org.app.core.base.BaseActivity
 import org.app.core.base.extensions.toastMsg
@@ -41,11 +45,10 @@ class VideoWallpaperSettingsActivity : BaseActivity<ActivityVideoWallpaperSettin
 
     private val prefs by lazy { AppPreferences(this) }
     private val edgePermissionViewModel: EdgePermissionViewModel by viewModels()
+    private val homeViewModel: HomeViewModel by viewModels()
     private val setLiveWallpaperLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { _ ->
         if (isMyLiveWallpaperActive()) {
             checkPermissionOverlay()
-        } else {
-            toastMsg(getString(R.string.live_wallpaper_set_cancelled))
         }
     }
 
@@ -75,12 +78,37 @@ class VideoWallpaperSettingsActivity : BaseActivity<ActivityVideoWallpaperSettin
     override fun setUpObserver() {
         lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
-                edgePermissionViewModel.edgePermission.collect {
-                    val i = Intent(Settings.ACTION_MANAGE_OVERLAY_PERMISSION, "package:${packageName}".toUri())
-                    overlayPermissionLauncher.launch(i)
+                launch {
+                    edgePermissionViewModel.edgePermission.collect {
+                        val i = Intent(Settings.ACTION_MANAGE_OVERLAY_PERMISSION, "package:${packageName}".toUri())
+                        overlayPermissionLauncher.launch(i)
+                    }
+                }
+
+                launch {
+                    homeViewModel.connectionState.collectLatest {
+                        onNetworkStateChanged(it)
+                        handleNoInternetBottomSheet(it)
+                    }
                 }
             }
         }
+    }
+
+    private fun handleNoInternetBottomSheet(isConnected: Boolean) {
+        val fm = supportFragmentManager
+        val current = fm.findFragmentByTag(BottomSheetNoInternet.TAG) as? BottomSheetDialogFragment
+
+        if (isConnected) {
+            if (current?.dialog?.isShowing == true) current.dismissAllowingStateLoss()
+            return
+        }
+
+        if (current?.dialog?.isShowing == true) return
+
+        BottomSheetNoInternet.newInstance {
+            this.openProperNetworkSettings()
+        }.show(fm, BottomSheetNoInternet.TAG)
     }
 
     private fun registerOnClick() {

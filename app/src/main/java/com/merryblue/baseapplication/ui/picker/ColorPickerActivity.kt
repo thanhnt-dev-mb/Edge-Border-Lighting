@@ -32,6 +32,9 @@ import org.app.core.base.BaseActivity
 import org.app.core.base.extensions.toastMsg
 import kotlin.getValue
 import androidx.core.graphics.toColorInt
+import com.merryblue.baseapplication.helpers.openProperNetworkSettings
+import com.merryblue.baseapplication.ui.widget.BottomSheetNoInternet
+import kotlinx.coroutines.flow.collectLatest
 
 @AndroidEntryPoint
 class ColorPickerActivity : BaseActivity<ActivityColorPickerBinding>() {
@@ -72,12 +75,37 @@ class ColorPickerActivity : BaseActivity<ActivityColorPickerBinding>() {
     override fun setUpObserver() {
         lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
-                edgePermissionViewModel.edgePermission.collect {
-                    val i = Intent(Settings.ACTION_MANAGE_OVERLAY_PERMISSION, "package:${packageName}".toUri())
-                    overlayPermissionLauncher.launch(i)
+                launch {
+                    edgePermissionViewModel.edgePermission.collect {
+                        val i = Intent(Settings.ACTION_MANAGE_OVERLAY_PERMISSION, "package:${packageName}".toUri())
+                        overlayPermissionLauncher.launch(i)
+                    }
+                }
+
+                launch {
+                    viewModel.connectionState.collectLatest {
+                        onNetworkStateChanged(it)
+                        handleNoInternetBottomSheet(it)
+                    }
                 }
             }
         }
+    }
+
+    private fun handleNoInternetBottomSheet(isConnected: Boolean) {
+        val fm = supportFragmentManager
+        val current = fm.findFragmentByTag(BottomSheetNoInternet.TAG) as? BottomSheetDialogFragment
+
+        if (isConnected) {
+            if (current?.dialog?.isShowing == true) current.dismissAllowingStateLoss()
+            return
+        }
+
+        if (current?.dialog?.isShowing == true) return
+
+        BottomSheetNoInternet.newInstance {
+            this.openProperNetworkSettings()
+        }.show(fm, BottomSheetNoInternet.TAG)
     }
 
     private fun checkPermissionOverlay() {

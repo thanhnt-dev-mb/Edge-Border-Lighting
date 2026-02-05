@@ -123,13 +123,6 @@ class HomeFragment: BaseFragment<FragmentHomeBinding>() {
                     }
 
                     launch {
-                        viewModel.connectionState.collectLatest {
-                            onNetworkStateChanged(it)
-                            handleNoInternetBottomSheet(it)
-                        }
-                    }
-
-                    launch {
                         viewModel.presetState.collectLatest { preset ->
                             presetAdapter.submitList(preset?.items?.take(3).orEmpty())
                         }
@@ -185,23 +178,6 @@ class HomeFragment: BaseFragment<FragmentHomeBinding>() {
             }
         }
     }
-
-    private fun handleNoInternetBottomSheet(isConnected: Boolean) {
-        val fm = parentFragmentManager
-        val current = fm.findFragmentByTag(BottomSheetNoInternet.TAG) as? BottomSheetDialogFragment
-
-        if (isConnected) {
-            if (current?.dialog?.isShowing == true) current.dismissAllowingStateLoss()
-            return
-        }
-
-        if (current?.dialog?.isShowing == true) return
-
-        BottomSheetNoInternet.newInstance {
-            requireContext().openProperNetworkSettings()
-        }.show(fm, BottomSheetNoInternet.TAG)
-    }
-
 
     private fun initRecyclerView() {
 

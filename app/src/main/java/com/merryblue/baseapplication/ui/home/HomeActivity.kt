@@ -8,8 +8,12 @@ import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
 import android.widget.Toast
+import androidx.activity.viewModels
 import androidx.annotation.NavigationRes
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
@@ -22,16 +26,21 @@ import com.merryblue.baseapplication.helpers.canHandleIntent
 import com.merryblue.baseapplication.helpers.isAppInstalled
 import com.merryblue.baseapplication.helpers.isBackground
 import com.merryblue.baseapplication.helpers.openPolicy
+import com.merryblue.baseapplication.helpers.openProperNetworkSettings
 import com.merryblue.baseapplication.ui.appupdate.ForceUpdateActivity
 import com.merryblue.baseapplication.ui.onboard.language.LanguageActivity
 import com.merryblue.baseapplication.ui.setting.SettingFragment
 import com.merryblue.baseapplication.ui.view.EdgeBottomNavView
+import com.merryblue.baseapplication.ui.widget.BottomSheetNoInternet
 import com.merryblue.baseapplication.ui.widget.BottomSheetRate
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.launch
 import org.app.core.ads.remoteconfig.CoreRemoteConfig
 import org.app.core.base.BaseActivity
 import org.app.core.base.extensions.openActivityAndClearStack
 import org.app.core.base.utils.StringResId
+import kotlin.getValue
 
 
 @AndroidEntryPoint
@@ -42,6 +51,7 @@ class HomeActivity : BaseActivity<ActivityHomeBinding>() {
     private lateinit var navControllers: Map<EdgeBottomNavView.Tab, NavController>
     private var currentTab: EdgeBottomNavView.Tab = EdgeBottomNavView.Tab.EDGE
     private val prefs by lazy { AppPreferences(this) }
+    private val homeViewModel: HomeViewModel by viewModels()
 
     override
     fun getLayoutId() = R.layout.activity_home
@@ -77,7 +87,34 @@ class HomeActivity : BaseActivity<ActivityHomeBinding>() {
         prefs.canLiveChooser = canHandleIntent(Intent(WallpaperManager.ACTION_LIVE_WALLPAPER_CHOOSER))
     }
 
-    override fun setUpObserver() = Unit
+    override fun setUpObserver() {
+        lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                launch {
+                    homeViewModel.connectionState.collectLatest {
+                        onNetworkStateChanged(it)
+                        handleNoInternetBottomSheet(it)
+                    }
+                }
+            }
+        }
+    }
+
+    private fun handleNoInternetBottomSheet(isConnected: Boolean) {
+        val fm = supportFragmentManager
+        val current = fm.findFragmentByTag(BottomSheetNoInternet.TAG) as? BottomSheetDialogFragment
+
+        if (isConnected) {
+            if (current?.dialog?.isShowing == true) current.dismissAllowingStateLoss()
+            return
+        }
+
+        if (current?.dialog?.isShowing == true) return
+
+        BottomSheetNoInternet.newInstance {
+            this.openProperNetworkSettings()
+        }.show(fm, BottomSheetNoInternet.TAG)
+    }
 
     private fun setupBottomNavMultiStack() {
         val fm = supportFragmentManager

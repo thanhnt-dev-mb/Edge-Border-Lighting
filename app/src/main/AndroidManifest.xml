@@ -14,7 +14,7 @@
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
-    <uses-permission android:name="com.android.alarm.permission.SET_ALARM" />c
+    <uses-permission android:name="com.android.alarm.permission.SET_ALARM" />
     <uses-permission android:name="com.google.android.gms.permission.AD_ID" />
     <uses-permission android:name="android.permission.RECORD_AUDIO" />
     <uses-permission
@@ -81,24 +81,30 @@
         tools:replace="android:allowBackup">
         <activity
             android:name=".ui.wallpaper.StaticWallpaperSettingsActivity"
-            android:exported="false" />
+            android:exported="false"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".ui.picker.ColorPickerActivity"
-            android:exported="false" />
+            android:exported="false"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".ui.wallpaper.RippleWallpaperSettingsActivity"
             android:exported="true"
+            android:screenOrientation="portrait"
             android:theme="@style/Theme.Ripple.Fullscreen" />
         <activity
             android:name=".ui.wallpaper.VideoWallpaperSettingsActivity"
-            android:exported="false" />
+            android:exported="false"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".ui.wallpaper.EdgeWallpaperSettingsActivity"
             android:exported="false"
-            android:launchMode="singleTask" />
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".ui.theme.ThemesActivity"
-            android:exported="false" />
+            android:exported="false"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".ui.appupdate.ForceUpdateActivity"
             android:exported="false"
