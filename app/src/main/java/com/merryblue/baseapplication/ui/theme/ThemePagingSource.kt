@@ -5,6 +5,9 @@ import androidx.paging.PagingState
 import com.merryblue.baseapplication.domain.model.Item
 import com.merryblue.baseapplication.domain.model.ThemeUi
 import com.merryblue.baseapplication.domain.repository.EdgeDataRepository
+import com.merryblue.baseapplication.helpers.EDGE_MOST
+import com.merryblue.baseapplication.helpers.EDGE_REWARD_DAY
+import com.merryblue.baseapplication.helpers.EDGE_TRENDING
 import com.merryblue.baseapplication.helpers.KEY_ALL
 import com.merryblue.baseapplication.helpers.RIPPLE_ABSTRACT_ABSCT
 import com.merryblue.baseapplication.helpers.RIPPLE_ABSTRACT_CQ
@@ -13,6 +16,7 @@ import com.merryblue.baseapplication.helpers.RIPPLE_NATURE_INDS
 import com.merryblue.baseapplication.helpers.RIPPLE_NATURE_LIVE
 import com.merryblue.baseapplication.helpers.RIPPLE_NATURE_SPAZ
 import com.merryblue.baseapplication.helpers.RIPPLE_RIPPLE
+import com.merryblue.baseapplication.helpers.RIPPLE_TOP_PICS
 
 data class ChainKey(
     val typeIndex: Int,
@@ -40,6 +44,13 @@ class ThemePagingSource(
         )
 
         RIPPLE_RIPPLE -> listOf(RIPPLE_RIPPLE)
+
+        RIPPLE_TOP_PICS -> listOf(
+            RIPPLE_TOP_PICS,
+            EDGE_REWARD_DAY,
+            EDGE_TRENDING,
+            EDGE_MOST
+        )
 
         KEY_ALL -> listOf(
             RIPPLE_RIPPLE,

@@ -24,8 +24,10 @@ import com.merryblue.baseapplication.helpers.KEY_RECEIVE_DATA
 import com.merryblue.baseapplication.helpers.PreviewType.EDGE_WALLPAPER_SCREEN
 import com.merryblue.baseapplication.helpers.PreviewType.RIPPLE_WALLPAPER_SCREEN
 import com.merryblue.baseapplication.helpers.PreviewType.STATIC_WALLPAPER_SCREEN
+import com.merryblue.baseapplication.helpers.RIPPLE_MAGICAL_BORDERS
 import com.merryblue.baseapplication.helpers.RIPPLE_PREMIUM
 import com.merryblue.baseapplication.helpers.RIPPLE_RIPPLE
+import com.merryblue.baseapplication.helpers.RIPPLE_TOP_PICS
 import com.merryblue.baseapplication.helpers.ServiceState.ACTION_EDGE_OVERLAY_STOP
 import com.merryblue.baseapplication.helpers.TYPE_PRESET
 import com.merryblue.baseapplication.helpers.TYPE_THEME
@@ -102,10 +104,8 @@ class HomeFragment: BaseFragment<FragmentHomeBinding>() {
     }
 
     private fun initData() {
-        viewModel.loadPreset(EDGE_REWARD_DAY)
-
-        val canSetLive = prefs.canChangeLive || prefs.canLiveChooser
-        viewModel.loadThemes(if (canSetLive) RIPPLE_PREMIUM else RIPPLE_RIPPLE)
+        viewModel.loadPreset(RIPPLE_TOP_PICS)
+        viewModel.loadThemes(if (prefs.canChangeLive || prefs.canLiveChooser) RIPPLE_MAGICAL_BORDERS else RIPPLE_RIPPLE)
     }
 
     override fun setupObservers() {

@@ -19,6 +19,7 @@ import com.merryblue.baseapplication.helpers.KEY_IS_CUSTOM
 import com.merryblue.baseapplication.helpers.KEY_RECEIVE_DATA
 import com.merryblue.baseapplication.helpers.RIPPLE_MAGICAL_BORDERS
 import com.merryblue.baseapplication.helpers.RIPPLE_RIPPLE
+import com.merryblue.baseapplication.helpers.RIPPLE_TOP_PICS
 import com.merryblue.baseapplication.helpers.TYPE_PRESET
 import com.merryblue.baseapplication.helpers.TYPE_THEME
 import com.merryblue.baseapplication.helpers.openProperNetworkSettings
@@ -89,12 +90,14 @@ class ThemesActivity : BaseActivity<ActivityThemesBinding>() {
         val canSetLive = prefs.canChangeLive || prefs.canLiveChooser
 
         val titles = when (initType) {
-            TYPE_PRESET -> listOf(
-                EDGE_REWARD_DAY to getString(R.string.txt_daily_rewards),
-                EDGE_TRENDING to getString(R.string.txt_trending_today),
-                EDGE_MOST to getString(R.string.txt_most_downloaded),
-                EDGE_FIM to getString(R.string.txt_static)
-            )
+//            TYPE_PRESET -> listOf(
+//                EDGE_REWARD_DAY to getString(R.string.txt_daily_rewards),
+//                EDGE_TRENDING to getString(R.string.txt_trending_today),
+//                EDGE_MOST to getString(R.string.txt_most_downloaded),
+//                EDGE_FIM to getString(R.string.txt_static)
+//            )
+
+            TYPE_PRESET -> listOf(RIPPLE_TOP_PICS to getString(R.string.txt_top_pics))
 
             else -> buildList {
                 if (canSetLive) add(RIPPLE_MAGICAL_BORDERS to getString(R.string.txt_magical_borders))
@@ -108,7 +111,8 @@ class ThemesActivity : BaseActivity<ActivityThemesBinding>() {
         }.apply { attach() }
         vpThemes.offscreenPageLimit = 3
 
-        if (initType == TYPE_THEME) tabTheme.visibility = View.GONE
+        vpThemes.isUserInputEnabled = false
+        /*if (initType == TYPE_THEME) */tabTheme.visibility = View.GONE
 
         btnBackTheme.setOnClickListener {
             finish()

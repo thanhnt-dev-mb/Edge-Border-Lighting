@@ -40,7 +40,7 @@ class WallpaperFragment : BaseFragment<FragmentWallpaperBinding>() {
             add(RIPPLE_NATURE_SPAZ to getString(R.string.txt_nature))
             add(RIPPLE_ABSTRACT_ABSCT to getString(R.string.txt_abstract))
 
-            if (canSetLive) add(RIPPLE_TOP_PICS to getString(R.string.txt_top_pics)) else add(EDGE_FIM to getString(R.string.txt_top_pics))
+//            if (canSetLive) add(RIPPLE_TOP_PICS to getString(R.string.txt_top_pics)) else add(EDGE_FIM to getString(R.string.txt_top_pics))
 
             add(RIPPLE_RIPPLE to getString(R.string.txt_ripple))
         }
