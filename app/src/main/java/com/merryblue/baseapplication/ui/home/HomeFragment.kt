@@ -109,6 +109,7 @@ class HomeFragment: BaseFragment<FragmentHomeBinding>() {
     }
 
     override fun setupObservers() {
+        super.setupObservers()
         binding.apply {
             viewLifecycleOwner.lifecycleScope.launch {
                 viewLifecycleOwner.lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED) {

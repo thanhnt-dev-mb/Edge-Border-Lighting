@@ -5,8 +5,8 @@
     {
       "status": true,
       "version": 1,
-      "id": "ca-app-pub-6445739239297382/5008195428",
-      "event": "ClickSwitchApp",
+      "id": "ca-app-pub-3940256099942544/9257395921",
+      "event": "EventSwitchApp",
       "description": "SwitchApp"
     }
   ],
@@ -15,8 +15,8 @@
       "status": true,
       "version": 1,
       "always_preload": false,
-      "id": "ca-app-pub-6445739239297382/5099694763",
-      "event": "ClickStartApp",
+      "id": "ca-app-pub-3940256099942544/1033173712",
+      "event": "EventStartApp",
       "description": "StartApp"
     }
   ],
@@ -24,17 +24,17 @@
     {
       "status": false,
       "version": 1,
-      "id": "ca-app-pub-6445739239297382/6981078062",
-      "event": "ClickListApp",
-      "tag": "LaunchingAppListFragment_Banner",
+      "id": "ca-app-pub-3940256099942544/6300978111",
+      "event": "EventHomeBanner",
+      "tag": "BottomHomeBanner",
       "size": "small",
-      "description": "Launching list app Banner"
+      "description": "Home Screen Banner"
     },
     {
       "status": false,
       "version": 1,
-      "id": "ca-app-pub-6445739239297382/6981078062",
-      "event": "ClickPatternSetup",
+      "id": "ca-app-pub-3940256099942544/6300978111",
+      "event": "EventPatternSetup",
       "tag": "LaunchingPatternSetupFragment_Banner",
       "size": "small",
       "description": "Launching password setup Banner"
@@ -42,8 +42,8 @@
     {
       "status": false,
       "version": 1,
-      "id": "ca-app-pub-6445739239297382/6981078062",
-      "event": "ClickHomeBanner",
+      "id": "ca-app-pub-3940256099942544/6300978111",
+      "event": "EventHomeBanner",
       "tag": "HomeFragment_Banner",
       "size": "small",
       "description": "Home Banner"
@@ -51,9 +51,9 @@
     {
       "status": false,
       "version": 1,
-      "id": "ca-app-pub-6445739239297382/6981078062",
+      "id": "ca-app-pub-3940256099942544/6300978111",
       "tag": "LockScreenActivity_Banner",
-      "event": "ClickLockScreen",
+      "event": "EventLockScreen",
       "size": "small",
       "description": "Lockscreen Banner"
     }
@@ -72,45 +72,55 @@
       "version": 1,
       "always_preload": false,
       "tag": "Guide",
-      "id": "ca-app-pub-6445739239297382/5099694763",
-      "event": "ClickGuide",
+      "timelapse": 40000,
+      "native_id": "",
+      "id": "ca-app-pub-3940256099942544/1033173712",
+      "event": "EventGuide",
       "description": "Guide"
     },
     {
       "status": false,
       "version": 1,
       "always_preload": false,
-      "tag": "Unlock",
-      "id": "ca-app-pub-6445739239297382/5099694763",
-      "event": "ClickUnlock",
-      "description": "Unlock application"
+      "tag": "SetEdgeWallpaper",
+      "timelapse": 40000,
+      "native_id": "",
+      "id": "ca-app-pub-3940256099942544/1033173712",
+      "event": "EventSetEdgeWallpaper",
+      "description": "Set Edge Wallpaper"
     },
     {
       "status": false,
       "version": 1,
       "always_preload": false,
-      "tag": "AppListActivity_BackAction",
-      "id": "ca-app-pub-6445739239297382/5099694763",
-      "event": "ClickAppListBack",
-      "description": "AppList Back action"
+      "tag": "SetRippleWallpaper",
+      "timelapse": 40000,
+      "native_id": "",
+      "id": "ca-app-pub-3940256099942544/1033173712",
+      "event": "EventSetRippleWallpaper",
+      "description": "Set Ripple Wallpaper"
     },
     {
       "status": false,
       "version": 1,
       "always_preload": false,
-      "tag": "AccessFunction",
-      "id": "ca-app-pub-6445739239297382/5099694763",
-      "event": "ClickAccessFunction",
-      "description": "Access function fullscreen ads"
+      "tag": "SetStaticWallpaper",
+      "timelapse": 40000,
+      "native_id": "",
+      "id": "ca-app-pub-3940256099942544/1033173712",
+      "event": "EventSetStaticWallpaper",
+      "description": "Set Static Wallpaper"
     },
     {
       "status": false,
       "version": 1,
       "always_preload": false,
-      "tag": "VaultActivity_BackAction",
-      "id": "ca-app-pub-6445739239297382/5099694763",
-      "event": "ClickVaultBack",
-      "description": "Vault Back action"
+      "tag": "SetVideoWallpaper",
+      "timelapse": 40000,
+      "native_id": "",
+      "id": "ca-app-pub-3940256099942544/1033173712",
+      "event": "EventSetVideoWallpaper",
+      "description": "Set Video Wallpaper"
     }
   ],
   "natives": [
@@ -120,8 +130,8 @@
       "version": 1,
       "place_preload": "SplashActivity",
       "tag": "LanguageActivity_Native",
-      "id": "ca-app-pub-6445739239297382/3022356028",
-      "event": "ClickLanguage",
+      "id": "ca-app-pub-3940256099942544/2247696110",
+      "event": "EventLanguage",
       "style": 1,
       "preload": 3,
       "description": "Language Native"
@@ -130,42 +140,9 @@
       "status": false,
       "always_preload": false,
       "version": 1,
-      "tag": "IntroPagerFragment_Native",
-      "id": "ca-app-pub-6445739239297382/3022356028",
-      "event": "ClickIntro",
-      "style": 13,
-      "preload": 0,
-      "description": "Intro Native"
-    },
-    {
-      "status": false,
-      "always_preload": false,
-      "version": 1,
-      "tag": "PermissionActivity_Native",
-      "id": "ca-app-pub-6445739239297382/3022356028",
-      "event": "ClickPermission",
-      "style": 41,
-      "preload": 0,
-      "description": "Permission Native"
-    },
-    {
-      "status": false,
-      "always_preload": false,
-      "version": 1,
-      "tag": "HomeAdapter_Native",
-      "id": "ca-app-pub-6445739239297382/3022356028",
-      "event": "ClickHomeRecycler",
-      "style": 1,
-      "preload": 0,
-      "description": "Home Recycler Native"
-    },
-    {
-      "status": false,
-      "always_preload": false,
-      "version": 1,
       "tag": "IntroFragment_Native",
-      "id": "ca-app-pub-6445739239297382/3022356028",
-      "event": "ClickIntroNative",
+      "id": "ca-app-pub-3940256099942544/2247696110",
+      "event": "EventIntroNative",
       "style": 13,
       "preload": 0,
       "description": "Intro Native"
@@ -174,45 +151,89 @@
       "status": false,
       "always_preload": false,
       "version": 1,
-      "tag": "AppListActivity_Native",
-      "id": "ca-app-pub-6445739239297382/5586779922",
-      "event": "ClickAppList",
+      "tag": "IntroFragment_Native_0",
+      "id": "ca-app-pub-3940256099942544/2247696110",
+      "event": "EventIntroNative",
       "style": 13,
       "preload": 0,
-      "description": "AppList Screen Native"
+      "description": "Intro Native"
     },
     {
       "status": false,
       "always_preload": false,
       "version": 1,
-      "tag": "VaultActivity_Native",
-      "id": "ca-app-pub-6445739239297382/5586779922",
-      "event": "ClickVaultNative",
+      "tag": "IntroFragment_Native_3",
+      "id": "ca-app-pub-3940256099942544/2247696110",
+      "event": "EventIntroNative",
       "style": 13,
       "preload": 0,
-      "description": "Vault Screen Native"
+      "description": "Intro Native"
     },
     {
       "status": false,
       "always_preload": false,
       "version": 1,
-      "tag": "ChoosePhotoActivity_Native",
-      "id": "ca-app-pub-6445739239297382/5586779922",
-      "event": "ClickPhotoPicker",
-      "style": 13,
+      "tag": "NativeFullscreenFragment_Native",
+      "id": "ca-app-pub-3940256099942544/2247696110",
+      "event": "EventNativeFull",
+      "style": 68,
       "preload": 0,
-      "description": "Photo picker Screen Native"
+      "description": "Intro Native Fullscreen"
     },
     {
       "status": false,
       "always_preload": false,
       "version": 1,
-      "tag": "VideoPlayActivity_Native",
-      "id": "ca-app-pub-6445739239297382/5586779922",
-      "event": "ClickVideoPlay",
+      "tag": "HomeFragment_Native",
+      "id": "ca-app-pub-3940256099942544/2247696110",
+      "event": "EventHomeNative",
       "style": 13,
       "preload": 0,
-      "description": "Video play Screen Native"
+      "description": "Home Native"
+    },
+    {
+      "status": false,
+      "always_preload": false,
+      "version": 1,
+      "tag": "VideoWallpaperSettingsActivity_Native",
+      "id": "ca-app-pub-3940256099942544/2247696110",
+      "event": "EventVideoWallpaper",
+      "style": 13,
+      "preload": 0,
+      "description": "Video Wallpaper Native"
+    },
+    {
+      "status": false,
+      "always_preload": false,
+      "version": 1,
+      "tag": "EdgeWallpaperSettingsActivity_Native",
+      "id": "ca-app-pub-3940256099942544/2247696110",
+      "event": "EventEdgeWallpaper",
+      "style": 13,
+      "preload": 0,
+      "description": "Edge Wallpaper Native"
+    },
+    {
+      "status": false,
+      "always_preload": false,
+      "version": 1,
+      "tag": "RippleWallpaperSettingsActivity_Native",
+      "id": "ca-app-pub-3940256099942544/2247696110",
+      "event": "EventRippleWallpaper",
+      "style": 13,
+      "preload": 0,
+      "description": "Ripple Wallpaper Native"
+    },
+    {
+      "status": false,
+      "always_preload": false,
+      "version": 1,
+      "tag": "StaticWallpaperSettingsActivity_Native",
+      "id": "ca-app-pub-3940256099942544/2247696110",
+      "event": "EventStaticWallpaper",
+      "style": 13,
+      "preload": 0,
+      "description": "Static Wallpaper Native"
     }
   ],
   "rewards": [
@@ -226,55 +247,55 @@
   ],
   "backup_id": [
     {
-      "id": "ca-app-pub-6445739239297382/5586779922",
+      "id": "ca-app-pub-3940256099942544/2247696110",
       "network": "admob",
       "order": 1,
       "type": "native"
     },
     {
-      "id": "ca-app-pub-6445739239297382/9446133881",
+      "id": "ca-app-pub-3940256099942544/2247696110",
       "network": "admob",
       "order": 2,
       "type": "native"
     },
     {
-      "id": "ca-app-pub-6445739239297382/8579774779",
+      "id": "ca-app-pub-3940256099942544/2247696110",
       "network": "admob",
       "order": 3,
       "type": "native"
     },
     {
-      "id": "ca-app-pub-6445739239297382/6346653244",
+      "id": "ca-app-pub-3940256099942544/6300978111",
       "network": "admob",
       "order": 1,
       "type": "banner"
     },
     {
-      "id": "ca-app-pub-6445739239297382/3720489900",
+      "id": "ca-app-pub-3940256099942544/6300978111",
       "network": "admob",
       "order": 2,
       "type": "banner"
     },
     {
-      "id": "ca-app-pub-6445739239297382/7634358763",
+      "id": "ca-app-pub-3940256099942544/6300978111",
       "network": "admob",
       "order": 3,
       "type": "banner"
     },
     {
-      "id": "ca-app-pub-6445739239297382/9164388275",
+      "id": "ca-app-pub-3940256099942544/1033173712",
       "network": "admob",
       "order": 1,
       "type": "interstitial"
     },
     {
-      "id": "ca-app-pub-6445739239297382/3912061595",
+      "id": "ca-app-pub-3940256099942544/1033173712",
       "network": "admob",
       "order": 2,
       "type": "interstitial"
     },
     {
-      "id": "ca-app-pub-6445739239297382/8083111015",
+      "id": "ca-app-pub-3940256099942544/1033173712",
       "network": "admob",
       "order": 3,
       "type": "interstitial"

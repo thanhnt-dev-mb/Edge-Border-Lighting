@@ -174,8 +174,4 @@ class SplashViewModel @Inject constructor(
             }
         return mode == AppOpsManager.MODE_ALLOWED
     }
-
-    fun setShowLockScreen(needLock: Boolean = true) {
-        appRepository.setShowLock(needLock)
-    }
 }

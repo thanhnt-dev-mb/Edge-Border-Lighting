@@ -25,6 +25,7 @@ import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.merryblue.baseapplication.R
 import com.merryblue.baseapplication.coredata.local.AppPreferences
 import com.merryblue.baseapplication.databinding.ActivityVideoWallpaperSettingsBinding
+import com.merryblue.baseapplication.enums.InterstitialFunction
 import com.merryblue.baseapplication.helpers.ServiceState.ACTION_VIDEO_WALLPAPER_STATE_CHANGED
 import com.merryblue.baseapplication.helpers.openProperNetworkSettings
 import com.merryblue.baseapplication.helpers.video.VideoDataSource
@@ -38,6 +39,7 @@ import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import org.app.core.base.BaseActivity
+import org.app.core.base.binding.setOnSingleClickListener
 import org.app.core.base.extensions.toastMsg
 
 @AndroidEntryPoint
@@ -46,6 +48,10 @@ class VideoWallpaperSettingsActivity : BaseActivity<ActivityVideoWallpaperSettin
     private val prefs by lazy { AppPreferences(this) }
     private val edgePermissionViewModel: EdgePermissionViewModel by viewModels()
     private val homeViewModel: HomeViewModel by viewModels()
+
+    override val nativeHeight: Int
+        get() = -1
+
     private val setLiveWallpaperLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { _ ->
         if (isMyLiveWallpaperActive()) {
             checkPermissionOverlay()
@@ -112,8 +118,12 @@ class VideoWallpaperSettingsActivity : BaseActivity<ActivityVideoWallpaperSettin
     }
 
     private fun registerOnClick() {
-        binding.btnSetWallpaper.setOnClickListener { onClickSetLiveWallpaperOrApply() }
-        binding.btnBackWallpaper.setOnClickListener { finish() }
+        binding.btnSetWallpaper.setOnSingleClickListener {
+            showInterstitialBy(InterstitialFunction.SetVideoWallpaper.name) {
+                onClickSetLiveWallpaperOrApply()
+            }
+        }
+        binding.btnBackWallpaper.setOnSingleClickListener { finish() }
     }
 
     @OptIn(UnstableApi::class)

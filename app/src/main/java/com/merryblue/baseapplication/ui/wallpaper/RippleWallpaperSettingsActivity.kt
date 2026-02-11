@@ -20,6 +20,7 @@ import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.merryblue.baseapplication.R
 import com.merryblue.baseapplication.coredata.local.AppPreferences
 import com.merryblue.baseapplication.databinding.ActivityRippleWallpaperSettingsBinding
+import com.merryblue.baseapplication.enums.InterstitialFunction
 import com.merryblue.baseapplication.helpers.ServiceState.ACTION_RIPPLE_BG_CHANGED
 import com.merryblue.baseapplication.helpers.openProperNetworkSettings
 import com.merryblue.baseapplication.helpers.ripple.WaterDropRenderer
@@ -32,6 +33,7 @@ import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import org.app.core.base.BaseActivity
+import org.app.core.base.binding.setOnSingleClickListener
 import org.app.core.base.extensions.toastMsg
 
 @AndroidEntryPoint
@@ -40,6 +42,10 @@ class RippleWallpaperSettingsActivity : BaseActivity<ActivityRippleWallpaperSett
     private val prefs by lazy { AppPreferences(this) }
     private val edgePermissionViewModel: EdgePermissionViewModel by viewModels()
     private val homeViewModel: HomeViewModel by viewModels()
+
+    override val nativeHeight: Int
+        get() = -1
+
     private val setLiveWallpaperLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { _ ->
         if (isMyLiveWallpaperActive()) {
             checkPermissionOverlay()
@@ -118,8 +124,12 @@ class RippleWallpaperSettingsActivity : BaseActivity<ActivityRippleWallpaperSett
     }
 
     private fun registerClicks() {
-        binding.btnSetWallpaper.setOnClickListener { onClickSetLiveWallpaperOrApply() }
-        binding.btnBackWallpaper.setOnClickListener { finish() }
+        binding.btnSetWallpaper.setOnSingleClickListener {
+            showInterstitialBy(InterstitialFunction.SetRippleWallpaper.name) {
+                onClickSetLiveWallpaperOrApply()
+            }
+        }
+        binding.btnBackWallpaper.setOnSingleClickListener { finish() }
     }
 
     private fun onClickSetLiveWallpaperOrApply() {

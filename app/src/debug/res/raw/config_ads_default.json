@@ -6,7 +6,7 @@
       "status": true,
       "version": 1,
       "id": "ca-app-pub-3940256099942544/9257395921",
-      "event": "ClickSwitchApp",
+      "event": "EventSwitchApp",
       "description": "SwitchApp"
     }
   ],
@@ -16,7 +16,7 @@
       "version": 1,
       "always_preload": false,
       "id": "ca-app-pub-3940256099942544/1033173712",
-      "event": "ClickStartApp",
+      "event": "EventStartApp",
       "description": "StartApp"
     }
   ],
@@ -26,7 +26,7 @@
       "version": 1,
       "id": "ca-app-pub-3940256099942544/6300978111",
       "event": "EventHomeBanner",
-      "tag": "HomeActivity_Banner",
+      "tag": "BottomHomeBanner",
       "size": "small",
       "description": "Home Screen Banner"
     },
@@ -34,7 +34,7 @@
       "status": false,
       "version": 1,
       "id": "ca-app-pub-3940256099942544/6300978111",
-      "event": "ClickPatternSetup",
+      "event": "EventPatternSetup",
       "tag": "LaunchingPatternSetupFragment_Banner",
       "size": "small",
       "description": "Launching password setup Banner"
@@ -43,7 +43,7 @@
       "status": false,
       "version": 1,
       "id": "ca-app-pub-3940256099942544/6300978111",
-      "event": "ClickHomeBanner",
+      "event": "EventHomeBanner",
       "tag": "HomeFragment_Banner",
       "size": "small",
       "description": "Home Banner"
@@ -53,7 +53,7 @@
       "version": 1,
       "id": "ca-app-pub-3940256099942544/6300978111",
       "tag": "LockScreenActivity_Banner",
-      "event": "ClickLockScreen",
+      "event": "EventLockScreen",
       "size": "small",
       "description": "Lockscreen Banner"
     }
@@ -75,19 +75,52 @@
       "timelapse": 40000,
       "native_id": "",
       "id": "ca-app-pub-3940256099942544/1033173712",
-      "event": "ClickGuide",
+      "event": "EventGuide",
       "description": "Guide"
     },
     {
       "status": false,
       "version": 1,
       "always_preload": false,
-      "tag": "Unlock",
+      "tag": "SetEdgeWallpaper",
       "timelapse": 40000,
       "native_id": "",
       "id": "ca-app-pub-3940256099942544/1033173712",
-      "event": "ClickUnlock",
-      "description": "Unlock application"
+      "event": "EventSetEdgeWallpaper",
+      "description": "Set Edge Wallpaper"
+    },
+    {
+      "status": false,
+      "version": 1,
+      "always_preload": false,
+      "tag": "SetRippleWallpaper",
+      "timelapse": 40000,
+      "native_id": "",
+      "id": "ca-app-pub-3940256099942544/1033173712",
+      "event": "EventSetRippleWallpaper",
+      "description": "Set Ripple Wallpaper"
+    },
+    {
+      "status": false,
+      "version": 1,
+      "always_preload": false,
+      "tag": "SetStaticWallpaper",
+      "timelapse": 40000,
+      "native_id": "",
+      "id": "ca-app-pub-3940256099942544/1033173712",
+      "event": "EventSetStaticWallpaper",
+      "description": "Set Static Wallpaper"
+    },
+    {
+      "status": false,
+      "version": 1,
+      "always_preload": false,
+      "tag": "SetVideoWallpaper",
+      "timelapse": 40000,
+      "native_id": "",
+      "id": "ca-app-pub-3940256099942544/1033173712",
+      "event": "EventSetVideoWallpaper",
+      "description": "Set Video Wallpaper"
     }
   ],
   "natives": [
@@ -98,7 +131,7 @@
       "place_preload": "SplashActivity",
       "tag": "LanguageActivity_Native",
       "id": "ca-app-pub-3940256099942544/2247696110",
-      "event": "ClickLanguage",
+      "event": "EventLanguage",
       "style": 1,
       "preload": 3,
       "description": "Language Native"
@@ -109,7 +142,7 @@
       "version": 1,
       "tag": "IntroFragment_Native",
       "id": "ca-app-pub-3940256099942544/2247696110",
-      "event": "ClickIntroNative",
+      "event": "EventIntroNative",
       "style": 13,
       "preload": 0,
       "description": "Intro Native"
@@ -120,7 +153,7 @@
       "version": 1,
       "tag": "IntroFragment_Native_0",
       "id": "ca-app-pub-3940256099942544/2247696110",
-      "event": "ClickIntroNative",
+      "event": "EventIntroNative",
       "style": 13,
       "preload": 0,
       "description": "Intro Native"
@@ -131,7 +164,7 @@
       "version": 1,
       "tag": "IntroFragment_Native_3",
       "id": "ca-app-pub-3940256099942544/2247696110",
-      "event": "ClickIntroNative",
+      "event": "EventIntroNative",
       "style": 13,
       "preload": 0,
       "description": "Intro Native"
@@ -142,7 +175,7 @@
       "version": 1,
       "tag": "NativeFullscreenFragment_Native",
       "id": "ca-app-pub-3940256099942544/2247696110",
-      "event": "ClickNativeFull",
+      "event": "EventNativeFull",
       "style": 68,
       "preload": 0,
       "description": "Intro Native Fullscreen"
@@ -153,10 +186,54 @@
       "version": 1,
       "tag": "HomeFragment_Native",
       "id": "ca-app-pub-3940256099942544/2247696110",
-      "event": "ClickIntroNative",
+      "event": "EventHomeNative",
       "style": 13,
       "preload": 0,
       "description": "Home Native"
+    },
+    {
+      "status": false,
+      "always_preload": false,
+      "version": 1,
+      "tag": "VideoWallpaperSettingsActivity_Native",
+      "id": "ca-app-pub-3940256099942544/2247696110",
+      "event": "EventVideoWallpaper",
+      "style": 13,
+      "preload": 0,
+      "description": "Video Wallpaper Native"
+    },
+    {
+      "status": false,
+      "always_preload": false,
+      "version": 1,
+      "tag": "EdgeWallpaperSettingsActivity_Native",
+      "id": "ca-app-pub-3940256099942544/2247696110",
+      "event": "EventEdgeWallpaper",
+      "style": 13,
+      "preload": 0,
+      "description": "Edge Wallpaper Native"
+    },
+    {
+      "status": false,
+      "always_preload": false,
+      "version": 1,
+      "tag": "RippleWallpaperSettingsActivity_Native",
+      "id": "ca-app-pub-3940256099942544/2247696110",
+      "event": "EventRippleWallpaper",
+      "style": 13,
+      "preload": 0,
+      "description": "Ripple Wallpaper Native"
+    },
+    {
+      "status": false,
+      "always_preload": false,
+      "version": 1,
+      "tag": "StaticWallpaperSettingsActivity_Native",
+      "id": "ca-app-pub-3940256099942544/2247696110",
+      "event": "EventStaticWallpaper",
+      "style": 13,
+      "preload": 0,
+      "description": "Static Wallpaper Native"
     }
   ],
   "rewards": [
