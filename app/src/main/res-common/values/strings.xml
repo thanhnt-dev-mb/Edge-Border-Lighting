@@ -3,9 +3,6 @@
 
     <string name="title_nav_home" translatable="false">Home</string>
 
-    <string name="txt_share_friend">Share with friends</string>
-    <string name="txt_share_msg">Check out %s Application, it\'s awesome!</string>
-    <string name="txt_started">Get Started</string>
     <string name="txt_submit">Submit</string>
     <string name="txt_premium_title_suffix" translatable="false"> PRO</string>
     <string name="txt_save_percent" translatable="false">80% OFF</string>

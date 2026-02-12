@@ -115,7 +115,7 @@
         android:layout_marginHorizontal="10dp"
         android:layout_marginTop="12dp"
         app:fontFamily="@font/roboto_medium"
-        android:text="Notch Bottom Fullness"
+        android:text="@string/txt_notch_bottom_fullness"
         android:textColor="@color/white"
         android:textSize="14sp" />
 
