@@ -87,6 +87,7 @@ class SplashActivity : BaseActivity<ActivitySplashBinding>() {
         if (isHideAds) {
             binding.layoutCard.invisible()
             CoreAds.instance.setHideAds(true)
+            AdapterOpenAppManager.instance.disableOpenAds()
             if (viewModel.isFirstTime()) {
                 Handler(Looper.getMainLooper()).postDelayed({
                     LanguageActivity.open(this)
@@ -199,7 +200,6 @@ class SplashActivity : BaseActivity<ActivitySplashBinding>() {
         CoreRemoteConfig.instance.init(this, true, object : LoadCallback() {
             override fun onLoadSuccess() {
                 if (!hidesAds) {
-                    CoreRemoteConfig.instance.setLocalConfig(viewModel.getJsonConfiguration(), true)
                     _status = _status.or(CONST_REMOTE_CONFIG_INITIALIZED)
                     if (_status == CONST_ALL_INITIALIZED) {
                         initializeAds()

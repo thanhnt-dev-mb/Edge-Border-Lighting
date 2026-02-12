@@ -194,14 +194,12 @@ class EdgeLightingOverlayService: Service() {
 
     private fun buildNotification(): Notification {
         val channelId = "edge_overlay"
-        if (Build.VERSION.SDK_INT >= 26) {
-            val nm = getSystemService(NOTIFICATION_SERVICE) as NotificationManager
-            nm.createNotificationChannel(
-                NotificationChannel(channelId, "Edge Lighting", NotificationManager.IMPORTANCE_LOW)
-            )
-        }
+        val nm = getSystemService(NOTIFICATION_SERVICE) as NotificationManager
+        nm.createNotificationChannel(
+            NotificationChannel(channelId, "Edge Lighting", NotificationManager.IMPORTANCE_LOW)
+        )
         return NotificationCompat.Builder(this, channelId)
-            .setSmallIcon(R.drawable.app_logo)
+            .setSmallIcon(R.drawable.ic_notification)
             .setContentTitle("Edge Lighting run")
             .setOngoing(true)
             .build()

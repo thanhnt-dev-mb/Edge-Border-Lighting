@@ -11,13 +11,14 @@
 
         <ImageView
             android:id="@+id/iconImg"
-            android:layout_width="108dp"
-            android:layout_height="108dp"
+            android:layout_width="164dp"
+            android:layout_height="164dp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"
-            android:background="@drawable/app_logo"
+            app:layout_constraintBottom_toTopOf="@+id/bottomLayout"
+            android:layout_marginTop="64dp"
+            android:background="@mipmap/ic_launcher_foreground"
             />
 
         <LinearLayout
