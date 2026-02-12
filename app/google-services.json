@@ -1,21 +1,21 @@
 {
   "project_info": {
-    "project_number": "508363196665",
-    "project_id": "applock-v2-4c779",
-    "storage_bucket": "applock-v2-4c779.appspot.com"
+    "project_number": "319945918224",
+    "project_id": "edge-border-lighting",
+    "storage_bucket": "edge-border-lighting.firebasestorage.app"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:508363196665:android:062944fb8da73e4088fa28",
+        "mobilesdk_app_id": "1:319945918224:android:171fe9856196b893d74795",
         "android_client_info": {
-          "package_name": "com.merryblue.baseapp.baseapp"
+          "package_name": "com.edge.lighting.app"
         }
       },
       "oauth_client": [],
       "api_key": [
         {
-          "current_key": "AIzaSyCaOJtESO2f2JbgqIUNt92ME7mQkKe3mCg"
+          "current_key": "AIzaSyANGKZWq-WSijvfkW8oMeOQ_tb5LpwJ1MA"
         }
       ],
       "services": {

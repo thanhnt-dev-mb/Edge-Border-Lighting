@@ -14,6 +14,7 @@ import androidx.core.database.getStringOrNull
 import com.google.gson.Gson
 import com.merryblue.baseapplication.coredata.local.AppPreferences
 import com.merryblue.baseapplication.coredata.model.LanguageModel
+import com.merryblue.baseapplication.ui.view.edgelight.model.EdgeLightingState
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -22,7 +23,6 @@ import org.app.core.base.utils.getPath
 import org.app.core.ads.openads.AdapterOpenAppManager
 import org.app.core.ads.remoteconfig.CoreRemoteConfig
 import org.app.core.ads.remoteconfig.config.AdsConfigure
-import org.app.core.base.extensions.coroutinesIO
 import java.io.File
 import java.io.IOException
 import javax.inject.Inject
@@ -78,6 +78,18 @@ class AppRepository @Inject constructor(
         set(value) {
             appPreferences.isFirstTutorial = value
         }
+
+    var edgeState: EdgeLightingState
+        get() = appPreferences.edgeState
+        set(value) { appPreferences.edgeState = value }
+
+    var videoUrl: String
+        get() = appPreferences.videoUrl
+        set(value) { appPreferences.videoUrl = value }
+
+    var rippleEffectUrl: String
+        get() = appPreferences.rippleEffectUrl
+        set(value) { appPreferences.rippleEffectUrl = value }
 
     private var _isInternetConnected = true
     private val _networkState = MutableStateFlow(false)
@@ -265,10 +277,7 @@ class AppRepository @Inject constructor(
     fun getJsonAdsConfigure(): String {
         try {
             val ins = context.resources.openRawResource(
-                context.resources.getIdentifier(
-                    "config_ads_default",
-                    "raw", context.packageName
-                )
+                context.resources.getIdentifier("config_ads_default", "raw", context.packageName)
             )
             var text: String
             ins.bufferedReader().use {

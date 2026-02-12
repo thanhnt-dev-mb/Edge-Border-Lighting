@@ -1,8 +1,11 @@
 package com.merryblue.baseapplication.ui.setting
 
 import android.content.Intent
+import android.provider.Settings
 import android.view.View
+import androidx.core.content.ContextCompat
 import androidx.core.net.toUri
+import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
@@ -10,13 +13,15 @@ import androidx.lifecycle.repeatOnLifecycle
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.merryblue.baseapplication.BuildConfig
 import com.merryblue.baseapplication.R
+import com.merryblue.baseapplication.coredata.local.AppPreferences
 import com.merryblue.baseapplication.coredata.model.Setting
 import com.merryblue.baseapplication.databinding.FragmentSettingBinding
 import com.merryblue.baseapplication.helpers.isAppInstalled
 import com.merryblue.baseapplication.helpers.openPolicy
+import com.merryblue.baseapplication.service.edge.EdgeLightingOverlayService
+import com.merryblue.baseapplication.ui.home.HomeViewModel
 import com.merryblue.baseapplication.ui.iap.PurchaseActivity
 import com.merryblue.baseapplication.ui.onboard.language.LanguageActivity
-import com.merryblue.baseapplication.ui.policy.PolicyActivity
 import com.merryblue.baseapplication.ui.widget.BottomSheetRate
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
@@ -24,23 +29,33 @@ import kotlinx.coroutines.launch
 import org.app.core.base.BaseFragment
 import org.app.core.base.OnItemClickListener
 import org.app.core.base.binding.setOnSingleClickListener
-import org.app.core.base.extensions.navigateSafe
-import org.app.core.base.extensions.openActivity
 import org.app.core.base.extensions.setupVertical
 
 @AndroidEntryPoint
 class SettingFragment : BaseFragment<FragmentSettingBinding>() {
-    
+    private val prefs by lazy { AppPreferences(requireContext()) }
     private val viewModel: SettingViewModel by viewModels()
+    private val homeViewModel: HomeViewModel by activityViewModels()
     private var adapter: SettingAdapter? = null
-    
+
+    private val overlayPermissionLauncher = registerForActivityResult(androidx.activity.result.contract.ActivityResultContracts.StartActivityForResult()) {
+        if (Settings.canDrawOverlays(requireContext())) {
+            startEdgeOverlay()
+        } else {
+            prefs.edgeState = prefs.edgeState.copy(isEnableEdgeLighting = false)
+            binding.edgeToggle.isChecked = false
+        }
+    }
+
     override fun getLayoutId() = R.layout.fragment_setting
 
     override fun initView(view: View) {
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED) {
-                viewModel.connectionState.collectLatest { connected ->
-                    onNetworkStateChanged(connected)
+                launch {
+                    viewModel.connectionState.collectLatest { connected ->
+                        onNetworkStateChanged(connected)
+                    }
                 }
             }
         }
@@ -51,15 +66,39 @@ class SettingFragment : BaseFragment<FragmentSettingBinding>() {
     }
     
     override fun setUpViews() {
-        binding.backBtn.setOnSingleClickListener {
-            activity?.finish()
-        }
         binding.premiumLayout.setOnSingleClickListener {
             if (viewModel.isPremium() || context == null) return@setOnSingleClickListener
-
             PurchaseActivity.open(requireContext(), "setting")
         }
         setupRecycler()
+        registerListener()
+    }
+
+    fun updateEdgeToggle() {
+        binding.edgeToggle.isChecked = prefs.edgeState.isEnableEdgeLighting
+        EdgeLightingOverlayService.isRunning = prefs.edgeState.isEnableEdgeLighting
+    }
+
+    private fun startEdgeOverlay() {
+        if (!Settings.canDrawOverlays(requireContext())) {
+            val i = Intent(Settings.ACTION_MANAGE_OVERLAY_PERMISSION, "package:${requireContext().packageName}".toUri())
+            overlayPermissionLauncher.launch(i)
+            return
+        }
+        ContextCompat.startForegroundService(requireContext(), Intent(requireContext(), EdgeLightingOverlayService::class.java))
+    }
+
+    private fun stopEdgeOverlay() {
+        requireContext().stopService(Intent(requireContext(), EdgeLightingOverlayService::class.java))
+    }
+
+    private fun registerListener() {
+        binding.apply {
+            edgeToggle.setOnCheckedChangeListener { isSelected ->
+                homeViewModel.updateEdgeState { it.copy(isEnableEdgeLighting = isSelected) }
+                if (isSelected) startEdgeOverlay() else stopEdgeOverlay()
+            }
+        }
     }
 
     override fun onFragmentResume() {
@@ -80,25 +119,12 @@ class SettingFragment : BaseFragment<FragmentSettingBinding>() {
             }
         }
         binding.settingRv.setupVertical(adapter ?: return)
-//        binding.settingRv.addItemDecoration(object : DividerItemDecoration(context, VERTICAL) {
-//
-//            override fun getItemOffsets(outRect: Rect, view: View, parent: RecyclerView, state: RecyclerView.State) {
-//                super.getItemOffsets(outRect, view, parent, state)
-//
-//                val last = parent.adapter?.itemCount ?: 0
-//                if (parent.getChildAdapterPosition(view) == last - 1)
-//                    setDrawable(getMyDrawable(vertical_decorator))
-//                else
-//                    setDrawable(getMyDrawable(vertical_decorator_1px))
-//            }
-//        })
     }
 
     private fun handleItemClick(data: Setting, view: View? = null) {
         when(data.code) {
             Setting.Code.LANGUAGE -> {
-//                LanguageActivity.open(context ?: return, "setting")
-                navigateSafe(SettingFragmentDirections.actionSettingToLanguage())
+                LanguageActivity.open(context ?: return, "setting")
             }
             Setting.Code.RATE -> {
                 try {

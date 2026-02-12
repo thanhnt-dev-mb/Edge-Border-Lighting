@@ -4,6 +4,7 @@ import android.content.Context
 import android.content.SharedPreferences
 import com.google.gson.GsonBuilder
 import com.merryblue.baseapplication.coredata.model.LanguageModel
+import com.merryblue.baseapplication.ui.view.edgelight.model.EdgeLightingState
 import javax.inject.Inject
 
 class AppPreferences @Inject constructor(context: Context) {
@@ -26,6 +27,22 @@ class AppPreferences @Inject constructor(context: Context) {
         private const val KEY_APP_OPEN_COUNT = "key_app_open_count"
         private const val KEY_APP_SELECTED_ALIAS = "key_app_selected_alias"
         private const val KEY_IS_FIRST_TUTORIAL = "key_is_first_tutorial"
+        private const val KEY_IS_FIRST_TOGGLE_EDGE = "key_is_first_toggle_first"
+
+        private const val KEY_EDGE_STATE = "key_edge_state"
+
+        private const val KEY_VIDEO_URL = "video_url"
+        private const val KEY_EFFECT = "key_effect"
+        private const val KEY_RIPPLE_IMAGE_URL = "ripple_image_url"
+        private const val KEY_BACKGROUND_PATH = "backgroundPath"
+        private const val KEY_HEARTBEAT = "heartbeat_elapsed"
+
+        private const val KEY_EDGE_LAST_SEEN_ELAPSED = "edge_wallpaper_last_seen_elapsed"
+
+        private const val KEY_AUTO_RIPPLE = "auto_ripple"
+        private const val KEY_AUTO_RIPPLE_INTERVAL_MS = "auto_ripple_interval_ms"
+        private const val KEY_CAN_CHANGE_LIVE = "can_change_live"
+        private const val KEY_CAN_LIVE_CHOOSER = "can_live_chooser"
     }
     
     private val appPreferences: SharedPreferences = context.getSharedPreferences(
@@ -87,6 +104,41 @@ class AppPreferences @Inject constructor(context: Context) {
     var isFirstTutorial: Boolean
         get() = appPreferences.getBoolean(KEY_IS_FIRST_TUTORIAL, false)
         set(value) = appPreferences.edit { it.putBoolean(KEY_IS_FIRST_TUTORIAL, value) }
+
+    var edgeState: EdgeLightingState
+        get() {
+            val json = appPreferences.getString(KEY_EDGE_STATE, null) ?: return EdgeLightingState()
+            return runCatching { gson.fromJson(json, EdgeLightingState::class.java) }.getOrElse { EdgeLightingState() }
+        }
+        set(value) = appPreferences.edit { it.putString(KEY_EDGE_STATE, gson.toJson(value)) }
+
+    var videoUrl: String
+        get() = appPreferences.getString(KEY_VIDEO_URL, "") ?: ""
+        set(value) = appPreferences.edit().putString(KEY_VIDEO_URL, value).apply()
+
+    var rippleEffectUrl: String
+        get() = appPreferences.getString(KEY_RIPPLE_IMAGE_URL, "") ?: ""
+        set(value) = appPreferences.edit().putString(KEY_RIPPLE_IMAGE_URL, value).apply()
+
+    var backgroundPath: String?
+        get() = appPreferences.getString(KEY_BACKGROUND_PATH, null)
+        set(value) = appPreferences.edit().putString(KEY_BACKGROUND_PATH, value).apply()
+
+    var autoRipple: Boolean
+        get() = appPreferences.getBoolean(KEY_AUTO_RIPPLE, true)
+        set(value) = appPreferences.edit().putBoolean(KEY_AUTO_RIPPLE, value).apply()
+
+    var autoRippleIntervalMs: Long
+        get() = appPreferences.getLong(KEY_AUTO_RIPPLE_INTERVAL_MS, 2000L)
+        set(value) = appPreferences.edit().putLong(KEY_AUTO_RIPPLE_INTERVAL_MS, value).apply()
+
+    var canChangeLive: Boolean
+        get() = appPreferences.getBoolean(KEY_CAN_CHANGE_LIVE, true)
+        set(value) = appPreferences.edit().putBoolean(KEY_CAN_CHANGE_LIVE, value).apply()
+
+    var canLiveChooser: Boolean
+        get() = appPreferences.getBoolean(KEY_CAN_LIVE_CHOOSER, true)
+        set(value) = appPreferences.edit().putBoolean(KEY_CAN_LIVE_CHOOSER, value).apply()
 
     fun clearPreferences() {
         sessionPreferences.edit {

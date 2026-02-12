@@ -1,9 +1,14 @@
 package com.merryblue.baseapplication.ui.widget
 
+import android.app.Dialog
 import android.content.DialogInterface
+import android.os.Bundle
 import android.widget.CheckBox
+import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.merryblue.baseapplication.R
 import com.merryblue.baseapplication.databinding.BottomSheetRateBinding
+import com.merryblue.baseapplication.helpers.applyFullScreenMode
+import com.merryblue.baseapplication.helpers.setupFullScreen
 import org.app.core.ads.CoreAds
 import org.app.core.base.BaseBottomSheetFragment
 import org.app.core.base.binding.setOnSingleClickListener
@@ -26,7 +31,13 @@ class BottomSheetRate(
         4 to R.drawable.ic_4_star,
         5 to R.drawable.ic_5_star,
     )
-    
+
+    override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
+        val dialog = super.onCreateDialog(savedInstanceState) as BottomSheetDialog
+        dialog.setupFullScreen()
+        return dialog
+    }
+
     override fun initDialog() {
         starViews.clear()
 
@@ -82,6 +93,7 @@ class BottomSheetRate(
         super.onStart()
         currentStar = 0
         updateStarViews()
+        dialog?.window?.applyFullScreenMode()
     }
     
     private fun updateStarViews() {

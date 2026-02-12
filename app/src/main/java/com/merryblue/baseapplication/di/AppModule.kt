@@ -1,8 +1,15 @@
 package com.merryblue.baseapplication.di
 
+import android.content.Context
+import com.google.gson.Gson
+import com.merryblue.baseapplication.data.repoimpl.EdgeDataRepositoryImpl
+import com.merryblue.baseapplication.data.repoimpl.EdgeImageRepositoryImpl
+import com.merryblue.baseapplication.domain.repository.EdgeDataRepository
+import com.merryblue.baseapplication.domain.repository.EdgeImageRepository
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
+import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
@@ -43,6 +50,21 @@ object AppModule {
     @Singleton
     @Provides
     fun uiDispatcher(): CoroutineDispatcher = Dispatchers.Main.immediate
+
+    @Provides
+    @Singleton
+    fun provideEdgeDataRepository(
+        @ApplicationContext context: Context,
+        gson: Gson
+    ): EdgeDataRepository {
+        return EdgeDataRepositoryImpl(context, gson)
+    }
+
+    @Provides
+    @Singleton
+    fun provideEdgeImageRepository(
+        @ApplicationContext context: Context
+    ): EdgeImageRepository = EdgeImageRepositoryImpl(context)
 }
 
 @Qualifier

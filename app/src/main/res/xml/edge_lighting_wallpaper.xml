@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<wallpaper xmlns:android="http://schemas.android.com/apk/res/android"
+    android:description="@string/txt_edge_lighting_service"
+    android:settingsActivity="com.merryblue.baseapplication.ui.wallpaper.EdgeWallpaperSettingsActivity"
+    android:thumbnail="@drawable/ic_love" />

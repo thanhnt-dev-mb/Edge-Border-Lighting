@@ -1,37 +1,71 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <data>
 
         <import type="android.view.View" />
-
-        <variable
-            name="viewModel"
-            type="com.merryblue.baseapplication.ui.home.HomeViewModel" />
     </data>
 
-    <FrameLayout
+    <androidx.appcompat.widget.LinearLayoutCompat
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:background="@color/colorBgSurface"
+        android:orientation="vertical">
 
-        <com.merryblue.baseapplication.ui.view.edgelight.EdgeLightingView
-            android:id="@+id/edgeView"
+        <androidx.appcompat.widget.LinearLayoutCompat
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            app:edgeBackgroundColor="@color/colorBgSurface"
-            app:edgeColors="@array/edge_colors_0"
-            app:edgeCornerRadius="10dp"
-            app:edgeDuration="1500"
-            app:edgeDirection="antiClockwise"
-            app:edgeInfinityCurveDepth="10dp"
-            app:edgeNotchType="displayInfinity"
-            app:edgeStrokeWidth="6dp" />
+            android:layout_height="wrap_content"
+            android:layout_marginTop="44dp"
+            android:gravity="center">
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tv_edge_lighting"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="20dp"
+                android:layout_weight="1"
+                android:text="@string/txt_edge_lighting"
+                android:textColor="@color/colorWhite"
+                android:textSize="18sp"
+                app:fontFamily="@font/roboto_bold" />
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/iv_premium"
+                android:layout_width="40dp"
+                android:layout_height="28dp"
+                android:layout_marginEnd="20dp"
+                android:contentDescription="@null"
+                android:src="@drawable/ic_diamond"
+                android:visibility="invisible" />
+        </androidx.appcompat.widget.LinearLayoutCompat>
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/layoutCard"
+            android:layout_width="match_parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:layout_height="wrap_content"
+            android:clipChildren="false"
+            android:clipToPadding="false"
+            android:gravity="bottom"
+            app:cardPreventCornerOverlap="false"
+            android:layout_marginTop="8dp"
+            >
+            <FrameLayout
+                android:id="@+id/adsContainer"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="#19193F"
+                />
+        </androidx.cardview.widget.CardView>
 
         <androidx.core.widget.NestedScrollView
+            android:id="@+id/nestedScrollHome"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="0dp"
             android:layout_margin="10dp"
+            android:layout_weight="1"
             android:fillViewport="true">
 
             <androidx.constraintlayout.widget.ConstraintLayout
@@ -39,71 +73,21 @@
                 android:layout_height="match_parent">
 
                 <androidx.appcompat.widget.AppCompatTextView
-                    android:id="@+id/iv_edge_lighting"
+                    android:id="@+id/tvPresetHome"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="10dp"
-                    android:layout_marginTop="16dp"
-                    android:fontFamily="@font/roboto_semi_bold"
-                    android:text="@string/txt_edge_lighting"
-                    android:textColor="@color/colorWhite"
-                    android:textSize="18sp"
-                    app:layout_constraintEnd_toStartOf="@+id/iv_premium"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
-
-                <androidx.appcompat.widget.AppCompatImageView
-                    android:id="@+id/iv_premium"
-                    android:layout_width="40dp"
-                    android:layout_height="28dp"
-                    android:layout_marginEnd="10dp"
-                    android:contentDescription="@null"
-                    android:src="@drawable/ic_diamond"
-                    app:layout_constraintBottom_toBottomOf="@+id/iv_edge_lighting"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toEndOf="@+id/iv_edge_lighting"
-                    app:layout_constraintTop_toTopOf="@+id/iv_edge_lighting" />
-
-                <androidx.appcompat.widget.LinearLayoutCompat
-                    android:id="@+id/lnEnableEdge"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
                     android:layout_marginHorizontal="10dp"
-                    android:layout_marginTop="22dp"
-                    android:background="@drawable/bg_gradient_edge"
-                    android:gravity="center"
-                    android:padding="16dp"
-                    app:layout_constraintTop_toBottomOf="@+id/iv_edge_lighting">
-
-                    <androidx.appcompat.widget.AppCompatTextView
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:fontFamily="@font/roboto_regular"
-                        android:text="@string/txt_enable_edge_light"
-                        android:textColor="@color/colorWhite"
-                        android:textSize="14sp" />
-
-                    <com.merryblue.baseapplication.ui.view.CustomToggle
-                        android:id="@+id/edgeToggle"
-                        android:layout_width="44dp"
-                        android:layout_height="27dp" />
-
-                </androidx.appcompat.widget.LinearLayoutCompat>
-
-                <androidx.appcompat.widget.AppCompatTextView
-                    android:id="@+id/tvPresetHome"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="10dp"
                     android:layout_marginTop="32dp"
                     android:text="@string/txt_preset"
                     android:textColor="@color/white"
                     android:textSize="20sp"
+                    app:fontFamily="@font/roboto_bold"
+                    app:layout_constraintEnd_toStartOf="@+id/btnViewAllPreset"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/lnEnableEdge" />
+                    app:layout_constraintTop_toTopOf="parent" />
 
                 <androidx.appcompat.widget.LinearLayoutCompat
+                    android:id="@+id/btnViewAllPreset"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="10dp"
@@ -115,10 +99,10 @@
                     <androidx.appcompat.widget.AppCompatTextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:fontFamily="@font/roboto_semi_bold"
                         android:text="@string/txt_view_all"
                         android:textColor="@color/color_teal_00E3FF"
-                        android:textSize="14sp" />
+                        android:textSize="14sp"
+                        app:fontFamily="@font/roboto_semi_bold" />
 
                     <androidx.appcompat.widget.AppCompatImageView
                         android:layout_width="18dp"
@@ -128,67 +112,36 @@
                         android:src="@drawable/ic_next" />
                 </androidx.appcompat.widget.LinearLayoutCompat>
 
-                <com.merryblue.baseapplication.ui.view.gradient.GradientBorderImageView
-                    android:id="@+id/gbPreset1"
-                    android:layout_width="0dp"
-                    android:layout_height="163dp"
-                    android:layout_marginStart="10dp"
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/rcvHomePreset"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
                     android:layout_marginTop="16dp"
-                    android:scaleType="centerCrop"
-                    android:src="@drawable/img_preset_1"
-                    app:gbColors="@array/edge_colors_1"
-                    app:gbCornerRadius="12dp"
-                    app:gbStrokeWidth="3dp"
-                    app:layout_constraintEnd_toStartOf="@+id/gbPreset2"
-                    app:layout_constraintHorizontal_weight="1"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/tvPresetHome" />
-
-                <com.merryblue.baseapplication.ui.view.gradient.GradientBorderImageView
-                    android:id="@+id/gbPreset2"
-                    android:layout_width="0dp"
-                    android:layout_height="0dp"
-                    android:layout_marginHorizontal="10dp"
-                    android:scaleType="centerCrop"
-                    android:src="@drawable/img_preset_2"
-                    app:gbColors="@array/edge_colors_2"
-                    app:gbCornerRadius="12dp"
-                    app:gbStrokeWidth="3dp"
-                    app:layout_constraintBottom_toBottomOf="@+id/gbPreset1"
-                    app:layout_constraintEnd_toStartOf="@id/gbPreset3"
-                    app:layout_constraintHorizontal_weight="1"
-                    app:layout_constraintStart_toEndOf="@+id/gbPreset1"
-                    app:layout_constraintTop_toTopOf="@+id/gbPreset1" />
-
-                <com.merryblue.baseapplication.ui.view.gradient.GradientBorderImageView
-                    android:id="@+id/gbPreset3"
-                    android:layout_width="0dp"
-                    android:layout_height="0dp"
-                    android:layout_marginEnd="10dp"
-                    android:scaleType="centerCrop"
-                    android:src="@drawable/img_preset_3"
-                    app:gbColors="@array/edge_colors_3"
-                    app:gbCornerRadius="12dp"
-                    app:gbStrokeWidth="3dp"
-                    app:layout_constraintBottom_toBottomOf="@+id/gbPreset1"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintHorizontal_weight="1"
-                    app:layout_constraintStart_toEndOf="@+id/gbPreset2"
-                    app:layout_constraintTop_toTopOf="@+id/gbPreset1" />
+                    android:clipToPadding="false"
+                    android:paddingStart="10dp"
+                    app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+                    app:layout_constraintTop_toBottomOf="@+id/tvPresetHome"
+                    app:spanCount="3"
+                    tools:ignore="RtlSymmetry"
+                    tools:itemCount="3"
+                    tools:listitem="@layout/item_home_preset" />
 
                 <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/tvThemeHome"
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="10dp"
-                    android:layout_marginTop="32dp"
+                    android:layout_marginHorizontal="10dp"
+                    android:layout_marginTop="20dp"
                     android:text="@string/txt_theme"
                     android:textColor="@color/white"
                     android:textSize="20sp"
+                    app:fontFamily="@font/roboto_bold"
+                    app:layout_constraintEnd_toEndOf="@+id/btnViewAllTheme"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/gbPreset1" />
+                    app:layout_constraintTop_toBottomOf="@+id/rcvHomePreset" />
 
                 <androidx.appcompat.widget.LinearLayoutCompat
+                    android:id="@+id/btnViewAllTheme"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="10dp"
@@ -200,10 +153,10 @@
                     <androidx.appcompat.widget.AppCompatTextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:fontFamily="@font/roboto_semi_bold"
                         android:text="@string/txt_view_all"
                         android:textColor="@color/color_teal_00E3FF"
-                        android:textSize="14sp" />
+                        android:textSize="14sp"
+                        app:fontFamily="@font/roboto_semi_bold" />
 
                     <androidx.appcompat.widget.AppCompatImageView
                         android:layout_width="18dp"
@@ -213,64 +166,68 @@
                         android:src="@drawable/ic_next" />
                 </androidx.appcompat.widget.LinearLayoutCompat>
 
-                <com.merryblue.baseapplication.ui.view.gradient.GradientBorderImageView
-                    android:id="@+id/gbPresetCustom"
-                    android:layout_width="0dp"
-                    android:layout_height="163dp"
-                    android:layout_marginStart="10dp"
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/rcvHomeThemes"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
                     android:layout_marginTop="16dp"
-                    android:scaleType="centerCrop"
-                    app:gbColors="@array/edge_colors_4"
-                    app:gbCornerRadius="12dp"
-                    app:gbStrokeWidth="3dp"
-                    app:layout_constraintEnd_toStartOf="@+id/ivTheme1"
-                    app:layout_constraintHorizontal_weight="1"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/tvThemeHome" />
+                    android:clipToPadding="false"
+                    android:paddingStart="10dp"
+                    app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+                    app:layout_constraintTop_toBottomOf="@+id/tvThemeHome"
+                    app:spanCount="3"
+                    tools:ignore="RtlSymmetry"
+                    tools:itemCount="3"
+                    tools:listitem="@layout/item_home_theme_custom" />
 
                 <androidx.appcompat.widget.AppCompatTextView
-                    android:layout_width="0dp"
-                    android:layout_height="0dp"
-                    android:gravity="center"
-                    android:padding="3dp"
-                    android:text="@string/txt_create_your_own_theme"
-                    android:textColor="@color/white"
-                    android:textSize="12sp"
-                    app:layout_constraintBottom_toBottomOf="@+id/gbPresetCustom"
-                    app:layout_constraintEnd_toEndOf="@+id/gbPresetCustom"
-                    app:layout_constraintStart_toStartOf="@+id/gbPresetCustom"
-                    app:layout_constraintTop_toTopOf="@+id/gbPresetCustom" />
-
-                <androidx.appcompat.widget.AppCompatImageView
-                    android:id="@+id/ivTheme1"
-                    android:layout_width="0dp"
-                    android:layout_height="0dp"
+                    android:id="@+id/tvTitleSettingEdge"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
                     android:layout_marginHorizontal="10dp"
-                    android:scaleType="fitXY"
-                    android:src="@drawable/img_theme_1"
-                    app:layout_constraintBottom_toBottomOf="@+id/gbPresetCustom"
-                    app:layout_constraintEnd_toStartOf="@+id/ivTheme2"
-                    app:layout_constraintHorizontal_weight="1"
-                    app:layout_constraintStart_toEndOf="@+id/gbPresetCustom"
-                    app:layout_constraintTop_toTopOf="@+id/gbPresetCustom" />
+                    android:layout_marginTop="20dp"
+                    android:text="@string/txt_setting_edge_lighting"
+                    android:textColor="@color/white"
+                    android:textSize="20sp"
+                    app:fontFamily="@font/roboto_bold"
+                    app:layout_constraintTop_toBottomOf="@+id/rcvHomeThemes" />
 
-                <androidx.appcompat.widget.AppCompatImageView
-                    android:id="@+id/ivTheme2"
-                    android:layout_width="0dp"
-                    android:layout_height="0dp"
-                    android:layout_marginEnd="10dp"
-                    android:scaleType="fitXY"
-                    android:src="@drawable/img_theme_2"
-                    app:layout_constraintBottom_toBottomOf="@+id/gbPresetCustom"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintHorizontal_weight="1"
-                    app:layout_constraintStart_toEndOf="@+id/ivTheme1"
-                    app:layout_constraintTop_toTopOf="@+id/gbPresetCustom" />
+                <com.google.android.material.tabs.TabLayout
+                    android:id="@+id/tabSettingEdge"
+                    android:layout_width="match_parent"
+                    android:layout_height="32dp"
+                    android:layout_marginHorizontal="10dp"
+                    android:layout_marginTop="16dp"
+                    android:background="@android:color/transparent"
+                    app:layout_constraintTop_toBottomOf="@+id/tvTitleSettingEdge"
+                    app:tabBackground="@android:color/transparent"
+                    app:tabGravity="fill"
+                    app:tabIndicatorColor="@color/colorViolet05"
+                    app:tabIndicatorFullWidth="true"
+                    app:tabIndicatorGravity="bottom"
+                    app:tabIndicatorHeight="3dp"
+                    app:tabMode="fixed"
+                    app:tabRippleColor="@android:color/transparent"
+                    app:tabSelectedTextColor="@color/colorViolet05"
+                    app:tabTextAppearance="@style/TabTextAppearance"
+                    app:tabTextColor="@color/colorGray04" />
+
+                <androidx.viewpager2.widget.ViewPager2
+                    android:id="@+id/vpSettingEdge"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintTop_toBottomOf="@+id/tabSettingEdge" />
+
+                <Space
+                    android:id="@+id/spaceBottom"
+                    android:layout_width="match_parent"
+                    android:layout_height="106dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/vpSettingEdge" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
         </androidx.core.widget.NestedScrollView>
-
-    </FrameLayout>
+    </androidx.appcompat.widget.LinearLayoutCompat>
 
 </layout>

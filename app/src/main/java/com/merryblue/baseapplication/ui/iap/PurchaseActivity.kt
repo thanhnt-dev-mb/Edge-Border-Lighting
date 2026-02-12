@@ -37,21 +37,23 @@ class PurchaseActivity : BaseActivity<ActivityPurchaseBinding>() {
     private var _needRefresh: Boolean = false
     private var _from: String = ""
 
-    override fun setUpViews() {
+    override fun setupBinding() {
         binding.viewModel = viewModel
         binding.host = this
-        enableEdgeToEdge()
-        val windowInsetsController = WindowCompat.getInsetsController(window, window.decorView)
-        windowInsetsController.systemBarsBehavior = WindowInsetsControllerCompat.BEHAVIOR_SHOW_TRANSIENT_BARS_BY_SWIPE
-        windowInsetsController.hide(WindowInsetsCompat.Type.systemBars())
-        ViewCompat.setOnApplyWindowInsetsListener(binding.main) { _, _ ->
-            WindowInsetsCompat.CONSUMED
-        }
+    }
+
+    override fun setUpViews() {
+        enableEdgeToEdge(binding.main, true)
 
         _from = intent.extras?.getString(KEY_FROM) ?: ""
 
         binding.closeBtn.setOnSingleClickListener {
             finish()
+        }
+
+        binding.upgradeBtn.setOnSingleClickListener {
+            _needRefresh = viewModel.onPurchase(this)
+            CoreAds.instance.logFirebaseEvent("IAPLaunching_$_from")
         }
     }
 
@@ -101,8 +103,6 @@ class PurchaseActivity : BaseActivity<ActivityPurchaseBinding>() {
 
     fun onSelectPlan(isYearly: Boolean) {
         viewModel.onSelectPlan(isYearly)
-        _needRefresh = viewModel.onPurchase(this, isYearly)
-        CoreAds.instance.logFirebaseEvent("IAPLaunching_$_from")
     }
 
     private fun updateUi(state: PurchaseUiState) {
@@ -112,19 +112,15 @@ class PurchaseActivity : BaseActivity<ActivityPurchaseBinding>() {
         binding.yearlyTrialTv.text = state.yearlyPrice(this)
         when(state.purchased) {
             SubscriptionModel.BillingPeriod.NONE -> {
-                binding.monthlyPackage.isClickable = true
-                binding.yearlyPackage.isClickable = true
-                binding.yearlyPackage.enable()
-                binding.monthlyPackage.enable()
+                binding.upgradeBtn.enable()
             }
             SubscriptionModel.BillingPeriod.P1M -> {
+                binding.upgradeBtn.disable()
                 binding.monthlyPackage.isClickable = false
-                binding.yearlyPackage.isClickable = false
                 binding.yearlyPackage.disable()
-                binding.monthlyPrice.hide()
             }
             SubscriptionModel.BillingPeriod.P1Y -> {
-                binding.monthlyPackage.isClickable = false
+                binding.upgradeBtn.disable()
                 binding.yearlyPackage.isClickable = false
                 binding.monthlyPackage.disable()
             }
@@ -136,6 +132,7 @@ class PurchaseActivity : BaseActivity<ActivityPurchaseBinding>() {
             binding.monthlyPackage.disable()
             binding.yearlyPackage.isClickable = false
             binding.yearlyPackage.disable()
+            binding.upgradeBtn.disable()
         }
     }
 

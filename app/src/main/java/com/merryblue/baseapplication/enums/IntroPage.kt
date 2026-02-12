@@ -7,9 +7,8 @@ import com.merryblue.baseapplication.coredata.model.IntroModel
 enum class IntroPage {
     PAGE_0,
     PAGE_1,
-    PAGE_2,
-    PAGE_3,
     PAGE_ADS,
+    PAGE_3,
     ;
 
     fun toModel(context: Context) : IntroModel {
@@ -35,19 +34,12 @@ enum class IntroPage {
                 0,
                 0
             )
-            PAGE_2 -> IntroModel(
+            PAGE_3 -> IntroModel(
                 3,
                 context.getString(R.string.txt_intro3_title),
                 context.getString(R.string.txt_intro3_subtitle),
                 R.drawable.image_intro3,
                 2
-            )
-            PAGE_3 -> IntroModel(
-                4,
-                context.getString(R.string.txt_intro3_title),
-                context.getString(R.string.txt_intro3_subtitle),
-                R.drawable.image_intro3,
-                3
             )
         }
         }
@@ -55,9 +47,9 @@ enum class IntroPage {
     companion object {
         fun allPage(hideAds: Boolean = false): List<IntroPage> {
             return if (hideAds) {
-                listOf(PAGE_0, PAGE_1, PAGE_2, PAGE_3)
+                listOf(PAGE_0, PAGE_1, PAGE_3)
             } else {
-                listOf(PAGE_0, PAGE_1, PAGE_ADS, PAGE_2, PAGE_3)
+                listOf(PAGE_0, PAGE_1, PAGE_ADS, PAGE_3)
             }
         }
 

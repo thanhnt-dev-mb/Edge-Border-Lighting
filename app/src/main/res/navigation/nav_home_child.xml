@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/nav_home_child"
+    app:startDestination="@id/edgeColorFragment">
+
+    <fragment android:id="@+id/edgeColorFragment"
+        android:name="com.merryblue.baseapplication.ui.home.color.EdgeColorFragment"/>
+
+    <fragment android:id="@+id/edgeEffectFragment"
+        android:name="com.merryblue.baseapplication.ui.home.effect.EdgeEffectFragment"/>
+
+    <fragment android:id="@+id/edgeDirectionFragment"
+        android:name="com.merryblue.baseapplication.ui.home.advanced.EdgeAdvancedFragment"/>
+
+</navigation>

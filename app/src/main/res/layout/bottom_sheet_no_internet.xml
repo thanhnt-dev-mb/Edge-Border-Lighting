@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.appcompat.widget.LinearLayoutCompat xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/bg_top_round_14"
+    android:gravity="center"
+    android:orientation="vertical">
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:layout_width="112dp"
+        android:layout_height="92dp"
+        android:layout_marginTop="60dp"
+        android:src="@drawable/img_no_internet" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="16dp"
+        android:layout_marginTop="43dp"
+        android:gravity="center"
+        android:text="@string/no_internet_connection"
+        android:textColor="@color/colorGray_08"
+        android:textSize="16sp"
+        app:fontFamily="@font/roboto_semi_bold" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="40dp"
+        android:layout_marginTop="10dp"
+        android:gravity="center"
+        android:text="@string/you_are_offline_please_connect_to_the_internet_to_continue_using_the_translation_feature"
+        android:textColor="@color/colorGray06"
+        android:textSize="12sp"
+        app:fontFamily="@font/roboto_regular" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/btnCheckNetwork"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:layout_marginHorizontal="16dp"
+        android:layout_marginTop="36dp"
+        android:layout_marginBottom="12dp"
+        android:background="@drawable/bg_button_selector"
+        android:gravity="center"
+        android:text="@string/check_network"
+        android:textColor="@color/white"
+        android:textSize="16sp"
+        app:fontFamily="@font/roboto_medium" />
+
+</androidx.appcompat.widget.LinearLayoutCompat>

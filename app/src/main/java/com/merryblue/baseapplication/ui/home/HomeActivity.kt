@@ -1,76 +1,80 @@
 package com.merryblue.baseapplication.ui.home
 
 import android.Manifest
+import android.app.WallpaperManager
 import android.content.Intent
 import android.os.Build
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
+import android.view.ViewGroup
 import android.widget.Toast
-import androidx.activity.enableEdgeToEdge
 import androidx.activity.viewModels
-import androidx.core.content.ContextCompat
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowCompat
-import androidx.core.view.WindowInsetsCompat
-import androidx.core.view.WindowInsetsControllerCompat
-import androidx.core.view.updateLayoutParams
+import androidx.annotation.NavigationRes
+import androidx.fragment.app.Fragment
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
+import androidx.navigation.NavController
+import androidx.navigation.fragment.NavHostFragment
+import com.google.android.gms.ads.AdSize
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.merryblue.baseapplication.BuildConfig
 import com.merryblue.baseapplication.R
+import com.merryblue.baseapplication.coredata.local.AppPreferences
 import com.merryblue.baseapplication.databinding.ActivityHomeBinding
 import com.merryblue.baseapplication.helpers.Compatibility
+import com.merryblue.baseapplication.helpers.canHandleIntent
 import com.merryblue.baseapplication.helpers.isAppInstalled
 import com.merryblue.baseapplication.helpers.isBackground
 import com.merryblue.baseapplication.helpers.openPolicy
+import com.merryblue.baseapplication.helpers.openProperNetworkSettings
 import com.merryblue.baseapplication.ui.appupdate.ForceUpdateActivity
 import com.merryblue.baseapplication.ui.onboard.language.LanguageActivity
+import com.merryblue.baseapplication.ui.setting.SettingFragment
+import com.merryblue.baseapplication.ui.view.EdgeBottomNavView
+import com.merryblue.baseapplication.ui.widget.BottomSheetNoInternet
 import com.merryblue.baseapplication.ui.widget.BottomSheetRate
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.launch
+import org.app.core.ads.CoreAds
+import org.app.core.ads.openads.AdapterOpenAppManager
 import org.app.core.ads.remoteconfig.CoreRemoteConfig
 import org.app.core.base.BaseActivity
+import org.app.core.base.extensions.calculateBannerHeightBy
+import org.app.core.base.extensions.hide
 import org.app.core.base.extensions.openActivityAndClearStack
+import org.app.core.base.extensions.setMargins
+import org.app.core.base.extensions.show
 import org.app.core.base.utils.StringResId
+import org.app.core.base.utils.px
+import kotlin.getValue
 
 
 @AndroidEntryPoint
 class HomeActivity : BaseActivity<ActivityHomeBinding>() {
-    private val viewModel: HomeViewModel by viewModels()
-
     private var isFirstVisible = true
     private var showingRate: Boolean = false
     private var isActive: Boolean = false
+    private lateinit var navControllers: Map<EdgeBottomNavView.Tab, NavController>
+    private var currentTab: EdgeBottomNavView.Tab = EdgeBottomNavView.Tab.EDGE
+    private val prefs by lazy { AppPreferences(this) }
+    private val homeViewModel: HomeViewModel by viewModels()
+
+    private var _bannerDisplayed: Boolean = false
 
     override
     fun getLayoutId() = R.layout.activity_home
 
     override fun onPostCreate(savedInstanceState: Bundle?) {
         super.onPostCreate(savedInstanceState)
-
+        enableEdgeToEdge(binding.main, true)
         requestPostNotificationPermissionIfNeed()
     }
 
-    override fun setUpViews() {
-        setupSystemBars()
-        super.setUpViews()
-    }
-
-    private fun setupSystemBars() {
-        WindowCompat.setDecorFitsSystemWindows(window, false)
-        ViewCompat.setOnApplyWindowInsetsListener(binding.statusBarBg) { v, insets ->
-            val topInset = insets.getInsets(WindowInsetsCompat.Type.statusBars()).top
-            v.updateLayoutParams { height = topInset }
-            insets
-        }
-        ViewCompat.setOnApplyWindowInsetsListener(binding.navigationBarBg) { v, insets ->
-            val bottomInset = insets.getInsets(WindowInsetsCompat.Type.navigationBars()).bottom
-            v.updateLayoutParams { height = bottomInset }
-            insets
-        }
-        WindowInsetsControllerCompat(window, window.decorView).apply {
-            isAppearanceLightStatusBars = false
-            isAppearanceLightNavigationBars = false
-        }
+    override fun setupBinding() {
+        //TODO: Should do nothing
     }
 
     override fun onResume() {
@@ -80,12 +84,128 @@ class HomeActivity : BaseActivity<ActivityHomeBinding>() {
         isFirstVisible = false
         isActive = true
     }
-    
+
     override fun onPause() {
         super.onPause()
         isActive = false
+        _bannerDisplayed = false
     }
-    
+
+    override fun setUpViews() {
+        binding.bottomNav.setSelectedTab(EdgeBottomNavView.Tab.EDGE)
+        binding.bottomNav.setOnTabSelectedListener { showTab(it) }
+        initDeviceSupport()
+        setupBottomNavMultiStack()
+        showBottomBanner()
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+
+        AdapterOpenAppManager.instance.enableOpenAds()
+    }
+
+    private fun initDeviceSupport() {
+        prefs.canChangeLive = canHandleIntent(Intent(WallpaperManager.ACTION_CHANGE_LIVE_WALLPAPER))
+        prefs.canLiveChooser = canHandleIntent(Intent(WallpaperManager.ACTION_LIVE_WALLPAPER_CHOOSER))
+    }
+
+    override fun setUpObserver() {
+        lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                launch {
+                    homeViewModel.connectionState.collectLatest {
+                        onNetworkStateChanged(it)
+                        handleNoInternetBottomSheet(it)
+                    }
+                }
+            }
+        }
+        lifecycleScope.launch {
+            lifecycle.repeatOnLifecycle(Lifecycle.State.RESUMED) {
+                CoreAds.instance.nativeLoadedTs.collectLatest { ts ->
+                    showBottomBanner()
+                }
+            }
+        }
+    }
+
+    private fun handleNoInternetBottomSheet(isConnected: Boolean) {
+        val fm = supportFragmentManager
+        val current = fm.findFragmentByTag(BottomSheetNoInternet.TAG) as? BottomSheetDialogFragment
+
+        if (isConnected) {
+            if (current?.dialog?.isShowing == true) current.dismissAllowingStateLoss()
+            return
+        }
+
+        if (current?.dialog?.isShowing == true) return
+
+        BottomSheetNoInternet.newInstance {
+            this.openProperNetworkSettings()
+        }.show(fm, BottomSheetNoInternet.TAG)
+    }
+
+    private fun setupBottomNavMultiStack() {
+        val fm = supportFragmentManager
+
+        fun createHost(@NavigationRes graphId: Int, tag: String): NavHostFragment {
+            val host = NavHostFragment.create(graphId)
+            fm.beginTransaction()
+                .add(R.id.navHostContainerHome, host, tag)
+                .hide(host)
+                .commitNow()
+            return host
+        }
+
+        val edgeHost = createHost(R.navigation.nav_home, "edge")
+        val wallHost = createHost(R.navigation.nav_wallpaper, "wallpaper")
+        val setHost  = createHost(R.navigation.nav_setting, "setting")
+
+        navControllers = mapOf(
+            EdgeBottomNavView.Tab.EDGE to edgeHost.navController,
+            EdgeBottomNavView.Tab.WALLPAPER to wallHost.navController,
+            EdgeBottomNavView.Tab.SETTING to setHost.navController
+        )
+
+        showTab(EdgeBottomNavView.Tab.EDGE)
+    }
+
+    private fun showTab(tab: EdgeBottomNavView.Tab) {
+        val fm = supportFragmentManager
+        val tx = fm.beginTransaction()
+
+        val edge = fm.findFragmentByTag("edge")!!
+        val wall = fm.findFragmentByTag("wallpaper")!!
+        val set  = fm.findFragmentByTag("setting")!!
+
+        tx.hide(edge).hide(wall).hide(set)
+
+        val toShow = when (tab) {
+            EdgeBottomNavView.Tab.EDGE -> edge
+            EdgeBottomNavView.Tab.WALLPAPER -> wall
+            EdgeBottomNavView.Tab.SETTING -> set
+        }
+
+        tx.show(toShow).commitNow()
+        currentTab = tab
+
+        checkTabSetting(tab, set)
+    }
+
+    private fun checkTabSetting(tab: EdgeBottomNavView.Tab, set: Fragment, ) {
+        if (tab == EdgeBottomNavView.Tab.SETTING) {
+            val current = set.childFragmentManager.primaryNavigationFragment
+            if (current is SettingFragment) {
+                current.updateEdgeToggle()
+            } else {
+                val nested = (current as? NavHostFragment)?.childFragmentManager?.primaryNavigationFragment
+                (nested as? SettingFragment)?.updateEdgeToggle()
+            }
+        }
+    }
+
+
     private fun handleForceUpdateIfNeed() : Boolean {
         val isForceUpdate = CoreRemoteConfig.instance.checkForceUpdateIfNeed(BuildConfig.VERSION_CODE)
         if (isForceUpdate) {
@@ -129,7 +249,7 @@ class HomeActivity : BaseActivity<ActivityHomeBinding>() {
                 if (isGmailInstalled) {
                     intent.type = "text/html"
                     intent.setPackage(gmailPkg)
-                    startActivity(intent);
+                    startActivity(intent)
                 } else {
                     intent.type = "message/rfc822"
                     if (intent.resolveActivity(packageManager) != null) {
@@ -160,6 +280,74 @@ class HomeActivity : BaseActivity<ActivityHomeBinding>() {
                     Toast.makeText(this, getString(StringResId.notificationOff), Toast.LENGTH_LONG).show()
                 }
             }
+        }
+    }
+
+    override fun onBackPressed() {
+        val nav = navControllers[currentTab] ?: return super.onBackPressed()
+        if (!nav.popBackStack()) {
+            if (currentTab != EdgeBottomNavView.Tab.EDGE) {
+                showTab(EdgeBottomNavView.Tab.EDGE)
+                binding.bottomNav.setSelectedTab(EdgeBottomNavView.Tab.EDGE)
+            } else {
+                super.onBackPressed()
+            }
+        }
+    }
+
+    private fun showBottomBanner() {
+        if (_bannerDisplayed) return
+        val rm = homeViewModel.getRemoteConfiguration()
+        val bannerAds = rm?.banners?.firstOrNull { it.tag == "BottomHomeBanner" }
+        if (bannerAds != null && !CoreAds.instance.isHideAds) {
+            binding.layoutCard.show()
+            binding.adsContainer.show()
+            val size = if (bannerAds.size == "medium") {
+                binding.layoutCard.layoutParams.apply {
+                    width = 300.px
+                }
+                binding.layoutCard.radius = 10.px.toFloat()
+                AdSize.MEDIUM_RECTANGLE
+            } else if (bannerAds.size == "full") {
+                binding.layoutCard.layoutParams.apply {
+                    width = ViewGroup.LayoutParams.MATCH_PARENT
+                }
+                binding.layoutCard.setMargins(left = 0, right =  0)
+                binding.layoutCard.radius = 0f
+                AdSize.FULL_BANNER
+            }  else if (bannerAds.size == "inline") {
+                val size = calculateBannerHeightBy()
+                binding.layoutCard.layoutParams.apply {
+                    width = ViewGroup.LayoutParams.MATCH_PARENT
+                }
+
+                binding.layoutCard.setMargins(left = 24.px, right =  24.px)
+                binding.layoutCard.radius = 10.px.toFloat()
+                size
+            } else {
+                binding.layoutCard.layoutParams.apply {
+                    width = ViewGroup.LayoutParams.MATCH_PARENT
+                }
+                binding.layoutCard.setMargins(left = 0, right =  0)
+                binding.layoutCard.radius = 0f
+                null
+            }
+
+            val banner = CoreAds.instance.showAdapterBannerAds(
+                this,
+                binding.adsContainer,
+                bannerAds.id!!,
+                bannerAds.event ?: "DummyBanner",
+                size,
+                null,
+                bannerAds.collapsible_type,
+                true
+            )
+            if (banner != null) {
+                _bannerDisplayed = true
+            }
+        } else {
+            binding.layoutCard.hide()
         }
     }
 }

@@ -19,4 +19,12 @@
         <item name="homeAsUpIndicator">@drawable/ic_back</item>
         <item name="android:homeAsUpIndicator">@drawable/ic_back</item>
     </style>
+
+    <style name="FullScreenDialog" parent="Theme.Material3.DayNight.NoActionBar">
+        <item name="android:windowFullscreen">true</item>
+        <item name="android:windowBackground">@android:color/transparent</item>
+        <item name="android:windowTranslucentStatus">true</item>
+        <item name="android:windowTranslucentNavigation">true</item>
+    </style>
+
 </resources>

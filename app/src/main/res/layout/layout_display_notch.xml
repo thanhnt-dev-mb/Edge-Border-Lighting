@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.appcompat.widget.LinearLayoutCompat xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="10dp"
+        android:layout_marginTop="20dp"
+        app:fontFamily="@font/roboto_medium"
+        android:text="@string/txt_notch_width"
+        android:textColor="@color/white"
+        android:textSize="14sp" />
+
+    <com.merryblue.baseapplication.ui.view.CustomSeekBar
+        android:id="@+id/seekBarNotchWidth"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        app:csb_enabledTouch="true"
+        app:csb_paddingHorizontal="12dp"
+        app:csb_progress="0.35"
+        app:csb_progressColor="@color/colorViolet05"
+        app:csb_thumbColor="@color/colorWhite"
+        app:csb_thumbRadius="10dp"
+        app:csb_thumbShadowColor="@color/color_thumb_shadow"
+        app:csb_thumbShadowDy="2dp"
+        app:csb_trackColor="@color/color_border"
+        app:csb_trackThicknessActive="6dp"
+        app:csb_trackThicknessInactive="4dp" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="10dp"
+        android:layout_marginTop="12dp"
+        app:fontFamily="@font/roboto_medium"
+        android:text="@string/txt_notch_height"
+        android:textColor="@color/white"
+        android:textSize="14sp" />
+
+    <com.merryblue.baseapplication.ui.view.CustomSeekBar
+        android:id="@+id/seekBarNotchHeight"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        app:csb_enabledTouch="true"
+        app:csb_paddingHorizontal="12dp"
+        app:csb_progress="0.35"
+        app:csb_progressColor="@color/colorViolet05"
+        app:csb_thumbColor="@color/colorWhite"
+        app:csb_thumbRadius="10dp"
+        app:csb_thumbShadowColor="@color/color_thumb_shadow"
+        app:csb_thumbShadowDy="2dp"
+        app:csb_trackColor="@color/color_border"
+        app:csb_trackThicknessActive="6dp"
+        app:csb_trackThicknessInactive="4dp" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="10dp"
+        android:layout_marginTop="12dp"
+        app:fontFamily="@font/roboto_medium"
+        android:text="@string/txt_notch_top_radius"
+        android:textColor="@color/white"
+        android:textSize="14sp" />
+
+    <com.merryblue.baseapplication.ui.view.CustomSeekBar
+        android:id="@+id/seekBarNotchTopRadius"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        app:csb_enabledTouch="true"
+        app:csb_paddingHorizontal="12dp"
+        app:csb_progress="0.35"
+        app:csb_progressColor="@color/colorViolet05"
+        app:csb_thumbColor="@color/colorWhite"
+        app:csb_thumbRadius="10dp"
+        app:csb_thumbShadowColor="@color/color_thumb_shadow"
+        app:csb_thumbShadowDy="2dp"
+        app:csb_trackColor="@color/color_border"
+        app:csb_trackThicknessActive="6dp"
+        app:csb_trackThicknessInactive="4dp" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="10dp"
+        android:layout_marginTop="12dp"
+        app:fontFamily="@font/roboto_medium"
+        android:text="@string/txt_notch_bottom_radius"
+        android:textColor="@color/white"
+        android:textSize="14sp" />
+
+    <com.merryblue.baseapplication.ui.view.CustomSeekBar
+        android:id="@+id/seekBarNotchBottomRadius"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        app:csb_enabledTouch="true"
+        app:csb_paddingHorizontal="12dp"
+        app:csb_progress="0.35"
+        app:csb_progressColor="@color/colorViolet05"
+        app:csb_thumbColor="@color/colorWhite"
+        app:csb_thumbRadius="10dp"
+        app:csb_thumbShadowColor="@color/color_thumb_shadow"
+        app:csb_thumbShadowDy="2dp"
+        app:csb_trackColor="@color/color_border"
+        app:csb_trackThicknessActive="6dp"
+        app:csb_trackThicknessInactive="4dp" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="10dp"
+        android:layout_marginTop="12dp"
+        app:fontFamily="@font/roboto_medium"
+        android:text="@string/txt_notch_bottom_fullness"
+        android:textColor="@color/white"
+        android:textSize="14sp" />
+
+    <com.merryblue.baseapplication.ui.view.CustomSeekBar
+        android:id="@+id/seekBarNotchBottomFullness"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        app:csb_enabledTouch="true"
+        app:csb_paddingHorizontal="12dp"
+        app:csb_progress="0.35"
+        app:csb_progressColor="@color/colorViolet05"
+        app:csb_thumbColor="@color/colorWhite"
+        app:csb_thumbRadius="10dp"
+        app:csb_thumbShadowColor="@color/color_thumb_shadow"
+        app:csb_thumbShadowDy="2dp"
+        app:csb_trackColor="@color/color_border"
+        app:csb_trackThicknessActive="6dp"
+        app:csb_trackThicknessInactive="4dp" />
+</androidx.appcompat.widget.LinearLayoutCompat>

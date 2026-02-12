@@ -132,7 +132,6 @@ class Compatibility {
                     Glide.with(context)
                         .asBitmap()
                         .load(image)
-                        .placeholder(R.drawable.app_logo)
                         .into(object : CustomTarget<Bitmap>() {
                             override fun onResourceReady(resource: Bitmap, transition: Transition<in Bitmap>?) {
                                 mBuilder.setLargeIcon(resource)

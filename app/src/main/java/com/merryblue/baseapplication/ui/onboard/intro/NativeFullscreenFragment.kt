@@ -18,63 +18,24 @@ import timber.log.Timber
 class NativeFullscreenFragment : BaseFragment<FragmentNativeFullscreenBinding>() {
     private val viewModel: IntroViewModel by activityViewModels()
 
+    private var pageIndex : Int = 1
+
+    override val showInitializeLoading: Boolean
+        get() = false
+
+    override var nativeHeight: Int = -1
+
     override fun getLayoutId() = R.layout.fragment_native_fullscreen
 
+    override fun getFragmentArguments() {
+        arguments?.let {
+            pageIndex = it.getInt(ARG_PAGE_NUMBER, 0)
+        }
+    }
+
     override fun setUpViews() {
-        binding.closeBtn.hide()
         binding.closeBtn.setOnSingleClickListener {
-            viewModel.setCurrentPage(3)
-        }
-    }
-
-    override fun onFragmentResume() {
-        Timber.i("###DEBUG -> onFragmentResume $TAG")
-        setupAds()
-    }
-
-    override fun onFragmentPause() {
-        CoreAds.instance.nativeContainer = null
-    }
-
-    private fun setupAds() {
-        val actv = activity ?: return
-        val remoteConfig = viewModel.getRemoteConfiguration()
-        if (remoteConfig == null) {
-            viewModel.setCurrentPage(3)
-            return
-        }
-
-        val tagNative = TAG + "_Native"
-        val tagNativeNA = TAG + "_Native_NA"
-        val nativeAds = remoteConfig.natives?.firstOrNull {
-            it.tag == tagNative || it.tag == tagNativeNA
-        }
-
-        if (nativeAds != null && !nativeAds.id.isNullOrBlank()) {
-            binding.closeBtn.show()
-            if (nativeAds.tag == tagNative) {
-                CoreAds.instance.showAdapterNativeAdsMultiple(
-                    actv.applicationContext,
-                    actv,
-                    binding.adsContainer,
-                    nativeAds.id!!,
-                    nativeAds.event ?: tagNative,
-                    NativeStyle.FULLSCREEN,
-                    false,
-                    nativeAds.preload ?: 0
-                )
-            } else {
-                CoreAds.instance.showAdapterNativeAdsIfAvailable(
-                    actv.applicationContext,
-                    actv,
-                    binding.adsContainer,
-                    nativeAds.id!!,
-                    nativeAds.event ?: tagNativeNA,
-                    style = NativeStyle.FULLSCREEN
-                )
-            }
-        } else {
-            viewModel.setCurrentPage(3)
+            viewModel.goNextByPage(pageIndex)
         }
     }
 

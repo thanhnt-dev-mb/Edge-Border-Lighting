@@ -1,12 +1,8 @@
 <resources>
-    <string name="app_name" translatable="false">App-Name Prod</string>
+    <string name="app_name" translatable="false">Edge Border Lighting</string>
 
     <string name="title_nav_home" translatable="false">Home</string>
 
-    <string name="txt_all">All</string>
-    <string name="txt_share_friend">Share with friends</string>
-    <string name="txt_share_msg">Check out %s Application, it\'s awesome!</string>
-    <string name="txt_started">Get Started</string>
     <string name="txt_submit">Submit</string>
     <string name="txt_premium_title_suffix" translatable="false"> PRO</string>
     <string name="txt_save_percent" translatable="false">80% OFF</string>
@@ -33,4 +29,8 @@
     <string name="txt_yesterday">Yesterday</string>
     <string name="txt_select_all">Select all</string>
     <string name="txt_grant">Grant</string>
+    <string name="txt_edge_lighting_service">EdgeLighting Wallpaper</string>
+    <string name="txt_video_service">Video Wallpaper</string>
+    <string name="txt_ripple_service">Ripple Wallpaper</string>
+
 </resources>

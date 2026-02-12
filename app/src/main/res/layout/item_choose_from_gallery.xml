@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginEnd="10dp">
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/ivThemeFake"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:adjustViewBounds="true"
+        android:src="@drawable/bg_linear_4"
+        android:visibility="invisible"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:src="@drawable/bg_item_tab_color_selected"
+        app:layout_constraintBottom_toBottomOf="@+id/ivThemeFake"
+        app:layout_constraintEnd_toEndOf="@+id/ivThemeFake"
+        app:layout_constraintStart_toStartOf="@+id/ivThemeFake"
+        app:layout_constraintTop_toTopOf="@+id/ivThemeFake" />
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/ivAdPhoto"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:src="@drawable/ic_add_photo"
+        app:layout_constraintBottom_toTopOf="@+id/tvChooseFromGallery"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_chainStyle="packed" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/tvChooseFromGallery"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="16dp"
+        android:layout_marginTop="4dp"
+        android:gravity="center"
+        android:text="@string/choose_from_gallery"
+        android:textColor="@color/white"
+        android:textSize="13sp"
+        app:layout_constraintBottom_toBottomOf="@+id/ivThemeFake"
+        app:layout_constraintEnd_toEndOf="@+id/ivThemeFake"
+        app:layout_constraintStart_toStartOf="@+id/ivThemeFake"
+        app:layout_constraintTop_toBottomOf="@+id/ivAdPhoto" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

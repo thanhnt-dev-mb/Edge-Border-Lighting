@@ -170,63 +170,79 @@
     <color name="colorBgSurface">#0F0F30</color>
     <color name="colorViolet05">#B247AE</color>
     <color name="colorGray02">#E5E7EB</color>
+    <color name="colorGray04">#9CA3AF</color>
     <color name="colorGray05">#6B7280</color>
+    <color name="colorGray06">#4B5563</color>
     <color name="color_teal_00E3FF">#00E3FF</color>
 
-    <color name="color_edge_pink_purple">#8B3A62</color>
-    <color name="color_edge_lime_green">#7CFC00</color>
-    <color name="color_edge_royal_blue">#4169E1</color>
-    <color name="color_edge_indian_red">#CD5C5C</color>
+    <color name="color_edge_pink_purple">#860458</color>
+    <color name="color_edge_lime_green">#93EB22</color>
+    <color name="color_edge_royal_blue">#6030D4</color>
+    <color name="color_edge_indian_red">#CD6B86</color>
 
-    <color name="color_edge_dark_olive">#556B2F</color>
-    <color name="color_edge_blue_violet">#8A2BE2</color>
-    <color name="color_edge_deep_pink">#FF1493</color>
-    <color name="color_edge_dark_cyan">#008B8B</color>
+    <color name="color_edge_dark_olive">#447F1A</color>
+    <color name="color_edge_blue_violet">#873CDB</color>
+    <color name="color_edge_deep_pink">#D330F0</color>
+    <color name="color_edge_dark_cyan">#0F324A</color>
 
-    <color name="color_edge_red">#FF0000</color>
-    <color name="color_edge_blue">#4169E1</color>
-    <color name="color_edge_magenta">#FF00FF</color>
-    <color name="color_edge_dark_turquoise">#00CED1</color>
+    <color name="color_edge_red">#E71119</color>
+    <color name="color_edge_blue">#4313C4</color>
+    <color name="color_edge_magenta">#BC2CDF</color>
+    <color name="color_edge_dark_turquoise">#09D8F0</color>
 
-    <color name="color_edge_orange_red">#FF4500</color>
-    <color name="color_edge_orange">#FFA500</color>
-    <color name="color_edge_light_sea_green">#20B2AA</color>
-    <color name="color_edge_pale_turquoise">#AFEEEE</color>
+    <color name="color_edge_orange_red">#FD2C12</color>
+    <color name="color_edge_orange">#FDB328</color>
+    <color name="color_edge_light_sea_green">#2CB081</color>
+    <color name="color_edge_pale_turquoise">#97F5E7</color>
 
-    <color name="color_edge_hot_pink">#FF1493</color>
-    <color name="color_edge_dark_green">#006400</color>
+    <color name="color_edge_hot_pink">#FB06AF</color>
+    <color name="color_edge_dark_green">#000700</color>
 
-    <color name="color_edge_saddle_brown">#8B4513</color>
-    <color name="color_edge_goldenrod">#DAA520</color>
-    <color name="color_edge_lavender_gray">#B0A8B9</color>
-    <color name="color_edge_light_pink">#FFB6C1</color>
+    <color name="color_edge_saddle_brown">#AA4D00</color>
+    <color name="color_edge_goldenrod">#F69E09</color>
+    <color name="color_edge_lavender_gray">#B78FD6</color>
+    <color name="color_edge_light_pink">#ECB1CD</color>
 
-    <color name="color_edge_teal">#20B2AA</color>
-    <color name="color_edge_white_smoke">#F5F5F5</color>
-    <color name="color_edge_dark_slate_gray">#2F4F4F</color>
-    <color name="color_edge_peach_puff">#FFDAB9</color>
+    <color name="color_edge_teal">#02968F</color>
+    <color name="color_edge_white_smoke">#F7E6DF</color>
+    <color name="color_edge_peach_puff">#F9B7AB</color>
 
-    <color name="color_edge_light_blue">#ADD8E6</color>
-    <color name="color_edge_gold">#FFD700</color>
-    <color name="color_edge_light_steel_blue">#B0C4DE</color>
-    <color name="color_edge_thistle">#D8BFD8</color>
+    <color name="color_edge_light_blue">#BFDCE7</color>
+    <color name="color_edge_gold">#F8C631</color>
+    <color name="color_edge_light_steel_blue">#AABBD7</color>
+    <color name="color_edge_thistle">#B199C6</color>
 
-    <color name="color_edge_lime">#00FF00</color>
-    <color name="color_edge_lime_green_bright">#32CD32</color>
-    <color name="color_edge_dark_forest">#013220</color>
+    <color name="color_edge_lime">#00DF05</color>
+    <color name="color_edge_lime_green_bright">#020305</color>
 
-    <color name="color_edge_salmon">#FA8072</color>
-    <color name="color_edge_dark_orange">#FF8C00</color>
-    <color name="color_edge_cadet_blue">#5F9EA0</color>
-    <color name="color_edge_crimson">#DC143C</color>
+    <color name="color_edge_salmon">#FF6B64</color>
+    <color name="color_edge_dark_orange">#FF6B64</color>
+    <color name="color_edge_cadet_blue">#38999F</color>
+    <color name="color_edge_crimson">#E90A05</color>
 
-    <color name="color_edge_yellow_gold">#FFD700</color>
-    <color name="color_edge_sky_blue">#87CEEB</color>
-    <color name="color_edge_peach">#FFB6C1</color>
+    <color name="color_edge_yellow_gold">#FDBA16</color>
+    <color name="color_edge_sky_blue">#82D6DB</color>
+    <color name="color_edge_orange_gold">#F8A12F</color>
+    <color name="color_edge_peach">#FF7480</color>
 
-    <color name="color_edge_yellow">#FFFF00</color>
-    <color name="color_edge_dark_orchid">#9932CC</color>
-    <color name="color_edge_navy">#00008B</color>
+    <color name="color_edge_yellow">#F5DC01</color>
+    <color name="color_edge_dark_orchid">#761768</color>
+    <color name="color_edge_navy">#FC7E05</color>
+    <color name="color_edge_dark_blue">#06276C</color>
+
+    <color name="color_edge_green_pastel">#C9F5A2</color>
+    <color name="color_edge_blue_periwinkle">#8589EF</color>
+    <color name="color_edge_teal_soft">#43CAC5</color>
+
+    <color name="color_edge_green_sage">#879886</color>
+    <color name="color_edge_orange_terracotta">#C77A66</color>
+    <color name="color_edge_pink_magenta">#CB115A</color>
+
+    <color name="color_edge_green_olive">#6E7455</color>
+    <color name="color_edge_orange_burnt">#EC6D30</color>
+
+    <color name="color_edge_red_wine">#A1174F</color>
+    <color name="color_edge_red_brick">#BD392F</color>
 
     <color name="color_edge_yellow_FFF500">#FFF500</color>
     <color name="color_edge_green_00FF1A">#00FF1A</color>
@@ -247,5 +263,102 @@
     <color name="color_edge_teal_00FFF0">#00FFF0</color>
     <color name="color_edge_blue_4552FF">#4552FF</color>
     <color name="color_edge_pink_CC00FF">#CC00FF</color>
+
+    <color name="colorViolet05Alpha20">#33B247AE</color>
+    <color name="color_border">#5D5D84</color>
+    <color name="color_thumb_shadow">#40000000</color>
+    <color name="color_bottom_nav">#19193F</color>
+    <color name="color_6e6e6e">#6E6E6E</color>
+    <color name="color_1e1e1e">#1E1E1E</color>
+    <color name="color_b388ff">#B388FF</color>
+    <color name="color_bdbdbd">#BDBDBD</color>
+    <color name="color_454563">#454563</color>
+    <color name="color_e5e7eb">#E5E7EB</color>
+    <color name="color_0f0f30">#0F0F30</color>
+    <color name="color_17173c">#17173C</color>
+    <color name="color_19193f">#19193F</color>
+    <color name="color_dialog_dim">#80000000</color>
+
+    <color name="color_FFC308">#FFC308</color>
+    <color name="color_FA0287">#FA0287</color>
+    <color name="color_0079FF">#0079FF</color>
+
+    <color name="color_3194A9">#3194A9</color>
+    <color name="color_F14835">#F14835</color>
+    <color name="color_8AD439">#8AD439</color>
+
+    <color name="color_FC3530">#FC3530</color>
+    <color name="color_49C648">#49C648</color>
+    <color name="color_FFBB02">#FFBB02</color>
+
+
+    <color name="color_FCE93">#FFCE93</color>
+    <color name="color_DA4737">#DA4737</color>
+    <color name="color_DB8F13">#DB8F13</color>
+
+    <color name="color_FD0160">#FD0160</color>
+    <color name="color_FFFC07">#FFFC07</color>
+    <color name="color_7D02E7">#7D02E7</color>
+
+    <color name="color_F7056C">#F7056C</color>
+    <color name="color_08D6D4">#08D6D4</color>
+    <color name="color_2E2E30">#2E2E30</color>
+
+    <color name="color_EF6572">#EF6572</color>
+    <color name="color_24B1BA">#24B1BA</color>
+    <color name="color_DDB9AA">#DDB9AA</color>
+
+    <color name="color_3ED104">#3ED104</color>
+    <color name="color_C77A66">#C77A66</color>
+    <color name="color_FEFFFF">#FEFFFF</color>
+
+    <color name="color_F1428F">#F1428F</color>
+    <color name="color_1A5674">#1A5674</color>
+    <color name="color_FDA4DC">#FDA4DC</color>
+
+    <color name="color_D9865C">#D9865C</color>
+    <color name="color_63BEB9">#63BEB9</color>
+    <color name="color_F8E1C2">#F8E1C2</color>
+
+    <color name="color_DC373D">#DC373D</color>
+    <color name="color_A065DB">#A065DB</color>
+    <color name="color_B4BC32">#B4BC32</color>
+
+
+    <color name="color_6E7455">#6E7455</color>
+    <color name="color_EC6D30">#EC6D30</color>
+
+    <color name="color_FA8565">#FA8565</color>
+    <color name="color_06D9D7">#06D9D7</color>
+
+    <color name="color_FDDC03">#FDDC03</color>
+    <color name="color_0185FF">#0185FF</color>
+
+    <color name="color_FB02D0">#FB02D0</color>
+    <color name="color_7002DD">#7002DD</color>
+
+    <color name="color_FFE202">#FFE202</color>
+    <color name="color_FE0202">#FE0202</color>
+
+    <color name="color_70FF03">#70FF03</color>
+    <color name="color_0086F8">#0086F8</color>
+
+    <color name="color_0082EE">#0082EE</color>
+    <color name="color_F90403">#F90403</color>
+
+    <color name="color_FE00DA">#FE00DA</color>
+    <color name="color_72FD02">#72FD02</color>
+
+    <color name="color_FEE202">#FEE202</color>
+    <color name="color_6EFE00">#6EFE00</color>
+
+    <color name="color_FC01E4">#FC01E4</color>
+    <color name="color_FAEC05">#FAEC05</color>
+
+    <color name="color_A5002C">#A5002C</color>
+    <color name="color_C3FF00">#C3FF00</color>
+
+    <color name="color_072976">#072976</color>
+    <color name="color_950F58">#950F58</color>
 
 </resources>

@@ -87,6 +87,7 @@ class SplashActivity : BaseActivity<ActivitySplashBinding>() {
         if (isHideAds) {
             binding.layoutCard.invisible()
             CoreAds.instance.setHideAds(true)
+            AdapterOpenAppManager.instance.disableOpenAds()
             if (viewModel.isFirstTime()) {
                 Handler(Looper.getMainLooper()).postDelayed({
                     LanguageActivity.open(this)
@@ -138,8 +139,9 @@ class SplashActivity : BaseActivity<ActivitySplashBinding>() {
         if (isInitializeCalled.getAndSet(true)) {
             return
         }
+        val openAppId = CoreRemoteConfig.instance.findAppOpenId() ?: ""
+        AdapterOpenAppManager.instance.setOpenAdsId(openAppId)
         AdapterOpenAppManager.instance.preloadAds()
-
         val remoteConfig = viewModel.getRemoteConfiguration()
         if (remoteConfig != null) {
             Timber.i("Start loading ads...")
@@ -148,7 +150,7 @@ class SplashActivity : BaseActivity<ActivitySplashBinding>() {
 
             CoreAds.instance.logFirebaseEvent(if (isFirstTime) "AppStartSessionFirstTime" else "AppStartSessionNextTime")
             _isGoHome = false
-            showStartApp(remoteConfig, if (hasSplashNative) 2000 else 0)
+            showStartApp(remoteConfig, if (hasSplashNative) 3000 else 1000)
         } else {
             CoreAds.instance.setHideAds(true)
             binding.layoutCard.invisible()
@@ -195,11 +197,10 @@ class SplashActivity : BaseActivity<ActivitySplashBinding>() {
     }
     
     private fun initRemoteConfig(hidesAds: Boolean = false) {
-        CoreRemoteConfig.instance.init(this, false, object : LoadCallback() {
+        CoreRemoteConfig.instance.init(this, true, object : LoadCallback() {
             override fun onLoadSuccess() {
-                CoreRemoteConfig.instance.setLocalConfig(viewModel.getJsonConfiguration(), true)
-                _status = _status.or(CONST_REMOTE_CONFIG_INITIALIZED)
                 if (!hidesAds) {
+                    _status = _status.or(CONST_REMOTE_CONFIG_INITIALIZED)
                     if (_status == CONST_ALL_INITIALIZED) {
                         initializeAds()
                     }

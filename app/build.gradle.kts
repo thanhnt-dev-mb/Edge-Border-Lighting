@@ -30,7 +30,7 @@ android {
     compileSdk = 35
 
     defaultConfig {
-        applicationId = "com.merryblue.baseapp.baseapp"
+        applicationId = "com.edge.lighting.app"
         minSdk = 28
         targetSdk = 35
         versionCode = 1
@@ -53,6 +53,7 @@ android {
     buildTypes {
         debug {
             manifestPlaceholders["admobAppId"] = "ca-app-pub-3940256099942544~3347511713"
+            buildConfigField("String", "BASE_URL", "\"https://wallpaper.vsmartapp.net/edge-light-colors/\"")
         }
 
         release {
@@ -62,7 +63,8 @@ android {
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
             )
-            manifestPlaceholders["admobAppId"] = "ca-app-pub-6445739239297382~1968340520"
+            manifestPlaceholders["admobAppId"] = "ca-app-pub-6445739239297382~6408027335"
+            buildConfigField("String", "BASE_URL", "\"https://wallpaper.vsmartapp.net/edge-light-colors/\"")
         }
     }
 
@@ -114,10 +116,20 @@ dependencies {
     implementation(libs.play.services.ads)
     implementation(libs.vungle)
     implementation(libs.pangle)
+    implementation(libs.material)
+    implementation(libs.androidx.activity)
+    implementation(libs.androidx.constraintlayout)
 
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
 
     implementation(libs.androidx.appcompat)
+
+    implementation(libs.coil.v270)
+
+    implementation("androidx.media3:media3-exoplayer:1.2.1")
+    implementation("androidx.media3:media3-ui:1.2.1")
+    implementation("androidx.media3:media3-datasource:1.2.1")
+    implementation("androidx.media3:media3-datasource-okhttp:1.2.1")
 }

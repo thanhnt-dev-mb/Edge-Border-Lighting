@@ -75,7 +75,6 @@ class Application : BaseApplication(),
     @OnLifecycleEvent(Lifecycle.Event.ON_STOP)
     fun onAppStopped() {
         Timber.i("DEBUG---> onAppStopped")
-        appRepository.setShowLock()
     }
 
     override fun onActivityCreated(activity: Activity, savedInstanceState: Bundle?) {}

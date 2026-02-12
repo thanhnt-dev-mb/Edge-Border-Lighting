@@ -9,6 +9,7 @@ import com.merryblue.baseapplication.coredata.model.IntroModel
 import com.merryblue.baseapplication.enums.IntroPage
 import com.merryblue.baseapplication.ui.iap.BillingRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
+import org.app.core.ads.CoreAds
 import org.app.core.ads.remoteconfig.CoreRemoteConfig
 import org.app.core.base.BaseViewModel
 import org.app.core.base.utils.SingleLiveEvent
@@ -54,7 +55,7 @@ class IntroViewModel @Inject constructor(
     }
 
     fun hideNativeFullPage() : Boolean {
-        if (billingRepository.isPurchased()) return true
+        if (billingRepository.isPurchased() || CoreAds.instance.isHideAds) return true
 
         val remoteConfig = appRepository.loadAdsConfiguration()
         remoteConfig ?: return true

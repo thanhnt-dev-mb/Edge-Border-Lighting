@@ -1,4 +1,11 @@
-*.DS_Store
-.gradle
-.idea
-*/build
+.DS_Store
+.gradle/
+**/build/
+.idea/
+*.iml
+local.properties
+hs_err_pid*.log
+replay_pid*.log
+errors-*.log
+build-logic/.kotlinerrors/
+local.properties

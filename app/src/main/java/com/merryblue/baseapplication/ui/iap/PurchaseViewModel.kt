@@ -23,14 +23,6 @@ class PurchaseViewModel @Inject constructor(
 
     private val _uiState = MutableStateFlow(PurchaseUiState())
     val uiState = _uiState.asStateFlow()
-    private var _needRefresh: Boolean = false
-    val needRefresh: Boolean
-        get() = _needRefresh
-
-    private var _from: String = ""
-    var launchFrom: String
-        get() = _from
-        set(value) { _from = value }
 
     init {
         viewModelScope.launch {
@@ -68,16 +60,6 @@ class PurchaseViewModel @Inject constructor(
         val productId = state.products.firstOrNull { it.period == state.selected }?.id ?: return false
         billingRepository.launchSubscriptionFlow(activity, productId)
 
-        return true
-    }
-
-    fun onPurchase(activity: Activity, isYearly: Boolean) : Boolean {
-        val state = _uiState.value
-        val productId = state.products.firstOrNull {
-            if (isYearly) it.period == BillingPeriod.P1Y else it.period == BillingPeriod.P1M }
-            ?.id ?: return false
-
-        billingRepository.launchSubscriptionFlow(activity, productId)
         return true
     }
 }
