@@ -55,14 +55,15 @@
 
                 <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/tvPresetHome"
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="10dp"
+                    android:layout_marginHorizontal="10dp"
                     android:layout_marginTop="32dp"
                     android:text="@string/txt_preset"
                     android:textColor="@color/white"
                     android:textSize="20sp"
                     app:fontFamily="@font/roboto_bold"
+                    app:layout_constraintEnd_toStartOf="@+id/btnViewAllPreset"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
@@ -108,14 +109,15 @@
 
                 <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/tvThemeHome"
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="10dp"
+                    android:layout_marginHorizontal="10dp"
                     android:layout_marginTop="20dp"
                     android:text="@string/txt_theme"
                     android:textColor="@color/white"
                     android:textSize="20sp"
                     app:fontFamily="@font/roboto_bold"
+                    app:layout_constraintEnd_toEndOf="@+id/btnViewAllTheme"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/rcvHomePreset" />
 
