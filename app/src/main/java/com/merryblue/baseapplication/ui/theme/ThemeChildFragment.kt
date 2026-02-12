@@ -91,6 +91,7 @@ class ThemeChildFragment : BaseFragment<FragmentThemeChildBinding>() {
     }
 
     override fun setupObservers() {
+        super.setupObservers()
         viewLifecycleOwner.lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
 

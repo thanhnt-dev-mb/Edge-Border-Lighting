@@ -7,6 +7,7 @@ import android.os.Build
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
+import android.view.ViewGroup
 import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.annotation.NavigationRes
@@ -16,6 +17,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
+import com.google.android.gms.ads.AdSize
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.merryblue.baseapplication.BuildConfig
 import com.merryblue.baseapplication.R
@@ -36,10 +38,17 @@ import com.merryblue.baseapplication.ui.widget.BottomSheetRate
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
+import org.app.core.ads.CoreAds
+import org.app.core.ads.openads.AdapterOpenAppManager
 import org.app.core.ads.remoteconfig.CoreRemoteConfig
 import org.app.core.base.BaseActivity
+import org.app.core.base.extensions.calculateBannerHeightBy
+import org.app.core.base.extensions.hide
 import org.app.core.base.extensions.openActivityAndClearStack
+import org.app.core.base.extensions.setMargins
+import org.app.core.base.extensions.show
 import org.app.core.base.utils.StringResId
+import org.app.core.base.utils.px
 import kotlin.getValue
 
 
@@ -53,6 +62,8 @@ class HomeActivity : BaseActivity<ActivityHomeBinding>() {
     private val prefs by lazy { AppPreferences(this) }
     private val homeViewModel: HomeViewModel by viewModels()
 
+    private var _bannerDisplayed: Boolean = false
+
     override
     fun getLayoutId() = R.layout.activity_home
 
@@ -60,6 +71,10 @@ class HomeActivity : BaseActivity<ActivityHomeBinding>() {
         super.onPostCreate(savedInstanceState)
         enableEdgeToEdge(binding.main, true)
         requestPostNotificationPermissionIfNeed()
+    }
+
+    override fun setupBinding() {
+        //TODO: Should do nothing
     }
 
     override fun onResume() {
@@ -73,6 +88,7 @@ class HomeActivity : BaseActivity<ActivityHomeBinding>() {
     override fun onPause() {
         super.onPause()
         isActive = false
+        _bannerDisplayed = false
     }
 
     override fun setUpViews() {
@@ -80,6 +96,13 @@ class HomeActivity : BaseActivity<ActivityHomeBinding>() {
         binding.bottomNav.setOnTabSelectedListener { showTab(it) }
         initDeviceSupport()
         setupBottomNavMultiStack()
+        showBottomBanner()
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+
+        AdapterOpenAppManager.instance.enableOpenAds()
     }
 
     private fun initDeviceSupport() {
@@ -95,6 +118,13 @@ class HomeActivity : BaseActivity<ActivityHomeBinding>() {
                         onNetworkStateChanged(it)
                         handleNoInternetBottomSheet(it)
                     }
+                }
+            }
+        }
+        lifecycleScope.launch {
+            lifecycle.repeatOnLifecycle(Lifecycle.State.RESUMED) {
+                CoreAds.instance.nativeLoadedTs.collectLatest { ts ->
+                    showBottomBanner()
                 }
             }
         }
@@ -262,6 +292,62 @@ class HomeActivity : BaseActivity<ActivityHomeBinding>() {
             } else {
                 super.onBackPressed()
             }
+        }
+    }
+
+    private fun showBottomBanner() {
+        if (_bannerDisplayed) return
+        val rm = homeViewModel.getRemoteConfiguration()
+        val bannerAds = rm?.banners?.firstOrNull { it.tag == "BottomHomeBanner" }
+        if (bannerAds != null && !CoreAds.instance.isHideAds) {
+            binding.layoutCard.show()
+            binding.adsContainer.show()
+            val size = if (bannerAds.size == "medium") {
+                binding.layoutCard.layoutParams.apply {
+                    width = 300.px
+                }
+                binding.layoutCard.radius = 10.px.toFloat()
+                AdSize.MEDIUM_RECTANGLE
+            } else if (bannerAds.size == "full") {
+                binding.layoutCard.layoutParams.apply {
+                    width = ViewGroup.LayoutParams.MATCH_PARENT
+                }
+                binding.layoutCard.setMargins(left = 0, right =  0)
+                binding.layoutCard.radius = 0f
+                AdSize.FULL_BANNER
+            }  else if (bannerAds.size == "inline") {
+                val size = calculateBannerHeightBy()
+                binding.layoutCard.layoutParams.apply {
+                    width = ViewGroup.LayoutParams.MATCH_PARENT
+                }
+
+                binding.layoutCard.setMargins(left = 24.px, right =  24.px)
+                binding.layoutCard.radius = 10.px.toFloat()
+                size
+            } else {
+                binding.layoutCard.layoutParams.apply {
+                    width = ViewGroup.LayoutParams.MATCH_PARENT
+                }
+                binding.layoutCard.setMargins(left = 0, right =  0)
+                binding.layoutCard.radius = 0f
+                null
+            }
+
+            val banner = CoreAds.instance.showAdapterBannerAds(
+                this,
+                binding.adsContainer,
+                bannerAds.id!!,
+                bannerAds.event ?: "DummyBanner",
+                size,
+                null,
+                bannerAds.collapsible_type,
+                true
+            )
+            if (banner != null) {
+                _bannerDisplayed = true
+            }
+        } else {
+            binding.layoutCard.hide()
         }
     }
 }

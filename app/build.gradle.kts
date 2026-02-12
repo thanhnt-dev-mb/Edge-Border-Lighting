@@ -30,7 +30,7 @@ android {
     compileSdk = 35
 
     defaultConfig {
-        applicationId = "com.merryblue.baseapp.baseapp"
+        applicationId = "com.edge.lighting.app"
         minSdk = 28
         targetSdk = 35
         versionCode = 1
@@ -63,7 +63,7 @@ android {
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
             )
-            manifestPlaceholders["admobAppId"] = "ca-app-pub-6445739239297382~1968340520"
+            manifestPlaceholders["admobAppId"] = "ca-app-pub-6445739239297382~6408027335"
             buildConfigField("String", "BASE_URL", "\"https://wallpaper.vsmartapp.net/edge-light-colors/\"")
         }
     }

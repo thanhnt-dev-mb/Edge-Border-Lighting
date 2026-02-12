@@ -41,7 +41,24 @@
                 android:textColor="@color/white"
                 app:fontFamily="@font/roboto_medium" />
 
-            <!-- view ads -->
+            <androidx.cardview.widget.CardView
+                android:id="@+id/layoutCard"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:clipChildren="false"
+                android:clipToPadding="false"
+                android:gravity="bottom"
+                app:cardPreventCornerOverlap="false"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginBottom="16dp"
+                >
+                <FrameLayout
+                    android:id="@+id/adsContainer"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="#19193F"
+                    />
+            </androidx.cardview.widget.CardView>
 
         </androidx.appcompat.widget.LinearLayoutCompat>
 

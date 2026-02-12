@@ -11,10 +11,10 @@ data class SubscriptionModel(
     val id: String,
     val name: String,
     val formatPrice: String,
+    val currencyCode: String,
     val priceAmount: Long,
     val period: BillingPeriod,
-    var token: String,
-    var hasTrial: Boolean = false,
+    val hasTrial: Boolean = true,
     val discount: Int = 40,
     var state: Int = Purchase.PurchaseState.UNSPECIFIED_STATE,
 ) {
@@ -42,30 +42,21 @@ data class SubscriptionModel(
         fun fromProductDetails(productDetails: ProductDetails, context: Context): SubscriptionModel? {
             val pricingPhase = productDetails.subscriptionOfferDetails?.get(0)?.pricingPhases?.pricingPhaseList?.firstOrNull { it.priceAmountMicros > 0 } ?: return null
             val formatPrice = pricingPhase.formattedPrice
+            val currencyCode = pricingPhase.priceCurrencyCode
             val priceAmount = pricingPhase.priceAmountMicros
             val period = BillingPeriod.safeValueOf(pricingPhase.billingPeriod) ?: return null
             val id = productDetails.productId
             val offers = productDetails.subscriptionOfferDetails
-            var hasTrial = false
-            val offerToken = if (offers != null && offers.size > 1) {
-                if (id == MONTHLY_SUBSCRIPTION_ID) {
-                    offers.firstOrNull { it.offerId.isNullOrEmpty() }?.offerToken ?: ""
-                } else {
-                    hasTrial = offers.firstOrNull { !it.offerId.isNullOrEmpty() } != null
-                    offers.firstOrNull { !it.offerId.isNullOrEmpty() }?.offerToken ?: ""
-                }
-            } else {
-                if (offers.isNullOrEmpty()) "" else offers[0].offerToken
-            }
+            val hasTrial = offers != null && offers.size > 1
 
             return SubscriptionModel(
                 id,
                 period.title(context),
                 formatPrice,
+                currencyCode,
                 priceAmount,
                 period,
-                offerToken,
-                hasTrial
+                hasTrial,
             )
         }
     }

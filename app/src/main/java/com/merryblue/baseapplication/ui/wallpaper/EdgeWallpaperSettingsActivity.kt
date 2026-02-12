@@ -17,18 +17,22 @@ import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.merryblue.baseapplication.R
 import com.merryblue.baseapplication.coredata.local.AppPreferences
 import com.merryblue.baseapplication.databinding.ActivityEdgeWallpaperSettingsBinding
+import com.merryblue.baseapplication.enums.InterstitialFunction
 import com.merryblue.baseapplication.helpers.ServiceState.ACTION_EDGE_WALLPAPER_STATE_CHANGED
 import com.merryblue.baseapplication.helpers.openProperNetworkSettings
 import com.merryblue.baseapplication.service.edge.EdgeLightingOverlayService
 import com.merryblue.baseapplication.service.edge.EdgeLightingWallpaperService
 import com.merryblue.baseapplication.ui.home.HomeViewModel
+import com.merryblue.baseapplication.ui.splash.SplashActivity
 import com.merryblue.baseapplication.ui.view.edgelight.model.EdgeLightingState
 import com.merryblue.baseapplication.ui.widget.BottomSheetEdgePermission
 import com.merryblue.baseapplication.ui.widget.BottomSheetNoInternet
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
+import org.app.core.ads.openads.AdapterOpenAppManager
 import org.app.core.base.BaseActivity
+import org.app.core.base.binding.setOnSingleClickListener
 import org.app.core.base.extensions.toastMsg
 
 @AndroidEntryPoint
@@ -37,6 +41,10 @@ class EdgeWallpaperSettingsActivity : BaseActivity<ActivityEdgeWallpaperSettings
     private val prefs by lazy { AppPreferences(this) }
     private val edgePermissionViewModel: EdgePermissionViewModel by viewModels()
     private val homeViewModel: HomeViewModel by viewModels()
+
+    override val nativeHeight: Int
+        get() = -1
+
     private val setLiveWallpaperLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { _ ->
         if (isMyLiveWallpaperActive()) {
             checkPermissionOverlay()
@@ -101,8 +109,12 @@ class EdgeWallpaperSettingsActivity : BaseActivity<ActivityEdgeWallpaperSettings
     }
 
     private fun registerOnClick() {
-        binding.btnBackWallpaper.setOnClickListener { finish() }
-        binding.btnSetWallpaper.setOnClickListener { onClickSetLiveWallpaperOrApply() }
+        binding.btnBackWallpaper.setOnSingleClickListener { finish() }
+        binding.btnSetWallpaper.setOnSingleClickListener {
+            showInterstitialBy(InterstitialFunction.SetEdgeWallpaper.name) {
+                onClickSetLiveWallpaperOrApply()
+            }
+        }
     }
 
     private fun showEdgePreview() {
@@ -116,6 +128,7 @@ class EdgeWallpaperSettingsActivity : BaseActivity<ActivityEdgeWallpaperSettings
 
     private fun onClickSetLiveWallpaperOrApply() {
         if (isMyLiveWallpaperActive()) {
+            AdapterOpenAppManager.instance.disableOpenAds()
             sendBroadcast(Intent(ACTION_EDGE_WALLPAPER_STATE_CHANGED).setPackage(packageName))
             checkPermissionOverlay()
             return

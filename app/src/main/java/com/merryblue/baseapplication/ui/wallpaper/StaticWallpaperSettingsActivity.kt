@@ -15,6 +15,7 @@ import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.merryblue.baseapplication.R
 import com.merryblue.baseapplication.coredata.local.AppPreferences
 import com.merryblue.baseapplication.databinding.ActivityStaticWallpaperSettingsBinding
+import com.merryblue.baseapplication.enums.InterstitialFunction
 import com.merryblue.baseapplication.helpers.openProperNetworkSettings
 import com.merryblue.baseapplication.service.edge.EdgeLightingOverlayService
 import com.merryblue.baseapplication.ui.home.HomeViewModel
@@ -26,6 +27,7 @@ import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import org.app.core.base.BaseActivity
+import org.app.core.base.binding.setOnSingleClickListener
 import org.app.core.base.extensions.toastMsg
 
 @AndroidEntryPoint
@@ -34,6 +36,10 @@ class StaticWallpaperSettingsActivity : BaseActivity<ActivityStaticWallpaperSett
     private val prefs by lazy { AppPreferences(this) }
     private val edgePermissionViewModel: EdgePermissionViewModel by viewModels()
     private val homeViewModel: HomeViewModel by viewModels()
+
+    override val nativeHeight: Int
+        get() = -1
+
     private val overlayPermissionLauncher = registerForActivityResult(androidx.activity.result.contract.ActivityResultContracts.StartActivityForResult()) {
         if (Settings.canDrawOverlays(this)) {
             prefs.edgeState = prefs.edgeState.copy(isEnableEdgeLighting = true)
@@ -114,8 +120,13 @@ class StaticWallpaperSettingsActivity : BaseActivity<ActivityStaticWallpaperSett
     }
 
     private fun registerClicks() {
-        binding.btnSetWallpaper.setOnClickListener { onClickSetLiveWallpaperOrApply() }
-        binding.btnBackWallpaper.setOnClickListener { finish() }
+        binding.btnSetWallpaper.setOnSingleClickListener {
+            showInterstitialBy(InterstitialFunction.SetStaticWallpaper.name) {
+                onClickSetLiveWallpaperOrApply()
+            }
+        }
+
+        binding.btnBackWallpaper.setOnSingleClickListener { finish() }
     }
 
     private fun onClickSetLiveWallpaperOrApply() {
