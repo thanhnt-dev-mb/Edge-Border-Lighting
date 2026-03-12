@@ -70,6 +70,8 @@ class EdgeEffectFragment : BaseFragment<FragmentEdgeEffectBinding>() {
                 if (!fromUser) return
                 val durationMs = (1f - progress).mapFloatToRangeLong(min = 500L, max = 8000L)
                 viewModel.dispatch(EdgeEffectIntent.UpdateSpeed(durationMs))
+            }
+            override fun onStopTrackingTouch(seekBar: CustomSeekBar) {
                 homeViewModel.applySettingEdgeLighting()
             }
         })
@@ -81,6 +83,8 @@ class EdgeEffectFragment : BaseFragment<FragmentEdgeEffectBinding>() {
                 val maxPx = 20f.dpToPx
                 val sizePx = progress.mapFloatToRange(minPx, maxPx)
                 viewModel.dispatch(EdgeEffectIntent.UpdateSize(sizePx))
+            }
+            override fun onStopTrackingTouch(seekBar: CustomSeekBar) {
                 homeViewModel.applySettingEdgeLighting()
             }
         })
@@ -90,6 +94,8 @@ class EdgeEffectFragment : BaseFragment<FragmentEdgeEffectBinding>() {
                 if (!fromUser) return
                 val radiusPx = progress.mapFloatToRange(0f.dpToPx, 60f.dpToPx)
                 viewModel.dispatch(EdgeEffectIntent.UpdateBottomRadius(radiusPx))
+            }
+            override fun onStopTrackingTouch(seekBar: CustomSeekBar) {
                 homeViewModel.applySettingEdgeLighting()
             }
         })
@@ -99,6 +105,8 @@ class EdgeEffectFragment : BaseFragment<FragmentEdgeEffectBinding>() {
                 if (!fromUser) return
                 val radiusPx = progress.mapFloatToRange(0f.dpToPx, 60f.dpToPx)
                 viewModel.dispatch(EdgeEffectIntent.UpdateTopRadius(radiusPx))
+            }
+            override fun onStopTrackingTouch(seekBar: CustomSeekBar) {
                 homeViewModel.applySettingEdgeLighting()
             }
         })
