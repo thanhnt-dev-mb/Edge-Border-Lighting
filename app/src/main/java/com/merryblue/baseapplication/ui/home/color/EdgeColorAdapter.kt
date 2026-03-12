@@ -1,5 +1,6 @@
 package com.merryblue.baseapplication.ui.home.color
 
+import android.annotation.SuppressLint
 import android.content.res.ColorStateList
 import android.view.LayoutInflater
 import android.view.View
@@ -13,6 +14,7 @@ class EdgeColorAdapter(
 ) : RecyclerView.Adapter<EdgeColorAdapter.EdgeColorViewHolder>() {
     private var items: List<EdgeColorItem> = emptyList()
 
+    @SuppressLint("NotifyDataSetChanged")
     fun submitList(newItems: List<EdgeColorItem>) {
         items = newItems
         notifyDataSetChanged()
@@ -33,7 +35,7 @@ class EdgeColorAdapter(
 
             root.isSelected = item.isSelected
 
-            root.setOnClickListener {
+            itemView.setOnClickListener {
                 onClick.invoke(bindingAdapterPosition)
             }
         }

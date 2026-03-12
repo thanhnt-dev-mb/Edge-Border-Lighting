@@ -50,10 +50,6 @@
         <package android:name="com.google.android.gm" />
     </queries>
 
-    <uses-permission
-        android:name="android.permission.QUERY_ALL_PACKAGES" android:maxSdkVersion="33"
-        tools:ignore="PackageVisibilityPolicy,QueryAllPackagesPermission" />
-
     <queries>
         <intent>
             <action android:name="android.service.wallpaper.WallpaperService" />

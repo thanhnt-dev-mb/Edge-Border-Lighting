@@ -28,11 +28,13 @@ import com.merryblue.baseapplication.service.edge.EdgeLightingOverlayService
 import com.merryblue.baseapplication.ui.iap.BillingRepository
 import com.merryblue.baseapplication.ui.view.edgelight.model.EdgeLightingState
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.launch
 import org.app.core.base.BaseViewModel
 import javax.inject.Inject
@@ -52,8 +54,8 @@ class HomeViewModel @Inject constructor(
     private val _themeState = MutableStateFlow<Topic?>(null)
     val themeState: StateFlow<Topic?> = _themeState.asStateFlow()
 
-    private val _settingsEdgeLighting = MutableSharedFlow<Unit>(replay = 0)
-    val settingsEdgeLighting = _settingsEdgeLighting.asSharedFlow()
+    private val _settingsEdgeLighting = Channel<Unit>(Channel.BUFFERED)
+    val settingsEdgeLighting = _settingsEdgeLighting.receiveAsFlow()
 
     private val _bgBitmap = MutableSharedFlow<Pair<String, Bitmap?>>(replay = 0)
     val bgBitmap = _bgBitmap.asSharedFlow()
@@ -85,7 +87,7 @@ class HomeViewModel @Inject constructor(
     fun applySettingEdgeLighting() {
         if (EdgeLightingOverlayService.isRunning) return
         viewModelScope.launch {
-            _settingsEdgeLighting.emit(Unit)
+            _settingsEdgeLighting.send(Unit)
         }
     }
 
