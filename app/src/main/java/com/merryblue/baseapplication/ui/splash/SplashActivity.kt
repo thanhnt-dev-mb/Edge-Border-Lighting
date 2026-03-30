@@ -252,11 +252,10 @@ class SplashActivity : BaseActivity<ActivitySplashBinding>() {
     private fun showStartApp(remoteConfig: AdsConfigure, delay: Long = 2000) {
         val startAppAds = remoteConfig.splash?.firstOrNull()
 
+        viewModel.preloadBanner(this)
         if (startAppAds == null || startAppAds.id.isNullOrBlank()) {
-            viewModel.preloadBanner(this)
             openHome()
         } else {
-            viewModel.preloadBanner(this)
             if (viewModel.isFirstTime()) {
                 Handler(Looper.getMainLooper()).postDelayed({
                     showLaunchingOpenApp()

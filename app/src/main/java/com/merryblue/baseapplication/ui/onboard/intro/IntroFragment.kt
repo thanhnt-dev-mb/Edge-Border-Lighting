@@ -15,6 +15,7 @@ import kotlinx.coroutines.launch
 import org.app.core.ads.remoteconfig.CoreRemoteConfig
 import org.app.core.base.BaseFragment
 import org.app.core.base.binding.setOnSingleClickListener
+import org.app.core.base.extensions.getMyColor
 import org.app.core.base.extensions.setMargins
 
 @AndroidEntryPoint
@@ -63,8 +64,10 @@ class IntroFragment : BaseFragment<FragmentIntroBinding>() {
         if (nativeAds != null && !viewModel.isPremium()) {
             layoutCard = binding.layoutCard
             adsContainer = binding.adsContainer
+            binding.adsContainer.setBackgroundColor(getMyColor(R.color.colorWhite))
         } else {
             binding.layoutCard.setMargins(0, 0, 0, 0)
+            binding.adsContainer.setBackgroundColor(getMyColor(R.color.color_19193f))
         }
     }
 

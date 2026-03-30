@@ -38,16 +38,13 @@ class SplashViewModel @Inject constructor(
 
     fun getJsonConfiguration() = appRepository.getJsonAdsConfigure()
 
-    fun isPremium() = true//billingRepository.isPurchased()
+    fun isPremium() = billingRepository.isPurchased()
 
-    init {
-        if (appRepository.isFirstLaunch) {
-            appRepository.clearPreferences()
-        }
+//    init {
 //        viewModelScope.launch {
 //            billingRepository.initialize()
 //        }
-    }
+//    }
 
 
     fun initInterAdsIfNeed(activity: SplashActivity) {
@@ -83,7 +80,6 @@ class SplashViewModel @Inject constructor(
                     } else {
                         Log.i(TAG, "init remote BannerAdmob: ${banner.id} - ${banner.tag}")
                         CoreAds.instance.initAdapterBannerAds(
-                            activity,
                             banner.id!!,
                             banner.event ?: "DummyEventBanner",
                             if (banner.size == "medium") AdSize.MEDIUM_RECTANGLE else null,
@@ -94,7 +90,6 @@ class SplashViewModel @Inject constructor(
                 } else {
                     Log.i(TAG, "init remote [first time] Banner Ads: ${banner.id} - ${banner.tag}")
                     CoreAds.instance.initAdapterBannerAds(
-                        activity,
                         banner.id!!,
                         banner.event ?: "DummyEventBanner",
                         if (banner.size == "medium") AdSize.MEDIUM_RECTANGLE else null,

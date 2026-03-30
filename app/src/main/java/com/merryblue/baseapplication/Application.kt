@@ -56,6 +56,7 @@ class Application : BaseApplication(),
         } catch (_: Exception) {
         }
 
+        CoreAds.init(this)
         CoreAds.instance.initAdsAdapter(
             context = this,
             listTestDeviceId = TEST_DEVICE_IDS,

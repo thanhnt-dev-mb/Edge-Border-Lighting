@@ -80,7 +80,7 @@ class HomeActivity : BaseActivity<ActivityHomeBinding>() {
     override fun onResume() {
         super.onResume()
 
-//        handleForceUpdateIfNeed()
+        handleForceUpdateIfNeed()
         isFirstVisible = false
         isActive = true
     }
@@ -96,7 +96,7 @@ class HomeActivity : BaseActivity<ActivityHomeBinding>() {
         binding.bottomNav.setOnTabSelectedListener { showTab(it) }
         initDeviceSupport()
         setupBottomNavMultiStack()
-        showBottomBanner()
+        showBottomBanner(binding.layoutCard, binding.adsContainer)
     }
 
     override fun onDestroy() {
@@ -118,13 +118,6 @@ class HomeActivity : BaseActivity<ActivityHomeBinding>() {
                         onNetworkStateChanged(it)
                         handleNoInternetBottomSheet(it)
                     }
-                }
-            }
-        }
-        lifecycleScope.launch {
-            lifecycle.repeatOnLifecycle(Lifecycle.State.RESUMED) {
-                CoreAds.instance.nativeLoadedTs.collectLatest { ts ->
-                    showBottomBanner()
                 }
             }
         }
@@ -292,62 +285,6 @@ class HomeActivity : BaseActivity<ActivityHomeBinding>() {
             } else {
                 super.onBackPressed()
             }
-        }
-    }
-
-    private fun showBottomBanner() {
-        if (_bannerDisplayed) return
-        val rm = homeViewModel.getRemoteConfiguration()
-        val bannerAds = rm?.banners?.firstOrNull { it.tag == "BottomHomeBanner" }
-        if (bannerAds != null && !CoreAds.instance.isHideAds) {
-            binding.layoutCard.show()
-            binding.adsContainer.show()
-            val size = if (bannerAds.size == "medium") {
-                binding.layoutCard.layoutParams.apply {
-                    width = 300.px
-                }
-                binding.layoutCard.radius = 10.px.toFloat()
-                AdSize.MEDIUM_RECTANGLE
-            } else if (bannerAds.size == "full") {
-                binding.layoutCard.layoutParams.apply {
-                    width = ViewGroup.LayoutParams.MATCH_PARENT
-                }
-                binding.layoutCard.setMargins(left = 0, right =  0)
-                binding.layoutCard.radius = 0f
-                AdSize.FULL_BANNER
-            }  else if (bannerAds.size == "inline") {
-                val size = calculateBannerHeightBy()
-                binding.layoutCard.layoutParams.apply {
-                    width = ViewGroup.LayoutParams.MATCH_PARENT
-                }
-
-                binding.layoutCard.setMargins(left = 24.px, right =  24.px)
-                binding.layoutCard.radius = 10.px.toFloat()
-                size
-            } else {
-                binding.layoutCard.layoutParams.apply {
-                    width = ViewGroup.LayoutParams.MATCH_PARENT
-                }
-                binding.layoutCard.setMargins(left = 0, right =  0)
-                binding.layoutCard.radius = 0f
-                null
-            }
-
-            val banner = CoreAds.instance.showAdapterBannerAds(
-                this,
-                binding.adsContainer,
-                bannerAds.id!!,
-                bannerAds.event ?: "DummyBanner",
-                size,
-                null,
-                bannerAds.collapsible_type,
-                true
-            )
-            if (banner != null) {
-                _bannerDisplayed = true
-            }
-        } else {
-            binding.layoutCard.hide()
         }
     }
 }

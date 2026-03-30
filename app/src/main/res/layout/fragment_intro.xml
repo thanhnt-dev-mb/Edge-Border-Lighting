@@ -67,7 +67,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:minHeight="128dp"
-            android:background="#19193F"
+            android:background="@color/white"
             />
       </androidx.cardview.widget.CardView>
     </LinearLayout>

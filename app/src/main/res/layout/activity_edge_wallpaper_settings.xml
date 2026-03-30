@@ -56,7 +56,7 @@
                     android:id="@+id/adsContainer"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:background="#19193F"
+                    android:background="@color/white"
                     />
             </androidx.cardview.widget.CardView>
 

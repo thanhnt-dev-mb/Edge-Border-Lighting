@@ -26,7 +26,7 @@
       "version": 1,
       "id": "ca-app-pub-3940256099942544/6300978111",
       "event": "EventHomeBanner",
-      "tag": "BottomHomeBanner",
+      "tag": "HomeActivity_BottomBanner",
       "size": "small",
       "description": "Home Screen Banner"
     },
@@ -194,46 +194,50 @@
     {
       "status": false,
       "always_preload": false,
+      "place_preload": "SplashActivity",
       "version": 1,
       "tag": "VideoWallpaperSettingsActivity_Native",
       "id": "ca-app-pub-3940256099942544/2247696110",
-      "event": "EventVideoWallpaper",
+      "event": "EventPreviewVideoNative",
       "style": 13,
       "preload": 0,
-      "description": "Video Wallpaper Native"
+      "description": "Preview Video Native"
     },
     {
       "status": false,
       "always_preload": false,
+      "place_preload": "SplashActivity",
       "version": 1,
       "tag": "EdgeWallpaperSettingsActivity_Native",
       "id": "ca-app-pub-3940256099942544/2247696110",
-      "event": "EventEdgeWallpaper",
+      "event": "EventPreviewEdgeNative",
       "style": 13,
       "preload": 0,
-      "description": "Edge Wallpaper Native"
+      "description": "Preview Edge Native"
     },
     {
       "status": false,
       "always_preload": false,
+      "place_preload": "SplashActivity",
       "version": 1,
       "tag": "RippleWallpaperSettingsActivity_Native",
       "id": "ca-app-pub-3940256099942544/2247696110",
-      "event": "EventRippleWallpaper",
+      "event": "EventPreviewRippleNative",
       "style": 13,
       "preload": 0,
-      "description": "Ripple Wallpaper Native"
+      "description": "Preview Ripple Native"
     },
     {
       "status": false,
       "always_preload": false,
+      "place_preload": "SplashActivity",
       "version": 1,
       "tag": "StaticWallpaperSettingsActivity_Native",
       "id": "ca-app-pub-3940256099942544/2247696110",
-      "event": "EventStaticWallpaper",
+      "event": "EventPreviewStaticNative",
       "style": 13,
       "preload": 0,
-      "description": "Static Wallpaper Native"
+      "description": "Preview Static Native"
     }
   ],
   "rewards": [
