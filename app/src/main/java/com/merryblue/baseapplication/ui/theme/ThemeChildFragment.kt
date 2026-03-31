@@ -18,6 +18,7 @@ import com.merryblue.baseapplication.coredata.local.AppPreferences
 import com.merryblue.baseapplication.databinding.FragmentThemeChildBinding
 import com.merryblue.baseapplication.domain.model.Item
 import com.merryblue.baseapplication.domain.model.ThemeUi
+import com.merryblue.baseapplication.enums.InterstitialFunction
 import com.merryblue.baseapplication.helpers.AppLoading
 import com.merryblue.baseapplication.helpers.KEY_IS_CUSTOM
 import com.merryblue.baseapplication.helpers.KEY_IS_GALLERY
@@ -179,35 +180,35 @@ class ThemeChildFragment : BaseFragment<FragmentThemeChildBinding>() {
     }
 
     private fun handleItemClick(item: Item) {
-        AppLoading.displayLoading(requireContext())
+        showInterstitialBy(InterstitialFunction.ViewTheme.name) {
 
-        currentType = item.type
+            AppLoading.displayLoading(requireContext())
+            currentType = item.type
+            val canSetLive = prefs.canChangeLive || prefs.canLiveChooser
+            if (canSetLive) {
+                when (item.type) {
+                    WallpaperType.TYPE_EDGE -> homeViewModel.loadEdgeBackgroundUrl(item, requireContext().getFullScreenTargetSize())
 
-        val canSetLive = prefs.canChangeLive || prefs.canLiveChooser
+                    WallpaperType.TYPE_STATIC -> homeViewModel.loadStaticBackgroundUrl(item, requireContext().getFullScreenTargetSize())
 
-        if (canSetLive) {
-            when (item.type) {
-                WallpaperType.TYPE_EDGE -> homeViewModel.loadEdgeBackgroundUrl(item, requireContext().getFullScreenTargetSize())
-
-                WallpaperType.TYPE_STATIC -> homeViewModel.loadStaticBackgroundUrl(item, requireContext().getFullScreenTargetSize())
-
-                WallpaperType.TYPE_VIDEO -> {
-                    homeViewModel.videoUrl = item.pathUrl
-                    VideoPreloader.preload(requireContext().applicationContext, item.pathUrl) {
-                        AppLoading.closeLoading()
+                    WallpaperType.TYPE_VIDEO -> {
+                        homeViewModel.videoUrl = item.pathUrl
+                        VideoPreloader.preload(requireContext().applicationContext, item.pathUrl) {
+                            AppLoading.closeLoading()
+                        }
+                        homeViewModel.updateEdgeState { it.copy(isEnableEdgeLighting = false) }
+                        homeViewModel.sendActionBroadcast(ACTION_EDGE_OVERLAY_STOP)
+                        startActivity(Intent(requireContext(), VideoWallpaperSettingsActivity::class.java))
                     }
-                    homeViewModel.updateEdgeState { it.copy(isEnableEdgeLighting = false) }
-                    homeViewModel.sendActionBroadcast(ACTION_EDGE_OVERLAY_STOP)
-                    startActivity(Intent(requireContext(), VideoWallpaperSettingsActivity::class.java))
-                }
 
-                WallpaperType.TYPE_RIPPLE -> {
-                    homeViewModel.rippleEffectUrl = item.pathUrl
-                    homeViewModel.loadBackgroundRippleUrl(item, requireContext().getFullScreenTargetSize())
+                    WallpaperType.TYPE_RIPPLE -> {
+                        homeViewModel.rippleEffectUrl = item.pathUrl
+                        homeViewModel.loadBackgroundRippleUrl(item, requireContext().getFullScreenTargetSize())
+                    }
                 }
+            } else {
+                homeViewModel.loadStaticBackgroundUrl(item, requireContext().getFullScreenTargetSize())
             }
-        } else {
-            homeViewModel.loadStaticBackgroundUrl(item, requireContext().getFullScreenTargetSize())
         }
     }
 

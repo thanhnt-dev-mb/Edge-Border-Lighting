@@ -35,7 +35,6 @@
                 android:layout_height="match_parent"
                 android:layout_centerInParent="true"
                 android:layout_marginEnd="16dp"
-                android:layout_weight="1"
                 android:ellipsize="end"
                 app:fontFamily="@font/roboto_bold"
                 android:gravity="center"

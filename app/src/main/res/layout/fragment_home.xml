@@ -215,15 +215,9 @@
                 <androidx.viewpager2.widget.ViewPager2
                     android:id="@+id/vpSettingEdge"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    app:layout_constraintTop_toBottomOf="@+id/tabSettingEdge" />
-
-                <Space
-                    android:id="@+id/spaceBottom"
-                    android:layout_width="match_parent"
-                    android:layout_height="106dp"
+                    android:layout_height="0dp"
                     app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/vpSettingEdge" />
+                    app:layout_constraintTop_toBottomOf="@+id/tabSettingEdge" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 

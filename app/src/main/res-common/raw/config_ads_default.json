@@ -121,6 +121,28 @@
       "id": "ca-app-pub-3940256099942544/1033173712",
       "event": "EventSetVideoWallpaper",
       "description": "Set Video Wallpaper"
+    },
+    {
+      "status": false,
+      "version": 1,
+      "always_preload": false,
+      "tag": "ViewPreset",
+      "timelapse": 40000,
+      "native_id": "",
+      "id": "ca-app-pub-3940256099942544/1033173712",
+      "event": "EventViewPreset",
+      "description": "Action View Preset"
+    },
+    {
+      "status": false,
+      "version": 1,
+      "always_preload": false,
+      "tag": "ViewTheme",
+      "timelapse": 40000,
+      "native_id": "",
+      "id": "ca-app-pub-3940256099942544/1033173712",
+      "event": "EventViewTheme",
+      "description": "Action View Theme"
     }
   ],
   "natives": [
