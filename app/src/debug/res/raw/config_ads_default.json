@@ -25,19 +25,11 @@
       "status": false,
       "version": 1,
       "id": "ca-app-pub-3940256099942544/6300978111",
-      "event": "EventHomeBanner",
-      "tag": "HomeActivity_BottomBanner",
+      "tag": "DUMMY_Banner",
+      "event": "EventDUMMY",
       "size": "small",
-      "description": "Home Screen Banner"
-    },
-    {
-      "status": false,
-      "version": 1,
-      "id": "ca-app-pub-3940256099942544/6300978111",
-      "event": "EventPatternSetup",
-      "tag": "LaunchingPatternSetupFragment_Banner",
-      "size": "small",
-      "description": "Launching password setup Banner"
+      "collapsible_type": "bottom",
+      "description": "DUMMY Banner"
     },
     {
       "status": false,
@@ -47,15 +39,6 @@
       "tag": "HomeFragment_Banner",
       "size": "small",
       "description": "Home Banner"
-    },
-    {
-      "status": false,
-      "version": 1,
-      "id": "ca-app-pub-3940256099942544/6300978111",
-      "tag": "LockScreenActivity_Banner",
-      "event": "EventLockScreen",
-      "size": "small",
-      "description": "Lockscreen Banner"
     }
   ],
   "MRECs": [

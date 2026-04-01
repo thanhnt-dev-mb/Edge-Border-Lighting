@@ -5,7 +5,7 @@
     {
       "status": true,
       "version": 1,
-      "id": "ca-app-pub-3940256099942544/9257395921",
+      "id": "ca-app-pub-6445739239297382/2749464217",
       "event": "EventSwitchApp",
       "description": "SwitchApp"
     }
@@ -15,7 +15,7 @@
       "status": true,
       "version": 1,
       "always_preload": false,
-      "id": "ca-app-pub-3940256099942544/1033173712",
+      "id": "ca-app-pub-6445739239297382/5794429956",
       "event": "EventStartApp",
       "description": "StartApp"
     }
@@ -24,38 +24,11 @@
     {
       "status": false,
       "version": 1,
-      "id": "ca-app-pub-3940256099942544/6300978111",
-      "event": "EventHomeBanner",
-      "tag": "BottomHomeBanner",
-      "size": "small",
-      "description": "Home Screen Banner"
-    },
-    {
-      "status": false,
-      "version": 1,
-      "id": "ca-app-pub-3940256099942544/6300978111",
-      "event": "EventPatternSetup",
-      "tag": "LaunchingPatternSetupFragment_Banner",
-      "size": "small",
-      "description": "Launching password setup Banner"
-    },
-    {
-      "status": false,
-      "version": 1,
-      "id": "ca-app-pub-3940256099942544/6300978111",
+      "id": "ca-app-pub-6445739239297382/7159482511",
       "event": "EventHomeBanner",
       "tag": "HomeFragment_Banner",
       "size": "small",
       "description": "Home Banner"
-    },
-    {
-      "status": false,
-      "version": 1,
-      "id": "ca-app-pub-3940256099942544/6300978111",
-      "tag": "LockScreenActivity_Banner",
-      "event": "EventLockScreen",
-      "size": "small",
-      "description": "Lockscreen Banner"
     }
   ],
   "MRECs": [
@@ -74,7 +47,7 @@
       "tag": "Guide",
       "timelapse": 40000,
       "native_id": "",
-      "id": "ca-app-pub-3940256099942544/1033173712",
+      "id": "ca-app-pub-6445739239297382/5794429956",
       "event": "EventGuide",
       "description": "Guide"
     },
@@ -85,7 +58,7 @@
       "tag": "SetEdgeWallpaper",
       "timelapse": 40000,
       "native_id": "",
-      "id": "ca-app-pub-3940256099942544/1033173712",
+      "id": "ca-app-pub-6445739239297382/5794429956",
       "event": "EventSetEdgeWallpaper",
       "description": "Set Edge Wallpaper"
     },
@@ -96,7 +69,7 @@
       "tag": "SetRippleWallpaper",
       "timelapse": 40000,
       "native_id": "",
-      "id": "ca-app-pub-3940256099942544/1033173712",
+      "id": "ca-app-pub-6445739239297382/5794429956",
       "event": "EventSetRippleWallpaper",
       "description": "Set Ripple Wallpaper"
     },
@@ -107,7 +80,7 @@
       "tag": "SetStaticWallpaper",
       "timelapse": 40000,
       "native_id": "",
-      "id": "ca-app-pub-3940256099942544/1033173712",
+      "id": "ca-app-pub-6445739239297382/5794429956",
       "event": "EventSetStaticWallpaper",
       "description": "Set Static Wallpaper"
     },
@@ -118,7 +91,7 @@
       "tag": "SetVideoWallpaper",
       "timelapse": 40000,
       "native_id": "",
-      "id": "ca-app-pub-3940256099942544/1033173712",
+      "id": "ca-app-pub-6445739239297382/5794429956",
       "event": "EventSetVideoWallpaper",
       "description": "Set Video Wallpaper"
     },
@@ -129,7 +102,7 @@
       "tag": "ViewPreset",
       "timelapse": 40000,
       "native_id": "",
-      "id": "ca-app-pub-3940256099942544/1033173712",
+      "id": "ca-app-pub-6445739239297382/5794429956",
       "event": "EventViewPreset",
       "description": "Action View Preset"
     },
@@ -140,7 +113,7 @@
       "tag": "ViewTheme",
       "timelapse": 40000,
       "native_id": "",
-      "id": "ca-app-pub-3940256099942544/1033173712",
+      "id": "ca-app-pub-6445739239297382/5794429956",
       "event": "EventViewTheme",
       "description": "Action View Theme"
     }
@@ -152,7 +125,7 @@
       "version": 1,
       "place_preload": "SplashActivity",
       "tag": "LanguageActivity_Native",
-      "id": "ca-app-pub-3940256099942544/2247696110",
+      "id": "ca-app-pub-6445739239297382/9478524094",
       "event": "EventLanguage",
       "style": 1,
       "preload": 3,
@@ -163,7 +136,7 @@
       "always_preload": false,
       "version": 1,
       "tag": "IntroFragment_Native",
-      "id": "ca-app-pub-3940256099942544/2247696110",
+      "id": "ca-app-pub-6445739239297382/9478524094",
       "event": "EventIntroNative",
       "style": 13,
       "preload": 0,
@@ -174,7 +147,7 @@
       "always_preload": false,
       "version": 1,
       "tag": "IntroFragment_Native_0",
-      "id": "ca-app-pub-3940256099942544/2247696110",
+      "id": "ca-app-pub-6445739239297382/9478524094",
       "event": "EventIntroNative",
       "style": 13,
       "preload": 0,
@@ -185,7 +158,7 @@
       "always_preload": false,
       "version": 1,
       "tag": "IntroFragment_Native_3",
-      "id": "ca-app-pub-3940256099942544/2247696110",
+      "id": "ca-app-pub-6445739239297382/9478524094",
       "event": "EventIntroNative",
       "style": 13,
       "preload": 0,
@@ -196,7 +169,7 @@
       "always_preload": false,
       "version": 1,
       "tag": "NativeFullscreenFragment_Native",
-      "id": "ca-app-pub-3940256099942544/2247696110",
+      "id": "ca-app-pub-6445739239297382/9478524094",
       "event": "EventNativeFull",
       "style": 68,
       "preload": 0,
@@ -207,7 +180,7 @@
       "always_preload": false,
       "version": 1,
       "tag": "HomeFragment_Native",
-      "id": "ca-app-pub-3940256099942544/2247696110",
+      "id": "ca-app-pub-6445739239297382/9478524094",
       "event": "EventHomeNative",
       "style": 13,
       "preload": 0,
@@ -218,7 +191,7 @@
       "always_preload": false,
       "version": 1,
       "tag": "VideoWallpaperSettingsActivity_Native",
-      "id": "ca-app-pub-3940256099942544/2247696110",
+      "id": "ca-app-pub-6445739239297382/9478524094",
       "event": "EventVideoWallpaper",
       "style": 13,
       "preload": 0,
@@ -229,7 +202,7 @@
       "always_preload": false,
       "version": 1,
       "tag": "EdgeWallpaperSettingsActivity_Native",
-      "id": "ca-app-pub-3940256099942544/2247696110",
+      "id": "ca-app-pub-6445739239297382/9478524094",
       "event": "EventEdgeWallpaper",
       "style": 13,
       "preload": 0,
@@ -240,7 +213,7 @@
       "always_preload": false,
       "version": 1,
       "tag": "RippleWallpaperSettingsActivity_Native",
-      "id": "ca-app-pub-3940256099942544/2247696110",
+      "id": "ca-app-pub-6445739239297382/9478524094",
       "event": "EventRippleWallpaper",
       "style": 13,
       "preload": 0,
@@ -251,7 +224,7 @@
       "always_preload": false,
       "version": 1,
       "tag": "StaticWallpaperSettingsActivity_Native",
-      "id": "ca-app-pub-3940256099942544/2247696110",
+      "id": "ca-app-pub-6445739239297382/9478524094",
       "event": "EventStaticWallpaper",
       "style": 13,
       "preload": 0,
@@ -269,59 +242,23 @@
   ],
   "backup_id": [
     {
-      "id": "ca-app-pub-3940256099942544/2247696110",
+      "id": "ca-app-pub-6445739239297382/8416723869",
       "network": "admob",
       "order": 1,
       "type": "native"
     },
     {
-      "id": "ca-app-pub-3940256099942544/2247696110",
-      "network": "admob",
-      "order": 2,
-      "type": "native"
-    },
-    {
-      "id": "ca-app-pub-3940256099942544/2247696110",
-      "network": "admob",
-      "order": 3,
-      "type": "native"
-    },
-    {
-      "id": "ca-app-pub-3940256099942544/6300978111",
+      "id": "ca-app-pub-6445739239297382/6599207752",
       "network": "admob",
       "order": 1,
       "type": "banner"
     },
     {
-      "id": "ca-app-pub-3940256099942544/6300978111",
-      "network": "admob",
-      "order": 2,
-      "type": "banner"
-    },
-    {
-      "id": "ca-app-pub-3940256099942544/6300978111",
-      "network": "admob",
-      "order": 3,
-      "type": "banner"
-    },
-    {
-      "id": "ca-app-pub-3940256099942544/1033173712",
+      "id": "ca-app-pub-6445739239297382/5790560523",
       "network": "admob",
       "order": 1,
-      "type": "interstitial"
-    },
-    {
-      "id": "ca-app-pub-3940256099942544/1033173712",
-      "network": "admob",
-      "order": 2,
-      "type": "interstitial"
-    },
-    {
-      "id": "ca-app-pub-3940256099942544/1033173712",
-      "network": "admob",
-      "order": 3,
       "type": "interstitial"
     }
   ],
-  "description": "Updated 08May2025 Update ads concept as new Home design"
+  "description": "Updated 02Apr2026 Update ads concept as new Home design"
 }

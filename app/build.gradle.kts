@@ -113,7 +113,6 @@ dependencies {
     //TODO: AppLovin
     //noinspection GradleDynamicVersion
     implementation(libs.play.services.ads)
-    implementation(libs.play.services.ads)
     implementation(libs.vungle)
     implementation(libs.pangle)
     implementation(libs.material)
