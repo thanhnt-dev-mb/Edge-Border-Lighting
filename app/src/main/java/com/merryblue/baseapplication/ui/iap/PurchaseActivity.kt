@@ -109,7 +109,7 @@ class PurchaseActivity : BaseActivity<ActivityPurchaseBinding>() {
         binding.monthTv.text = state.monthlyTitle(this)
         binding.yearlyTv.text = state.yearlyTitle(this)
         binding.monthlyPrice.text = state.monthlyPrice(this)
-        binding.yearlyTrialTv.text = state.yearlyPrice(this)
+        binding.yearlyPrice.text = state.yearlyPrice(this)
         when(state.purchased) {
             SubscriptionModel.BillingPeriod.NONE -> {
                 binding.upgradeBtn.enable()

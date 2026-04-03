@@ -20,6 +20,11 @@ data class PurchaseUiState(
 
     fun isMonthly() = selected == BillingPeriod.P1M
 
+    fun yearlyTrial() : Boolean {
+        val hasTrial = products.firstOrNull { it.period == BillingPeriod.P1Y }?.hasTrial != false
+        return hasTrial
+    }
+
     fun yearlyTitle(context: Context) : SpannableStringBuilder {
         val typeface = if (selected == BillingPeriod.P1Y) {
             ResourcesCompat.getFont(context, R.font.roboto_bold)
@@ -74,13 +79,13 @@ data class PurchaseUiState(
         val price = products.firstOrNull { it.period == BillingPeriod.P1Y }?.formatPrice ?: "\$11.8"
 
         val typeface = if (selected == BillingPeriod.P1Y) {
-            ResourcesCompat.getFont(context, R.font.roboto_regular)
+            ResourcesCompat.getFont(context, R.font.roboto_bold)
         } else {
             ResourcesCompat.getFont(context, R.font.roboto_regular)
         }
         return "".append(
             price + "/" + context.getString(R.string.txt_year),
-            if (selected == BillingPeriod.P1Y) context.getColorR(R.color.colorPrimary) else context.getColorR(R.color.colorWhite),
+            if (selected == BillingPeriod.P1Y) context.getColorR(R.color.colorViolet05) else context.getColorR(R.color.colorWhite),
             typeface
         )
     }

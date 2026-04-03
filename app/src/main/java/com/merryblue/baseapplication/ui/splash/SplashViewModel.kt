@@ -40,12 +40,11 @@ class SplashViewModel @Inject constructor(
 
     fun isPremium() = billingRepository.isPurchased()
 
-//    init {
-//        viewModelScope.launch {
-//            billingRepository.initialize()
-//        }
-//    }
-
+    init {
+        viewModelScope.launch {
+            billingRepository.initialize()
+        }
+    }
 
     fun initInterAdsIfNeed(activity: SplashActivity) {
         val rmConfig = appRepository.loadAdsConfiguration() ?: return

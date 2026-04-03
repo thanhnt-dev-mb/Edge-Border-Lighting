@@ -38,6 +38,7 @@ import com.merryblue.baseapplication.helpers.openProperNetworkSettings
 import com.merryblue.baseapplication.helpers.updateHeightForCurrentPage
 import com.merryblue.baseapplication.helpers.video.VideoPreloader
 import com.merryblue.baseapplication.service.edge.EdgeLightingOverlayService
+import com.merryblue.baseapplication.ui.iap.PurchaseActivity
 import com.merryblue.baseapplication.ui.picker.ColorPickerActivity
 import com.merryblue.baseapplication.ui.theme.ThemesActivity
 import com.merryblue.baseapplication.ui.wallpaper.EdgePermissionViewModel
@@ -51,6 +52,8 @@ import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import org.app.core.base.BaseFragment
+import org.app.core.base.binding.setOnSingleClickListener
+import org.app.core.base.extensions.show
 import kotlin.getValue
 
 @AndroidEntryPoint
@@ -84,6 +87,10 @@ class HomeFragment: BaseFragment<FragmentHomeBinding>() {
         initTabLayout()
         initRecyclerView()
         registerOnClick()
+    }
+
+    override fun onFragmentResume() {
+        binding.ivPremium.show(viewModel.isPremium() == false)
     }
 
     private fun startEdgeOverlay() {
@@ -212,6 +219,9 @@ class HomeFragment: BaseFragment<FragmentHomeBinding>() {
     }
 
     private fun registerOnClick() = with (binding) {
+        ivPremium.setOnSingleClickListener {
+            PurchaseActivity.open(requireContext(), "home")
+        }
 
         btnViewAllTheme.setOnClickListener {
             val intent = Intent(requireContext(), ThemesActivity::class.java)

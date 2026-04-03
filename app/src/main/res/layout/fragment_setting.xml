@@ -35,7 +35,7 @@
             android:background="@drawable/ripple_round_10"
             android:backgroundTint="@color/color_17173c"
             android:paddingHorizontal="16dp"
-            android:visibility="gone">
+            >
 
             <com.google.android.material.imageview.ShapeableImageView
                 android:id="@+id/imageView"
