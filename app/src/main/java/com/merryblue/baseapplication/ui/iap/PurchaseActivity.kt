@@ -16,6 +16,7 @@ import androidx.lifecycle.repeatOnLifecycle
 import com.merryblue.baseapplication.R
 import com.merryblue.baseapplication.coredata.model.SubscriptionModel
 import com.merryblue.baseapplication.databinding.ActivityPurchaseBinding
+import com.merryblue.baseapplication.ui.home.HomeActivity
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
@@ -25,6 +26,7 @@ import org.app.core.base.binding.setOnSingleClickListener
 import org.app.core.base.extensions.disable
 import org.app.core.base.extensions.enable
 import org.app.core.base.extensions.hide
+import org.app.core.base.extensions.openActivityAndClearStack
 import org.app.core.base.extensions.showMessage
 import timber.log.Timber
 
@@ -48,7 +50,7 @@ class PurchaseActivity : BaseActivity<ActivityPurchaseBinding>() {
         _from = intent.extras?.getString(KEY_FROM) ?: ""
 
         binding.closeBtn.setOnSingleClickListener {
-            finish()
+            finishScreen()
         }
 
         binding.upgradeBtn.setOnSingleClickListener {
@@ -65,7 +67,7 @@ class PurchaseActivity : BaseActivity<ActivityPurchaseBinding>() {
             Handler(Looper.getMainLooper()).postDelayed({
                 viewModel.getPurchasedProducts()?.let {
                     CoreAds.instance.logFirebaseEvent("IAPSuccess_$_from")
-                    finish()
+                    finishScreen()
                 } ?: kotlin.run {
                     CoreAds.instance.logFirebaseEvent("IAPFailed_$_from")
                     Timber.tag("IAP_TAG").i("onResume not finish --> Why???")
@@ -80,7 +82,7 @@ class PurchaseActivity : BaseActivity<ActivityPurchaseBinding>() {
                 if (items.isEmpty()) {
                     showMessage(getString(R.string.txt_timeout_billing_load))
                     hideProgressDialog()
-                    finish()
+                    finishScreen()
                 }
             } catch (e: Exception) { e.printStackTrace() }
         }, 10000)
@@ -136,12 +138,23 @@ class PurchaseActivity : BaseActivity<ActivityPurchaseBinding>() {
         }
     }
 
+    private fun finishScreen() {
+        if (_from == "onboard") {
+            openActivityAndClearStack(HomeActivity::class.java)
+        } else {
+            finish()
+        }
+    }
+
     companion object {
         const val KEY_FROM = "key_start_from"
 
         fun open(context: Context, from: String = "onboard") {
             val intent = Intent(context, PurchaseActivity::class.java)
             intent.putExtra(KEY_FROM, from)
+            if (from == "onboard") {
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_SINGLE_TOP)
+            }
             context.startActivity(intent)
         }
     }

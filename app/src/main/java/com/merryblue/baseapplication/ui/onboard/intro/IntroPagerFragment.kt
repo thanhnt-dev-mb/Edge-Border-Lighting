@@ -14,6 +14,7 @@ import com.merryblue.baseapplication.databinding.FragmentIntroPagerBinding
 import com.merryblue.baseapplication.enums.InterstitialFunction
 import com.merryblue.baseapplication.enums.IntroPage
 import com.merryblue.baseapplication.ui.home.HomeActivity
+import com.merryblue.baseapplication.ui.iap.PurchaseActivity
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
@@ -99,7 +100,8 @@ class IntroPagerFragment : BaseFragment<FragmentIntroPagerBinding>() {
 
         isGoHome = true
         viewModel.setFirstTime(false)
-        openActivityAndClearStack(HomeActivity::class.java)
+//        openActivityAndClearStack(HomeActivity::class.java)
+        PurchaseActivity.open(requireActivity(), "onboard")
     }
     
     inner class IntroPagerAdapter(

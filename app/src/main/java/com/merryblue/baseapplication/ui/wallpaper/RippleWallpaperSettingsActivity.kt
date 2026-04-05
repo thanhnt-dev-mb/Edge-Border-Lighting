@@ -126,6 +126,7 @@ class RippleWallpaperSettingsActivity : BaseActivity<ActivityRippleWallpaperSett
     private fun registerClicks() {
         binding.btnSetWallpaper.setOnSingleClickListener {
             showInterstitialBy(InterstitialFunction.SetRippleWallpaper.name) {
+                homeViewModel.increaseUsageCount()
                 onClickSetLiveWallpaperOrApply()
             }
         }

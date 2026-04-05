@@ -30,6 +30,7 @@ import com.merryblue.baseapplication.helpers.isBackground
 import com.merryblue.baseapplication.helpers.openPolicy
 import com.merryblue.baseapplication.helpers.openProperNetworkSettings
 import com.merryblue.baseapplication.ui.appupdate.ForceUpdateActivity
+import com.merryblue.baseapplication.ui.iap.PurchaseActivity
 import com.merryblue.baseapplication.ui.onboard.language.LanguageActivity
 import com.merryblue.baseapplication.ui.setting.SettingFragment
 import com.merryblue.baseapplication.ui.view.EdgeBottomNavView
@@ -80,9 +81,14 @@ class HomeActivity : BaseActivity<ActivityHomeBinding>() {
     override fun onResume() {
         super.onResume()
 
-        handleForceUpdateIfNeed()
         isFirstVisible = false
         isActive = true
+        val ret = handleForceUpdateIfNeed()
+        if (ret == false) {
+            if (homeViewModel.showIAP()) {
+                PurchaseActivity.open(this, "home")
+            }
+        }
     }
 
     override fun onPause() {

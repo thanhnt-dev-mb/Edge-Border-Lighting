@@ -112,6 +112,7 @@ class EdgeWallpaperSettingsActivity : BaseActivity<ActivityEdgeWallpaperSettings
         binding.btnBackWallpaper.setOnSingleClickListener { finish() }
         binding.btnSetWallpaper.setOnSingleClickListener {
             showInterstitialBy(InterstitialFunction.SetEdgeWallpaper.name) {
+                homeViewModel.increaseUsageCount()
                 onClickSetLiveWallpaperOrApply()
             }
         }

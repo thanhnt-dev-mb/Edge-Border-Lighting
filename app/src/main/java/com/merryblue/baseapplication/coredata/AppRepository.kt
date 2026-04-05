@@ -23,6 +23,7 @@ import org.app.core.base.utils.getPath
 import org.app.core.ads.openads.AdapterOpenAppManager
 import org.app.core.ads.remoteconfig.CoreRemoteConfig
 import org.app.core.ads.remoteconfig.config.AdsConfigure
+import timber.log.Timber
 import java.io.File
 import java.io.IOException
 import javax.inject.Inject
@@ -38,6 +39,8 @@ class AppRepository @Inject constructor(
     private var _showLock = false
     private var _onboardedLanguage = false
     private var _lockedCount = 0
+    private var _usageFunctionCount = 0
+    private var _shownIAP = false
 
     var isStartSession =  true
 
@@ -90,6 +93,9 @@ class AppRepository @Inject constructor(
     var rippleEffectUrl: String
         get() = appPreferences.rippleEffectUrl
         set(value) { appPreferences.rippleEffectUrl = value }
+
+    val usageCount: Int
+        get() = _usageFunctionCount //appPreferences.usageCount
 
     private var _isInternetConnected = true
     private val _networkState = MutableStateFlow(false)
@@ -289,6 +295,26 @@ class AppRepository @Inject constructor(
         } catch (e: java.lang.Exception) {
             e.printStackTrace()
             return ""
+        }
+    }
+
+    fun increaseUsageCount() {
+//        val count = appPreferences.usageCount
+//        appPreferences.usageCount = (count + 1)
+        _usageFunctionCount = _usageFunctionCount + 1
+        _shownIAP = false
+        Timber.tag("IAP").d("increaseUsageCount: $_usageFunctionCount")
+    }
+
+    fun shouldShowIAP() : Boolean {
+        Timber.tag("IAP").d("usageCount: $_usageFunctionCount and shownIAP: $_shownIAP")
+        if (_shownIAP) return false
+
+        if (_usageFunctionCount % 5 == 1) {
+            _shownIAP = true
+            return true
+        } else {
+            return false
         }
     }
 

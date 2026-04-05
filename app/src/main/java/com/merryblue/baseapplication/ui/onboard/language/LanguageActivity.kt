@@ -41,9 +41,7 @@ class LanguageActivity : BaseActivity<ActivityLanguageBinding>() {
     private val viewModel: LanguageViewModel by viewModels()
     private lateinit var adapter: LanguageAdapter
 
-    override fun setUpViews() {
-        enableEdgeToEdge(binding.main, true)
-
+    override fun setupBinding() {
         binding.viewModel = viewModel
 
         if (viewModel.isFirstTime() && !viewModel.onboardedLanguage && !viewModel.isPremium()) {
@@ -52,6 +50,10 @@ class LanguageActivity : BaseActivity<ActivityLanguageBinding>() {
         } else {
             binding.layoutCard.hide()
         }
+    }
+
+    override fun setUpViews() {
+        enableEdgeToEdge(binding.main, true)
 
         supportActionBar?.hide()
         AdapterOpenAppManager.instance.registerDisableOpenAdsAt(LanguageActivity::class.java)

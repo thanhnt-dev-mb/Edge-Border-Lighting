@@ -205,4 +205,12 @@ class HomeViewModel @Inject constructor(
         }
         ctx.sendBroadcast(i)
     }
+
+    fun increaseUsageCount() {
+        appRepository.increaseUsageCount()
+    }
+
+    fun showIAP() : Boolean {
+        return appRepository.shouldShowIAP()
+    }
 }

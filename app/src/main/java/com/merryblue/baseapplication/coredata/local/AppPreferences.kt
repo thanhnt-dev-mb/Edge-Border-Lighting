@@ -43,6 +43,7 @@ class AppPreferences @Inject constructor(context: Context) {
         private const val KEY_AUTO_RIPPLE_INTERVAL_MS = "auto_ripple_interval_ms"
         private const val KEY_CAN_CHANGE_LIVE = "can_change_live"
         private const val KEY_CAN_LIVE_CHOOSER = "can_live_chooser"
+        private const val KEY_FUNCTION_USAGE_COUNT = "key_function_usage_count"
     }
     
     private val appPreferences: SharedPreferences = context.getSharedPreferences(
@@ -139,6 +140,14 @@ class AppPreferences @Inject constructor(context: Context) {
     var canLiveChooser: Boolean
         get() = appPreferences.getBoolean(KEY_CAN_LIVE_CHOOSER, true)
         set(value) = appPreferences.edit().putBoolean(KEY_CAN_LIVE_CHOOSER, value).apply()
+
+    var usageCount: Int
+        get() {
+            return appPreferences.getInt(KEY_FUNCTION_USAGE_COUNT, 0)
+        }
+        set(value) = appPreferences.edit {
+            it.putInt(KEY_FUNCTION_USAGE_COUNT, value)
+        }
 
     fun clearPreferences() {
         sessionPreferences.edit {

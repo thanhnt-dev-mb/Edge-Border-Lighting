@@ -153,20 +153,17 @@ class StaticWallpaperSettingsActivity : BaseActivity<ActivityStaticWallpaperSett
 
             val wm = WallpaperManager.getInstance(this)
 
-            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.N) {
-                when (target) {
-                    WallpaperTarget.HOME -> wm.setBitmap(bitmap, null, true, WallpaperManager.FLAG_SYSTEM)
-                    WallpaperTarget.LOCK -> wm.setBitmap(bitmap, null, true, WallpaperManager.FLAG_LOCK)
-                    WallpaperTarget.BOTH -> {
-                        wm.setBitmap(bitmap, null, true, WallpaperManager.FLAG_SYSTEM)
-                        wm.setBitmap(bitmap, null, true, WallpaperManager.FLAG_LOCK)
-                    }
+            when (target) {
+                WallpaperTarget.HOME -> wm.setBitmap(bitmap, null, true, WallpaperManager.FLAG_SYSTEM)
+                WallpaperTarget.LOCK -> wm.setBitmap(bitmap, null, true, WallpaperManager.FLAG_LOCK)
+                WallpaperTarget.BOTH -> {
+                    wm.setBitmap(bitmap, null, true, WallpaperManager.FLAG_SYSTEM)
+                    wm.setBitmap(bitmap, null, true, WallpaperManager.FLAG_LOCK)
                 }
-            } else {
-                wm.setBitmap(bitmap)
             }
 
             toastMsg(getString(R.string.wallpaper_set_success))
+            homeViewModel.increaseUsageCount()
         } catch (_: Exception) {
             toastMsg(getString(R.string.wallpaper_set_failed))
         } finally {

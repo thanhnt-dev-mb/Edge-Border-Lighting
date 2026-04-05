@@ -120,6 +120,7 @@ class VideoWallpaperSettingsActivity : BaseActivity<ActivityVideoWallpaperSettin
     private fun registerOnClick() {
         binding.btnSetWallpaper.setOnSingleClickListener {
             showInterstitialBy(InterstitialFunction.SetVideoWallpaper.name) {
+                homeViewModel.increaseUsageCount()
                 onClickSetLiveWallpaperOrApply()
             }
         }
