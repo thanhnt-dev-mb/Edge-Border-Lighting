@@ -197,7 +197,7 @@ class SplashActivity : BaseActivity<ActivitySplashBinding>() {
     }
     
     private fun initRemoteConfig(hidesAds: Boolean = false) {
-        CoreRemoteConfig.instance.init(this, true, object : LoadCallback() {
+        CoreRemoteConfig.instance.init(this, false, object : LoadCallback() {
             override fun onLoadSuccess() {
                 if (!hidesAds) {
                     _status = _status.or(CONST_REMOTE_CONFIG_INITIALIZED)
