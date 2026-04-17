@@ -84,7 +84,7 @@ class HomeActivity : BaseActivity<ActivityHomeBinding>() {
         isFirstVisible = false
         isActive = true
         val ret = handleForceUpdateIfNeed()
-        if (ret == false) {
+        if (!ret) {
             if (homeViewModel.showIAP()) {
                 PurchaseActivity.open(this, "home")
             }
@@ -215,57 +215,6 @@ class HomeActivity : BaseActivity<ActivityHomeBinding>() {
         return isForceUpdate
     }
 
-    fun handleShowReviewIfNeed() {
-        if (!isActive || isBackground() || showingRate) return
-    
-        try {
-            showingRate = true
-            (supportFragmentManager.findFragmentByTag(BottomSheetRate.TAG) as? BottomSheetDialogFragment)?.dismissAllowingStateLoss()
-            val bottom = BottomSheetRate {
-
-            }
-            bottom.show(supportFragmentManager, BottomSheetRate.TAG)
-        } catch (ex: Exception) {
-            showingRate = false
-            ex.printStackTrace()
-        }
-    }
-
-    private fun handleDrawerMenuAction(itemId: Int) {
-        when(itemId) {
-            R.id.language -> {
-                LanguageActivity.open(this, "setting")
-            }
-            R.id.rate -> {
-                handleShowReviewIfNeed()
-            }
-            R.id.feedback -> {
-                val intent = Intent(Intent.ACTION_SEND)
-                intent.putExtra(Intent.EXTRA_EMAIL, arrayOf("feedback.developer.app@gmail.com"))
-                intent.putExtra(Intent.EXTRA_SUBJECT, getString(R.string.app_name))
-                val gmailPkg = "com.google.android.gm"
-                val isGmailInstalled = isAppInstalled(gmailPkg)
-                if (isGmailInstalled) {
-                    intent.type = "text/html"
-                    intent.setPackage(gmailPkg)
-                    startActivity(intent)
-                } else {
-                    intent.type = "message/rfc822"
-                    if (intent.resolveActivity(packageManager) != null) {
-                        startActivity(intent)
-                    } else {
-                        startActivity(Intent.createChooser(intent, "Choose an Email application to start"))
-                    }
-                }
-                return
-            }
-            R.id.privacy -> {
-                openPolicy()
-            }
-            else -> {}
-        }
-    }
-    
     private fun requestPostNotificationPermissionIfNeed() {
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.TIRAMISU) {
             return

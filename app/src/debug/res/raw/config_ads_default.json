@@ -36,7 +36,7 @@
       "version": 1,
       "id": "ca-app-pub-3940256099942544/6300978111",
       "event": "EventHomeBanner",
-      "tag": "HomeFragment_Banner",
+      "tag": "HomeActivity_BottomBanner",
       "size": "small",
       "description": "Home Banner"
     }

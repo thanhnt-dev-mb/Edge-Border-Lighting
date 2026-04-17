@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout>
+<layout xmlns:tools="http://schemas.android.com/tools">
 
     <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -34,11 +34,11 @@
             android:clipToPadding="false"
             android:elevation="12dp"
             android:gravity="bottom"
-            app:cardCornerRadius="10dp"
             app:cardElevation="12dp"
             app:cardPreventCornerOverlap="false"
             android:layout_gravity="center_horizontal"
             android:background="@color/white"
+            tools:layout_height="90dp"
             >
 
             <FrameLayout

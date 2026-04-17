@@ -413,7 +413,7 @@ fun TextView.setDrawableTint(color: Int) {
 
 fun Context.openPolicy() {
     try {
-        val intent = Intent(Intent.ACTION_VIEW, "https://dj-mixer.merryblue.llc/privacy.html".toUri())
+        val intent = Intent(Intent.ACTION_VIEW, "https://edge-lighting.pranknow.site/privacy.html".toUri())
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
         startActivity(intent)
     } catch (e: Exception) {
