@@ -19,11 +19,13 @@ class PostRemindNotificationWorker @AssistedInject constructor(
 
     override suspend fun doWork(): Result {
         try {
-            Timber.i("PostRemindNotificationWorker", "Worker triggered at ${System.currentTimeMillis()}")
-            val content = "TODO"
+            Timber.tag("PostRemindNotificationWorker").i("Worker triggered at ${System.currentTimeMillis()}")
+
+            val title = context.getString(R.string.app_name) + context.getString(R.string.txt_notification_title)
+            val content = context.getString(R.string.txt_notification_content)
             val appName = context.getString(R.string.app_name)
             val notificationModel = NotificationModel(
-                context.getString(R.string.app_name),
+                title,
                 content,
                 appName + "_Notification_Channel",
                 (1..1000).random(),

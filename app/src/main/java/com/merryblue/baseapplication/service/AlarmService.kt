@@ -105,6 +105,6 @@ class AlarmService(private val context: Context) {
 
     fun configureAlarmAndWorker() {
         setRepetitiveAlarmAt(12, 0)
-//        setupWorker(20, 0)
+        setupWorker(20, 0)
     }
 }

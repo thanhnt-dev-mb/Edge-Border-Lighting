@@ -33,10 +33,23 @@ class AlarmReceiver : BroadcastReceiver() {
         context ?: return
         ctx = context
 
-        Timber.i("AlarmReceiver", "Alarm triggered at ${System.currentTimeMillis()}")
-
+        Timber.tag("AlarmReceiver").i("Alarm triggered at ${System.currentTimeMillis()}")
         val powerManager = context.getSystemService(Context.POWER_SERVICE) as? PowerManager
-        val wakelock = powerManager?.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK, "mbapplock:scheduled.notification.receiver")
+        val wakelock = powerManager?.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK, "mbedgeborderlighting:scheduled.notification.receiver")
         wakelock?.acquire(3000)
+        val title = ctx!!.getString(R.string.app_name) + ctx!!.getString(R.string.txt_notification_title)
+        val content = ctx!!.getString(R.string.txt_notification_content)
+        val appName = ctx!!.getString(R.string.app_name)
+        val notificationModel = NotificationModel(
+            title,
+            content,
+            appName + "_Notification_Channel",
+            (1..1001).random(),
+            0,
+            null,
+            1,
+        )
+
+        Compatibility.postNotificationRetentionApp(ctx!!, notificationModel)
     }
 }

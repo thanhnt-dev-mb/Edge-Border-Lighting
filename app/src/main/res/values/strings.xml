@@ -143,4 +143,7 @@
     <string name="txt_video_service">Video Wallpaper</string>
     <string name="txt_ripple_service">Ripple Wallpaper</string>
     <string name="txt_submit">Submit</string>
+
+    <string name="txt_notification_title"> Updated - Don\'t missed It</string>
+    <string name="txt_notification_content">New feature has been updated recently - Check it out!</string>
 </resources>
