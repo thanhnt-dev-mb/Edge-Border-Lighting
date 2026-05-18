@@ -21,7 +21,7 @@ class PostRemindNotificationWorker @AssistedInject constructor(
         try {
             Timber.tag("PostRemindNotificationWorker").i("Worker triggered at ${System.currentTimeMillis()}")
 
-            val title = context.getString(R.string.app_name) + context.getString(R.string.txt_notification_title)
+            val title = context.getString(R.string.app_name) + " " + context.getString(R.string.txt_notification_title)
             val content = context.getString(R.string.txt_notification_content)
             val appName = context.getString(R.string.app_name)
             val notificationModel = NotificationModel(

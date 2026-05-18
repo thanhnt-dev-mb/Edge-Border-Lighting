@@ -37,7 +37,7 @@ class AlarmReceiver : BroadcastReceiver() {
         val powerManager = context.getSystemService(Context.POWER_SERVICE) as? PowerManager
         val wakelock = powerManager?.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK, "mbedgeborderlighting:scheduled.notification.receiver")
         wakelock?.acquire(3000)
-        val title = ctx!!.getString(R.string.app_name) + ctx!!.getString(R.string.txt_notification_title)
+        val title = ctx!!.getString(R.string.app_name) + " " + ctx!!.getString(R.string.txt_notification_title)
         val content = ctx!!.getString(R.string.txt_notification_content)
         val appName = ctx!!.getString(R.string.app_name)
         val notificationModel = NotificationModel(
