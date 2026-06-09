@@ -25,6 +25,7 @@ const val RIPPLE_ABSTRACT_CQ = "ripple/abstract/cq"
 const val RIPPLE_ABSTRACT_ABSCT = "ripple/abstract/absct"
 const val RIPPLE_TOP_PICS = "ripple/top_pics"
 const val RIPPLE_RIPPLE = "ripple/ripple"
+const val PARALLAX_FOOTBALL = "parallax/football"
 
 object ServiceState {
 
@@ -41,6 +42,9 @@ object ServiceState {
 
     // RippleWallpaperService
     const val ACTION_RIPPLE_BG_CHANGED = "com.merryblue.baseapplication.ACTION_RIPPLE_BG_CHANGED"
+
+    // ParallaxWallpaperService
+    const val ACTION_PARALLAX_WALLPAPER_CHANGED = "com.merryblue.baseapplication.ACTION_PARALLAX_WALLPAPER_CHANGED"
 }
 
 object WallpaperType {
@@ -48,6 +52,7 @@ object WallpaperType {
     const val TYPE_VIDEO = "video"
     const val TYPE_STATIC = "static"
     const val TYPE_RIPPLE = "ripple"
+    const val TYPE_PARALLAX = "parallax"
 }
 
 object BackgroundType {

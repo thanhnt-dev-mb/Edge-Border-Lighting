@@ -1,5 +1,6 @@
 package com.merryblue.baseapplication.ui.wallpaper
 
+import android.app.ActivityManager
 import android.app.WallpaperManager
 import android.content.ActivityNotFoundException
 import android.content.ComponentName
@@ -161,9 +162,9 @@ class EdgeWallpaperSettingsActivity : BaseActivity<ActivityEdgeWallpaperSettings
     }
 
     private fun isMyLiveWallpaperActive(): Boolean {
-        val wm = WallpaperManager.getInstance(this)
-        val info = wm.wallpaperInfo ?: return false
-        return info.packageName == packageName && info.serviceName == EdgeLightingWallpaperService::class.java.name
+        val activityManager = this.getSystemService(ACTIVITY_SERVICE) as ActivityManager
+        @Suppress("DEPRECATION")
+        return activityManager.getRunningServices(Int.MAX_VALUE).any { it.service.className == EdgeLightingWallpaperService::class.java.name }
     }
 
     private fun openSystemLiveWallpaperPicker(service: ComponentName) {

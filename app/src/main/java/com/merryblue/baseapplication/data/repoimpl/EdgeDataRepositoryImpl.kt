@@ -2,12 +2,12 @@ package com.merryblue.baseapplication.data.repoimpl
 
 import android.content.Context
 import com.google.gson.Gson
-import com.merryblue.baseapplication.BuildConfig
 import com.merryblue.baseapplication.data.dto.EdgeDataDto
 import com.merryblue.baseapplication.data.dto.toDomain
 import com.merryblue.baseapplication.domain.model.EdgeData
 import com.merryblue.baseapplication.domain.model.Item
 import com.merryblue.baseapplication.domain.model.Topic
+import com.merryblue.baseapplication.domain.model.buildEdgeAssetUrl
 import com.merryblue.baseapplication.domain.repository.EdgeDataRepository
 import dagger.hilt.android.qualifiers.ApplicationContext
 import java.io.IOException
@@ -54,7 +54,7 @@ class EdgeDataRepositoryImpl @Inject constructor(
     }
 
     override fun getFullImageUrl(path: String): String {
-        return "${BuildConfig.BASE_URL}/$path"
+        return buildEdgeAssetUrl(path)
     }
 
     override fun getAllTopics(): List<Topic> {
