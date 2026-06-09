@@ -102,6 +102,7 @@
     <string name="live_wallpaper_set_success">Live wallpaper set successfully</string>
     <string name="live_wallpaper_set_failed">Live wallpaper set failed</string>
     <string name="live_wallpaper_set_cancelled">Live wallpaper cancelled</string>
+    <string name="txt_parallax_service">Parallax Wallpaper</string>
     <string name="home_screen">Home screen</string>
     <string name="set_wallpaper">Set wallpaper</string>
     <string name="both_home_and_lock_screen">Both home and lock screen</string>
@@ -146,4 +147,5 @@
 
     <string name="txt_notification_title"> Updated - Don\'t missed It</string>
     <string name="txt_notification_content">New feature has been updated recently - Check it out!</string>
+    <string name="txt_football">Football</string>
 </resources>

@@ -9,6 +9,7 @@ import com.merryblue.baseapplication.helpers.EDGE_MOST
 import com.merryblue.baseapplication.helpers.EDGE_REWARD_DAY
 import com.merryblue.baseapplication.helpers.EDGE_TRENDING
 import com.merryblue.baseapplication.helpers.KEY_ALL
+import com.merryblue.baseapplication.helpers.PARALLAX_FOOTBALL
 import com.merryblue.baseapplication.helpers.RIPPLE_ABSTRACT_ABSCT
 import com.merryblue.baseapplication.helpers.RIPPLE_ABSTRACT_CQ
 import com.merryblue.baseapplication.helpers.RIPPLE_NATURE_D
@@ -43,6 +44,8 @@ class ThemePagingSource(
             RIPPLE_ABSTRACT_CQ
         )
 
+        PARALLAX_FOOTBALL -> listOf(PARALLAX_FOOTBALL)
+
         RIPPLE_RIPPLE -> listOf(RIPPLE_RIPPLE)
 
         RIPPLE_TOP_PICS -> listOf(
@@ -54,7 +57,6 @@ class ThemePagingSource(
 
         KEY_ALL -> listOf(
             RIPPLE_RIPPLE,
-//            RIPPLE_TOP_PICS,
             RIPPLE_NATURE_SPAZ,
             RIPPLE_NATURE_INDS,
             RIPPLE_NATURE_D,

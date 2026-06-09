@@ -6,6 +6,7 @@ import com.merryblue.baseapplication.coredata.local.AppPreferences
 import com.merryblue.baseapplication.databinding.FragmentWallpaperBinding
 import com.merryblue.baseapplication.helpers.EDGE_FIM
 import com.merryblue.baseapplication.helpers.KEY_ALL
+import com.merryblue.baseapplication.helpers.PARALLAX_FOOTBALL
 import com.merryblue.baseapplication.helpers.RIPPLE_ABSTRACT_ABSCT
 import com.merryblue.baseapplication.helpers.RIPPLE_MAGICAL_BORDERS
 import com.merryblue.baseapplication.helpers.RIPPLE_NATURE_SPAZ
@@ -34,6 +35,7 @@ class WallpaperFragment : BaseFragment<FragmentWallpaperBinding>() {
         val titles = buildList {
             add(KEY_ALL to getString(R.string.txt_all))
 
+            if (canSetLive) add(PARALLAX_FOOTBALL to getString(R.string.txt_football))
             if (canSetLive) add(RIPPLE_MAGICAL_BORDERS to getString(R.string.txt_magical_borders))
             if (canSetLive) add(RIPPLE_PREMIUM to getString(R.string.txt_premium))
 

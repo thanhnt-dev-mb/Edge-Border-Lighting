@@ -10,6 +10,7 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager2.widget.ViewPager2
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.google.android.material.tabs.TabLayoutMediator
@@ -43,6 +44,7 @@ import com.merryblue.baseapplication.ui.picker.ColorPickerActivity
 import com.merryblue.baseapplication.ui.theme.ThemesActivity
 import com.merryblue.baseapplication.ui.wallpaper.EdgePermissionViewModel
 import com.merryblue.baseapplication.ui.wallpaper.EdgeWallpaperSettingsActivity
+import com.merryblue.baseapplication.ui.wallpaper.ParallaxWallpaperSettingsActivity
 import com.merryblue.baseapplication.ui.wallpaper.RippleWallpaperSettingsActivity
 import com.merryblue.baseapplication.ui.wallpaper.StaticWallpaperSettingsActivity
 import com.merryblue.baseapplication.ui.wallpaper.VideoWallpaperSettingsActivity
@@ -69,6 +71,13 @@ class HomeFragment: BaseFragment<FragmentHomeBinding>() {
     private lateinit var homeThemeAdapter: HomeThemeAdapter
     private val prefs by lazy { AppPreferences(requireContext()) }
     private var currentType = WallpaperType.TYPE_STATIC
+    private val parallaxThumbMotionScrollListener = object : RecyclerView.OnScrollListener() {
+        override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
+            val enabled = newState == RecyclerView.SCROLL_STATE_IDLE
+            if (::presetAdapter.isInitialized) presetAdapter.setParallaxThumbMotionEnabled(enabled)
+            if (::homeThemeAdapter.isInitialized) homeThemeAdapter.setParallaxThumbMotionEnabled(enabled)
+        }
+    }
     private val presetOnClick: (Item) -> Unit = { handleItemClick(it) }
     private val customOnClick: () -> Unit = {
         startActivity(Intent(requireContext(), ColorPickerActivity::class.java))
@@ -206,6 +215,7 @@ class HomeFragment: BaseFragment<FragmentHomeBinding>() {
                 setHasFixedSize(true)
                 itemAnimator = null
                 isNestedScrollingEnabled = false
+                addOnScrollListener(parallaxThumbMotionScrollListener)
             }
 
             rcvHomeThemes.apply {
@@ -214,6 +224,7 @@ class HomeFragment: BaseFragment<FragmentHomeBinding>() {
                 setHasFixedSize(true)
                 itemAnimator = null
                 isNestedScrollingEnabled = false
+                addOnScrollListener(parallaxThumbMotionScrollListener)
             }
         }
     }
@@ -286,6 +297,16 @@ class HomeFragment: BaseFragment<FragmentHomeBinding>() {
                     viewModel.rippleEffectUrl = item.pathUrl
                     viewModel.loadBackgroundRippleUrl(item, requireContext().getFullScreenTargetSize())
                 }
+
+                WallpaperType.TYPE_PARALLAX -> {
+                    AppLoading.closeLoading()
+                    viewModel.updateEdgeState { it.copy(isEnableEdgeLighting = false) }
+                    viewModel.sendActionBroadcast(ACTION_EDGE_OVERLAY_STOP)
+                    startActivity(
+                        Intent(requireContext(), ParallaxWallpaperSettingsActivity::class.java)
+                            .putExtra(ParallaxWallpaperSettingsActivity.EXTRA_PENDING_BACKGROUND_URL, item.pathUrl)
+                    )
+                }
             }
 
         } else viewModel.loadStaticBackgroundUrl(item, requireContext().getFullScreenTargetSize())
@@ -299,6 +320,12 @@ class HomeFragment: BaseFragment<FragmentHomeBinding>() {
 
     override fun onDestroyView() {
         if (::mediator.isInitialized) mediator.detach()
+        binding.rcvHomePreset.removeOnScrollListener(parallaxThumbMotionScrollListener)
+        binding.rcvHomeThemes.removeOnScrollListener(parallaxThumbMotionScrollListener)
+        if (::presetAdapter.isInitialized) presetAdapter.setParallaxThumbMotionEnabled(false)
+        if (::homeThemeAdapter.isInitialized) homeThemeAdapter.setParallaxThumbMotionEnabled(false)
+        binding.rcvHomePreset.adapter = null
+        binding.rcvHomeThemes.adapter = null
         super.onDestroyView()
     }
 }

@@ -33,7 +33,12 @@ data class Item(
     val thumbPath: String? = null,
     val colors: List<String>? = null
 ): ThemeUi() {
-    val thumbUrl: String = "${BuildConfig.BASE_URL}/${thumbPath ?: path}"
-    val pathUrl: String = "${BuildConfig.BASE_URL}/$path"
+    val thumbUrl: String = buildEdgeAssetUrl(thumbPath ?: path)
+    val pathUrl: String = buildEdgeAssetUrl(path)
+}
+
+fun buildEdgeAssetUrl(path: String): String {
+    if (path.startsWith("http://") || path.startsWith("https://")) return path
+    return "${BuildConfig.BASE_URL.trimEnd('/')}/${path.trimStart('/')}"
 }
 
