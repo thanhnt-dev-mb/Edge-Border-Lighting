@@ -6,6 +6,7 @@ enum class InterstitialFunction {
     SetRippleWallpaper,
     SetStaticWallpaper,
     SetVideoWallpaper,
+    SetParallaxWallpaper,
     ViewPreset,
     ViewTheme,
 }

@@ -8,21 +8,34 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.merryblue.baseapplication.R
 import com.merryblue.baseapplication.databinding.ItemChooseFromGalleryBinding
+import com.merryblue.baseapplication.databinding.ItemHomeParallaxPreviewBinding
 import com.merryblue.baseapplication.databinding.ItemHomePresetBinding
 import com.merryblue.baseapplication.databinding.ItemHomeThemeCustomBinding
 import com.merryblue.baseapplication.domain.model.Item
 import com.merryblue.baseapplication.domain.model.ThemeUi
+import com.merryblue.baseapplication.helpers.WallpaperType
+import com.merryblue.baseapplication.ui.wallpaper.ParallaxPreviewLoader
 
 class ThemeChildAdapter(
     private val onClickTheme: (Item) -> Unit,
     private val onClickGallery: (ThemeUi.Gallery) -> Unit,
     private val onClickCustom: (ThemeUi.Custom) -> Unit,
 ) : PagingDataAdapter<ThemeUi, RecyclerView.ViewHolder>(ThemeUiDiff()) {
+    private val attachedParallaxHolders = LinkedHashSet<ParallaxThemeVH>()
+    private var parallaxThumbMotionEnabled = true
+
+    fun setParallaxThumbMotionEnabled(enabled: Boolean) {
+        if (parallaxThumbMotionEnabled == enabled) return
+        parallaxThumbMotionEnabled = enabled
+        attachedParallaxHolders.forEach { holder ->
+            holder.setMotionEnabled(enabled)
+        }
+    }
 
     override fun getItemViewType(position: Int): Int {
-        return when (getItem(position)) {
+        return when (val item = getItem(position)) {
             is ThemeUi.Gallery -> TYPE_GALLERY
-            is Item -> TYPE_THEME
+            is Item -> if (item.isParallax()) TYPE_PARALLAX_THEME else TYPE_THEME
             else -> TYPE_CUSTOM
         }
     }
@@ -38,6 +51,10 @@ class ThemeChildAdapter(
                 val binding = ItemHomePresetBinding.inflate(inflater, parent, false)
                 ThemeVH(binding)
             }
+            TYPE_PARALLAX_THEME -> {
+                val binding = ItemHomeParallaxPreviewBinding.inflate(inflater, parent, false)
+                ParallaxThemeVH(binding)
+            }
             else -> {
                 val binding = ItemHomeThemeCustomBinding.inflate(inflater, parent, false)
                 ThemeCustomVH(binding)
@@ -49,8 +66,33 @@ class ThemeChildAdapter(
         when (holder) {
             is GalleryVH -> (getItem(position) as? ThemeUi.Gallery)?.let(holder::bind)
             is ThemeVH -> (getItem(position) as? Item)?.let(holder::bind)
+            is ParallaxThemeVH -> (getItem(position) as? Item)?.let(holder::bind)
             is ThemeCustomVH -> (getItem(position) as? ThemeUi.Custom)?.let(holder::bind)
         }
+    }
+
+    override fun onViewAttachedToWindow(holder: RecyclerView.ViewHolder) {
+        super.onViewAttachedToWindow(holder)
+        if (holder is ParallaxThemeVH) {
+            attachedParallaxHolders += holder
+            holder.setMotionEnabled(parallaxThumbMotionEnabled)
+        }
+    }
+
+    override fun onViewDetachedFromWindow(holder: RecyclerView.ViewHolder) {
+        if (holder is ParallaxThemeVH) {
+            attachedParallaxHolders -= holder
+            holder.setMotionEnabled(false)
+        }
+        super.onViewDetachedFromWindow(holder)
+    }
+
+    override fun onViewRecycled(holder: RecyclerView.ViewHolder) {
+        if (holder is ParallaxThemeVH) {
+            attachedParallaxHolders -= holder
+            holder.recycle()
+        }
+        super.onViewRecycled(holder)
     }
 
     inner class ThemeVH(private val binding: ItemHomePresetBinding) : RecyclerView.ViewHolder(binding.root) {
@@ -67,6 +109,28 @@ class ThemeChildAdapter(
                     onClickTheme.invoke(item)
                 }
             }
+        }
+    }
+
+    inner class ParallaxThemeVH(private val binding: ItemHomeParallaxPreviewBinding) : RecyclerView.ViewHolder(binding.root) {
+        private val previewLoader = ParallaxPreviewLoader(binding.parallaxPreview)
+
+        fun bind(item: Item) = with(binding) {
+            previewLoader.bind(item.thumbUrl.ifBlank { item.pathUrl }, parallaxThumbMotionEnabled)
+
+            root.setOnClickListener {
+                if (bindingAdapterPosition != RecyclerView.NO_POSITION) {
+                    onClickTheme.invoke(item)
+                }
+            }
+        }
+
+        fun setMotionEnabled(enabled: Boolean) {
+            previewLoader.setMotionEnabled(enabled)
+        }
+
+        fun recycle() {
+            previewLoader.recycle()
         }
     }
 
@@ -91,10 +155,15 @@ class ThemeChildAdapter(
         }
     }
 
+    private fun Item.isParallax(): Boolean {
+        return type.equals(WallpaperType.TYPE_PARALLAX, ignoreCase = true)
+    }
+
     companion object {
         private const val TYPE_GALLERY = 0
         private const val TYPE_THEME = 1
         private const val TYPE_CUSTOM = 2
+        private const val TYPE_PARALLAX_THEME = 3
     }
 }
 

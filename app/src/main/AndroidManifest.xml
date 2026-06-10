@@ -84,6 +84,10 @@
             android:exported="false"
             android:screenOrientation="portrait" />
         <activity
+            android:name=".ui.wallpaper.ParallaxWallpaperSettingsActivity"
+            android:exported="false"
+            android:screenOrientation="portrait" />
+        <activity
             android:name=".ui.picker.ColorPickerActivity"
             android:exported="false"
             android:screenOrientation="portrait" />
@@ -200,6 +204,18 @@
             <meta-data
                 android:name="android.service.wallpaper"
                 android:resource="@xml/video_wallpaper" />
+        </service>
+        <service
+            android:name=".service.edge.ParallaxWallpaperService"
+            android:exported="true"
+            android:permission="android.permission.BIND_WALLPAPER">
+            <intent-filter>
+                <action android:name="android.service.wallpaper.WallpaperService" />
+            </intent-filter>
+
+            <meta-data
+                android:name="android.service.wallpaper"
+                android:resource="@xml/parallax_wallpaper" />
         </service>
         <service
             android:name=".service.edge.EdgeLightingOverlayService"

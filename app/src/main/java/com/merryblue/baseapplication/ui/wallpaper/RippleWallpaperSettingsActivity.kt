@@ -1,6 +1,7 @@
 package com.merryblue.baseapplication.ui.wallpaper
 
 import android.annotation.SuppressLint
+import android.app.ActivityManager
 import android.app.WallpaperManager
 import android.content.ActivityNotFoundException
 import android.content.ComponentName
@@ -181,9 +182,9 @@ class RippleWallpaperSettingsActivity : BaseActivity<ActivityRippleWallpaperSett
     }
 
     private fun isMyLiveWallpaperActive(): Boolean {
-        val wm = WallpaperManager.getInstance(this)
-        val info = wm.wallpaperInfo ?: return false
-        return info.component == ComponentName(this, RippleWallpaperService::class.java)
+        val activityManager = this.getSystemService(ACTIVITY_SERVICE) as ActivityManager
+        @Suppress("DEPRECATION")
+        return activityManager.getRunningServices(Int.MAX_VALUE).any { it.service.className == RippleWallpaperService::class.java.name }
     }
 
     override fun surfaceCreated(holder: SurfaceHolder) {

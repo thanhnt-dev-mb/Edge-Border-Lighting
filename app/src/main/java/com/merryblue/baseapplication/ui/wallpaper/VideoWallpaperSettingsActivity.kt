@@ -1,5 +1,6 @@
 package com.merryblue.baseapplication.ui.wallpaper
 
+import android.app.ActivityManager
 import android.app.WallpaperManager
 import android.content.ActivityNotFoundException
 import android.content.ComponentName
@@ -211,9 +212,9 @@ class VideoWallpaperSettingsActivity : BaseActivity<ActivityVideoWallpaperSettin
     }
 
     private fun isMyLiveWallpaperActive(): Boolean {
-        val wm = WallpaperManager.getInstance(this)
-        val info = wm.wallpaperInfo ?: return false
-        return info.component == ComponentName(this, VideoWallpaperService::class.java)
+        val activityManager = this.getSystemService(ACTIVITY_SERVICE) as ActivityManager
+        @Suppress("DEPRECATION")
+        return activityManager.getRunningServices(Int.MAX_VALUE).any { it.service.className == VideoWallpaperService::class.java.name }
     }
 
     override fun onDestroy() {

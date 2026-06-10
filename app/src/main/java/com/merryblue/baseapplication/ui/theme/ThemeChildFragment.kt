@@ -13,6 +13,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.paging.LoadState
 import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.merryblue.baseapplication.R
 import com.merryblue.baseapplication.coredata.local.AppPreferences
 import com.merryblue.baseapplication.databinding.FragmentThemeChildBinding
@@ -35,6 +36,7 @@ import com.merryblue.baseapplication.helpers.video.VideoPreloader
 import com.merryblue.baseapplication.ui.home.HomeViewModel
 import com.merryblue.baseapplication.ui.picker.ColorPickerActivity
 import com.merryblue.baseapplication.ui.wallpaper.EdgeWallpaperSettingsActivity
+import com.merryblue.baseapplication.ui.wallpaper.ParallaxWallpaperSettingsActivity
 import com.merryblue.baseapplication.ui.wallpaper.RippleWallpaperSettingsActivity
 import com.merryblue.baseapplication.ui.wallpaper.StaticWallpaperSettingsActivity
 import com.merryblue.baseapplication.ui.wallpaper.VideoWallpaperSettingsActivity
@@ -70,6 +72,11 @@ class ThemeChildFragment : BaseFragment<FragmentThemeChildBinding>() {
     private val themeAdapter by lazy {
         ThemeChildAdapter(onClick, onGalleryClick, onThemeCustomClick)
     }
+    private val parallaxThumbMotionScrollListener = object : RecyclerView.OnScrollListener() {
+        override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
+            themeAdapter.setParallaxThumbMotionEnabled(newState == RecyclerView.SCROLL_STATE_IDLE)
+        }
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -88,17 +95,18 @@ class ThemeChildFragment : BaseFragment<FragmentThemeChildBinding>() {
             adapter = themeAdapter
             setHasFixedSize(true)
             itemAnimator = null
+            addOnScrollListener(parallaxThumbMotionScrollListener)
         }
     }
 
     override fun setupObservers() {
         super.setupObservers()
         viewLifecycleOwner.lifecycleScope.launch {
-            repeatOnLifecycle(Lifecycle.State.STARTED) {
+            viewModel.getPaging(typeTheme, isGallery, isCustom).collectLatest { themeAdapter.submitData(it) }
+        }
 
-                launch {
-                    viewModel.getPaging(typeTheme, isGallery, isCustom).collectLatest { themeAdapter.submitData(it) }
-                }
+        viewLifecycleOwner.lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
 
                 launch {
                     themeAdapter.loadStateFlow.collectLatest { loadState ->
@@ -205,6 +213,16 @@ class ThemeChildFragment : BaseFragment<FragmentThemeChildBinding>() {
                         homeViewModel.rippleEffectUrl = item.pathUrl
                         homeViewModel.loadBackgroundRippleUrl(item, requireContext().getFullScreenTargetSize())
                     }
+
+                    WallpaperType.TYPE_PARALLAX -> {
+                        AppLoading.closeLoading()
+                        homeViewModel.updateEdgeState { it.copy(isEnableEdgeLighting = false) }
+                        homeViewModel.sendActionBroadcast(ACTION_EDGE_OVERLAY_STOP)
+                        startActivity(
+                            Intent(requireContext(), ParallaxWallpaperSettingsActivity::class.java)
+                                .putExtra(ParallaxWallpaperSettingsActivity.EXTRA_PENDING_BACKGROUND_URL, item.pathUrl)
+                        )
+                    }
                 }
             } else {
                 homeViewModel.loadStaticBackgroundUrl(item, requireContext().getFullScreenTargetSize())
@@ -213,6 +231,8 @@ class ThemeChildFragment : BaseFragment<FragmentThemeChildBinding>() {
     }
 
     override fun onDestroyView() {
+        binding.rcvTheme.removeOnScrollListener(parallaxThumbMotionScrollListener)
+        themeAdapter.setParallaxThumbMotionEnabled(false)
         binding.rcvTheme.adapter = null
         super.onDestroyView()
     }

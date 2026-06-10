@@ -34,6 +34,7 @@ class AppPreferences @Inject constructor(context: Context) {
         private const val KEY_VIDEO_URL = "video_url"
         private const val KEY_EFFECT = "key_effect"
         private const val KEY_RIPPLE_IMAGE_URL = "ripple_image_url"
+        private const val KEY_PARALLAX_WALLPAPER_PATH = "parallax_wallpaper_path"
         private const val KEY_BACKGROUND_PATH = "backgroundPath"
         private const val KEY_HEARTBEAT = "heartbeat_elapsed"
 
@@ -120,6 +121,12 @@ class AppPreferences @Inject constructor(context: Context) {
     var rippleEffectUrl: String
         get() = appPreferences.getString(KEY_RIPPLE_IMAGE_URL, "") ?: ""
         set(value) = appPreferences.edit().putString(KEY_RIPPLE_IMAGE_URL, value).apply()
+
+    var parallaxWallpaperPath: String?
+        get() = appPreferences.getString(KEY_PARALLAX_WALLPAPER_PATH, null)
+        set(value) {
+            appPreferences.edit().putString(KEY_PARALLAX_WALLPAPER_PATH, value).commit()
+        }
 
     var backgroundPath: String?
         get() = appPreferences.getString(KEY_BACKGROUND_PATH, null)
