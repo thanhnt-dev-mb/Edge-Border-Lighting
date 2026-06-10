@@ -4,6 +4,7 @@ import android.graphics.drawable.Drawable
 import androidx.annotation.DrawableRes
 import androidx.appcompat.content.res.AppCompatResources
 import com.bumptech.glide.Glide
+import com.bumptech.glide.RequestManager
 import com.bumptech.glide.request.RequestOptions
 import com.bumptech.glide.request.target.CustomTarget
 import com.bumptech.glide.request.transition.Transition
@@ -13,6 +14,7 @@ class ParallaxPreviewLoader(
     private val previewView: ParallaxPreviewView,
     @DrawableRes private val placeholderRes: Int = R.drawable.placeholder_image,
 ) {
+    private val requestManager: RequestManager = Glide.with(previewView.context.applicationContext)
     private var target: CustomTarget<Drawable>? = null
     private var boundUrl: String? = null
 
@@ -40,7 +42,7 @@ class ParallaxPreviewLoader(
                     }
                 }
                 target = nextTarget
-                Glide.with(previewView)
+                requestManager
                     .load(nextUrl)
                     .placeholder(placeholderRes)
                     .error(placeholderRes)
@@ -64,7 +66,7 @@ class ParallaxPreviewLoader(
     }
 
     private fun clearTarget() {
-        target?.let { Glide.with(previewView).clear(it) }
+        target?.let { requestManager.clear(it) }
         target = null
     }
 
