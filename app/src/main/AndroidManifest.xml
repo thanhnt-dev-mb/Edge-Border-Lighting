@@ -16,30 +16,6 @@
     <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
     <uses-permission android:name="com.android.alarm.permission.SET_ALARM" />
     <uses-permission android:name="com.google.android.gms.permission.AD_ID" />
-    <uses-permission android:name="android.permission.RECORD_AUDIO" />
-    <uses-permission
-        android:name="android.permission.READ_EXTERNAL_STORAGE"
-        android:maxSdkVersion="32" />
-    <uses-permission
-        android:name="android.permission.WRITE_EXTERNAL_STORAGE"
-        android:maxSdkVersion="29" /> <!-- <uses-permission android:name="android.permission.READ_MEDIA_IMAGES" /> -->
-    <!-- <uses-permission android:name="android.permission.READ_MEDIA_VIDEO" /> -->
-    <!-- <uses-permission android:name="android.permission.READ_MEDIA_VISUAL_USER_SELECTED" /> -->
-    <!--
- Required only if your app needs to access images or photos
-     that other apps created.
-    -->
-    <uses-permission android:name="android.permission.READ_MEDIA_IMAGES" />
-    <!--
- Required only if your app needs to access videos
-         that other apps created.
-    -->
-    <uses-permission android:name="android.permission.READ_MEDIA_VIDEO" />
-    <!--
- Required only if your app needs to access audio files
-         that other apps created.
-    -->
-    <uses-permission android:name="android.permission.READ_MEDIA_AUDIO" />
 
     <queries>
         <package android:name="com.facebook.katana" />
