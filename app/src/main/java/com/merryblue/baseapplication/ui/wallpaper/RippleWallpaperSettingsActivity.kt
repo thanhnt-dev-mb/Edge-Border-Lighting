@@ -74,6 +74,8 @@ class RippleWallpaperSettingsActivity : BaseActivity<ActivityRippleWallpaperSett
     override fun setUpViews() {
         initSurfaceView()
         registerClicks()
+
+        super.setUpViews()
     }
 
     override fun setUpObserver() {
@@ -94,6 +96,11 @@ class RippleWallpaperSettingsActivity : BaseActivity<ActivityRippleWallpaperSett
                 }
             }
         }
+    }
+
+    override fun onCloseAction() {
+        homeViewModel.increaseUsageCount()
+        onClickSetLiveWallpaperOrApply()
     }
 
     private fun handleNoInternetBottomSheet(isConnected: Boolean) {

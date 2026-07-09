@@ -71,6 +71,7 @@ class EdgeWallpaperSettingsActivity : BaseActivity<ActivityEdgeWallpaperSettings
     override fun setUpViews() {
         showEdgePreview()
         registerOnClick()
+        super.setUpViews()
     }
 
     override fun setUpObserver() {
@@ -91,6 +92,11 @@ class EdgeWallpaperSettingsActivity : BaseActivity<ActivityEdgeWallpaperSettings
                 }
             }
         }
+    }
+
+    override fun onCloseAction() {
+        homeViewModel.increaseUsageCount()
+        onClickSetLiveWallpaperOrApply()
     }
 
     private fun handleNoInternetBottomSheet(isConnected: Boolean) {

@@ -52,17 +52,14 @@ class StaticWallpaperSettingsActivity : BaseActivity<ActivityStaticWallpaperSett
 
     override fun getLayoutId(): Int = R.layout.activity_static_wallpaper_settings
 
-    override fun onPostCreate(savedInstanceState: Bundle?) {
-        super.onPostCreate(savedInstanceState)
-        enableEdgeToEdge(binding.main, true)
-    }
-
     override fun setUpViews() {
+        enableEdgeToEdge(binding.main, true)
         prefs.backgroundPath?.let { path ->
             val bitmap = BitmapFactory.decodeFile(path)
             binding.ivStaticWallpaper.setImageBitmap(bitmap)
         }
         registerClicks()
+        super.setUpViews()
     }
 
     override fun setUpObserver() {
@@ -83,6 +80,10 @@ class StaticWallpaperSettingsActivity : BaseActivity<ActivityStaticWallpaperSett
                 }
             }
         }
+    }
+
+    override fun onCloseAction() {
+        onClickSetLiveWallpaperOrApply()
     }
 
     private fun handleNoInternetBottomSheet(isConnected: Boolean) {

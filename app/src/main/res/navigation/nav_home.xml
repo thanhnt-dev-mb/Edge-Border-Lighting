@@ -13,10 +13,4 @@
 
     </fragment>
 
-    <fragment
-        android:id="@+id/navPrivacy"
-        android:name="com.merryblue.baseapplication.ui.policy.PolicyFragment"
-        android:label="@string/privacy"
-        tools:layout="@layout/fragment_policy_layout" />
-
 </navigation>

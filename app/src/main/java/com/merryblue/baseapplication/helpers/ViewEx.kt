@@ -89,17 +89,10 @@ fun Context.getFullScreenTargetSize(): TargetSize {
         @Suppress("DEPRECATION")
         val display = wm.defaultDisplay
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
-            val p = Point()
-            @Suppress("DEPRECATION")
-            display.getRealSize(p) // full screen (bao gồm system bars)
-            p.x to p.y
-        } else {
-            val p = Point()
-            @Suppress("DEPRECATION")
-            display.getSize(p) // fallback cũ hơn
-            p.x to p.y
-        }
+        val p = Point()
+        @Suppress("DEPRECATION")
+        display.getRealSize(p) // full screen (bao gồm system bars)
+        p.x to p.y
     }
 
     return TargetSize(w, h)
@@ -107,36 +100,23 @@ fun Context.getFullScreenTargetSize(): TargetSize {
 
 fun Context.clearWallpaperSafely() {
     val wm = WallpaperManager.getInstance(this)
-    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-        runCatching { wm.clear(WallpaperManager.FLAG_SYSTEM) }
-        runCatching { wm.clear(WallpaperManager.FLAG_LOCK) }
-    } else {
-        runCatching { wm.clear() }
-    }
+    runCatching { wm.clear(WallpaperManager.FLAG_SYSTEM) }
+    runCatching { wm.clear(WallpaperManager.FLAG_LOCK) }
 }
 
 fun Context.restoreBuiltInToSystemAndLock() {
     val wm = WallpaperManager.getInstance(this)
 
-    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-        runCatching {
-            wm.getBuiltInDrawable(WallpaperManager.FLAG_SYSTEM)?.let { d ->
-                val bmp = (d as? BitmapDrawable)?.bitmap
-                if (bmp != null) wm.setBitmap(bmp, null, true, WallpaperManager.FLAG_SYSTEM)
-            }
+    runCatching {
+        wm.getBuiltInDrawable(WallpaperManager.FLAG_SYSTEM)?.let { d ->
+            val bmp = (d as? BitmapDrawable)?.bitmap
+            if (bmp != null) wm.setBitmap(bmp, null, true, WallpaperManager.FLAG_SYSTEM)
         }
-        runCatching {
-            wm.getBuiltInDrawable(WallpaperManager.FLAG_LOCK)?.let { d ->
-                val bmp = (d as? BitmapDrawable)?.bitmap
-                if (bmp != null) wm.setBitmap(bmp, null, true, WallpaperManager.FLAG_LOCK)
-            }
-        }
-    } else {
-        runCatching {
-            wm.builtInDrawable?.let { d ->
-                val bmp = (d as? BitmapDrawable)?.bitmap
-                if (bmp != null) wm.setBitmap(bmp)
-            }
+    }
+    runCatching {
+        wm.getBuiltInDrawable(WallpaperManager.FLAG_LOCK)?.let { d ->
+            val bmp = (d as? BitmapDrawable)?.bitmap
+            if (bmp != null) wm.setBitmap(bmp, null, true, WallpaperManager.FLAG_LOCK)
         }
     }
 }

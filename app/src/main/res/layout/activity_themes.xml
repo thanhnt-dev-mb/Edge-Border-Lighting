@@ -1,65 +1,96 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
-    <androidx.appcompat.widget.LinearLayoutCompat xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-        xmlns:tools="http://schemas.android.com/tools"
+    <FrameLayout
         android:id="@+id/main"
+        android:fitsSystemWindows="true"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
         android:background="@color/colorBgSurface"
-        android:orientation="vertical"
-        tools:context=".ui.theme.ThemesActivity">
-
-        <RelativeLayout
-            android:layout_marginTop="30dp"
+        android:layout_height="match_parent">
+        <androidx.appcompat.widget.LinearLayoutCompat
             android:layout_width="match_parent"
-            android:layout_height="?actionBarSize"
-            android:background="@color/colorBgSurface"
-            android:gravity="center_vertical"
-            android:orientation="horizontal">
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            tools:context=".ui.theme.ThemesActivity">
 
-            <androidx.appcompat.widget.AppCompatImageView
-
-                android:id="@+id/btnBackTheme"
-                android:layout_width="50dp"
-                android:layout_height="match_parent"
-                android:contentDescription="@null"
-                android:padding="14dp"
-                android:paddingHorizontal="4dp"
-                app:srcCompat="@drawable/ic_back" />
-
-            <androidx.appcompat.widget.AppCompatTextView
-                android:id="@+id/tvTitleTheme"
+            <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_centerInParent="true"
-                android:layout_marginEnd="16dp"
-                android:ellipsize="end"
-                app:fontFamily="@font/roboto_bold"
-                android:gravity="center"
-                android:maxLines="1"
-                android:text="@string/txt_themes"
-                android:textColor="@color/white"
-                android:textSize="20sp" />
-        </RelativeLayout>
+                android:layout_height="?actionBarSize"
+                android:background="@color/colorBgSurface"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
 
-        <com.google.android.material.tabs.TabLayout
-            android:id="@+id/tabTheme"
-            style="@style/custom_tab_layout_option"
+                <androidx.appcompat.widget.AppCompatImageView
+                    style="@style/ClickAnimationCircle"
+                    android:id="@+id/btnBackTheme"
+                    android:layout_width="50dp"
+                    android:layout_height="match_parent"
+                    android:contentDescription="@null"
+                    android:padding="14dp"
+                    android:paddingHorizontal="4dp"
+                    app:srcCompat="@drawable/ic_back" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/tvTitleTheme"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_centerInParent="true"
+                    android:layout_marginEnd="16dp"
+                    android:ellipsize="end"
+                    app:fontFamily="@font/roboto_bold"
+                    android:gravity="center"
+                    android:maxLines="1"
+                    android:text="@string/txt_themes"
+                    android:textColor="@color/white"
+                    android:textSize="20sp" />
+            </RelativeLayout>
+
+            <com.google.android.material.tabs.TabLayout
+                android:id="@+id/tabTheme"
+                style="@style/custom_tab_layout_option"
+                android:layout_width="match_parent"
+                android:layout_height="32dp"
+                android:layout_marginHorizontal="20dp"
+                android:background="@color/colorBgSurface"
+                app:layout_constraintTop_toBottomOf="@+id/tvTitleExam"
+                app:tabMode="scrollable" />
+
+            <androidx.viewpager2.widget.ViewPager2
+                android:id="@+id/vpThemes"
+                android:layout_marginTop="10dp"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1" />
+
+        </androidx.appcompat.widget.LinearLayoutCompat>
+
+        <FrameLayout
+            android:id="@+id/nativeFullContainer"
             android:layout_width="match_parent"
-            android:layout_height="32dp"
-            android:layout_marginHorizontal="20dp"
-            android:background="@color/colorBgSurface"
-            app:layout_constraintTop_toBottomOf="@+id/tvTitleExam"
-            app:tabMode="scrollable" />
+            android:visibility="gone"
+            android:elevation="16dp"
+            android:background="@color/white"
+            android:layout_height="match_parent" >
 
-        <androidx.viewpager2.widget.ViewPager2
-            android:id="@+id/vpThemes"
-            android:layout_marginTop="10dp"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1" />
-
-    </androidx.appcompat.widget.LinearLayoutCompat>
+        </FrameLayout>
+        <ImageView
+            android:id="@+id/closeNativeFullAds"
+            android:layout_width="36dp"
+            android:layout_height="36dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:layout_marginTop="44dp"
+            android:layout_marginEnd="24dp"
+            android:elevation="16dp"
+            android:layout_gravity="end"
+            android:padding="8dp"
+            android:background="@drawable/bg_oval"
+            android:backgroundTint="#F3F4F6"
+            android:src="@drawable/ic_close"
+            android:visibility="gone"
+            tools:visibility="visible"
+            />
+    </FrameLayout>
 </layout>

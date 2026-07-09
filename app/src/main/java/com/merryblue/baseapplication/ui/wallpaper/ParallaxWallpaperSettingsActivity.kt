@@ -85,17 +85,14 @@ class ParallaxWallpaperSettingsActivity : BaseActivity<ActivityParallaxWallpaper
 
     override fun getLayoutId(): Int = R.layout.activity_parallax_wallpaper_settings
 
-    override fun onPostCreate(savedInstanceState: Bundle?) {
-        super.onPostCreate(savedInstanceState)
-        enableEdgeToEdge(binding.main, true)
-    }
-
     override fun setUpViews() {
+        enableEdgeToEdge(binding.main, true)
         isPendingBackgroundLoading = hasPendingBackgroundRequest()
         if (isPendingBackgroundLoading) clearPreview() else showCurrentPreview()
         updatePendingBackgroundUi(isPendingBackgroundLoading)
         loadPendingBackgroundIfNeeded()
         registerClicks()
+        super.setUpViews()
     }
 
     override fun setUpObserver() {
@@ -116,6 +113,11 @@ class ParallaxWallpaperSettingsActivity : BaseActivity<ActivityParallaxWallpaper
                 }
             }
         }
+    }
+
+    override fun onCloseAction() {
+        homeViewModel.increaseUsageCount()
+        onClickSetParallaxWallpaper()
     }
 
     private fun registerClicks() {

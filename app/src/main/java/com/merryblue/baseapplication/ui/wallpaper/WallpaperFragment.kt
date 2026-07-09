@@ -1,10 +1,13 @@
 package com.merryblue.baseapplication.ui.wallpaper
 
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentActivity
+import androidx.fragment.app.activityViewModels
+import androidx.fragment.app.viewModels
+import androidx.viewpager2.adapter.FragmentStateAdapter
 import com.google.android.material.tabs.TabLayoutMediator
 import com.merryblue.baseapplication.R
-import com.merryblue.baseapplication.coredata.local.AppPreferences
 import com.merryblue.baseapplication.databinding.FragmentWallpaperBinding
-import com.merryblue.baseapplication.helpers.EDGE_FIM
 import com.merryblue.baseapplication.helpers.KEY_ALL
 import com.merryblue.baseapplication.helpers.PARALLAX_FOOTBALL
 import com.merryblue.baseapplication.helpers.RIPPLE_ABSTRACT_ABSCT
@@ -12,16 +15,14 @@ import com.merryblue.baseapplication.helpers.RIPPLE_MAGICAL_BORDERS
 import com.merryblue.baseapplication.helpers.RIPPLE_NATURE_SPAZ
 import com.merryblue.baseapplication.helpers.RIPPLE_PREMIUM
 import com.merryblue.baseapplication.helpers.RIPPLE_RIPPLE
-import com.merryblue.baseapplication.helpers.RIPPLE_TOP_PICS
-import com.merryblue.baseapplication.ui.theme.ThemePagerAdapter
 import dagger.hilt.android.AndroidEntryPoint
 import org.app.core.base.BaseFragment
 
 @AndroidEntryPoint
 class WallpaperFragment : BaseFragment<FragmentWallpaperBinding>() {
+    private val viewModel: WallpaperViewModel by activityViewModels()
 
     private lateinit var mediator: TabLayoutMediator
-    private val prefs by lazy { AppPreferences(requireContext()) }
 
     override fun getLayoutId(): Int = R.layout.fragment_wallpaper
 
@@ -30,7 +31,7 @@ class WallpaperFragment : BaseFragment<FragmentWallpaperBinding>() {
     }
 
     private fun initTabLayout() = binding.apply {
-        val canSetLive = prefs.canChangeLive || prefs.canLiveChooser
+        val canSetLive = viewModel.canSetLive()
 
         val titles = buildList {
             add(KEY_ALL to getString(R.string.txt_all))
@@ -47,12 +48,7 @@ class WallpaperFragment : BaseFragment<FragmentWallpaperBinding>() {
             add(RIPPLE_RIPPLE to getString(R.string.txt_ripple))
         }
 
-        vpWallpaper.adapter = ThemePagerAdapter(
-            isCustom = false,
-            isGallery = true,
-            activity = requireActivity(),
-            titles = titles
-        )
+        vpWallpaper.adapter = WallpaperPagerAdapter(activity = requireActivity(), titles = titles)
         mediator = TabLayoutMediator(tabWallpaper, vpWallpaper) { tab, position ->
             tab.text = titles[position].second
         }.apply { attach() }
@@ -63,5 +59,21 @@ class WallpaperFragment : BaseFragment<FragmentWallpaperBinding>() {
     override fun onDestroyView() {
         if (::mediator.isInitialized) mediator.detach()
         super.onDestroyView()
+    }
+
+    class WallpaperPagerAdapter(activity: FragmentActivity, val titles: List<Pair<String, String>>): FragmentStateAdapter(activity) {
+        private val fragments by lazy {
+            titles.mapIndexed { index, it ->
+                WallpaperChildFragment.newInstance(
+                    it.first,
+                    index == 0,
+                    false
+                )
+            }
+        }
+
+        override fun getItemCount() = fragments.size
+
+        override fun createFragment(position: Int): Fragment = fragments[position]
     }
 }

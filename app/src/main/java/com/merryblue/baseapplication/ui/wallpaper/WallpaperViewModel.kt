@@ -1,4 +1,4 @@
-package com.merryblue.baseapplication.ui.theme
+package com.merryblue.baseapplication.ui.wallpaper
 
 import android.app.Application
 import android.content.Intent
@@ -28,6 +28,7 @@ import com.merryblue.baseapplication.helpers.ServiceState.ACTION_EDGE_OVERLAY_CH
 import com.merryblue.baseapplication.helpers.ServiceState.ACTION_EDGE_OVERLAY_STOP
 import com.merryblue.baseapplication.helpers.WallpaperType
 import com.merryblue.baseapplication.helpers.dpToPx
+import com.merryblue.baseapplication.ui.theme.ThemePagingSource
 import com.merryblue.baseapplication.ui.view.edgelight.model.EdgeLightingState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableSharedFlow
@@ -37,7 +38,7 @@ import org.app.core.base.BaseViewModel
 import javax.inject.Inject
 
 @HiltViewModel
-class ThemeViewModel @Inject constructor(
+class WallpaperViewModel @Inject constructor(
     private val application: Application,
     private val repo: EdgeDataRepository,
     private val edgeImageRepository: EdgeImageRepository,

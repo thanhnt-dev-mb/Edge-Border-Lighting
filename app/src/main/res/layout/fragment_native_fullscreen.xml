@@ -6,7 +6,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="#19193F">
+        android:background="@color/white">
         <androidx.cardview.widget.CardView
             android:id="@+id/layoutCard"
             android:layout_width="match_parent"
@@ -16,7 +16,6 @@
             android:gravity="bottom"
             android:elevation="0dp"
             app:cardElevation="0dp"
-            android:background="#19193F"
             app:cardPreventCornerOverlap="false"
             android:paddingTop="24dp"
             >
@@ -24,7 +23,6 @@
                 android:id="@+id/adsContainer"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:background="#19193F"
                 />
         </androidx.cardview.widget.CardView>
 

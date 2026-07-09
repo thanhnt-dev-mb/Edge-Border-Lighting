@@ -72,14 +72,11 @@ class VideoWallpaperSettingsActivity : BaseActivity<ActivityVideoWallpaperSettin
 
     override fun getLayoutId(): Int = R.layout.activity_video_wallpaper_settings
 
-    override fun onPostCreate(savedInstanceState: Bundle?) {
-        super.onPostCreate(savedInstanceState)
-        enableEdgeToEdge(binding.main, true)
-    }
-
     override fun setUpViews() {
+        enableEdgeToEdge(binding.main, true)
         initVideoPreview()
         registerOnClick()
+        super.setUpViews()
     }
 
     override fun setUpObserver() {
@@ -100,6 +97,11 @@ class VideoWallpaperSettingsActivity : BaseActivity<ActivityVideoWallpaperSettin
                 }
             }
         }
+    }
+
+    override fun onCloseAction() {
+        homeViewModel.increaseUsageCount()
+        onClickSetLiveWallpaperOrApply()
     }
 
     private fun handleNoInternetBottomSheet(isConnected: Boolean) {

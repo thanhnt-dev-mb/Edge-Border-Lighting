@@ -56,7 +56,6 @@ import kotlin.getValue
 @AndroidEntryPoint
 class HomeActivity : BaseActivity<ActivityHomeBinding>() {
     private var isFirstVisible = true
-    private var showingRate: Boolean = false
     private var isActive: Boolean = false
     private lateinit var navControllers: Map<EdgeBottomNavView.Tab, NavController>
     private var currentTab: EdgeBottomNavView.Tab = EdgeBottomNavView.Tab.EDGE
@@ -70,7 +69,6 @@ class HomeActivity : BaseActivity<ActivityHomeBinding>() {
 
     override fun onPostCreate(savedInstanceState: Bundle?) {
         super.onPostCreate(savedInstanceState)
-        enableEdgeToEdge(binding.main, true)
         requestPostNotificationPermissionIfNeed()
     }
 
@@ -98,6 +96,7 @@ class HomeActivity : BaseActivity<ActivityHomeBinding>() {
     }
 
     override fun setUpViews() {
+        hideNavigationBar(binding.main)
         binding.bottomNav.setSelectedTab(EdgeBottomNavView.Tab.EDGE)
         binding.bottomNav.setOnTabSelectedListener { showTab(it) }
         initDeviceSupport()

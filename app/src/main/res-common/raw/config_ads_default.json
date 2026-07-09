@@ -45,8 +45,8 @@
       "version": 1,
       "always_preload": false,
       "tag": "Guide",
-      "timelapse": 40000,
-      "native_id": "",
+      "timelapse": 0,
+      "native_id": "ca-app-pub-6445739239297382/9478524094",
       "id": "ca-app-pub-6445739239297382/5794429956",
       "event": "EventGuide",
       "description": "Guide"
@@ -57,7 +57,7 @@
       "always_preload": false,
       "tag": "SetEdgeWallpaper",
       "timelapse": 40000,
-      "native_id": "",
+      "native_id": "ca-app-pub-6445739239297382/9478524094",
       "id": "ca-app-pub-6445739239297382/5794429956",
       "event": "EventSetEdgeWallpaper",
       "description": "Set Edge Wallpaper"
@@ -68,7 +68,7 @@
       "always_preload": false,
       "tag": "SetRippleWallpaper",
       "timelapse": 40000,
-      "native_id": "",
+      "native_id": "ca-app-pub-6445739239297382/9478524094",
       "id": "ca-app-pub-6445739239297382/5794429956",
       "event": "EventSetRippleWallpaper",
       "description": "Set Ripple Wallpaper"
@@ -79,7 +79,7 @@
       "always_preload": false,
       "tag": "SetStaticWallpaper",
       "timelapse": 40000,
-      "native_id": "",
+      "native_id": "ca-app-pub-6445739239297382/9478524094",
       "id": "ca-app-pub-6445739239297382/5794429956",
       "event": "EventSetStaticWallpaper",
       "description": "Set Static Wallpaper"
@@ -90,7 +90,7 @@
       "always_preload": false,
       "tag": "SetVideoWallpaper",
       "timelapse": 40000,
-      "native_id": "",
+      "native_id": "ca-app-pub-6445739239297382/9478524094",
       "id": "ca-app-pub-6445739239297382/5794429956",
       "event": "EventSetVideoWallpaper",
       "description": "Set Video Wallpaper"
@@ -101,7 +101,7 @@
       "always_preload": false,
       "tag": "ViewPreset",
       "timelapse": 40000,
-      "native_id": "",
+      "native_id": "ca-app-pub-6445739239297382/9478524094",
       "id": "ca-app-pub-6445739239297382/5794429956",
       "event": "EventViewPreset",
       "description": "Action View Preset"
@@ -112,7 +112,7 @@
       "always_preload": false,
       "tag": "ViewTheme",
       "timelapse": 40000,
-      "native_id": "",
+      "native_id": "ca-app-pub-6445739239297382/9478524094",
       "id": "ca-app-pub-6445739239297382/5794429956",
       "event": "EventViewTheme",
       "description": "Action View Theme"

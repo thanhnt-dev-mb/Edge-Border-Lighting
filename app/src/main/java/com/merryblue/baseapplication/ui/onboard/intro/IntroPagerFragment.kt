@@ -100,7 +100,6 @@ class IntroPagerFragment : BaseFragment<FragmentIntroPagerBinding>() {
 
         isGoHome = true
         viewModel.setFirstTime(false)
-//        openActivityAndClearStack(HomeActivity::class.java)
         PurchaseActivity.open(requireActivity(), "onboard")
     }
     
