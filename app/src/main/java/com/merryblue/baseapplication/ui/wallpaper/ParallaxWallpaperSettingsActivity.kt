@@ -180,17 +180,12 @@ class ParallaxWallpaperSettingsActivity : BaseActivity<ActivityParallaxWallpaper
                     ?: return@withContext null
                 val previewBitmap = createPreviewBitmap(wallpaperBitmap, previewTarget)
                 if (previewBitmap == null) {
-                    wallpaperBitmap.takeIf { !it.isRecycled }?.recycle()
                     return@withContext null
                 }
 
                 val pendingPath = runCatching {
                     ParallaxWallpaperStore.savePendingFile(this@ParallaxWallpaperSettingsActivity, wallpaperBitmap)
                 }.getOrNull()
-
-                if (previewBitmap !== wallpaperBitmap && !wallpaperBitmap.isRecycled) {
-                    wallpaperBitmap.recycle()
-                }
 
                 if (pendingPath == null) {
                     previewBitmap.takeIf { !it.isRecycled }?.recycle()
@@ -351,7 +346,9 @@ class ParallaxWallpaperSettingsActivity : BaseActivity<ActivityParallaxWallpaper
         val heightScale = target.height / source.height.toFloat()
         val scale = min(1f, min(widthScale, heightScale))
         if (scale >= 0.999f) {
-            return source
+            return runCatching {
+                source.copy(source.config ?: Bitmap.Config.ARGB_8888, false)?.also { it.prepareToDraw() }
+            }.getOrNull()
         }
 
         val previewWidth = (source.width * scale).roundToInt().coerceAtLeast(1)

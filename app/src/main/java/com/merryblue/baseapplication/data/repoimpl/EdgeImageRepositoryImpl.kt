@@ -4,6 +4,7 @@ import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.drawable.BitmapDrawable
 import coil.ImageLoader
+import coil.request.CachePolicy
 import coil.request.ImageRequest
 import coil.request.SuccessResult
 import com.merryblue.baseapplication.domain.repository.EdgeImageRepository
@@ -44,6 +45,9 @@ class EdgeImageRepositoryImpl(
             .size(w, h)                     // resize full screen
             .allowHardware(false)                  // to get Bitmap
             .bitmapConfig(Bitmap.Config.ARGB_8888)
+            .memoryCachePolicy(CachePolicy.DISABLED)
+            .diskCachePolicy(CachePolicy.ENABLED)
+            .networkCachePolicy(CachePolicy.ENABLED)
             .build()
 
         val result = imageLoader.execute(request)
