@@ -37,6 +37,8 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.launch
 import org.app.core.base.BaseViewModel
+import org.app.core.base.utils.SingleLiveEvent
+import timber.log.Timber
 import javax.inject.Inject
 
 @HiltViewModel
@@ -60,19 +62,12 @@ class HomeViewModel @Inject constructor(
     private val _bgBitmap = MutableSharedFlow<Pair<String, Bitmap?>>(replay = 0)
     val bgBitmap = _bgBitmap.asSharedFlow()
 
+    private val _adsCompleted = MutableSharedFlow<Unit>(replay = 0, extraBufferCapacity = 1)
+    val adsCompleted = _adsCompleted.asSharedFlow()
+
+    var pendingWallpaperItem: Item? = null
+
     val connectionState = appRepository.networkState
-
-    var isStartSession
-        get() = appRepository.isStartSession
-        set(value) {
-            appRepository.isStartSession = value
-        }
-
-    val serviceRunning: Boolean
-        get() = appRepository.isServiceRunning
-
-    val lockedAppCount: Int
-        get() = appRepository.lockedAppCount
 
     fun isPremium() = billingRepository.isPurchased()
 
@@ -212,5 +207,11 @@ class HomeViewModel @Inject constructor(
 
     fun showIAP() : Boolean {
         return appRepository.shouldShowIAP()
+    }
+
+    fun sendAdsCompleteEvent() {
+        viewModelScope.launch {
+            _adsCompleted.emit(Unit)
+        }
     }
 }

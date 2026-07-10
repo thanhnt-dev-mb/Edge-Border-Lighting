@@ -7,7 +7,6 @@ import android.os.Build
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
-import android.view.ViewGroup
 import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.annotation.NavigationRes
@@ -17,39 +16,29 @@ import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
-import com.google.android.gms.ads.AdSize
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.merryblue.baseapplication.BuildConfig
 import com.merryblue.baseapplication.R
 import com.merryblue.baseapplication.coredata.local.AppPreferences
 import com.merryblue.baseapplication.databinding.ActivityHomeBinding
+import com.merryblue.baseapplication.domain.model.Item
+import com.merryblue.baseapplication.enums.InterstitialFunction
 import com.merryblue.baseapplication.helpers.Compatibility
 import com.merryblue.baseapplication.helpers.canHandleIntent
-import com.merryblue.baseapplication.helpers.isAppInstalled
-import com.merryblue.baseapplication.helpers.isBackground
-import com.merryblue.baseapplication.helpers.openPolicy
 import com.merryblue.baseapplication.helpers.openProperNetworkSettings
 import com.merryblue.baseapplication.ui.appupdate.ForceUpdateActivity
 import com.merryblue.baseapplication.ui.iap.PurchaseActivity
-import com.merryblue.baseapplication.ui.onboard.language.LanguageActivity
 import com.merryblue.baseapplication.ui.setting.SettingFragment
 import com.merryblue.baseapplication.ui.view.EdgeBottomNavView
 import com.merryblue.baseapplication.ui.widget.BottomSheetNoInternet
-import com.merryblue.baseapplication.ui.widget.BottomSheetRate
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
-import org.app.core.ads.CoreAds
-import org.app.core.ads.openads.AdapterOpenAppManager
 import org.app.core.ads.remoteconfig.CoreRemoteConfig
 import org.app.core.base.BaseActivity
-import org.app.core.base.extensions.calculateBannerHeightBy
 import org.app.core.base.extensions.hide
 import org.app.core.base.extensions.openActivityAndClearStack
-import org.app.core.base.extensions.setMargins
-import org.app.core.base.extensions.show
 import org.app.core.base.utils.StringResId
-import org.app.core.base.utils.px
 import kotlin.getValue
 
 
@@ -62,7 +51,6 @@ class HomeActivity : BaseActivity<ActivityHomeBinding>() {
     private val prefs by lazy { AppPreferences(this) }
     private val homeViewModel: HomeViewModel by viewModels()
 
-    private var _bannerDisplayed: Boolean = false
 
     override
     fun getLayoutId() = R.layout.activity_home
@@ -73,7 +61,10 @@ class HomeActivity : BaseActivity<ActivityHomeBinding>() {
     }
 
     override fun setupBinding() {
-        //TODO: Should do nothing
+        nativeFullContainer = binding.nativeFullContainer
+        closeNativeFullAds = binding.closeNativeFullAds
+        binding.nativeFullContainer.hide()
+        binding.closeNativeFullAds.hide()
     }
 
     override fun onResume() {
@@ -92,7 +83,6 @@ class HomeActivity : BaseActivity<ActivityHomeBinding>() {
     override fun onPause() {
         super.onPause()
         isActive = false
-        _bannerDisplayed = false
     }
 
     override fun setUpViews() {
@@ -102,12 +92,7 @@ class HomeActivity : BaseActivity<ActivityHomeBinding>() {
         initDeviceSupport()
         setupBottomNavMultiStack()
         showBottomBanner(binding.layoutCard, binding.adsContainer)
-    }
-
-    override fun onDestroy() {
-        super.onDestroy()
-
-        AdapterOpenAppManager.instance.enableOpenAds()
+        super.setUpViews()
     }
 
     private fun initDeviceSupport() {
@@ -125,6 +110,16 @@ class HomeActivity : BaseActivity<ActivityHomeBinding>() {
                     }
                 }
             }
+        }
+    }
+
+    override fun onCloseAction() {
+        homeViewModel.sendAdsCompleteEvent()
+    }
+
+    fun showInterstitial() {
+        showInterstitialBy(InterstitialFunction.ViewTheme.name) {
+            homeViewModel.sendAdsCompleteEvent()
         }
     }
 

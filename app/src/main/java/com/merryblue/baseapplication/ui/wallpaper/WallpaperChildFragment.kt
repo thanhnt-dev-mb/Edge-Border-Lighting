@@ -9,7 +9,6 @@ import androidx.activity.result.PickVisualMediaRequest
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.view.isVisible
 import androidx.fragment.app.activityViewModels
-import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
@@ -17,12 +16,9 @@ import androidx.paging.LoadState
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.merryblue.baseapplication.R
-import com.merryblue.baseapplication.coredata.local.AppPreferences
-import com.merryblue.baseapplication.databinding.FragmentThemeChildBinding
 import com.merryblue.baseapplication.databinding.FragmentWallpaperChildBinding
 import com.merryblue.baseapplication.domain.model.Item
 import com.merryblue.baseapplication.domain.model.ThemeUi
-import com.merryblue.baseapplication.enums.InterstitialFunction
 import com.merryblue.baseapplication.helpers.AppLoading
 import com.merryblue.baseapplication.helpers.KEY_IS_CUSTOM
 import com.merryblue.baseapplication.helpers.KEY_IS_GALLERY
@@ -40,17 +36,11 @@ import com.merryblue.baseapplication.ui.home.HomeActivity
 import com.merryblue.baseapplication.ui.home.HomeViewModel
 import com.merryblue.baseapplication.ui.picker.ColorPickerActivity
 import com.merryblue.baseapplication.ui.theme.ThemeChildAdapter
-import com.merryblue.baseapplication.ui.theme.ThemeViewModel
-import com.merryblue.baseapplication.ui.theme.ThemesActivity
-import com.merryblue.baseapplication.ui.wallpaper.EdgeWallpaperSettingsActivity
-import com.merryblue.baseapplication.ui.wallpaper.ParallaxWallpaperSettingsActivity
-import com.merryblue.baseapplication.ui.wallpaper.RippleWallpaperSettingsActivity
-import com.merryblue.baseapplication.ui.wallpaper.StaticWallpaperSettingsActivity
-import com.merryblue.baseapplication.ui.wallpaper.VideoWallpaperSettingsActivity
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import org.app.core.base.BaseFragment
+import timber.log.Timber
 
 @AndroidEntryPoint
 class WallpaperChildFragment : BaseFragment<FragmentWallpaperChildBinding>() {
@@ -61,6 +51,7 @@ class WallpaperChildFragment : BaseFragment<FragmentWallpaperChildBinding>() {
     private var typeTheme: String = RIPPLE_MAGICAL_BORDERS
     private var isGallery: Boolean = false
     private var isCustom: Boolean = false
+    private var currentType: Item? = null
 
     private val onClick: (Item) -> Unit = { handleItemClick(it) }
     private val onGalleryClick: (ThemeUi.Gallery) -> Unit = { openGalleryPickOneSafe() }
@@ -165,6 +156,14 @@ class WallpaperChildFragment : BaseFragment<FragmentWallpaperChildBinding>() {
                 }
             }
         }
+
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.RESUMED) {
+                homeViewModel.adsCompleted.collect {
+                    handleAdsCompleted()
+                }
+            }
+        }
     }
 
     private fun canLaunchPicker(): Boolean {
@@ -185,7 +184,28 @@ class WallpaperChildFragment : BaseFragment<FragmentWallpaperChildBinding>() {
     }
 
     private fun handlePickedImage(uri: Uri) {
-        homeViewModel.loadBackgroundUri(uri, requireContext().getFullScreenTargetSize())
+        viewModel.loadBackgroundUri(uri, requireContext().getFullScreenTargetSize()) { key, bm ->
+            bm?.let {
+                val canSetLive = viewModel.canSetLive()
+                if (canSetLive) {
+                    when (key) {
+                        EDGE_WALLPAPER_SCREEN -> {
+                            WallpaperBgStore.saveFile(requireContext(), it)
+                            startActivity(Intent(requireContext(), EdgeWallpaperSettingsActivity::class.java))
+                        }
+                        STATIC_WALLPAPER_SCREEN -> {
+                            WallpaperBgStore.saveFile(requireContext(), it)
+                            startActivity(Intent(requireContext(), StaticWallpaperSettingsActivity::class.java))
+                        }
+                    }
+                } else {
+                    WallpaperBgStore.saveFile(requireContext(), it)
+                    startActivity(Intent(requireContext(), StaticWallpaperSettingsActivity::class.java))
+                }
+            } ?: run {
+                showMessage(getString(R.string.an_error_has_occurred))
+            }
+        }
     }
 
     private fun handelThemeCustomClick() {
@@ -193,11 +213,8 @@ class WallpaperChildFragment : BaseFragment<FragmentWallpaperChildBinding>() {
     }
 
     private fun handleItemClick(item: Item) {
-        if (activity is ThemesActivity) {
-            (activity as ThemesActivity).handleItemClick(item)
-        } else if (activity is HomeActivity) {
-            (activity as HomeActivity).handleItemClick(item)
-        }
+        currentType = item.copy()
+        (activity as? HomeActivity)?.showInterstitial()
     }
 
     override fun onDestroyView() {
@@ -205,6 +222,92 @@ class WallpaperChildFragment : BaseFragment<FragmentWallpaperChildBinding>() {
         themeAdapter.setParallaxThumbMotionEnabled(false)
         binding.rcvTheme.adapter = null
         super.onDestroyView()
+    }
+
+    private fun handleAdsCompleted() {
+        val item = currentType ?: return
+        val ctx = context ?: return
+        AppLoading.displayLoading(ctx)
+        val canSetLive = viewModel.canSetLive()
+        if (canSetLive) {
+            when (item.type) {
+                WallpaperType.TYPE_EDGE -> {
+                    viewModel.loadEdgeBackgroundUrl(item, ctx.getFullScreenTargetSize()) { bm ->
+                        activity?.runOnUiThread {
+                            AppLoading.closeLoading()
+                            bm?.let {
+                                WallpaperBgStore.saveFile(ctx, it)
+                                startActivity(Intent(ctx, EdgeWallpaperSettingsActivity::class.java))
+                            } ?: run {
+                                showMessage(getString(R.string.an_error_has_occurred))
+                            }
+                        }
+                    }
+                }
+
+                WallpaperType.TYPE_STATIC -> {
+                    viewModel.loadStaticBackgroundUrl(item, ctx.getFullScreenTargetSize()) { bm ->
+                        activity?.runOnUiThread {
+                            AppLoading.closeLoading()
+                            bm?.let {
+                                WallpaperBgStore.saveFile(ctx, it)
+                                startActivity(Intent(ctx, StaticWallpaperSettingsActivity::class.java))
+                            } ?: run {
+                                showMessage(getString(R.string.an_error_has_occurred))
+                            }
+                        }
+                    }
+                }
+
+                WallpaperType.TYPE_VIDEO -> {
+                    viewModel.videoUrl = item.pathUrl
+                    VideoPreloader.preload(ctx, item.pathUrl) {
+                        AppLoading.closeLoading()
+                    }
+                    viewModel.updateEdgeState { it.copy(isEnableEdgeLighting = false) }
+                    viewModel.sendActionBroadcast(ACTION_EDGE_OVERLAY_STOP)
+                    startActivity(Intent(ctx, VideoWallpaperSettingsActivity::class.java))
+                }
+
+                WallpaperType.TYPE_RIPPLE -> {
+                    viewModel.rippleEffectUrl = item.pathUrl
+                    viewModel.loadBackgroundRippleUrl(item, ctx.getFullScreenTargetSize()) { bm ->
+                        activity?.runOnUiThread {
+                            AppLoading.closeLoading()
+                            bm?.let {
+                                WallpaperBgStore.saveRippleAndNotify(ctx, it)
+                                startActivity(Intent(ctx, RippleWallpaperSettingsActivity::class.java))
+                            } ?: run {
+                                showMessage(getString(R.string.an_error_has_occurred))
+                            }
+                        }
+                    }
+                }
+
+                WallpaperType.TYPE_PARALLAX -> {
+                    AppLoading.closeLoading()
+                    viewModel.updateEdgeState { it.copy(isEnableEdgeLighting = false) }
+                    viewModel.sendActionBroadcast(ACTION_EDGE_OVERLAY_STOP)
+                    startActivity(
+                        Intent(ctx, ParallaxWallpaperSettingsActivity::class.java)
+                            .putExtra(ParallaxWallpaperSettingsActivity.EXTRA_PENDING_BACKGROUND_URL, item.pathUrl)
+                    )
+                }
+            }
+        } else {
+            viewModel.loadStaticBackgroundUrl(item, ctx.getFullScreenTargetSize()) { bm ->
+                activity?.runOnUiThread {
+                    AppLoading.closeLoading()
+                    bm?.let {
+                        WallpaperBgStore.saveFile(ctx, it)
+                        startActivity(Intent(ctx, StaticWallpaperSettingsActivity::class.java))
+                    } ?: run {
+                        showMessage(getString(R.string.an_error_has_occurred))
+                    }
+                }
+            }
+        }
+        currentType = null
     }
 
     companion object {

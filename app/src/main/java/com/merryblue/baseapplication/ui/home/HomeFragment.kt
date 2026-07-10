@@ -19,14 +19,12 @@ import com.merryblue.baseapplication.coredata.local.AppPreferences
 import com.merryblue.baseapplication.databinding.FragmentHomeBinding
 import com.merryblue.baseapplication.domain.model.Item
 import com.merryblue.baseapplication.helpers.AppLoading
-import com.merryblue.baseapplication.helpers.EDGE_REWARD_DAY
 import com.merryblue.baseapplication.helpers.KEY_IS_CUSTOM
 import com.merryblue.baseapplication.helpers.KEY_RECEIVE_DATA
 import com.merryblue.baseapplication.helpers.PreviewType.EDGE_WALLPAPER_SCREEN
 import com.merryblue.baseapplication.helpers.PreviewType.RIPPLE_WALLPAPER_SCREEN
 import com.merryblue.baseapplication.helpers.PreviewType.STATIC_WALLPAPER_SCREEN
 import com.merryblue.baseapplication.helpers.RIPPLE_MAGICAL_BORDERS
-import com.merryblue.baseapplication.helpers.RIPPLE_PREMIUM
 import com.merryblue.baseapplication.helpers.RIPPLE_RIPPLE
 import com.merryblue.baseapplication.helpers.RIPPLE_TOP_PICS
 import com.merryblue.baseapplication.helpers.ServiceState.ACTION_EDGE_OVERLAY_STOP
@@ -35,7 +33,6 @@ import com.merryblue.baseapplication.helpers.TYPE_THEME
 import com.merryblue.baseapplication.helpers.WallpaperType
 import com.merryblue.baseapplication.helpers.cache.WallpaperBgStore
 import com.merryblue.baseapplication.helpers.getFullScreenTargetSize
-import com.merryblue.baseapplication.helpers.openProperNetworkSettings
 import com.merryblue.baseapplication.helpers.updateHeightForCurrentPage
 import com.merryblue.baseapplication.helpers.video.VideoPreloader
 import com.merryblue.baseapplication.service.edge.EdgeLightingOverlayService
@@ -49,14 +46,12 @@ import com.merryblue.baseapplication.ui.wallpaper.RippleWallpaperSettingsActivit
 import com.merryblue.baseapplication.ui.wallpaper.StaticWallpaperSettingsActivity
 import com.merryblue.baseapplication.ui.wallpaper.VideoWallpaperSettingsActivity
 import com.merryblue.baseapplication.ui.widget.BottomSheetEdgePermission
-import com.merryblue.baseapplication.ui.widget.BottomSheetNoInternet
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import org.app.core.base.BaseFragment
 import org.app.core.base.binding.setOnSingleClickListener
 import org.app.core.base.extensions.show
-import kotlin.getValue
 
 @AndroidEntryPoint
 class HomeFragment: BaseFragment<FragmentHomeBinding>() {
@@ -99,7 +94,7 @@ class HomeFragment: BaseFragment<FragmentHomeBinding>() {
     }
 
     override fun onFragmentResume() {
-        binding.ivPremium.show(viewModel.isPremium() == false)
+        binding.ivPremium.show(!viewModel.isPremium())
     }
 
     private fun startEdgeOverlay() {

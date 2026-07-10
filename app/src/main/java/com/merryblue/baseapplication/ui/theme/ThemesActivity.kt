@@ -93,23 +93,27 @@ class ThemesActivity : BaseActivity<ActivityThemesBinding>() {
             when (item.type) {
                 WallpaperType.TYPE_EDGE -> {
                     viewModel.loadEdgeBackgroundUrl(item, getFullScreenTargetSize()) { bm ->
-                        AppLoading.closeLoading()
-                        bm?.let {
-                            WallpaperBgStore.saveFile(this, it)
-                            startActivity(Intent(this, EdgeWallpaperSettingsActivity::class.java))
-                        } ?: run {
-                            showMessage(getString(R.string.an_error_has_occurred))
+                        runOnUiThread {
+                            AppLoading.closeLoading()
+                            bm?.let {
+                                WallpaperBgStore.saveFile(this, it)
+                                startActivity(Intent(this, EdgeWallpaperSettingsActivity::class.java))
+                            } ?: run {
+                                showMessage(getString(R.string.an_error_has_occurred))
+                            }
                         }
                     }
                 }
                 WallpaperType.TYPE_STATIC -> {
                     viewModel.loadStaticBackgroundUrl(item, getFullScreenTargetSize()) { bm ->
-                        AppLoading.closeLoading()
-                        bm?.let {
-                            WallpaperBgStore.saveFile(this, it)
-                            startActivity(Intent(this, StaticWallpaperSettingsActivity::class.java))
-                        } ?: run {
-                            showMessage(getString(R.string.an_error_has_occurred))
+                        runOnUiThread {
+                            AppLoading.closeLoading()
+                            bm?.let {
+                                WallpaperBgStore.saveFile(this, it)
+                                startActivity(Intent(this, StaticWallpaperSettingsActivity::class.java))
+                            } ?: run {
+                                showMessage(getString(R.string.an_error_has_occurred))
+                            }
                         }
                     }
                 }
@@ -125,14 +129,16 @@ class ThemesActivity : BaseActivity<ActivityThemesBinding>() {
                 }
 
                 WallpaperType.TYPE_RIPPLE -> {
-                    AppLoading.closeLoading()
                     viewModel.rippleEffectUrl = item.pathUrl
                     viewModel.loadBackgroundRippleUrl(item, getFullScreenTargetSize()) { bm ->
-                        bm?.let {
-                            WallpaperBgStore.saveRippleAndNotify(this, it)
-                            startActivity(Intent(this, RippleWallpaperSettingsActivity::class.java))
-                        } ?: run {
-                            showMessage(getString(R.string.an_error_has_occurred))
+                        runOnUiThread {
+                            AppLoading.closeLoading()
+                            bm?.let {
+                                WallpaperBgStore.saveRippleAndNotify(this, it)
+                                startActivity(Intent(this, RippleWallpaperSettingsActivity::class.java))
+                            } ?: run {
+                                showMessage(getString(R.string.an_error_has_occurred))
+                            }
                         }
                     }
                 }
@@ -149,12 +155,14 @@ class ThemesActivity : BaseActivity<ActivityThemesBinding>() {
             }
         } else {
             viewModel.loadStaticBackgroundUrl(item, getFullScreenTargetSize()) { bm ->
-                AppLoading.closeLoading()
-                bm?.let {
-                    WallpaperBgStore.saveFile(this, it)
-                    startActivity(Intent(this, StaticWallpaperSettingsActivity::class.java))
-                } ?: run {
-                    showMessage(getString(R.string.an_error_has_occurred))
+                runOnUiThread {
+                    AppLoading.closeLoading()
+                    bm?.let {
+                        WallpaperBgStore.saveFile(this, it)
+                        startActivity(Intent(this, StaticWallpaperSettingsActivity::class.java))
+                    } ?: run {
+                        showMessage(getString(R.string.an_error_has_occurred))
+                    }
                 }
             }
         }

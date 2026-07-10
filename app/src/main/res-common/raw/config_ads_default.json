@@ -107,7 +107,7 @@
       "description": "Action View Preset"
     },
     {
-      "status": false,
+      "status": true,
       "version": 1,
       "always_preload": false,
       "tag": "ViewTheme",
