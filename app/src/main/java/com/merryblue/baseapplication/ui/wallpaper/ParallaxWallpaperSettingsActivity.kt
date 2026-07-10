@@ -180,10 +180,7 @@ class ParallaxWallpaperSettingsActivity : BaseActivity<ActivityParallaxWallpaper
                 val wallpaperBitmap = edgeImageRepository.loadBitmap(pendingSource, getFullScreenTargetSize())
                     ?.takeIf { !it.isRecycled }
                     ?: return@withContext null
-                val previewBitmap = createPreviewBitmap(wallpaperBitmap, previewTarget)
-                if (previewBitmap == null) {
-                    return@withContext null
-                }
+                val previewBitmap = createPreviewBitmap(wallpaperBitmap, previewTarget) ?: return@withContext null
 
                 val pendingPath = runCatching {
                     ParallaxWallpaperStore.savePendingFile(this@ParallaxWallpaperSettingsActivity, wallpaperBitmap)

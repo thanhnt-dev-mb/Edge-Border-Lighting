@@ -154,13 +154,11 @@ class WallpaperChildFragment : BaseFragment<FragmentWallpaperChildBinding>() {
                         }
                     }
                 }
-            }
-        }
 
-        viewLifecycleOwner.lifecycleScope.launch {
-            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.RESUMED) {
-                homeViewModel.adsCompleted.collect {
-                    handleAdsCompleted()
+                launch {
+                    homeViewModel.adsCompleted.collect {
+                        handleAdsCompleted()
+                    }
                 }
             }
         }
