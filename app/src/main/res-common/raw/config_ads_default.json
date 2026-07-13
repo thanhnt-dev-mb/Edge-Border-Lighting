@@ -132,7 +132,7 @@
       "description": "Language Native"
     },
     {
-      "status": false,
+      "status": true,
       "always_preload": false,
       "version": 1,
       "tag": "IntroFragment_Native",
@@ -143,7 +143,7 @@
       "description": "Intro Native"
     },
     {
-      "status": false,
+      "status": true,
       "always_preload": false,
       "version": 1,
       "tag": "IntroFragment_Native_0",
@@ -154,7 +154,7 @@
       "description": "Intro Native"
     },
     {
-      "status": false,
+      "status": true,
       "always_preload": false,
       "version": 1,
       "tag": "IntroFragment_Native_3",
@@ -165,7 +165,7 @@
       "description": "Intro Native"
     },
     {
-      "status": false,
+      "status": true,
       "always_preload": false,
       "version": 1,
       "tag": "NativeFullscreenFragment_Native",
@@ -176,7 +176,7 @@
       "description": "Intro Native Fullscreen"
     },
     {
-      "status": false,
+      "status": true,
       "always_preload": false,
       "version": 1,
       "tag": "HomeFragment_Native",
@@ -187,7 +187,7 @@
       "description": "Home Native"
     },
     {
-      "status": false,
+      "status": true,
       "always_preload": false,
       "version": 1,
       "tag": "VideoWallpaperSettingsActivity_Native",
@@ -198,7 +198,7 @@
       "description": "Video Wallpaper Native"
     },
     {
-      "status": false,
+      "status": true,
       "always_preload": false,
       "version": 1,
       "tag": "EdgeWallpaperSettingsActivity_Native",
@@ -209,7 +209,7 @@
       "description": "Edge Wallpaper Native"
     },
     {
-      "status": false,
+      "status": true,
       "always_preload": false,
       "version": 1,
       "tag": "RippleWallpaperSettingsActivity_Native",
@@ -220,7 +220,7 @@
       "description": "Ripple Wallpaper Native"
     },
     {
-      "status": false,
+      "status": true,
       "always_preload": false,
       "version": 1,
       "tag": "StaticWallpaperSettingsActivity_Native",
@@ -229,6 +229,17 @@
       "style": 13,
       "preload": 0,
       "description": "Static Wallpaper Native"
+    },
+    {
+      "status": true,
+      "always_preload": false,
+      "version": 1,
+      "tag": "ParallaxWallpaperSettingsActivity_Native",
+      "id": "ca-app-pub-6445739239297382/9478524094",
+      "event": "EventParallaxWallpaper",
+      "style": 13,
+      "preload": 0,
+      "description": "Parallax Wallpaper Native"
     }
   ],
   "rewards": [
