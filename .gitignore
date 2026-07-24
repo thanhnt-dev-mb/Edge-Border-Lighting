@@ -9,3 +9,4 @@ replay_pid*.log
 errors-*.log
 build-logic/.kotlinerrors/
 local.properties
+build-logic/.kotlin

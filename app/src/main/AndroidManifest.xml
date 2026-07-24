@@ -199,9 +199,6 @@
             android:foregroundServiceType="specialUse" />
 
         <meta-data
-            android:name="com.google.android.play.billingclient.version"
-            android:value="7.1.1" />
-        <meta-data
             android:name="com.google.firebase.messaging.default_notification_channel_id"
             android:value="MB_AppLock_Notification" />
         <meta-data

@@ -27,12 +27,12 @@ plugins {
 
 android {
     namespace = "com.merryblue.baseapplication"
-    compileSdk = 35
+    compileSdk = 36
 
     defaultConfig {
         applicationId = "com.edge.lighting.app"
         minSdk = 28
-        targetSdk = 35
+        targetSdk = 36
         versionCode = 8
         versionName = "1.0.8"
         
@@ -46,8 +46,6 @@ android {
         ksp {
             arg("room.schemaLocation", "$projectDir/schemas")
         }
-
-        missingDimensionStrategy("platform", "admob", "applovin")
     }
 
     buildTypes {
