@@ -14,9 +14,9 @@
   <string name="txt_try_free">Dùng thử miễn phí</string>  
   <string name="txt_subscribe">Đặt mua</string>  
   <string name="txt_delete_notice">Bạn có chắc chắn chuyển tập tin ( %d ) vào thùng rác không?</string>  
-  <string name="txt_edge_lighting">Chiếu sáng cạnh</string>  
-  <string name="txt_enable_edge_light">Bật đèn EDGE</string>  
-  <string name="txt_preset">Cài sẵn</string>  
+  <string name="txt_edge_lighting">Chiếu sáng cạnh</string>
+  <string name="txt_preset">Cài sẵn</string>
+  <string name="txt_enable_edge_light">Bật đèn EDGE</string>
   <string name="txt_view_all">Xem tất cả</string>  
   <string name="txt_theme">Chủ đề</string>  
   <string name="txt_create_your_own_theme">Tạo chủ đề của riêng bạn</string>  
