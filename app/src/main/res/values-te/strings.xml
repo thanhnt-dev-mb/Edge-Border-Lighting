@@ -138,4 +138,15 @@
   <string name="txt_video_service">వీడియో వాల్‌పేపర్</string>
   <string name="txt_ripple_service">అలల వాల్‌పేపర్</string>
   <string name="txt_submit">సమర్పించండి</string>
+  <string name="txt_football">ఫుట్బాల్</string>
+  <string name="txt_text_scroller">టెక్స్ట్ స్క్రోలర్</string>
+  <string name="txt_light">కాంతి</string>
+  <string name="txt_dark">చీకటి</string>
+  <string name="txt_text">వచనం</string>
+  <string name="txt_background">నేపథ్యం</string>
+  <string name="txt_scroller">స్క్రోలింగ్</string>
+  <string name="txt_blink">రెప్పపాటు</string>
+  <string name="add">జోడించు</string>
+  <string name="play">ఆడండి</string>
+  <string name="hello_world">హలో వరల్డ్</string>
 </resources>

@@ -138,4 +138,15 @@
   <string name="txt_video_service">වීඩියෝ බිතුපත</string>
   <string name="txt_ripple_service">Ripple Wallpaper</string>
   <string name="txt_submit">ඉදිරිපත් කරන්න</string>
+  <string name="txt_football">පාපන්දු</string>
+  <string name="txt_text_scroller">පෙළ අනුචලනය</string>
+  <string name="txt_light">ආලෝකය</string>
+  <string name="txt_dark">අඳුරු</string>
+  <string name="txt_text">පෙළ</string>
+  <string name="txt_background">පසුබිම</string>
+  <string name="txt_scroller">අනුචලනය</string>
+  <string name="txt_blink">ඇසිපිය හෙළීම</string>
+  <string name="add">එකතු කරන්න</string>
+  <string name="play">සෙල්ලම් කරන්න</string>
+  <string name="hello_world">ආයුබෝවන් ලෝකය</string>
 </resources>

@@ -138,4 +138,15 @@
   <string name="txt_video_service">Iphepha lodonga levidiyo</string>
   <string name="txt_ripple_service">Ripple Wallpaper</string>
   <string name="txt_submit">Ngenisa</string>
+  <string name="txt_football">Ibhola ekhatywayo</string>
+  <string name="txt_text_scroller">Ukuskrola okubhaliweyo</string>
+  <string name="txt_light">Ukukhanya</string>
+  <string name="txt_dark">Mnyama</string>
+  <string name="txt_text">Isicatshulwa</string>
+  <string name="txt_background">Imvelaphi</string>
+  <string name="txt_scroller">Ukuskrola</string>
+  <string name="txt_blink">Ukuqhwanyaza</string>
+  <string name="add">Yongeza</string>
+  <string name="play">Dlala</string>
+  <string name="hello_world">Molo Lizwe</string>
 </resources>

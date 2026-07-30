@@ -16,7 +16,7 @@ class EdgeBottomNavView @JvmOverloads constructor(
     attrs: AttributeSet? = null,
 ) : LinearLayoutCompat(context, attrs) {
 
-    enum class Tab { EDGE, WALLPAPER, SETTING }
+    enum class Tab { EDGE, WALLPAPER, TEXT_SCROLLER, SETTING }
 
     private data class TabViews(
         val root: LinearLayoutCompat,
@@ -26,6 +26,7 @@ class EdgeBottomNavView @JvmOverloads constructor(
 
     private var edge: TabViews
     private var wallpaper: TabViews
+    private var textScroller: TabViews
     private var setting: TabViews
 
     var onTabSelected: ((Tab) -> Unit)? = null
@@ -37,6 +38,9 @@ class EdgeBottomNavView @JvmOverloads constructor(
 
     @DrawableRes private var wallpaperIconSelected = R.drawable.ic_wallpaper_selected
     @DrawableRes private var wallpaperIconUnselected = R.drawable.ic_wallpaper_unselected
+
+    @DrawableRes private var textScrollerIconSelected = R.drawable.ic_text_sccroller_selected
+    @DrawableRes private var textScrollerIconUnselected = R.drawable.ic_text_sccroller_unselected
 
     @DrawableRes private var settingIconSelected = R.drawable.ic_setting_selected
     @DrawableRes private var settingIconUnselected = R.drawable.ic_setting_unselected
@@ -58,6 +62,11 @@ class EdgeBottomNavView @JvmOverloads constructor(
             iconId = R.id.ivWallpaper,
             textId = R.id.tvWallpaper
         )
+        textScroller = bindTab(
+            rootId = R.id.btnTextScroller,
+            iconId = R.id.ivTextScroller,
+            textId = R.id.tvTextScroller
+        )
         setting = bindTab(
             rootId = R.id.btnSetting,
             iconId = R.id.ivSetting,
@@ -66,6 +75,7 @@ class EdgeBottomNavView @JvmOverloads constructor(
 
         edge.root.setOnClickListener { setSelectedTab(Tab.EDGE, fromUser = true) }
         wallpaper.root.setOnClickListener { setSelectedTab(Tab.WALLPAPER, fromUser = true) }
+        textScroller.root.setOnClickListener { setSelectedTab(Tab.TEXT_SCROLLER, fromUser = true) }
         setting.root.setOnClickListener { setSelectedTab(Tab.SETTING, fromUser = true) }
 
         attrs?.let { parseAttrs(it) }
@@ -83,10 +93,12 @@ class EdgeBottomNavView @JvmOverloads constructor(
     private fun parseAttrs(attrs: AttributeSet) {
         val a = context.obtainStyledAttributes(attrs, R.styleable.EdgeBottomNavView)
         try {
-            selectedTab = when (a.getInt(R.styleable.EdgeBottomNavView_defaultTab, 1)) {
+            selectedTab = when (a.getInt(R.styleable.EdgeBottomNavView_defaultTab, 0)) {
                 0 -> Tab.EDGE
-                2 -> Tab.SETTING
-                else -> Tab.WALLPAPER
+                1 -> Tab.WALLPAPER
+                2 -> Tab.TEXT_SCROLLER
+                3 -> Tab.SETTING
+                else -> Tab.EDGE
             }
 
             colorSelected = a.getColor(R.styleable.EdgeBottomNavView_tabColorSelected, colorSelected)
@@ -97,6 +109,9 @@ class EdgeBottomNavView @JvmOverloads constructor(
 
             wallpaperIconSelected = a.getResourceId(R.styleable.EdgeBottomNavView_wallpaperIconSelected, wallpaperIconSelected)
             wallpaperIconUnselected = a.getResourceId(R.styleable.EdgeBottomNavView_wallpaperIconUnselected, wallpaperIconUnselected)
+
+            textScrollerIconSelected = a.getResourceId(R.styleable.EdgeBottomNavView_textScrollerIconSelected, textScrollerIconSelected)
+            textScrollerIconUnselected = a.getResourceId(R.styleable.EdgeBottomNavView_textScrollerIconUnselected, textScrollerIconUnselected)
 
             settingIconSelected = a.getResourceId(R.styleable.EdgeBottomNavView_settingIconSelected, settingIconSelected)
             settingIconUnselected = a.getResourceId(R.styleable.EdgeBottomNavView_settingIconUnselected, settingIconUnselected)
@@ -119,6 +134,7 @@ class EdgeBottomNavView @JvmOverloads constructor(
     private fun render() {
         applyState(edge, isSelected = selectedTab == Tab.EDGE, edgeIconSelected, edgeIconUnselected)
         applyState(wallpaper, isSelected = selectedTab == Tab.WALLPAPER, wallpaperIconSelected, wallpaperIconUnselected)
+        applyState(textScroller, isSelected = selectedTab == Tab.TEXT_SCROLLER, textScrollerIconSelected, textScrollerIconUnselected)
         applyState(setting, isSelected = selectedTab == Tab.SETTING, settingIconSelected, settingIconUnselected)
     }
 

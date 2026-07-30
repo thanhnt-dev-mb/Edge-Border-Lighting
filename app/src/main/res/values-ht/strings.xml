@@ -138,4 +138,15 @@
   <string name="txt_video_service">Wallpaper videyo</string>
   <string name="txt_ripple_service">Ripple Wallpaper</string>
   <string name="txt_submit">Soumèt</string>
+  <string name="txt_football">Foutbòl</string>
+  <string name="txt_text_scroller">Tèks Scroller</string>
+  <string name="txt_light">Limyè</string>
+  <string name="txt_dark">Fè nwa</string>
+  <string name="txt_text">Tèks</string>
+  <string name="txt_background">Jan nou koumanse</string>
+  <string name="txt_scroller">Defile</string>
+  <string name="txt_blink">Klike</string>
+  <string name="add">Ajoute</string>
+  <string name="play">Jwe</string>
+  <string name="hello_world">Bonjou mond</string>
 </resources>

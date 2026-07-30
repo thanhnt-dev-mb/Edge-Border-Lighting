@@ -138,4 +138,15 @@
   <string name="txt_video_service">وڊيو وال پيپر</string>
   <string name="txt_ripple_service">ريپل وال پيپر</string>
   <string name="txt_submit">جمع ڪرايو</string>
+  <string name="txt_football">فٽبال</string>
+  <string name="txt_text_scroller">ٽيڪسٽ اسڪرولر</string>
+  <string name="txt_light">روشني</string>
+  <string name="txt_dark">ڳاڙهو</string>
+  <string name="txt_text">متن</string>
+  <string name="txt_background">پس منظر</string>
+  <string name="txt_scroller">ڇڪڻ</string>
+  <string name="txt_blink">چمڪائڻ</string>
+  <string name="add">شامل ڪريو</string>
+  <string name="play">راند</string>
+  <string name="hello_world">هيلو ورلڊ</string>
 </resources>

@@ -138,4 +138,15 @@
   <string name="txt_video_service">Видео Обои</string>
   <string name="txt_ripple_service">Ripple обои</string>
   <string name="txt_submit">Тапшыруу</string>
+  <string name="txt_football">Футбол</string>
+  <string name="txt_text_scroller">Text Scroller</string>
+  <string name="txt_light">Жарык</string>
+  <string name="txt_dark">Караңгы</string>
+  <string name="txt_text">Текст</string>
+  <string name="txt_background">Фон</string>
+  <string name="txt_scroller">Жылдыруу</string>
+  <string name="txt_blink">Жыпылоо</string>
+  <string name="add">кошуу</string>
+  <string name="play">Play</string>
+  <string name="hello_world">Hello World</string>
 </resources>

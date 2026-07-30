@@ -138,4 +138,15 @@
   <string name="txt_video_service">Físeán Cúlbhrat</string>
   <string name="txt_ripple_service">Cúlbhrat Ripple</string>
   <string name="txt_submit">Cuir isteach</string>
+  <string name="txt_football">Peil</string>
+  <string name="txt_text_scroller">Scrollaí Téacs</string>
+  <string name="txt_light">Solas</string>
+  <string name="txt_dark">Dorcha</string>
+  <string name="txt_text">Téacs</string>
+  <string name="txt_background">Cúlra</string>
+  <string name="txt_scroller">Scrollaigh</string>
+  <string name="txt_blink">Blinking</string>
+  <string name="add">Cuir</string>
+  <string name="play">Imirt</string>
+  <string name="hello_world">Dia duit Domhanda</string>
 </resources>

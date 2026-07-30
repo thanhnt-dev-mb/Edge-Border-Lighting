@@ -138,4 +138,15 @@
   <string name="txt_video_service">Wideyo Wallpaper</string>
   <string name="txt_ripple_service">Ripple Wallpaper ye</string>
   <string name="txt_submit">Ka kolo</string>
+  <string name="txt_football">Ntolatan</string>
+  <string name="txt_text_scroller">Texte Scroller (Sɛgɛsɛgɛlikɛlan).</string>
+  <string name="txt_light">Yeelen</string>
+  <string name="txt_dark">Dibi donna</string>
+  <string name="txt_text">Sɛbɛnni</string>
+  <string name="txt_background">Baarakɛcogo</string>
+  <string name="txt_scroller">Scroll (Sɛgɛsɛgɛli) kɛli</string>
+  <string name="txt_blink">A bɛ ɲɛjibɔ</string>
+  <string name="add">Aw bɛ a fara a kan</string>
+  <string name="play">Tulonkɛ</string>
+  <string name="hello_world">Bonjour Monde</string>
 </resources>

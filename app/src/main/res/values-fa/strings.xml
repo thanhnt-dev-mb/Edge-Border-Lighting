@@ -138,4 +138,15 @@
   <string name="txt_video_service">تصویر زمینه تصویری</string>
   <string name="txt_ripple_service">والپیپر ریپل</string>
   <string name="txt_submit">ارسال کنید</string>
+  <string name="txt_football">فوتبال</string>
+  <string name="txt_text_scroller">اسکرول متن</string>
+  <string name="txt_light">نور</string>
+  <string name="txt_dark">تاریک</string>
+  <string name="txt_text">متن</string>
+  <string name="txt_background">پس زمینه</string>
+  <string name="txt_scroller">پیمایش</string>
+  <string name="txt_blink">چشمک زدن</string>
+  <string name="add">اضافه کنید</string>
+  <string name="play">بازی کنید</string>
+  <string name="hello_world">سلام دنیا</string>
 </resources>

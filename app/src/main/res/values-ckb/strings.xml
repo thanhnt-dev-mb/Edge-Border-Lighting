@@ -138,4 +138,15 @@
   <string name="txt_video_service">ڤیدیۆ والپێپەر</string>
   <string name="txt_ripple_service">ڕیپڵ والپێپەر</string>
   <string name="txt_submit">پێشکەشکردن</string>
+  <string name="txt_football">تۆپی پێ</string>
+  <string name="txt_text_scroller">Text Scroller</string>
+  <string name="txt_light">ڕووناکی</string>
+  <string name="txt_dark">تاریک</string>
+  <string name="txt_text">دەق</string>
+  <string name="txt_background">پاشخان</string>
+  <string name="txt_scroller">سکڕۆڵکردن</string>
+  <string name="txt_blink">چاوتروکاندن</string>
+  <string name="add">زیادکردن</string>
+  <string name="play">یاری</string>
+  <string name="hello_world">سڵاو جیهان</string>
 </resources>

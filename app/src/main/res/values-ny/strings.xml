@@ -138,4 +138,15 @@
   <string name="txt_video_service">Kanema Wallpaper</string>
   <string name="txt_ripple_service">Chithunzi cha Ripple</string>
   <string name="txt_submit">Tumizani</string>
+  <string name="txt_football">Mpira</string>
+  <string name="txt_text_scroller">Text Scroller</string>
+  <string name="txt_light">Kuwala</string>
+  <string name="txt_dark">Chakuda</string>
+  <string name="txt_text">Mawu</string>
+  <string name="txt_background">Mbiri</string>
+  <string name="txt_scroller">Kupukuta</string>
+  <string name="txt_blink">Kuphethira</string>
+  <string name="add">Onjezani</string>
+  <string name="play">Sewerani</string>
+  <string name="hello_world">Hello World</string>
 </resources>

@@ -138,4 +138,15 @@
   <string name="txt_video_service">Imagine de fundal video</string>
   <string name="txt_ripple_service">Imagine de fundal ondulată</string>
   <string name="txt_submit">Trimiteți</string>
+  <string name="txt_football">Fotbal</string>
+  <string name="txt_text_scroller">Scroller text</string>
+  <string name="txt_light">Lumină</string>
+  <string name="txt_dark">Întuneric</string>
+  <string name="txt_text">Text</string>
+  <string name="txt_background">Fundal</string>
+  <string name="txt_scroller">Derulare</string>
+  <string name="txt_blink">Clipind</string>
+  <string name="add">Adăugați</string>
+  <string name="play">Joacă</string>
+  <string name="hello_world">Bună lume</string>
 </resources>

@@ -138,4 +138,15 @@
   <string name="txt_video_service">വീഡിയോ വാൾപേപ്പർ</string>
   <string name="txt_ripple_service">റിപ്പിൾ വാൾപേപ്പർ</string>
   <string name="txt_submit">സമർപ്പിക്കുക</string>
+  <string name="txt_football">ഫുട്ബോൾ</string>
+  <string name="txt_text_scroller">ടെക്സ്റ്റ് സ്ക്രോളർ</string>
+  <string name="txt_light">വെളിച്ചം</string>
+  <string name="txt_dark">ഇരുട്ട്</string>
+  <string name="txt_text">വാചകം</string>
+  <string name="txt_background">പശ്ചാത്തലം</string>
+  <string name="txt_scroller">സ്ക്രോളിംഗ്</string>
+  <string name="txt_blink">മിന്നിമറയുന്നു</string>
+  <string name="add">ചേർക്കുക</string>
+  <string name="play">കളിക്കുക</string>
+  <string name="hello_world">ഹലോ വേൾഡ്</string>
 </resources>

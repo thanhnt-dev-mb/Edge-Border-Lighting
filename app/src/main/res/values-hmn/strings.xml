@@ -138,4 +138,15 @@
   <string name="txt_video_service">Video Wallpaper</string>
   <string name="txt_ripple_service">Ripple Wallpaper</string>
   <string name="txt_submit">Xa</string>
+  <string name="txt_football">Ncaws pob</string>
+  <string name="txt_text_scroller">Text Scroller</string>
+  <string name="txt_light">Teeb</string>
+  <string name="txt_dark">Tsaus</string>
+  <string name="txt_text">Ntawv nyeem</string>
+  <string name="txt_background">Keeb kwm</string>
+  <string name="txt_scroller">Scrolling</string>
+  <string name="txt_blink">Blinking</string>
+  <string name="add">Ntxiv</string>
+  <string name="play">Ua si</string>
+  <string name="hello_world">Nyob zoo ntiaj teb</string>
 </resources>

@@ -138,4 +138,15 @@
   <string name="txt_video_service">Video Wallpaper</string>
   <string name="txt_ripple_service">Ripple Wallpaper</string>
   <string name="txt_submit">يوللاڭ</string>
+  <string name="txt_football">پۇتبول</string>
+  <string name="txt_text_scroller">Text Scroller</string>
+  <string name="txt_light">نۇر</string>
+  <string name="txt_dark">قاراڭغۇ</string>
+  <string name="txt_text">تېكىست</string>
+  <string name="txt_background">تەگلىك</string>
+  <string name="txt_scroller">دومىلاش</string>
+  <string name="txt_blink">Blinking</string>
+  <string name="add">قوش</string>
+  <string name="play">ئويناش</string>
+  <string name="hello_world">ياخشىمۇسىز دۇنيا</string>
 </resources>

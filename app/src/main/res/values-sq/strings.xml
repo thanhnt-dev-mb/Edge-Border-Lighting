@@ -138,4 +138,15 @@
   <string name="txt_video_service">Wallpaper video</string>
   <string name="txt_ripple_service">Wallpaper Ripple</string>
   <string name="txt_submit">Paraqisni</string>
+  <string name="txt_football">Futbolli</string>
+  <string name="txt_text_scroller">Scroller teksti</string>
+  <string name="txt_light">Drita</string>
+  <string name="txt_dark">E errët</string>
+  <string name="txt_text">Teksti</string>
+  <string name="txt_background">Sfondi</string>
+  <string name="txt_scroller">Lëvizje</string>
+  <string name="txt_blink">Vezullim</string>
+  <string name="add">Shtoni</string>
+  <string name="play">Luaj</string>
+  <string name="hello_world">Pershendetje Bote</string>
 </resources>

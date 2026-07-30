@@ -138,4 +138,15 @@
   <string name="txt_video_service">Video Wallpaper hmanga siam a ni</string>
   <string name="txt_ripple_service">Ripple Wallpaper a ni</string>
   <string name="txt_submit">Thehlut</string>
+  <string name="txt_football">Football khelh a ni</string>
+  <string name="txt_text_scroller">Text Scroller a ni</string>
+  <string name="txt_light">Eng</string>
+  <string name="txt_dark">Thim a ni</string>
+  <string name="txt_text">Thuziak</string>
+  <string name="txt_background">Background atanga lo chhuak</string>
+  <string name="txt_scroller">Scroll a ni</string>
+  <string name="txt_blink">A mit a chhing</string>
+  <string name="add">Add rawh</string>
+  <string name="play">Play rawh</string>
+  <string name="hello_world">Hello Khawvel</string>
 </resources>

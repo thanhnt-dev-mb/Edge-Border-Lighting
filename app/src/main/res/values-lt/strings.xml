@@ -138,4 +138,15 @@
   <string name="txt_video_service">Vaizdo tapetai</string>
   <string name="txt_ripple_service">Ripple tapetai</string>
   <string name="txt_submit">Pateikti</string>
+  <string name="txt_football">Futbolas</string>
+  <string name="txt_text_scroller">Teksto slinktuvas</string>
+  <string name="txt_light">Šviesa</string>
+  <string name="txt_dark">Tamsus</string>
+  <string name="txt_text">Tekstas</string>
+  <string name="txt_background">Fonas</string>
+  <string name="txt_scroller">Slinkimas</string>
+  <string name="txt_blink">Mirksi</string>
+  <string name="add">Pridėti</string>
+  <string name="play">Žaisti</string>
+  <string name="hello_world">Sveikas pasaulis</string>
 </resources>

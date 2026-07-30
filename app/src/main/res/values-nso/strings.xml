@@ -138,4 +138,15 @@
   <string name="txt_video_service">Video Wallpaper</string>
   <string name="txt_ripple_service">Ripple Wallpaper ya go swana le yona</string>
   <string name="txt_submit">Tliša</string>
+  <string name="txt_football">Kgwele ya maoto</string>
+  <string name="txt_text_scroller">Sekgomaretši sa Sengwalwa</string>
+  <string name="txt_light">Lesedi</string>
+  <string name="txt_dark">Lefifi</string>
+  <string name="txt_text">Sengwalwa</string>
+  <string name="txt_background">Semelo sa Lemorago</string>
+  <string name="txt_scroller">Go kgokologa</string>
+  <string name="txt_blink">Go panya ga mahlo</string>
+  <string name="add">Add</string>
+  <string name="play">Bapala</string>
+  <string name="hello_world">Thobela Lefase</string>
 </resources>

@@ -138,4 +138,15 @@
   <string name="txt_video_service">Fondo de pantalla de vídeo</string>
   <string name="txt_ripple_service">Fondo de pantalla Ripple</string>
   <string name="txt_submit">Enviar</string>
+  <string name="txt_football">Fútbol</string>
+  <string name="txt_text_scroller">Scroller de texto</string>
+  <string name="txt_light">Luz</string>
+  <string name="txt_dark">Escuro</string>
+  <string name="txt_text">Texto</string>
+  <string name="txt_background">Fondo</string>
+  <string name="txt_scroller">Desprazamento</string>
+  <string name="txt_blink">Pestanexando</string>
+  <string name="add">Engadir</string>
+  <string name="play">Xogar</string>
+  <string name="hello_world">Ola mundo</string>
 </resources>

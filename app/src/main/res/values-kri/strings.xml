@@ -138,4 +138,15 @@
   <string name="txt_video_service">Vidio Wallpaper</string>
   <string name="txt_ripple_service">Ripple Wallpaper we de na di wɔl</string>
   <string name="txt_submit">Rɛdi fɔ de ɔnda</string>
+  <string name="txt_football">Futbɔl we dɛn kin ple</string>
+  <string name="txt_text_scroller">Teks Skrola</string>
+  <string name="txt_light">Layt</string>
+  <string name="txt_dark">Dak dak</string>
+  <string name="txt_text">Teks</string>
+  <string name="txt_background">Bakgrɔn</string>
+  <string name="txt_scroller">We yu de skrol</string>
+  <string name="txt_blink">We yu de blink</string>
+  <string name="add">Add</string>
+  <string name="play">Ple</string>
+  <string name="hello_world">Halo Wɔl</string>
 </resources>

@@ -138,4 +138,15 @@
   <string name="txt_video_service">ဗီဒီယို နောက်ခံပုံ</string>
   <string name="txt_ripple_service">Ripple Wallpaper</string>
   <string name="txt_submit">တင်ပြပါ။</string>
+  <string name="txt_football">ဘောလုံးပွဲ</string>
+  <string name="txt_text_scroller">စာသား Scroller</string>
+  <string name="txt_light">အလင်း</string>
+  <string name="txt_dark">အမှောင်</string>
+  <string name="txt_text">စာသား</string>
+  <string name="txt_background">နောက်ခံ</string>
+  <string name="txt_scroller">ရွေ့လျားခြင်း။</string>
+  <string name="txt_blink">ဖြူဖြူကျော်သိန်း</string>
+  <string name="add">ထည့်ပါ။</string>
+  <string name="play">ကစားပါ။</string>
+  <string name="hello_world">မင်္ဂလာပါ ကမ္ဘာ</string>
 </resources>

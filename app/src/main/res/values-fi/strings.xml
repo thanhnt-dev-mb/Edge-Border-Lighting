@@ -138,4 +138,15 @@
   <string name="txt_video_service">Videon taustakuva</string>
   <string name="txt_ripple_service">Ripple taustakuva</string>
   <string name="txt_submit">Lähetä</string>
+  <string name="txt_football">Jalkapallo</string>
+  <string name="txt_text_scroller">Tekstin vieritys</string>
+  <string name="txt_light">Kevyt</string>
+  <string name="txt_dark">Tumma</string>
+  <string name="txt_text">Teksti</string>
+  <string name="txt_background">Tausta</string>
+  <string name="txt_scroller">Vieritys</string>
+  <string name="txt_blink">Vilkkuu</string>
+  <string name="add">Lisää</string>
+  <string name="play">Pelaa</string>
+  <string name="hello_world">Hei maailma</string>
 </resources>

@@ -138,4 +138,15 @@
   <string name="txt_video_service">Video ozadje</string>
   <string name="txt_ripple_service">Ripple Ozadje</string>
   <string name="txt_submit">Predloži</string>
+  <string name="txt_football">Nogomet</string>
+  <string name="txt_text_scroller">Drsnik po besedilu</string>
+  <string name="txt_light">Svetloba</string>
+  <string name="txt_dark">Temno</string>
+  <string name="txt_text">Besedilo</string>
+  <string name="txt_background">Ozadje</string>
+  <string name="txt_scroller">Drsenje</string>
+  <string name="txt_blink">Utripa</string>
+  <string name="add">Dodaj</string>
+  <string name="play">Igraj</string>
+  <string name="hello_world">Pozdravljen svet</string>
 </resources>

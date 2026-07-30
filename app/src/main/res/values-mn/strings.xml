@@ -138,4 +138,15 @@
   <string name="txt_video_service">Видео ханын цаас</string>
   <string name="txt_ripple_service">Ripple ханын цаас</string>
   <string name="txt_submit">Илгээх</string>
+  <string name="txt_football">Хөл бөмбөг</string>
+  <string name="txt_text_scroller">Текст гүйлгэх</string>
+  <string name="txt_light">Гэрэл</string>
+  <string name="txt_dark">Харанхуй</string>
+  <string name="txt_text">Текст</string>
+  <string name="txt_background">Суурь</string>
+  <string name="txt_scroller">Гүйлгэж байна</string>
+  <string name="txt_blink">Анивчих</string>
+  <string name="add">Нэмэх</string>
+  <string name="play">Тоглох</string>
+  <string name="hello_world">Сайн уу Дэлхий</string>
 </resources>

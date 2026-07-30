@@ -61,6 +61,33 @@
     </androidx.appcompat.widget.LinearLayoutCompat>
 
     <androidx.appcompat.widget.LinearLayoutCompat
+        android:id="@+id/btnTextScroller"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:gravity="center_horizontal"
+        android:orientation="vertical">
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/ivTextScroller"
+            android:layout_width="28dp"
+            android:layout_height="28dp"
+            android:layout_marginTop="4dp"
+            android:src="@drawable/ic_text_sccroller_unselected" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tvTextScroller"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:fontFamily="@font/roboto_medium"
+            android:gravity="center"
+            android:text="@string/txt_text_scroller"
+            android:textColor="@color/colorGray04"
+            android:textSize="12sp" />
+
+    </androidx.appcompat.widget.LinearLayoutCompat>
+
+    <androidx.appcompat.widget.LinearLayoutCompat
         android:id="@+id/btnSetting"
         android:layout_width="0dp"
         android:layout_height="match_parent"

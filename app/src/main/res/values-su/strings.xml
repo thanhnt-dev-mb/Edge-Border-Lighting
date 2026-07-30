@@ -138,4 +138,15 @@
   <string name="txt_video_service">Wallpaper pidéo</string>
   <string name="txt_ripple_service">Wallpaper Ripple</string>
   <string name="txt_submit">Kirimkeun</string>
+  <string name="txt_football">Maén bal</string>
+  <string name="txt_text_scroller">Scroller téks</string>
+  <string name="txt_light">Caang</string>
+  <string name="txt_dark">Poek</string>
+  <string name="txt_text">Téks</string>
+  <string name="txt_background">Latar</string>
+  <string name="txt_scroller">Ngagulung</string>
+  <string name="txt_blink">Kedip-kedip</string>
+  <string name="add">Tambihan</string>
+  <string name="play">Maén</string>
+  <string name="hello_world">Hello Dunya</string>
 </resources>

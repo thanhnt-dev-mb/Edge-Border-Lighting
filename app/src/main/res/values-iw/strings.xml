@@ -138,4 +138,15 @@
   <string name="txt_video_service">טפט וידאו</string>
   <string name="txt_ripple_service">טפט ריפל</string>
   <string name="txt_submit">לְהַגִישׁ</string>
+  <string name="txt_football">כדורגל</string>
+  <string name="txt_text_scroller">טקסט גלילה</string>
+  <string name="txt_light">אור</string>
+  <string name="txt_dark">כהה</string>
+  <string name="txt_text">טקסט</string>
+  <string name="txt_background">רקע</string>
+  <string name="txt_scroller">גלילה</string>
+  <string name="txt_blink">מהבהב</string>
+  <string name="add">הוסף</string>
+  <string name="play">שחק</string>
+  <string name="hello_world">שלום עולם</string>
 </resources>

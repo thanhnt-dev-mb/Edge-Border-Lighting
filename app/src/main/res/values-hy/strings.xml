@@ -138,4 +138,15 @@
   <string name="txt_video_service">Վիդեո Պաստառ</string>
   <string name="txt_ripple_service">Ripple Պաստառ</string>
   <string name="txt_submit">Ներկայացրե՛ք</string>
+  <string name="txt_football">Ֆուտբոլ</string>
+  <string name="txt_text_scroller">Տեքստի ոլորիչ</string>
+  <string name="txt_light">Լույս</string>
+  <string name="txt_dark">Մութ</string>
+  <string name="txt_text">Տեքստ</string>
+  <string name="txt_background">Նախապատմություն</string>
+  <string name="txt_scroller">Ոլորում</string>
+  <string name="txt_blink">Թարթում է</string>
+  <string name="add">Ավելացնել</string>
+  <string name="play">Խաղալ</string>
+  <string name="hello_world">Բարև աշխարհ</string>
 </resources>

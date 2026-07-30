@@ -88,6 +88,8 @@
         <attr name="edgeIconUnselected" format="reference" />
         <attr name="wallpaperIconSelected" format="reference" />
         <attr name="wallpaperIconUnselected" format="reference" />
+        <attr name="textScrollerIconSelected" format="reference" />
+        <attr name="textScrollerIconUnselected" format="reference" />
         <attr name="settingIconSelected" format="reference" />
         <attr name="settingIconUnselected" format="reference" />
     </declare-styleable>

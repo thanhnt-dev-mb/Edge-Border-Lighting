@@ -138,4 +138,15 @@
   <string name="txt_video_service">Ταπετσαρία βίντεο</string>
   <string name="txt_ripple_service">Ταπετσαρία Ripple</string>
   <string name="txt_submit">Υποτάσσομαι</string>
+  <string name="txt_football">ποδόσφαιρο</string>
+  <string name="txt_text_scroller">Scroller κειμένου</string>
+  <string name="txt_light">Φως</string>
+  <string name="txt_dark">Σκοτεινό</string>
+  <string name="txt_text">Κείμενο</string>
+  <string name="txt_background">φόντο</string>
+  <string name="txt_scroller">Κύλιση</string>
+  <string name="txt_blink">Αναβοσβήνει</string>
+  <string name="add">Προσθήκη</string>
+  <string name="play">Παίξτε</string>
+  <string name="hello_world">Γεια σου Κόσμο</string>
 </resources>

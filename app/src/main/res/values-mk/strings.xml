@@ -138,4 +138,15 @@
   <string name="txt_video_service">Видео позадина</string>
   <string name="txt_ripple_service">Бран позадина</string>
   <string name="txt_submit">Поднесете</string>
+  <string name="txt_football">Фудбал</string>
+  <string name="txt_text_scroller">Скролер за текст</string>
+  <string name="txt_light">Светлина</string>
+  <string name="txt_dark">Темно</string>
+  <string name="txt_text">Текст</string>
+  <string name="txt_background">Позадина</string>
+  <string name="txt_scroller">Лизгање</string>
+  <string name="txt_blink">Трепкање</string>
+  <string name="add">Додадете</string>
+  <string name="play">Играј</string>
+  <string name="hello_world">Здраво свет</string>
 </resources>

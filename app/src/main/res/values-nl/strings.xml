@@ -138,4 +138,15 @@
   <string name="txt_video_service">Video-achtergrond</string>
   <string name="txt_ripple_service">Rimpel behang</string>
   <string name="txt_submit">Indienen</string>
+  <string name="txt_football">Voetbal</string>
+  <string name="txt_text_scroller">Tekstscroller</string>
+  <string name="txt_light">Licht</string>
+  <string name="txt_dark">Donker</string>
+  <string name="txt_text">Tekst</string>
+  <string name="txt_background">Achtergrond</string>
+  <string name="txt_scroller">Scrollen</string>
+  <string name="txt_blink">Knipperend</string>
+  <string name="add">Toevoegen</string>
+  <string name="play">Spelen</string>
+  <string name="hello_world">Hallo wereld</string>
 </resources>

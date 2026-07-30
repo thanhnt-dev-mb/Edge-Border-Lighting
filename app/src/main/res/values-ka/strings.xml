@@ -138,4 +138,15 @@
   <string name="txt_video_service">Ვიდეო ფონი</string>
   <string name="txt_ripple_service">Ripple ფონი</string>
   <string name="txt_submit">Გაგზავნა</string>
+  <string name="txt_football">ფეხბურთი</string>
+  <string name="txt_text_scroller">ტექსტის გადამხვევი</string>
+  <string name="txt_light">სინათლე</string>
+  <string name="txt_dark">ბნელი</string>
+  <string name="txt_text">ტექსტი</string>
+  <string name="txt_background">ფონი</string>
+  <string name="txt_scroller">გადახვევა</string>
+  <string name="txt_blink">მოციმციმე</string>
+  <string name="add">დამატება</string>
+  <string name="play">ითამაშეთ</string>
+  <string name="hello_world">გამარჯობა მსოფლიო</string>
 </resources>

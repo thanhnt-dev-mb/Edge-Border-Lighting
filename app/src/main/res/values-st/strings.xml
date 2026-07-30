@@ -138,4 +138,15 @@
   <string name="txt_video_service">Wallpaper ea video</string>
   <string name="txt_ripple_service">Ripple Wallpaper</string>
   <string name="txt_submit">Kenya</string>
+  <string name="txt_football">Bolo ea maoto</string>
+  <string name="txt_text_scroller">Sengoli sa Mongolo</string>
+  <string name="txt_light">Leseli</string>
+  <string name="txt_dark">Lefifi</string>
+  <string name="txt_text">Mongolo</string>
+  <string name="txt_background">Ka morao</string>
+  <string name="txt_scroller">Ho tsamaisetsa</string>
+  <string name="txt_blink">Ho panya</string>
+  <string name="add">Eketsa</string>
+  <string name="play">Bapala</string>
+  <string name="hello_world">Dumela Lefatshe</string>
 </resources>

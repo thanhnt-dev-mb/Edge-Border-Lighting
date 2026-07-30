@@ -138,4 +138,15 @@
   <string name="txt_video_service">Video Duvar Kağıdı</string>
   <string name="txt_ripple_service">Dalgalanma Duvar Kağıdı</string>
   <string name="txt_submit">Göndermek</string>
+  <string name="txt_football">Futbol</string>
+  <string name="txt_text_scroller">Metin Kaydırıcı</string>
+  <string name="txt_light">Işık</string>
+  <string name="txt_dark">Karanlık</string>
+  <string name="txt_text">Metin</string>
+  <string name="txt_background">Arkaplan</string>
+  <string name="txt_scroller">Kaydırma</string>
+  <string name="txt_blink">Yanıp sönüyor</string>
+  <string name="add">Ekle</string>
+  <string name="play">Oyna</string>
+  <string name="hello_world">Merhaba Dünya</string>
 </resources>

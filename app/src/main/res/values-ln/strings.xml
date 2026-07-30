@@ -138,4 +138,15 @@
   <string name="txt_video_service">Fond d\'écran ya vidéo</string>
   <string name="txt_ripple_service">Fond d\'écran ya ondulation</string>
   <string name="txt_submit">Kotinda</string>
+  <string name="txt_football">Mobembo ya ndembo</string>
+  <string name="txt_text_scroller">Défilement ya makomi</string>
+  <string name="txt_light">Pole</string>
+  <string name="txt_dark">Molili</string>
+  <string name="txt_text">Mokanda ya kokoma</string>
+  <string name="txt_background">Makambo ya kala</string>
+  <string name="txt_scroller">Kosala défilement</string>
+  <string name="txt_blink">Kobɛta miso</string>
+  <string name="add">Bakisa</string>
+  <string name="play">Kosakana</string>
+  <string name="hello_world">Mbote Mokili</string>
 </resources>

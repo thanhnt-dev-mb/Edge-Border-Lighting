@@ -1,6 +1,7 @@
 package com.merryblue.baseapplication.ui.home
 
 import android.Manifest
+import android.annotation.SuppressLint
 import android.app.WallpaperManager
 import android.content.Intent
 import android.os.Build
@@ -29,6 +30,7 @@ import com.merryblue.baseapplication.helpers.openProperNetworkSettings
 import com.merryblue.baseapplication.ui.appupdate.ForceUpdateActivity
 import com.merryblue.baseapplication.ui.iap.PurchaseActivity
 import com.merryblue.baseapplication.ui.setting.SettingFragment
+import com.merryblue.baseapplication.ui.text.TextScrollerActivity
 import com.merryblue.baseapplication.ui.view.EdgeBottomNavView
 import com.merryblue.baseapplication.ui.widget.BottomSheetNoInternet
 import dagger.hilt.android.AndroidEntryPoint
@@ -165,6 +167,11 @@ class HomeActivity : BaseActivity<ActivityHomeBinding>() {
     }
 
     private fun showTab(tab: EdgeBottomNavView.Tab) {
+        if (tab == EdgeBottomNavView.Tab.TEXT_SCROLLER) {
+            showTextScroller()
+            return
+        }
+
         val fm = supportFragmentManager
         val tx = fm.beginTransaction()
 
@@ -177,6 +184,7 @@ class HomeActivity : BaseActivity<ActivityHomeBinding>() {
         val toShow = when (tab) {
             EdgeBottomNavView.Tab.EDGE -> edge
             EdgeBottomNavView.Tab.WALLPAPER -> wall
+            EdgeBottomNavView.Tab.TEXT_SCROLLER -> return
             EdgeBottomNavView.Tab.SETTING -> set
         }
 
@@ -184,6 +192,11 @@ class HomeActivity : BaseActivity<ActivityHomeBinding>() {
         currentTab = tab
 
         checkTabSetting(tab, set)
+    }
+
+    private fun showTextScroller() {
+        binding.bottomNav.setSelectedTab(currentTab)
+        startActivity(Intent(this, TextScrollerActivity::class.java))
     }
 
     private fun checkTabSetting(tab: EdgeBottomNavView.Tab, set: Fragment, ) {
@@ -225,6 +238,7 @@ class HomeActivity : BaseActivity<ActivityHomeBinding>() {
         }
     }
 
+    @SuppressLint("GestureBackNavigation")
     override fun onBackPressed() {
         val nav = navControllers[currentTab] ?: return super.onBackPressed()
         if (!nav.popBackStack()) {

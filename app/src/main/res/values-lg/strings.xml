@@ -138,4 +138,15 @@
   <string name="txt_video_service">Video Wallpaper</string>
   <string name="txt_ripple_service">Ripple Wallpaper</string>
   <string name="txt_submit">Okuwaayo</string>
+  <string name="txt_football">Omupiira</string>
+  <string name="txt_text_scroller">Omuzingo gw’Ebiwandiiko</string>
+  <string name="txt_light">Ekitangaala</string>
+  <string name="txt_dark">Ekizikiza</string>
+  <string name="txt_text">Ebiwandiiko</string>
+  <string name="txt_background">Ensibuko y’ebintu</string>
+  <string name="txt_scroller">Okutambulatambula</string>
+  <string name="txt_blink">Okuziba amaaso</string>
+  <string name="add">Okwongerako</string>
+  <string name="play">Zannya</string>
+  <string name="hello_world">Mwasuze mutya Ensi</string>
 </resources>

@@ -138,4 +138,15 @@
   <string name="txt_video_service">Видео Валлпапер</string>
   <string name="txt_ripple_service">Риппле Валлпапер</string>
   <string name="txt_submit">Субмит</string>
+  <string name="txt_football">Фудбал</string>
+  <string name="txt_text_scroller">Тект Сцроллер</string>
+  <string name="txt_light">Светлост</string>
+  <string name="txt_dark">Дарк</string>
+  <string name="txt_text">Текст</string>
+  <string name="txt_background">Позадина</string>
+  <string name="txt_scroller">Померање</string>
+  <string name="txt_blink">Трепћући</string>
+  <string name="add">Додај</string>
+  <string name="play">Играј</string>
+  <string name="hello_world">Хелло Ворлд</string>
 </resources>

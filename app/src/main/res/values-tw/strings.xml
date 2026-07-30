@@ -138,4 +138,15 @@
   <string name="txt_video_service">Video so Nsɛm a Wɔakyerɛw</string>
   <string name="txt_ripple_service">Ripple Wallpaper a Wɔde Di Dwuma</string>
   <string name="txt_submit">Fa kɔ</string>
+  <string name="txt_football">Bɔɔlbɔ</string>
+  <string name="txt_text_scroller">Nsɛm a Wɔakyerɛw no Scroller</string>
+  <string name="txt_light">Hann</string>
+  <string name="txt_dark">Esum mu</string>
+  <string name="txt_text">Nsɛm a wɔakyerɛw</string>
+  <string name="txt_background">Akyisɛm</string>
+  <string name="txt_scroller">Scroll a wɔreyɛ</string>
+  <string name="txt_blink">Anim a ɛrebɔ</string>
+  <string name="add">Fa ka ho</string>
+  <string name="play">Di agoru</string>
+  <string name="hello_world">Hello Wiase</string>
 </resources>

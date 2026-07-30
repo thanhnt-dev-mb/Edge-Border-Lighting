@@ -112,6 +112,17 @@
         <item name="android:maxLines">1</item>
     </style>
 
+    <style name="tab_layout_text_scroller" parent="TextAppearance.Design.Tab">
+        <item name="fontFamily">@font/roboto_medium</item>
+        <item name="android:fontFamily">@font/roboto_medium</item>
+        <item name="android:textSize">12sp</item>
+        <item name="android:ellipsize">marquee</item>
+        <item name="android:selectable">true</item>
+        <item name="android:textAllCaps">false</item>
+        <item name="textAllCaps">false</item>
+        <item name="android:singleLine">true</item>
+    </style>
+
     <style name="custom_tab_layout_option" parent="Widget.MaterialComponents.TabLayout">
         <item name="tabGravity">center</item>
         <item name="tabRippleColor">@null</item>
@@ -124,6 +135,28 @@
         <item name="tabSelectedTextColor">@color/colorWhite</item>
         <item name="tabTextColor">@color/colorWhite</item>
         <item name="tabTextAppearance">@style/tab_layout_text_style</item>
+    </style>
+
+    <style name="custom_tab_layout_text_scroller" parent="Widget.MaterialComponents.TabLayout">
+        <item name="tabGravity">fill</item>
+        <item name="tabRippleColor">@null</item>
+        <item name="tabIndicator">@null</item>
+        <item name="tabIndicatorHeight">0dp</item>
+        <item name="tabMode">fixed</item>
+        <item name="tabSelectedTextColor">@color/colorWhite</item>
+        <item name="tabTextColor">@color/colorWhite</item>
+        <item name="tabTextAppearance">@style/tab_layout_text_scroller</item>
+        <item name="tabPaddingStart">0dp</item>
+        <item name="tabPaddingEnd">0dp</item>
+        <item name="tabMinWidth">0dp</item>
+    </style>
+
+    <style name="Theme.TextScroller.Fullscreen" parent="AppTheme">
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:windowActionBar">false</item>
+        <item name="android:windowFullscreen">true</item>
+        <item name="android:windowLightStatusBar">false</item>
+        <item name="android:windowLightNavigationBar">false</item>
     </style>
 
 </resources>

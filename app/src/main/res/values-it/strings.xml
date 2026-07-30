@@ -138,4 +138,15 @@
   <string name="txt_video_service">Sfondo video</string>
   <string name="txt_ripple_service">Carta da parati ondulata</string>
   <string name="txt_submit">Invia</string>
+  <string name="txt_football">Calcio</string>
+  <string name="txt_text_scroller">Scorrimento del testo</string>
+  <string name="txt_light">Luce</string>
+  <string name="txt_dark">Buio</string>
+  <string name="txt_text">Testo</string>
+  <string name="txt_background">Sfondo</string>
+  <string name="txt_scroller">Scorrimento</string>
+  <string name="txt_blink">Lampeggiante</string>
+  <string name="add">Aggiungi</string>
+  <string name="play">Gioca</string>
+  <string name="hello_world">Ciao mondo</string>
 </resources>

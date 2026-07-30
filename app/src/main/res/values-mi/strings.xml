@@ -138,4 +138,15 @@
   <string name="txt_video_service">Papapātū Ataata</string>
   <string name="txt_ripple_service">Ripple Wallpaper</string>
   <string name="txt_submit">Tukuna</string>
+  <string name="txt_football">Whutupaoro</string>
+  <string name="txt_text_scroller">Panuku Kuputuhi</string>
+  <string name="txt_light">Maama</string>
+  <string name="txt_dark">pouri</string>
+  <string name="txt_text">Kuputuhi</string>
+  <string name="txt_background">Papamuri</string>
+  <string name="txt_scroller">Panuku</string>
+  <string name="txt_blink">Kimomata</string>
+  <string name="add">Tāpiri</string>
+  <string name="play">Te purei</string>
+  <string name="hello_world">Kia ora te Ao</string>
 </resources>

@@ -138,4 +138,15 @@
   <string name="txt_video_service">Isiqophi sangemuva</string>
   <string name="txt_ripple_service">I-Ripple Wallpaper</string>
   <string name="txt_submit">Thumela</string>
+  <string name="txt_football">Ibhola</string>
+  <string name="txt_text_scroller">I-Scroller yombhalo</string>
+  <string name="txt_light">Ukukhanya</string>
+  <string name="txt_dark">Kumnyama</string>
+  <string name="txt_text">Umbhalo</string>
+  <string name="txt_background">Ingemuva</string>
+  <string name="txt_scroller">Ukuskrola</string>
+  <string name="txt_blink">Ecwayiza</string>
+  <string name="add">Engeza</string>
+  <string name="play">Dlala</string>
+  <string name="hello_world">Sawubona Mhlaba</string>
 </resources>

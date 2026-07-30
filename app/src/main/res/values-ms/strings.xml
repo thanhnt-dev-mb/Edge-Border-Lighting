@@ -138,4 +138,15 @@
   <string name="txt_video_service">Kertas Dinding Video</string>
   <string name="txt_ripple_service">Kertas Dinding Riak</string>
   <string name="txt_submit">Hantar</string>
+  <string name="txt_football">bola sepak</string>
+  <string name="txt_text_scroller">Penatal Teks</string>
+  <string name="txt_light">Cahaya</string>
+  <string name="txt_dark">Gelap</string>
+  <string name="txt_text">Teks</string>
+  <string name="txt_background">Latar belakang</string>
+  <string name="txt_scroller">Menatal</string>
+  <string name="txt_blink">Berkelip-kelip</string>
+  <string name="add">Tambah</string>
+  <string name="play">Main</string>
+  <string name="hello_world">Hello Dunia</string>
 </resources>

@@ -138,4 +138,15 @@
   <string name="txt_video_service">வீடியோ வால்பேப்பர்</string>
   <string name="txt_ripple_service">சிற்றலை வால்பேப்பர்</string>
   <string name="txt_submit">சமர்ப்பிக்கவும்</string>
+  <string name="txt_football">கால்பந்து</string>
+  <string name="txt_text_scroller">உரை ஸ்க்ரோலர்</string>
+  <string name="txt_light">ஒளி</string>
+  <string name="txt_dark">இருள்</string>
+  <string name="txt_text">உரை</string>
+  <string name="txt_background">பின்னணி</string>
+  <string name="txt_scroller">ஸ்க்ரோலிங்</string>
+  <string name="txt_blink">கண் சிமிட்டுதல்</string>
+  <string name="add">சேர்</string>
+  <string name="play">விளையாடு</string>
+  <string name="hello_world">வணக்கம் உலகம்</string>
 </resources>

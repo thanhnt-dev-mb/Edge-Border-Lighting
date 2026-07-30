@@ -138,4 +138,15 @@
   <string name="txt_video_service">Video Wallpaper</string>
   <string name="txt_ripple_service">Ripple Wallpaper</string>
   <string name="txt_submit">Ofginn</string>
+  <string name="txt_football">Fussball</string>
+  <string name="txt_text_scroller">Text Scroller</string>
+  <string name="txt_light">Liicht</string>
+  <string name="txt_dark">Däischter</string>
+  <string name="txt_text">Text</string>
+  <string name="txt_background">Hannergrond</string>
+  <string name="txt_scroller">Scrollen</string>
+  <string name="txt_blink">Blinkt</string>
+  <string name="add">Addéieren</string>
+  <string name="play">Spillen</string>
+  <string name="hello_world">Hallo Welt</string>
 </resources>

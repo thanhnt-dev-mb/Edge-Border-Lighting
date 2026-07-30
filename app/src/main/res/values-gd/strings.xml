@@ -138,4 +138,15 @@
   <string name="txt_video_service">Pàipear-balla bhidio</string>
   <string name="txt_ripple_service">Pàipear-balla ripple</string>
   <string name="txt_submit">Cuir a-steach</string>
+  <string name="txt_football">Ball-coise</string>
+  <string name="txt_text_scroller">Scroller teacsa</string>
+  <string name="txt_light">Solas</string>
+  <string name="txt_dark">Dorch</string>
+  <string name="txt_text">Teacs</string>
+  <string name="txt_background">Cùl-fhiosrachadh</string>
+  <string name="txt_scroller">Sgrolaich</string>
+  <string name="txt_blink">A\' priobadh</string>
+  <string name="add">Cuir ris</string>
+  <string name="play">Seinn</string>
+  <string name="hello_world">Hello Saoghal</string>
 </resources>

@@ -138,4 +138,15 @@
   <string name="txt_video_service">Wallpaper ng Video</string>
   <string name="txt_ripple_service">Ripple Wallpaper</string>
   <string name="txt_submit">Isumite</string>
+  <string name="txt_football">Football</string>
+  <string name="txt_text_scroller">Scroller ng Teksto</string>
+  <string name="txt_light">Liwanag</string>
+  <string name="txt_dark">Madilim</string>
+  <string name="txt_text">Text</string>
+  <string name="txt_background">Background</string>
+  <string name="txt_scroller">Pag-scroll</string>
+  <string name="txt_blink">Kumikislap</string>
+  <string name="add">Idagdag</string>
+  <string name="play">Maglaro</string>
+  <string name="hello_world">Hello Mundo</string>
 </resources>

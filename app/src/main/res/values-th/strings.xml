@@ -138,4 +138,15 @@
   <string name="txt_video_service">วิดีโอวอลล์เปเปอร์</string>
   <string name="txt_ripple_service">วอลล์เปเปอร์ระลอกคลื่น</string>
   <string name="txt_submit">ส่ง</string>
+  <string name="txt_football">ฟุตบอล</string>
+  <string name="txt_text_scroller">ตัวเลื่อนข้อความ</string>
+  <string name="txt_light">เบา</string>
+  <string name="txt_dark">มืด</string>
+  <string name="txt_text">ข้อความ</string>
+  <string name="txt_background">พื้นหลัง</string>
+  <string name="txt_scroller">การเลื่อน</string>
+  <string name="txt_blink">กะพริบ</string>
+  <string name="add">เพิ่ม</string>
+  <string name="play">เล่น</string>
+  <string name="hello_world">สวัสดีชาวโลก</string>
 </resources>

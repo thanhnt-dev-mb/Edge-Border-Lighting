@@ -138,4 +138,15 @@
   <string name="txt_video_service">비디오 배경화면</string>
   <string name="txt_ripple_service">리플 배경화면</string>
   <string name="txt_submit">제출하다</string>
+  <string name="txt_football">축구</string>
+  <string name="txt_text_scroller">텍스트 스크롤러</string>
+  <string name="txt_light">빛</string>
+  <string name="txt_dark">어둠</string>
+  <string name="txt_text">텍스트</string>
+  <string name="txt_background">배경</string>
+  <string name="txt_scroller">스크롤링</string>
+  <string name="txt_blink">깜박임</string>
+  <string name="add">추가</string>
+  <string name="play">플레이</string>
+  <string name="hello_world">안녕하세요 세계</string>
 </resources>

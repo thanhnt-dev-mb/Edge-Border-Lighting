@@ -138,4 +138,15 @@
   <string name="txt_video_service">Video ƒe Nɔnɔmetata</string>
   <string name="txt_ripple_service">Ripple ƒe Nɔnɔmetata</string>
   <string name="txt_submit">Tsᴐe yi</string>
+  <string name="txt_football">Bɔlɔbɔ</string>
+  <string name="txt_text_scroller">Nuŋɔŋlɔ ƒe Agbalẽxatsaxatsa</string>
+  <string name="txt_light">Kekeli</string>
+  <string name="txt_dark">Viviti do viviti</string>
+  <string name="txt_text">Nuŋɔŋlɔ</string>
+  <string name="txt_background">Nusiwo dzɔ va yi</string>
+  <string name="txt_scroller">Agbalẽxatsaxatsa</string>
+  <string name="txt_blink">Ŋkuʋuʋu</string>
+  <string name="add">Tsɔe kpe ɖe eŋu</string>
+  <string name="play">Fefe</string>
+  <string name="hello_world">Mido gbe na Xexeame</string>
 </resources>

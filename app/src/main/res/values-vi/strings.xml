@@ -22,7 +22,7 @@
   <string name="txt_create_your_own_theme">Tạo chủ đề của riêng bạn</string>  
   <string name="txt_setting_edge_lighting">Cài đặt ánh sáng cạnh</string>  
   <string name="txt_color">Màu sắc</string>  
-  <string name="txt_effect">Tác dụng</string>  
+  <string name="txt_effect">Hiệu ứng</string>
   <string name="txt_direction">Phương hướng</string>  
   <string name="txt_four_colors">4 màu</string>  
   <string name="txt_three_colors">3 màu</string>  
@@ -138,4 +138,15 @@
   <string name="txt_video_service">Hình nền video</string>
   <string name="txt_ripple_service">Hình nền gợn sóng</string>
   <string name="txt_submit">Nộp</string>
+  <string name="txt_football">Bóng đá</string>
+  <string name="txt_text_scroller">Chữ chạy</string>
+  <string name="txt_light">Sáng</string>
+  <string name="txt_dark">Tối</string>
+  <string name="txt_text">Văn bản</string>
+  <string name="txt_background">Nền</string>
+  <string name="txt_scroller">Chạy chữ</string>
+  <string name="txt_blink">Nhấp nháy</string>
+  <string name="add">Thêm</string>
+  <string name="play">Phát</string>
+  <string name="hello_world">Xin chào thế giới</string>
 </resources>

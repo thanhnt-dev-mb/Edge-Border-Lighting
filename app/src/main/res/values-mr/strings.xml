@@ -138,4 +138,15 @@
   <string name="txt_video_service">व्हिडिओ वॉलपेपर</string>
   <string name="txt_ripple_service">तरंग वॉलपेपर</string>
   <string name="txt_submit">सबमिट करा</string>
+  <string name="txt_football">फुटबॉल</string>
+  <string name="txt_text_scroller">मजकूर स्क्रोलर</string>
+  <string name="txt_light">प्रकाश</string>
+  <string name="txt_dark">गडद</string>
+  <string name="txt_text">मजकूर</string>
+  <string name="txt_background">पार्श्वभूमी</string>
+  <string name="txt_scroller">स्क्रोलिंग</string>
+  <string name="txt_blink">लुकलुकणे</string>
+  <string name="add">ॲड</string>
+  <string name="play">खेळा</string>
+  <string name="hello_world">हॅलो वर्ल्ड</string>
 </resources>
