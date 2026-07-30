@@ -138,4 +138,15 @@
   <string name="txt_video_service">ビデオの壁紙</string>
   <string name="txt_ripple_service">波紋の壁紙</string>
   <string name="txt_submit">提出する</string>
+  <string name="txt_football">サッカー</string>
+  <string name="txt_text_scroller">テキストスクローラー</string>
+  <string name="txt_light">ライト</string>
+  <string name="txt_dark">暗い</string>
+  <string name="txt_text">テキスト</string>
+  <string name="txt_background">背景</string>
+  <string name="txt_scroller">スクロール</string>
+  <string name="txt_blink">点滅</string>
+  <string name="add">追加</string>
+  <string name="play">遊ぶ</string>
+  <string name="hello_world">ハローワールド</string>
 </resources>

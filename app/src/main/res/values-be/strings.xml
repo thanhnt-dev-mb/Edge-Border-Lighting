@@ -138,4 +138,15 @@
   <string name="txt_video_service">Відэа шпалеры</string>
   <string name="txt_ripple_service">Шпалеры Ripple</string>
   <string name="txt_submit">Падаць</string>
+  <string name="txt_football">футбол</string>
+  <string name="txt_text_scroller">Скролер тэксту</string>
+  <string name="txt_light">Святло</string>
+  <string name="txt_dark">Цёмны</string>
+  <string name="txt_text">Тэкст</string>
+  <string name="txt_background">Фон</string>
+  <string name="txt_scroller">Пракрутка</string>
+  <string name="txt_blink">Міргае</string>
+  <string name="add">Дадаць</string>
+  <string name="play">гуляць</string>
+  <string name="hello_world">Прывітанне, свет</string>
 </resources>

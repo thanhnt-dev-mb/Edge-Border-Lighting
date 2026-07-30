@@ -138,4 +138,15 @@
   <string name="txt_video_service">Vhidhiyo Wallpaper</string>
   <string name="txt_ripple_service">Ripple Wallpaper</string>
   <string name="txt_submit">Submit</string>
+  <string name="txt_football">Bhora</string>
+  <string name="txt_text_scroller">Text Scroller</string>
+  <string name="txt_light">Chiedza</string>
+  <string name="txt_dark">Rima</string>
+  <string name="txt_text">Text</string>
+  <string name="txt_background">Background</string>
+  <string name="txt_scroller">Kupuruzira</string>
+  <string name="txt_blink">Kubwaira</string>
+  <string name="add">Wedzera</string>
+  <string name="play">Play</string>
+  <string name="hello_world">Mhoro Nyika</string>
 </resources>

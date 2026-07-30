@@ -138,4 +138,15 @@
   <string name="txt_video_service">ພາບພື້ນຫຼັງວິດີໂອ</string>
   <string name="txt_ripple_service">ວໍເປເປີ Ripple</string>
   <string name="txt_submit">ສົ່ງ</string>
+  <string name="txt_football">ບານເຕະ</string>
+  <string name="txt_text_scroller">ຕົວເລື່ອນຂໍ້ຄວາມ</string>
+  <string name="txt_light">ແສງສະຫວ່າງ</string>
+  <string name="txt_dark">ມືດ</string>
+  <string name="txt_text">ຂໍ້ຄວາມ</string>
+  <string name="txt_background">ຄວາມເປັນມາ</string>
+  <string name="txt_scroller">ເລື່ອນ</string>
+  <string name="txt_blink">ກະພິບ</string>
+  <string name="add">ເພີ່ມ</string>
+  <string name="play">ຫຼິ້ນ</string>
+  <string name="hello_world">ສະບາຍດີໂລກ</string>
 </resources>

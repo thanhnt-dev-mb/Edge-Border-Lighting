@@ -138,4 +138,15 @@
   <string name="txt_video_service">Бейне тұсқағаз</string>
   <string name="txt_ripple_service">Ripple тұсқағазы</string>
   <string name="txt_submit">Жіберу</string>
+  <string name="txt_football">Футбол</string>
+  <string name="txt_text_scroller">Мәтінді айналдыру құралы</string>
+  <string name="txt_light">Жарық</string>
+  <string name="txt_dark">Қараңғы</string>
+  <string name="txt_text">Мәтін</string>
+  <string name="txt_background">Фон</string>
+  <string name="txt_scroller">Айналдыру</string>
+  <string name="txt_blink">Жыпылықтау</string>
+  <string name="add">қосу</string>
+  <string name="play">Ойнау</string>
+  <string name="hello_world">Сәлем Әлем</string>
 </resources>

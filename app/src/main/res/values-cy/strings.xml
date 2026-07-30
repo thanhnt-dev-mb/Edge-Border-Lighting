@@ -138,4 +138,15 @@
   <string name="txt_video_service">Papur Wal Fideo</string>
   <string name="txt_ripple_service">Papur Wal Ripple</string>
   <string name="txt_submit">Cyflwyno</string>
+  <string name="txt_football">Pêl-droed</string>
+  <string name="txt_text_scroller">Sgroliwr Testun</string>
+  <string name="txt_light">Ysgafn</string>
+  <string name="txt_dark">Tywyll</string>
+  <string name="txt_text">Testun</string>
+  <string name="txt_background">Cefndir</string>
+  <string name="txt_scroller">Sgrolio</string>
+  <string name="txt_blink">Amrantu</string>
+  <string name="add">Ychwanegu</string>
+  <string name="play">Chwarae</string>
+  <string name="hello_world">Helo Fyd</string>
 </resources>

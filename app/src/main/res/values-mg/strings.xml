@@ -138,4 +138,15 @@
   <string name="txt_video_service">Video Wallpaper</string>
   <string name="txt_ripple_service">Ripple Wallpaper</string>
   <string name="txt_submit">Manaiky</string>
+  <string name="txt_football">Football</string>
+  <string name="txt_text_scroller">Text Scroller</string>
+  <string name="txt_light">Fahazavana</string>
+  <string name="txt_dark">Maizina</string>
+  <string name="txt_text">Text</string>
+  <string name="txt_background">Background</string>
+  <string name="txt_scroller">Scralling</string>
+  <string name="txt_blink">Mitselatra</string>
+  <string name="add">Ampio</string>
+  <string name="play">Play</string>
+  <string name="hello_world">Hello World</string>
 </resources>

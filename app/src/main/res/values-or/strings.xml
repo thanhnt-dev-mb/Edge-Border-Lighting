@@ -138,4 +138,15 @@
   <string name="txt_video_service">ଭିଡିଓ ୱାଲପେପର |</string>
   <string name="txt_ripple_service">ରିପଲ୍ ୱାଲପେପର୍ |</string>
   <string name="txt_submit">ଦାଖଲ କରନ୍ତୁ |</string>
+  <string name="txt_football">ଫୁଟବଲ୍</string>
+  <string name="txt_text_scroller">ଟେକ୍ସଟ୍ ସ୍କ୍ରୋଲର୍ |</string>
+  <string name="txt_light">ଆଲୋକ</string>
+  <string name="txt_dark">ଅନ୍ଧାର</string>
+  <string name="txt_text">ପାଠ</string>
+  <string name="txt_background">ପୃଷ୍ଠଭୂମି</string>
+  <string name="txt_scroller">ସ୍କ୍ରୋଲିଂ</string>
+  <string name="txt_blink">Ink ଲସି ଉଠୁଛି |</string>
+  <string name="add">ଯୋଡନ୍ତୁ |</string>
+  <string name="play">ଖେଳନ୍ତୁ |</string>
+  <string name="hello_world">ନମସ୍କାର ବିଶ୍ୱ</string>
 </resources>

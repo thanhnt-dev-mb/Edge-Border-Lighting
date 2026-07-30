@@ -138,4 +138,15 @@
   <string name="txt_video_service">Video Wallpaper ukax mä jach’a uñacht’äwiwa</string>
   <string name="txt_ripple_service">Ripple Wallpaper ukax mä jach’a uñacht’äwiwa</string>
   <string name="txt_submit">Apayaña</string>
+  <string name="txt_football">Futbol anatt’aña</string>
+  <string name="txt_text_scroller">Texto Desplazamiento ukax mä juk’a pachanakanwa</string>
+  <string name="txt_light">Qhana</string>
+  <string name="txt_dark">Ch’amaka</string>
+  <string name="txt_text">Texto</string>
+  <string name="txt_background">Uñt’añataki</string>
+  <string name="txt_scroller">Ukax mä juk’a pachanakanwa</string>
+  <string name="txt_blink">Ch’ipxtayiri</string>
+  <string name="add">Ukhama</string>
+  <string name="play">Anataña</string>
+  <string name="hello_world">Suma Uraqpachan</string>
 </resources>

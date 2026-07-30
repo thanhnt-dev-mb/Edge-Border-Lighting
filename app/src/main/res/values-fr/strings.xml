@@ -138,4 +138,15 @@
   <string name="txt_video_service">Fond d\'écran vidéo</string>
   <string name="txt_ripple_service">Ondulation Fond d\'écran</string>
   <string name="txt_submit">Soumettre</string>
+  <string name="txt_football">Football</string>
+  <string name="txt_text_scroller">Défileur de texte</string>
+  <string name="txt_light">Lumière</string>
+  <string name="txt_dark">Sombre</string>
+  <string name="txt_text">Texte</string>
+  <string name="txt_background">Contexte</string>
+  <string name="txt_scroller">Défilement</string>
+  <string name="txt_blink">Clignotant</string>
+  <string name="add">Ajouter</string>
+  <string name="play">Jouer</string>
+  <string name="hello_world">Bonjour tout le monde</string>
 </resources>

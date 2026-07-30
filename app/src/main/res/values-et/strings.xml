@@ -138,4 +138,15 @@
   <string name="txt_video_service">Video taustpilt</string>
   <string name="txt_ripple_service">Ripple tapeet</string>
   <string name="txt_submit">Esita</string>
+  <string name="txt_football">Jalgpall</string>
+  <string name="txt_text_scroller">Teksti kerija</string>
+  <string name="txt_light">Valgus</string>
+  <string name="txt_dark">Tume</string>
+  <string name="txt_text">Tekst</string>
+  <string name="txt_background">Taust</string>
+  <string name="txt_scroller">Kerimine</string>
+  <string name="txt_blink">Vilgub</string>
+  <string name="add">Lisa</string>
+  <string name="play">Mängi</string>
+  <string name="hello_world">Tere Maailm</string>
 </resources>

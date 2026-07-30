@@ -138,4 +138,15 @@
   <string name="txt_video_service">Обои видео</string>
   <string name="txt_ripple_service">Обои Ripple</string>
   <string name="txt_submit">Пешниҳод кунед</string>
+  <string name="txt_football">Футбол</string>
+  <string name="txt_text_scroller">Скролер матн</string>
+  <string name="txt_light">Нур</string>
+  <string name="txt_dark">Торик</string>
+  <string name="txt_text">Матн</string>
+  <string name="txt_background">Замина</string>
+  <string name="txt_scroller">Ҳаракат</string>
+  <string name="txt_blink">Миллат задан</string>
+  <string name="add">Илова</string>
+  <string name="play">Бозӣ</string>
+  <string name="hello_world">Салом Ҷаҳон</string>
 </resources>

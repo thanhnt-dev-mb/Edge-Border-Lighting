@@ -138,4 +138,15 @@
   <string name="txt_video_service">ވީޑިއޯ ވޯލްޕޭޕަރ</string>
   <string name="txt_ripple_service">ރިޕްލް ވޯލްޕޭޕަރ އެވެ</string>
   <string name="txt_submit">ހުށަހެޅުން</string>
+  <string name="txt_football">ފުޓްބޯޅަ އެވެ</string>
+  <string name="txt_text_scroller">ޓެކްސްޓް ސްކްރޯލަރ</string>
+  <string name="txt_light">އަލިކަމެވެ</string>
+  <string name="txt_dark">އަނދިރިއެވެ</string>
+  <string name="txt_text">ޓެކްސްޓް</string>
+  <string name="txt_background">ބެކްގްރައުންޑް</string>
+  <string name="txt_scroller">ސްކްރޯލް ކުރުން</string>
+  <string name="txt_blink">ލޯ މަރާލަމުން ދިޔައެވެ</string>
+  <string name="add">އިތުރުކުރުން</string>
+  <string name="play">ކުޅެން</string>
+  <string name="hello_world">ހެލޯ ވޯލްޑް</string>
 </resources>

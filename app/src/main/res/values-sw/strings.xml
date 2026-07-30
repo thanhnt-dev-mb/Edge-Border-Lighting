@@ -138,4 +138,15 @@
   <string name="txt_video_service">Karatasi ya Video</string>
   <string name="txt_ripple_service">Karatasi ya Ripple</string>
   <string name="txt_submit">Wasilisha</string>
+  <string name="txt_football">Kandanda</string>
+  <string name="txt_text_scroller">Nakala Scroller</string>
+  <string name="txt_light">Mwanga</string>
+  <string name="txt_dark">Giza</string>
+  <string name="txt_text">Maandishi</string>
+  <string name="txt_background">Usuli</string>
+  <string name="txt_scroller">Kusogeza</string>
+  <string name="txt_blink">Kupepesa macho</string>
+  <string name="add">Ongeza</string>
+  <string name="play">Cheza</string>
+  <string name="hello_world">Habari Ulimwengu</string>
 </resources>

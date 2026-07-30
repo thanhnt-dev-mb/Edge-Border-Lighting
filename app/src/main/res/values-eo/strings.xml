@@ -138,4 +138,15 @@
   <string name="txt_video_service">Video Tapeto</string>
   <string name="txt_ripple_service">Ripple Tapeto</string>
   <string name="txt_submit">Submeti</string>
+  <string name="txt_football">Futbalo</string>
+  <string name="txt_text_scroller">Teksto Scroller</string>
+  <string name="txt_light">Lumo</string>
+  <string name="txt_dark">Mallumo</string>
+  <string name="txt_text">Teksto</string>
+  <string name="txt_background">Fono</string>
+  <string name="txt_scroller">Rulumado</string>
+  <string name="txt_blink">Palpebrumante</string>
+  <string name="add">Aldoni</string>
+  <string name="play">Ludu</string>
+  <string name="hello_world">Saluton Mondo</string>
 </resources>

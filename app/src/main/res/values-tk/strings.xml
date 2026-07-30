@@ -138,4 +138,15 @@
   <string name="txt_video_service">Wideo diwar kagyzy</string>
   <string name="txt_ripple_service">Diwar kagyzy</string>
   <string name="txt_submit">Iberiň</string>
+  <string name="txt_football">Futbol</string>
+  <string name="txt_text_scroller">Tekst Scroller</string>
+  <string name="txt_light">Lightagtylyk</string>
+  <string name="txt_dark">Garaňky</string>
+  <string name="txt_text">Tekst</string>
+  <string name="txt_background">Düşündiriş</string>
+  <string name="txt_scroller">Aýlamak</string>
+  <string name="txt_blink">Göz ýalpyldawuk</string>
+  <string name="add">Goş</string>
+  <string name="play">Oýna</string>
+  <string name="hello_world">Salam Dünýä</string>
 </resources>

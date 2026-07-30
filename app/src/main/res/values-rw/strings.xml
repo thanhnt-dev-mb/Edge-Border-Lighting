@@ -138,4 +138,15 @@
   <string name="txt_video_service">Video Wallpaper</string>
   <string name="txt_ripple_service">Ripple Wallpaper</string>
   <string name="txt_submit">Tanga</string>
+  <string name="txt_football">Umupira wamaguru</string>
+  <string name="txt_text_scroller">Umwanditsi</string>
+  <string name="txt_light">Umucyo</string>
+  <string name="txt_dark">Umwijima</string>
+  <string name="txt_text">Inyandiko</string>
+  <string name="txt_background">Amavu n\'amavuko</string>
+  <string name="txt_scroller">Kuzunguruka</string>
+  <string name="txt_blink">Guhumuka</string>
+  <string name="add">Ongeraho</string>
+  <string name="play">Kina</string>
+  <string name="hello_world">Mwaramutse Isi</string>
 </resources>

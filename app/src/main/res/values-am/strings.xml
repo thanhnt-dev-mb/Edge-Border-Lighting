@@ -138,4 +138,15 @@
   <string name="txt_video_service">የቪዲዮ ልጣፍ</string>
   <string name="txt_ripple_service">Ripple ልጣፍ</string>
   <string name="txt_submit">አስገባ</string>
+  <string name="txt_football">እግር ኳስ</string>
+  <string name="txt_text_scroller">ጽሑፍ Scroller</string>
+  <string name="txt_light">ብርሃን</string>
+  <string name="txt_dark">ጨለማ</string>
+  <string name="txt_text">ጽሑፍ</string>
+  <string name="txt_background">ዳራ</string>
+  <string name="txt_scroller">ማሸብለል</string>
+  <string name="txt_blink">ብልጭ ድርግም የሚል</string>
+  <string name="add">አክል</string>
+  <string name="play">ይጫወቱ</string>
+  <string name="hello_world">ሰላም አለም</string>
 </resources>

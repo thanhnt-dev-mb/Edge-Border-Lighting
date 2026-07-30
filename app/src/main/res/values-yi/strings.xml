@@ -138,4 +138,15 @@
   <string name="txt_video_service">ווידעא וואַללפּאַפּער</string>
   <string name="txt_ripple_service">ריפּאַל וואַללפּאַפּער</string>
   <string name="txt_submit">פאָרלייגן</string>
+  <string name="txt_football">פוטבאָל</string>
+  <string name="txt_text_scroller">טעקסט סקראָללער</string>
+  <string name="txt_light">ליכט</string>
+  <string name="txt_dark">טונקל</string>
+  <string name="txt_text">טעקסט</string>
+  <string name="txt_background">הינטערגרונט</string>
+  <string name="txt_scroller">סקראָללינג</string>
+  <string name="txt_blink">בלינק</string>
+  <string name="add">לייג</string>
+  <string name="play">שפּיל</string>
+  <string name="hello_world">העלא וועלט</string>
 </resources>

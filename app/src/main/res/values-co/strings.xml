@@ -138,4 +138,15 @@
   <string name="txt_video_service">Wallpaper Video</string>
   <string name="txt_ripple_service">Ripple Wallpaper</string>
   <string name="txt_submit">Mandate</string>
+  <string name="txt_football">U football</string>
+  <string name="txt_text_scroller">Scroller di testu</string>
+  <string name="txt_light">Luce</string>
+  <string name="txt_dark">Scuru</string>
+  <string name="txt_text">Testu</string>
+  <string name="txt_background">Sfondate</string>
+  <string name="txt_scroller">Scrolling</string>
+  <string name="txt_blink">Lampeggiante</string>
+  <string name="add">Add</string>
+  <string name="play">Ghjucà</string>
+  <string name="hello_world">Salutu Munnu</string>
 </resources>

@@ -148,4 +148,61 @@
     <string name="txt_notification_title"> Updated - Don\'t missed It</string>
     <string name="txt_notification_content">New feature has been updated recently - Check it out!</string>
     <string name="txt_football">Football</string>
+    <string name="txt_text_scroller">Text Scroller</string>
+    <string name="txt_light">Light</string>
+    <string name="txt_dark">Dark</string>
+    <string name="txt_bakbak_one" translatable="false">Bakbak One</string>
+    <string name="txt_baloo" translatable="false">Baloo</string>
+    <string name="txt_cuprum" translatable="false">Cuprum</string>
+    <string name="txt_galdeano" translatable="false">Galdeano</string>
+    <string name="txt_impact" translatable="false">Impact</string>
+    <string name="txt_mali" translatable="false">Mali</string>
+    <string name="txt_molle" translatable="false">Molle</string>
+    <string name="txt_optima" translatable="false">Optima</string>
+    <string name="txt_ramabhadra" translatable="false">Ramabhadra</string>
+    <string name="txt_roboto" translatable="false">Roboto</string>
+    <string name="txt_rowdies" translatable="false">Rowdies</string>
+    <string name="txt_sarala" translatable="false">Sarala</string>
+    <string name="txt_secular_one" translatable="false">Secular One</string>
+    <string name="txt_shlop" translatable="false">SHLOP</string>
+    <string name="txt_shrikhand" translatable="false">Shrikhand</string>
+    <string name="txt_sigmar" translatable="false">Sigmar</string>
+    <string name="txt_anton" translatable="false">Anton</string>
+    <string name="txt_spicy_rice" translatable="false">Spicy Rice</string>
+    <string name="txt_sura" translatable="false">Sura</string>
+    <string name="txt_tac_one" translatable="false">Tac One</string>
+    <string name="txt_tiny_5" translatable="false">Tiny5</string>
+    <string name="txt_tilt_warp" translatable="false">Tilt Warp</string>
+    <string name="txt_titan_one" translatable="false">Titan One</string>
+    <string name="txt_tinos" translatable="false">Tinos</string>
+    <string name="txt_bungee" translatable="false">Bungee</string>
+    <string name="txt_inter" translatable="false">Inter</string>
+    <string name="txt_barlow" translatable="false">Barlow</string>
+    <string name="txt_bbh_bogle" translatable="false">BBH Bogle</string>
+    <string name="txt_do_hyeon" translatable="false">Do Hyeon</string>
+    <string name="txt_helvetica" translatable="false">Helvetica</string>
+    <string name="txt_lato" translatable="false">Lato</string>
+    <string name="txt_micro_5" translatable="false">Micro 5</string>
+    <string name="txt_nosifer" translatable="false">Nosifer</string>
+    <string name="txt_quartz" translatable="false">Quartz MS</string>
+    <string name="txt_quartz_ms" translatable="false">Quartz MS</string>
+    <string name="txt_anta" translatable="false">Anta</string>
+    <string name="txt_rubik" translatable="false">Rubik</string>
+    <string name="txt_sancreek" translatable="false">Sancreek</string>
+    <string name="txt_tahoma" translatable="false">Tahoma</string>
+    <string name="txt_stylish" translatable="false">Stylish</string>
+    <string name="txt_staatliches" translatable="false">Staatliches</string>
+    <string name="txt_zen_dots" translatable="false">Zen Dots</string>
+    <string name="txt_avenir" translatable="false">Avenir</string>
+    <string name="txt_ubuntu" translatable="false">Ubuntu</string>
+    <string name="txt_raanana" translatable="false">Raanana</string>
+    <string name="txt_sono" translatable="false">Sono</string>
+    <string name="txt_sf_pro_display" translatable="false">SF Pro Display</string>
+    <string name="txt_text">Text</string>
+    <string name="txt_background">Background</string>
+    <string name="txt_scroller">Scroller</string>
+    <string name="txt_blink">Blink</string>
+    <string name="add">Add</string>
+    <string name="play">Play</string>
+    <string name="hello_world">Hello World</string>
 </resources>

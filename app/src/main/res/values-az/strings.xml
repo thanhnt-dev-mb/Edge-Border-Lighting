@@ -138,4 +138,15 @@
   <string name="txt_video_service">Video divar kağızı</string>
   <string name="txt_ripple_service">Ripple divar kağızı</string>
   <string name="txt_submit">Təqdim et</string>
+  <string name="txt_football">Futbol</string>
+  <string name="txt_text_scroller">Mətn Scroller</string>
+  <string name="txt_light">İşıq</string>
+  <string name="txt_dark">Qaranlıq</string>
+  <string name="txt_text">Mətn</string>
+  <string name="txt_background">Fon</string>
+  <string name="txt_scroller">Sürüşdürmə</string>
+  <string name="txt_blink">Yanıb-sönən</string>
+  <string name="add">əlavə et</string>
+  <string name="play">Oyna</string>
+  <string name="hello_world">Salam Dünya</string>
 </resources>

@@ -138,4 +138,15 @@
   <string name="txt_video_service">Tapeta wideo</string>
   <string name="txt_ripple_service">Falująca tapeta</string>
   <string name="txt_submit">Składać</string>
+  <string name="txt_football">Piłka nożna</string>
+  <string name="txt_text_scroller">Przewijacz tekstu</string>
+  <string name="txt_light">Światło</string>
+  <string name="txt_dark">Ciemny</string>
+  <string name="txt_text">Tekst</string>
+  <string name="txt_background">Tło</string>
+  <string name="txt_scroller">Przewijanie</string>
+  <string name="txt_blink">Miga</string>
+  <string name="add">Dodaj</string>
+  <string name="play">Zagraj</string>
+  <string name="hello_world">Witaj świecie</string>
 </resources>

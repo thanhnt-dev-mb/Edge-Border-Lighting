@@ -138,4 +138,15 @@
   <string name="txt_video_service">Xifaniso xa Vhidiyo</string>
   <string name="txt_ripple_service">Ripple Wallpaper ya Ripple</string>
   <string name="txt_submit">Yisa</string>
+  <string name="txt_football">Bolo ya milenge</string>
+  <string name="txt_text_scroller">Xigwitsirisi xa Matsalwa</string>
+  <string name="txt_light">Ku vonakala</string>
+  <string name="txt_dark">Munyama</string>
+  <string name="txt_text">Tsalwa</string>
+  <string name="txt_background">Ndzavisiso wa le ndzhaku</string>
+  <string name="txt_scroller">Ku rhendzeleka</string>
+  <string name="txt_blink">Ku pfotlosa mahlo</string>
+  <string name="add">Ku engetela</string>
+  <string name="play">Tlanga</string>
+  <string name="hello_world">Xewani Misava</string>
 </resources>

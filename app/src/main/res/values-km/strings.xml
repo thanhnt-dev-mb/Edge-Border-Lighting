@@ -138,4 +138,15 @@
   <string name="txt_video_service">ផ្ទាំងរូបភាពវីដេអូ</string>
   <string name="txt_ripple_service">ផ្ទាំងរូបភាព Ripple</string>
   <string name="txt_submit">ដាក់ស្នើ</string>
+  <string name="txt_football">បាល់ទាត់</string>
+  <string name="txt_text_scroller">រមូរអត្ថបទ</string>
+  <string name="txt_light">ពន្លឺ</string>
+  <string name="txt_dark">ងងឹត</string>
+  <string name="txt_text">អត្ថបទ</string>
+  <string name="txt_background">ផ្ទៃខាងក្រោយ</string>
+  <string name="txt_scroller">រមូរ</string>
+  <string name="txt_blink">ភ្លឹបភ្លែតៗ</string>
+  <string name="add">បន្ថែម</string>
+  <string name="play">លេង</string>
+  <string name="hello_world">សួស្តីពិភពលោក</string>
 </resources>

@@ -138,4 +138,15 @@
   <string name="txt_video_service">Wallpaper tal-vidjo</string>
   <string name="txt_ripple_service">Ripple Wallpaper</string>
   <string name="txt_submit">Issottometti</string>
+  <string name="txt_football">Futbol</string>
+  <string name="txt_text_scroller">Test Scroller</string>
+  <string name="txt_light">Dawl</string>
+  <string name="txt_dark">Dlam</string>
+  <string name="txt_text">Test</string>
+  <string name="txt_background">Sfond</string>
+  <string name="txt_scroller">Skrolljar</string>
+  <string name="txt_blink">Teptip</string>
+  <string name="add">Żid</string>
+  <string name="play">Play</string>
+  <string name="hello_world">Hello Dinja</string>
 </resources>

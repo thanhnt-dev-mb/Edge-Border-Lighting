@@ -138,4 +138,15 @@
   <string name="txt_video_service">Videó háttérkép</string>
   <string name="txt_ripple_service">Ripple Háttérkép</string>
   <string name="txt_submit">Beküld</string>
+  <string name="txt_football">Labdarúgás</string>
+  <string name="txt_text_scroller">Szöveggörgető</string>
+  <string name="txt_light">Fény</string>
+  <string name="txt_dark">Sötét</string>
+  <string name="txt_text">Szöveg</string>
+  <string name="txt_background">Háttér</string>
+  <string name="txt_scroller">Görgetés</string>
+  <string name="txt_blink">Pislogva</string>
+  <string name="add">Hozzáadás</string>
+  <string name="play">Játssz</string>
+  <string name="hello_world">Hello World</string>
 </resources>

@@ -138,4 +138,15 @@
   <string name="txt_video_service">خلفيات فيديو</string>
   <string name="txt_ripple_service">خلفيات تموج</string>
   <string name="txt_submit">يُقدِّم</string>
+  <string name="txt_football">كرة القدم</string>
+  <string name="txt_text_scroller">سكرولر النص</string>
+  <string name="txt_light">ضوء</string>
+  <string name="txt_dark">الظلام</string>
+  <string name="txt_text">نص</string>
+  <string name="txt_background">الخلفية</string>
+  <string name="txt_scroller">التمرير</string>
+  <string name="txt_blink">وامض</string>
+  <string name="add">أضف</string>
+  <string name="play">العب</string>
+  <string name="hello_world">مرحبا العالم</string>
 </resources>

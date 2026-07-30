@@ -138,4 +138,15 @@
   <string name="txt_video_service">Видео тапет</string>
   <string name="txt_ripple_service">Рипъл тапет</string>
   <string name="txt_submit">Изпратете</string>
+  <string name="txt_football">футбол</string>
+  <string name="txt_text_scroller">Скролер за текст</string>
+  <string name="txt_light">светлина</string>
+  <string name="txt_dark">Тъмно</string>
+  <string name="txt_text">Текст</string>
+  <string name="txt_background">Фон</string>
+  <string name="txt_scroller">Превъртане</string>
+  <string name="txt_blink">мига</string>
+  <string name="add">Добавете</string>
+  <string name="play">Играйте</string>
+  <string name="hello_world">Здравей свят</string>
 </resources>

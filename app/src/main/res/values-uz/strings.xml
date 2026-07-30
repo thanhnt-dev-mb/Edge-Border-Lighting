@@ -138,4 +138,15 @@
   <string name="txt_video_service">Video fon rasmi</string>
   <string name="txt_ripple_service">Ripple fon rasmi</string>
   <string name="txt_submit">Yuborish</string>
+  <string name="txt_football">Futbol</string>
+  <string name="txt_text_scroller">Matnni aylantiruvchi</string>
+  <string name="txt_light">Nur</string>
+  <string name="txt_dark">Qorong\'i</string>
+  <string name="txt_text">Matn</string>
+  <string name="txt_background">Fon</string>
+  <string name="txt_scroller">Oʻtkazish</string>
+  <string name="txt_blink">Miltillash</string>
+  <string name="add">Qo\'shish</string>
+  <string name="play">O\'ynang</string>
+  <string name="hello_world">Salom Dunyo</string>
 </resources>

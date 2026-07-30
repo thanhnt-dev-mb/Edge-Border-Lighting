@@ -138,4 +138,15 @@
   <string name="txt_video_service">Fons de pantalla de vídeo</string>
   <string name="txt_ripple_service">Fons de pantalla Ripple</string>
   <string name="txt_submit">Envia</string>
+  <string name="txt_football">Futbol</string>
+  <string name="txt_text_scroller">Scroller de text</string>
+  <string name="txt_light">Llum</string>
+  <string name="txt_dark">Fosc</string>
+  <string name="txt_text">Text</string>
+  <string name="txt_background">Fons</string>
+  <string name="txt_scroller">Desplaçament</string>
+  <string name="txt_blink">Parpellejant</string>
+  <string name="add">Afegeix</string>
+  <string name="play">Jugar</string>
+  <string name="hello_world">Hola món</string>
 </resources>

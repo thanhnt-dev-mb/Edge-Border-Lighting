@@ -138,4 +138,15 @@
   <string name="txt_video_service">Veggfóður fyrir myndband</string>
   <string name="txt_ripple_service">Ripple Veggfóður</string>
   <string name="txt_submit">Sendu inn</string>
+  <string name="txt_football">Fótbolti</string>
+  <string name="txt_text_scroller">Textaskrollari</string>
+  <string name="txt_light">Ljós</string>
+  <string name="txt_dark">Myrkur</string>
+  <string name="txt_text">Texti</string>
+  <string name="txt_background">Bakgrunnur</string>
+  <string name="txt_scroller">Skruna</string>
+  <string name="txt_blink">Blikkandi</string>
+  <string name="add">Bæta við</string>
+  <string name="play">Spila</string>
+  <string name="hello_world">Halló Heimur</string>
 </resources>

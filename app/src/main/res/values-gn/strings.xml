@@ -138,4 +138,15 @@
   <string name="txt_video_service">Video Fondo de Pantalla</string>
   <string name="txt_ripple_service">Ondulación Fondo de Pantalla</string>
   <string name="txt_submit">Rahauka</string>
+  <string name="txt_football">Vakapipopo rehegua</string>
+  <string name="txt_text_scroller">Texto Desplazamiento rehegua</string>
+  <string name="txt_light">Tesapeha</string>
+  <string name="txt_dark">Pytũmby</string>
+  <string name="txt_text">Texto</string>
+  <string name="txt_background">Antecedentes rehegua</string>
+  <string name="txt_scroller">Desplazamiento rehegua</string>
+  <string name="txt_blink">Oparpadea</string>
+  <string name="add">Oñemoĩve</string>
+  <string name="play">Ñembosarái</string>
+  <string name="hello_world">Maitei Mundo</string>
 </resources>

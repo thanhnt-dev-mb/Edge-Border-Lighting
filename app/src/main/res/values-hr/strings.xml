@@ -138,4 +138,15 @@
   <string name="txt_video_service">Video pozadina</string>
   <string name="txt_ripple_service">Ripple pozadina</string>
   <string name="txt_submit">Pošalji</string>
+  <string name="txt_football">Nogomet</string>
+  <string name="txt_text_scroller">Pomicanje teksta</string>
+  <string name="txt_light">svjetlo</string>
+  <string name="txt_dark">tamno</string>
+  <string name="txt_text">Tekst</string>
+  <string name="txt_background">Pozadina</string>
+  <string name="txt_scroller">Pomicanje</string>
+  <string name="txt_blink">Trepćući</string>
+  <string name="add">Dodaj</string>
+  <string name="play">igrati</string>
+  <string name="hello_world">Zdravo svijete</string>
 </resources>

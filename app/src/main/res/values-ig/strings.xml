@@ -138,4 +138,15 @@
   <string name="txt_video_service">Akwụkwọ ahụaja vidiyo</string>
   <string name="txt_ripple_service">Akwụkwọ ahụaja Ripple</string>
   <string name="txt_submit">Nyefee</string>
+  <string name="txt_football">Egwuregwu bọọlụ</string>
+  <string name="txt_text_scroller">Akwụkwọ mpịakọta ederede</string>
+  <string name="txt_light">Ìhè</string>
+  <string name="txt_dark">Ọchịchịrị</string>
+  <string name="txt_text">Ederede</string>
+  <string name="txt_background">ndabere</string>
+  <string name="txt_scroller">Na-atụgharị</string>
+  <string name="txt_blink">Na-egbuke egbuke</string>
+  <string name="add">Tinye</string>
+  <string name="play">Gwuo</string>
+  <string name="hello_world">Ndewo Ụwa</string>
 </resources>

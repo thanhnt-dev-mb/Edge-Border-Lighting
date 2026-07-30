@@ -138,4 +138,15 @@
   <string name="txt_video_service">Video tapety</string>
   <string name="txt_ripple_service">Tapeta zvlnění</string>
   <string name="txt_submit">Předložit</string>
+  <string name="txt_football">fotbal</string>
+  <string name="txt_text_scroller">Textový posuvník</string>
+  <string name="txt_light">Světlo</string>
+  <string name="txt_dark">Tmavý</string>
+  <string name="txt_text">Text</string>
+  <string name="txt_background">Pozadí</string>
+  <string name="txt_scroller">Posouvání</string>
+  <string name="txt_blink">Blikání</string>
+  <string name="add">Přidat</string>
+  <string name="play">hrát</string>
+  <string name="hello_world">Ahoj světe</string>
 </resources>

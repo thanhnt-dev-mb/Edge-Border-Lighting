@@ -138,4 +138,15 @@
   <string name="txt_video_service">Kiʻi wikiō</string>
   <string name="txt_ripple_service">Kiʻi kiʻi Ripple</string>
   <string name="txt_submit">Waiho mai</string>
+  <string name="txt_football">Pōpeku</string>
+  <string name="txt_text_scroller">Kakau kikokiko</string>
+  <string name="txt_light">Māmā</string>
+  <string name="txt_dark">Poʻeleʻele</string>
+  <string name="txt_text">kikokikona</string>
+  <string name="txt_background">Kāpae</string>
+  <string name="txt_scroller">Owili</string>
+  <string name="txt_blink">Emo ana</string>
+  <string name="add">Hoʻohui</string>
+  <string name="play">Pāʻani</string>
+  <string name="hello_world">Aloha Honua</string>
 </resources>

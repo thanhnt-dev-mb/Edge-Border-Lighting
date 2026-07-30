@@ -138,4 +138,15 @@
   <string name="txt_video_service">Wallpaper ti Video</string>
   <string name="txt_ripple_service">Wallpaper ti Ripple</string>
   <string name="txt_submit">Idatag</string>
+  <string name="txt_football">Putbol</string>
+  <string name="txt_text_scroller">Scroller ti Teksto</string>
+  <string name="txt_light">Lawag</string>
+  <string name="txt_dark">Nasipnget</string>
+  <string name="txt_text">Teksto</string>
+  <string name="txt_background">Likud ti Likud</string>
+  <string name="txt_scroller">Panag-scroll</string>
+  <string name="txt_blink">Agkidem</string>
+  <string name="add">Add</string>
+  <string name="play">Agay-ayam</string>
+  <string name="hello_world">Hello Lubong</string>
 </resources>

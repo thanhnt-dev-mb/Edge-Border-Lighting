@@ -138,4 +138,15 @@
   <string name="txt_video_service">視訊桌布</string>
   <string name="txt_ripple_service">漣漪壁紙</string>
   <string name="txt_submit">提交</string>
+  <string name="txt_football">足球</string>
+  <string name="txt_text_scroller">文字滾動</string>
+  <string name="txt_light">光</string>
+  <string name="txt_dark">黑暗</string>
+  <string name="txt_text">文字</string>
+  <string name="txt_background">背景</string>
+  <string name="txt_scroller">捲動</string>
+  <string name="txt_blink">閃爍</string>
+  <string name="add">添加</string>
+  <string name="play">玩</string>
+  <string name="hello_world">你好世界</string>
 </resources>

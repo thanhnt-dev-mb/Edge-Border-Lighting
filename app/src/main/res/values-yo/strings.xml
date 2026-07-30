@@ -138,4 +138,15 @@
   <string name="txt_video_service">Iṣẹṣọ ogiri fidio</string>
   <string name="txt_ripple_service">Ripple Wallpaper</string>
   <string name="txt_submit">Fi silẹ</string>
+  <string name="txt_football">Bọọlu afẹsẹgba</string>
+  <string name="txt_text_scroller">Ọrọ Scroller</string>
+  <string name="txt_light">Imọlẹ</string>
+  <string name="txt_dark">Dudu</string>
+  <string name="txt_text">Ọrọ</string>
+  <string name="txt_background">abẹlẹ</string>
+  <string name="txt_scroller">Yi lọ</string>
+  <string name="txt_blink">Sisẹju</string>
+  <string name="add">Fi kun</string>
+  <string name="play">Ṣiṣẹ</string>
+  <string name="hello_world">Hello World</string>
 </resources>

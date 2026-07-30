@@ -138,4 +138,15 @@
   <string name="txt_video_service">Video Wallpaper</string>
   <string name="txt_ripple_service">Ondulación Wallpaper</string>
   <string name="txt_submit">Apachiy</string>
+  <string name="txt_football">Piluta hayt’ay</string>
+  <string name="txt_text_scroller">Texto Desplazamiento nisqa</string>
+  <string name="txt_light">K’anchay</string>
+  <string name="txt_dark">Tutayaq</string>
+  <string name="txt_text">Texto</string>
+  <string name="txt_background">Antecedentes nisqamanta</string>
+  <string name="txt_scroller">Desplazamiento</string>
+  <string name="txt_blink">Parpadeo</string>
+  <string name="add">Yapay</string>
+  <string name="play">Pukllay</string>
+  <string name="hello_world">Allinllachu Mundo</string>
 </resources>

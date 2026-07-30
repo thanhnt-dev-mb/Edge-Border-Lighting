@@ -138,4 +138,15 @@
   <string name="txt_video_service">Wallpaper Video</string>
   <string name="txt_ripple_service">Wallpaper Ripple</string>
   <string name="txt_submit">Kirimake</string>
+  <string name="txt_football">bal-balan</string>
+  <string name="txt_text_scroller">Scroller Teks</string>
+  <string name="txt_light">cahya</string>
+  <string name="txt_dark">peteng</string>
+  <string name="txt_text">Teks</string>
+  <string name="txt_background">Latar mburi</string>
+  <string name="txt_scroller">Nggulung</string>
+  <string name="txt_blink">kethip-kethip</string>
+  <string name="add">Tambah</string>
+  <string name="play">Dolanan</string>
+  <string name="hello_world">Hello World</string>
 </resources>

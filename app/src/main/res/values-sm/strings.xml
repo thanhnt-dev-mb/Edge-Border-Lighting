@@ -138,4 +138,15 @@
   <string name="txt_video_service">Pepa Vitio</string>
   <string name="txt_ripple_service">Ripple Wallpaper</string>
   <string name="txt_submit">Tuuina atu</string>
+  <string name="txt_football">Soka</string>
+  <string name="txt_text_scroller">Tusi Taai</string>
+  <string name="txt_light">Malamalama</string>
+  <string name="txt_dark">Pogisa</string>
+  <string name="txt_text">Tusitusi</string>
+  <string name="txt_background">Talaaga</string>
+  <string name="txt_scroller">Tusitala</string>
+  <string name="txt_blink">Emo</string>
+  <string name="add">Faaopoopo</string>
+  <string name="play">Ta\'alo</string>
+  <string name="hello_world">Talofa le Lalolagi</string>
 </resources>

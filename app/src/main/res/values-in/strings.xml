@@ -137,4 +137,15 @@
     <string name="txt_video_service">Wallpaper Video</string>
     <string name="txt_ripple_service">Wallpaper Riak</string>
     <string name="txt_submit">Kirim</string>
+  <string name="txt_football">Sepak bola</string>
+  <string name="txt_text_scroller">Penggulung Teks</string>
+  <string name="txt_light">Ringan</string>
+  <string name="txt_dark">Gelap</string>
+  <string name="txt_text">Teks</string>
+  <string name="txt_background">Latar Belakang</string>
+  <string name="txt_scroller">Menggulir</string>
+  <string name="txt_blink">Berkedip</string>
+  <string name="add">Tambahkan</string>
+  <string name="play">Mainkan</string>
+  <string name="hello_world">Halo Dunia</string>
 </resources>
