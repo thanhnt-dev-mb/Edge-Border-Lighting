@@ -1,10 +1,18 @@
 package com.merryblue.baseapplication.ui.text
 
 import android.graphics.Typeface
+import android.text.Editable
+import android.text.TextWatcher
+import android.util.TypedValue
+import android.view.inputmethod.EditorInfo
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
+import android.view.inputmethod.InputMethodManager
+import android.widget.TextView
 import androidx.appcompat.widget.AppCompatTextView
 import androidx.activity.viewModels
+import androidx.core.content.getSystemService
 import androidx.core.content.ContextCompat
 import androidx.core.graphics.ColorUtils
 import androidx.recyclerview.widget.GridLayoutManager
@@ -36,6 +44,7 @@ class TextScrollerActivity : BaseActivity<ActivityTextScrollerBinding>() {
     private var previewTextColor: Int = 0
     private var previewBackgroundColor: Int = 0
     private var previewFontPath: String = ""
+    private var isEditingPreviewText = false
 
     override fun getLayoutId(): Int = R.layout.activity_text_scroller
 
@@ -45,6 +54,7 @@ class TextScrollerActivity : BaseActivity<ActivityTextScrollerBinding>() {
         previewText = getString(R.string.hello_world)
         setupPreviewDefaults()
         setupActions()
+        setupPreviewTextEditor()
         setupTabs()
         setupRecyclerView()
         applyInitialTheme()
@@ -62,6 +72,35 @@ class TextScrollerActivity : BaseActivity<ActivityTextScrollerBinding>() {
         btnBackText.setOnClickListener { finish() }
         btnPlayText.setOnClickListener { openFullscreenPreview() }
         btnFullscreenPreview.setOnClickListener { openFullscreenPreview() }
+    }
+
+    private fun setupPreviewTextEditor() = with(binding) {
+        cardPreview.setOnClickListener { startPreviewTextEditing() }
+        previewText.setOnClickListener { startPreviewTextEditing() }
+
+        editPreviewText.addTextChangedListener(object : TextWatcher {
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) = Unit
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                if (!isEditingPreviewText) return
+                this@TextScrollerActivity.previewText = s?.toString().orEmpty()
+                this@TextScrollerActivity.previewText
+                    .ifBlank { getString(R.string.hello_world) }
+                    .let(binding.previewText::setTextValue)
+            }
+
+            override fun afterTextChanged(s: Editable?) = Unit
+        })
+
+        editPreviewText.setOnEditorActionListener { _, actionId, _ ->
+            if (actionId == EditorInfo.IME_ACTION_DONE) {
+                finishPreviewTextEditing()
+                true
+            } else false
+        }
+
+        editPreviewText.setOnFocusChangeListener { _, hasFocus ->
+            if (!hasFocus) finishPreviewTextEditing()
+        }
     }
 
     private fun setupTabs() = with(binding.tabTextScroller) {
@@ -197,6 +236,7 @@ class TextScrollerActivity : BaseActivity<ActivityTextScrollerBinding>() {
     private fun applyPreview() {
         binding.cardPreview.setCardBackgroundColor(previewBackgroundColor)
         updateFullscreenPreviewIconColor()
+        binding.editPreviewText.applyEditorStyle()
         binding.previewText.applyStyle(textSizeSp = PREVIEW_TEXT_SIZE_SP)
     }
 
@@ -210,7 +250,7 @@ class TextScrollerActivity : BaseActivity<ActivityTextScrollerBinding>() {
     }
 
     private fun TextScrollerPreviewView.applyStyle(textSizeSp: Float) {
-        setTextValue(previewText)
+        setTextValue(previewText.ifBlank { getString(R.string.hello_world) })
         setTextSizeSp(textSizeSp)
         setPreviewBackgroundColor(previewBackgroundColor)
         setTextColorInt(previewTextColor)
@@ -221,7 +261,40 @@ class TextScrollerActivity : BaseActivity<ActivityTextScrollerBinding>() {
         )
     }
 
+    private fun TextView.applyEditorStyle() {
+        setTextColor(previewTextColor)
+        setTextSize(TypedValue.COMPLEX_UNIT_SP, PREVIEW_TEXT_SIZE_SP)
+        typeface = getTypeface(previewFontPath)
+    }
+
+    private fun startPreviewTextEditing() = with(binding.editPreviewText) {
+        if (!isEditingPreviewText) {
+            isEditingPreviewText = true
+            setText(previewText)
+            setSelection(text?.length ?: 0)
+            binding.previewText.visibility = View.INVISIBLE
+            visibility = View.VISIBLE
+        }
+        requestFocus()
+        post {
+            requestFocus()
+            context.getSystemService<InputMethodManager>()?.showSoftInput(this, InputMethodManager.SHOW_IMPLICIT)
+        }
+    }
+
+    private fun finishPreviewTextEditing() = with(binding.editPreviewText) {
+        if (!isEditingPreviewText) return@with
+        previewText = text?.toString().orEmpty().ifBlank { getString(R.string.hello_world) }
+        isEditingPreviewText = false
+        context.getSystemService<InputMethodManager>()?.hideSoftInputFromWindow(windowToken, 0)
+        visibility = View.GONE
+        binding.previewText.visibility = View.VISIBLE
+        binding.previewText.setTextValue(previewText)
+        clearFocus()
+    }
+
     private fun openFullscreenPreview() {
+        finishPreviewTextEditing()
         TextScrollerFullscreenActivity.open(
             context = this,
             text = previewText,
