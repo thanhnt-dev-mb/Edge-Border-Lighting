@@ -11,12 +11,12 @@
         tools:context=".ui.text.TextScrollerActivity">
 
         <androidx.appcompat.widget.LinearLayoutCompat
+            android:gravity="center"
+            app:layout_constraintTop_toTopOf="parent"
             android:id="@+id/toolbarText"
             android:layout_width="match_parent"
-            android:paddingTop="16dp"
             android:paddingHorizontal="16dp"
-            android:paddingBottom="8dp"
-            android:layout_height="wrap_content">
+            android:layout_height="?attr/actionBarSize">
             <androidx.appcompat.widget.AppCompatImageView
                 android:id="@+id/btnBackText"
                 android:layout_width="24dp"

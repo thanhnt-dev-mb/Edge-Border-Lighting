@@ -6,6 +6,7 @@ import android.view.ViewGroup
 import androidx.appcompat.widget.AppCompatTextView
 import androidx.activity.viewModels
 import androidx.core.content.ContextCompat
+import androidx.core.graphics.ColorUtils
 import androidx.recyclerview.widget.GridLayoutManager
 import com.merryblue.baseapplication.R
 import com.merryblue.baseapplication.databinding.ActivityTextScrollerBinding
@@ -40,6 +41,7 @@ class TextScrollerActivity : BaseActivity<ActivityTextScrollerBinding>() {
 
     override fun setUpViews() {
         super.setUpViews()
+        enableEdgeToEdge(binding.main, true)
         previewText = getString(R.string.hello_world)
         setupPreviewDefaults()
         setupActions()
@@ -194,7 +196,17 @@ class TextScrollerActivity : BaseActivity<ActivityTextScrollerBinding>() {
 
     private fun applyPreview() {
         binding.cardPreview.setCardBackgroundColor(previewBackgroundColor)
+        updateFullscreenPreviewIconColor()
         binding.previewText.applyStyle(textSizeSp = PREVIEW_TEXT_SIZE_SP)
+    }
+
+    private fun updateFullscreenPreviewIconColor() {
+        val lightIconColor = ContextCompat.getColor(this, R.color.colorWhite)
+        val darkIconColor = ContextCompat.getColor(this, R.color.colorGray09)
+        val lightContrast = ColorUtils.calculateContrast(lightIconColor, previewBackgroundColor)
+        val darkContrast = ColorUtils.calculateContrast(darkIconColor, previewBackgroundColor)
+        val iconColor = if (lightContrast >= darkContrast) lightIconColor else darkIconColor
+        binding.btnFullscreenPreview.setColorFilter(iconColor)
     }
 
     private fun TextScrollerPreviewView.applyStyle(textSizeSp: Float) {
