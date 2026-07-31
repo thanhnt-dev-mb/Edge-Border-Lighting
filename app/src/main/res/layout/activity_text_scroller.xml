@@ -56,6 +56,22 @@
                 android:id="@+id/previewText"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent" />
+
+            <androidx.appcompat.widget.AppCompatEditText
+                android:id="@+id/editPreviewText"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@android:color/transparent"
+                android:gravity="center_vertical"
+                android:imeOptions="actionDone"
+                android:includeFontPadding="false"
+                android:inputType="text|textNoSuggestions"
+                android:maxLines="1"
+                android:paddingHorizontal="8dp"
+                android:scrollHorizontally="true"
+                android:singleLine="true"
+                android:visibility="gone"
+                tools:text="@string/hello_world" />
         </androidx.cardview.widget.CardView>
         
         <androidx.appcompat.widget.AppCompatImageView
